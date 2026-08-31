@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sign in · Infinite Trading</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,560&family=Sora:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <div class="auth-shell">
+    <aside class="auth-art">
+      <a class="auth-logo" href="/">
+        <img src="/images/site-logo.png" alt="Infinite Trading" />
+      </a>
+      <div>
+        <p class="kicker">Backoffice</p>
+        <h2>Sign in and the desks light up.</h2>
+        <p class="muted">Wallets, pairing, and the chart — one session.</p>
+      </div>
+    </aside>
+    <section class="auth-form">
+      <form id="form" class="panel form" autocomplete="off">
+        <a class="form-logo" href="/"><img src="/images/site-logo.png" alt="Infinite Trading" /></a>
+        <h1>Welcome back</h1>
+        <p class="muted">Use the mobile or username you registered with.</p>
+        <p id="error" class="err"></p>
+        <label class="field">Mobile or Username
+          <input id="login_mobile" type="text" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" required placeholder="e.g. 09XXXXXXXXX or Username" />
+        </label>
+        <label class="field">Password
+          <input id="login_password" type="text" class="pwd-masked" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" required placeholder="••••••••" />
+        </label>
+        <button class="btn" style="width:100%;margin-top:8px">Sign in</button>
+        <p class="center">New here? <a href="/register.html">Activate an account</a></p>
+      </form>
+    </section>
+  </div>
+  <script>
+    const token = localStorage.getItem('it_token');
+    if (token) {
+      fetch('/api/me', { headers: { Authorization: 'Bearer ' + token } })
+        .then((r) => r.json())
+        .then((d) => {
+          if (d.user) location.href = d.user.role === 'admin' ? '/admin.html' : '/dashboard.html';
+        })
+        .catch(() => {});
+    }
+
+    const mobInput = document.getElementById('login_mobile');
+    const pwdInput = document.getElementById('login_password');
+
+    let userTouched = false;
+    ['input', 'keydown', 'paste', 'focus'].forEach(ev => {
+      mobInput.addEventListener(ev, () => { userTouched = true; });
+      pwdInput.addEventListener(ev, () => { userTouched = true; });
+    });
+
+    // Ruthlessly wipe any browser-injected autofill until user explicitly interacts
+    const wipeAutofill = () => {
+      if (!userTouched) {
+        if (mobInput.value.includes('@') || mobInput.value.toLowerCase().includes('adminism') || (mobInput.value && !userTouched)) {
+          mobInput.value = '';
+          pwdInput.value = '';
+        }
+      }
+    };
+
+    window.addEventListener('pageshow', () => {
+      mobInput.value = '';
+      pwdInput.value = '';
+    });
+    window.addEventListener('DOMContentLoaded', wipeAutofill);
+    window.addEventListener('load', wipeAutofill);
+    const interval = setInterval(wipeAutofill, 40);
+    setTimeout(() => clearInterval(interval), 3000);
+
+    document.getElementById('form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const err = document.getElementById('error');
+      err.classList.remove('show');
+      const mobileVal = mobInput.value.trim();
+      const pwdVal = pwdInput.value;
+
+      const res = await fetch('/api/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ mobile_number: mobileVal, password: pwdVal }),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        err.textContent = data.error || 'Sign in failed.';
+        err.classList.add('show');
+        return;
+      }
+      localStorage.setItem('it_token', data.token);
+      location.href = data.user.role === 'admin' ? '/admin.html' : '/dashboard.html';
+    });
+  </script>
+</body>
+</html>

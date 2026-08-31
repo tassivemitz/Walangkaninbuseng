@@ -1,0 +1,869 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Desk · Infinite Trading</title>
+  <meta name="description" content="Infinite Trading member dashboard — Member list, Code vault, Trade-in deposit, Wallet dashboard, and TradingView chart." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,560&family=Sora:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <!-- Top Navigation Header -->
+  <header class="appbar">
+    <div class="wrap top">
+      <a class="brand" href="/dashboard.html">
+        <img src="/images/site-logo.png" alt="Infinite Trading" class="brand-logo" />
+      </a>
+      <div class="nav">
+        <span id="who" class="tiny"></span>
+        <a id="adminLink" class="tiny" href="/admin.html" style="display:none;color:var(--gold);font-weight:700;">Admin</a>
+        <button id="logout" class="btn btn-ghost btn-sm">Log Out</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="wrap" style="padding-top:12px">
+    <p id="banner" class="banner"></p>
+
+    <!-- Inactive Account Activation Box -->
+    <div id="activationBox" class="panel card activation-panel" style="display:none; margin-bottom: 20px; border: 2px solid var(--jade); background: #ffffff;">
+      <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:12px;">
+        <div>
+          <span class="pill closed" style="margin-bottom:6px">● Account Pending Activation</span>
+          <h2 style="margin:6px 0; font-size:24px; color:var(--jade);">Activate Your Account</h2>
+          <p style="font-size:13px; color:var(--muted); margin:0 0 14px; max-width:62ch;">
+            Enter your ₱300 Activation Code from your sponsor or code seller to enter the binary tree, start matching pairs, and unlock trade-in earnings.
+          </p>
+        </div>
+      </div>
+      <form id="activateForm" class="row" style="max-width:480px; margin-top:0;">
+        <input class="in" name="code" id="activateCodeInput" required placeholder="8-CHAR CODE (e.g. K9X2M4N7)" style="text-transform:uppercase; font-family:ui-monospace, monospace; font-weight:700; letter-spacing:0.08em;" maxlength="12" />
+        <button class="btn btn-mint btn-sm" style="white-space:nowrap;">Activate Account</button>
+      </form>
+    </div>
+
+    <!-- Binary Cap Expiration Renewal Box -->
+    <div id="renewBox" class="panel card" style="display:none; margin-bottom: 20px; border: 2px solid var(--gold); background: #ffffff;">
+      <span class="pill closed" style="margin-bottom:6px">● Binary Cap Reached (₱3,000)</span>
+      <h2 style="margin:6px 0; font-size:22px; color:var(--gold);">Renew Account (₱300)</h2>
+      <p style="font-size:13px; color:var(--muted); margin:0 0 12px;">Enter an activation code to reopen binary matching and trade-in access.</p>
+      <form id="renewForm" class="row" style="max-width:480px; margin-top:0;">
+        <input class="in" name="code" required placeholder="8-CHAR CODE" style="text-transform:uppercase; font-family:ui-monospace, monospace; font-weight:700;" maxlength="12" />
+        <button class="btn btn-sm">Renew</button>
+      </form>
+    </div>
+
+    <!-- Main Dashboard Two-Column Suite -->
+    <div class="dash-layout">
+      <!-- 1. LEFT SIDEBAR -->
+      <aside class="desk-sidebar">
+        <!-- Sidebar Box 1: Member List (Collapsible Accordion) -->
+        <div class="side-nav-card" id="sideCardMembers">
+          <div class="side-nav-header" data-toggle-target="sideCardMembers">
+            <span class="side-title">👥 Member List</span>
+            <span class="accordion-caret">▼</span>
+          </div>
+          <div class="side-nav-body">
+            <button type="button" class="side-sub-btn" id="btnDirectRef">
+              <span>↳ Direct Referral</span>
+              <span class="pill open" id="badgeDirectCount" style="margin-left:auto;font-size:10px;">0</span>
+            </button>
+            <button type="button" class="side-sub-btn" id="btnIndirectRef">
+              <span>↳ Indirect Referral</span>
+              <span class="pill open" id="badgeIndirectCount" style="margin-left:auto;font-size:10px;">0</span>
+            </button>
+            <button type="button" class="side-sub-btn" id="btnGenealogy">
+              <span>🌳 Genealogy Tree</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Sidebar Box 2: Code Vault (Collapsible Accordion) -->
+        <div class="side-nav-card" id="sideCardVault">
+          <div class="side-nav-header" data-toggle-target="sideCardVault">
+            <span class="side-title">🔒 Code Vault</span>
+            <span class="accordion-caret">▼</span>
+          </div>
+          <div class="side-nav-body">
+            <button type="button" class="side-nav-btn" id="btnCodesAvailable">
+              <span>📦 Available</span>
+              <span class="pill open" id="badgeAvailCodes" style="margin-left:auto;font-size:10px;">0</span>
+            </button>
+            <button type="button" class="side-nav-btn" id="btnCodesUsed">
+              <span>🧾 Used</span>
+              <span class="pill closed" id="badgeUsedCodes" style="margin-left:auto;font-size:10px;">0</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Sidebar Box 3: Trade In (Collapsible Accordion) -->
+        <div class="side-nav-card" id="sideCardTradein">
+          <div class="side-nav-header" data-toggle-target="sideCardTradein">
+            <span class="side-title">📈 TRADE IN</span>
+            <span class="accordion-caret">▼</span>
+          </div>
+          <div class="side-nav-body">
+            <button type="button" class="side-nav-btn" id="btnTradeinDeposit" style="color:var(--jade);font-weight:700;">
+              <span>⬆ Deposit</span>
+            </button>
+            <div class="side-info-card">
+              <p style="margin:0 0 4px;"><strong>*Every 3 days cycle*</strong> — 120% ROI in 12 days (payouts every 3 days).</p>
+              <p style="margin:0;"><strong>*Minimum Deposit:*</strong> ₱1,000 per package.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Sidebar Box 4: Wallet for Withdrawal -->
+        <button type="button" class="btn btn-ghost side-cta-btn" id="btnOpenWithdrawal" style="border:1.5px solid var(--jade);color:var(--jade);">
+          <span>💳 Wallet for Withdrawal</span>
+        </button>
+
+        <!-- Referral Link Floating Card -->
+        <div class="side-nav-card" id="refCard" style="padding:14px;background:rgba(255,255,255,0.9);">
+          <p class="tiny" style="margin:0 0 4px;font-weight:700;color:var(--muted);">YOUR REFERRAL LINK</p>
+          <div class="row" style="margin-top:6px;gap:6px;">
+            <input id="refLink" class="in" style="font-size:11px;padding:8px 10px;" readonly />
+            <button id="copyRef" type="button" class="btn btn-ghost btn-sm" style="padding:6px 10px;font-size:11px;">Copy</button>
+          </div>
+        </div>
+      </aside>
+
+      <!-- 2. RIGHT MAIN CONTENT AREA -->
+      <section class="desk-main">
+        <!-- Section Title Header -->
+        <div class="dash-sec-head">
+          <div class="dash-sec-title">
+            <span>WALLET DASHBOARD</span>
+            <span class="tiny" style="color:var(--muted);font-weight:500;text-transform:none;">(Show only)</span>
+          </div>
+          <div id="headerAccountBadge"></div>
+        </div>
+
+        <!-- 7 Floating Metric Cards (No enclosing white box) -->
+        <div class="metrics-7-grid">
+          <!-- 1. BINARY -->
+          <div class="m7-card">
+            <p class="m7-label">BINARY</p>
+            <p class="m7-val" id="mBinary">₱0.00</p>
+            <p class="m7-sub">Direct &amp; Matching Wallet</p>
+          </div>
+
+          <!-- 2. PPT -->
+          <div class="m7-card">
+            <p class="m7-label">PPT (PAIRS TODAY)</p>
+            <p class="m7-val" id="mPPT">₱0.00</p>
+            <p class="m7-sub" id="mPPTSub">0 / 10 pairs today</p>
+          </div>
+
+          <!-- 3. IN-PPT -->
+          <div class="m7-card">
+            <p class="m7-label">IN-PPT (INDIRECT)</p>
+            <p class="m7-val" id="mInPPT">₱0.00</p>
+            <p class="m7-sub" id="mInPPTSub">0 L2–L4 downlines</p>
+          </div>
+
+          <!-- 4. TOTAL -->
+          <div class="m7-card highlight">
+            <p class="m7-label" style="color:var(--jade);">TOTAL BALANCE</p>
+            <p class="m7-val" id="mTotal" style="color:var(--jade);font-size:28px;">₱0.00</p>
+            <p class="m7-sub">Combined 3 wallets</p>
+          </div>
+
+          <!-- 5. TRADE-IN DEPOSIT -->
+          <div class="m7-card">
+            <p class="m7-label">TRADE-IN DEPOSIT</p>
+            <p class="m7-val" id="mTradeDeposit">₱0.00</p>
+            <p class="m7-sub" id="mTradeDepositSub">0 active packages</p>
+          </div>
+
+          <!-- 6. TRADE-IN PROFIT -->
+          <div class="m7-card">
+            <p class="m7-label">TRADE-IN PROFIT</p>
+            <p class="m7-val" id="mTradeProfit">₱0.00</p>
+            <p class="m7-sub">120% Cycle Yield Balance</p>
+          </div>
+
+          <!-- 7. TRADE-IN REF -->
+          <div class="m7-card">
+            <p class="m7-label">TRADE-IN REF</p>
+            <p class="m7-val" id="mTradeRef">₱0.00</p>
+            <p class="m7-sub">L1-L4 Capital Commission</p>
+          </div>
+        </div>
+
+        <!-- Binary Cap Floating Status Card -->
+        <div class="floating-card" style="padding:16px 20px;">
+          <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;">
+            <div>
+              <p class="tiny" style="margin:0;font-weight:700;color:var(--muted);text-transform:uppercase;">Binary Earnings Cap (₱3,000 Max)</p>
+              <p id="capLabel" class="display" style="font-size:22px;margin:4px 0 0;color:var(--jade);">₱0 / ₱3,000</p>
+            </div>
+            <div style="text-align:right;">
+              <p id="treeCounts" class="tiny" style="margin:0;font-weight:600;"></p>
+              <p id="pairsTodayText" class="tiny" style="margin:2px 0 0;"></p>
+            </div>
+          </div>
+          <div class="bar" style="margin-top:10px;"><i id="capBar"></i></div>
+        </div>
+
+        <!-- Trading Chart Floating Card -->
+        <div class="floating-card">
+          <div class="chart-head" style="background:linear-gradient(135deg,#0b4d2c,#0f7a45);color:#fff;font-weight:700;display:flex;justify-content:space-between;align-items:center;padding:12px 18px;">
+            <span>Trading Chart · BTCUSDT (1h)</span>
+            <span class="tiny" style="color:rgba(255,255,255,0.85);">Live Market Feed</span>
+          </div>
+          <div id="tvchart" style="height:420px;"></div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <!-- =========================================================
+       MODALS & DETAIL VIEW PANELS
+       ========================================================= -->
+
+  <!-- Modal 1: Direct Referral Modal -->
+  <div class="plan-modal" id="modalDirectRef" hidden>
+    <div class="plan-modal-backdrop" data-close-modal></div>
+    <div class="plan-modal-sheet" style="max-width:720px;">
+      <header class="plan-modal-head">
+        <div>
+          <p class="kicker">Member List</p>
+          <h2>Direct Referral (Level 1)</h2>
+        </div>
+        <button class="plan-close" type="button" data-close-modal>×</button>
+      </header>
+      <div class="plan-modal-body">
+        <p class="tiny" style="margin-bottom:12px;">Direct signups referred using your mobile/link (₱50 bonus per active direct).</p>
+        <div class="table-wrap">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Mobile Number</th>
+                <th>Position</th>
+                <th>Status</th>
+                <th>Joined Date</th>
+              </tr>
+            </thead>
+            <tbody id="tbodyDirects">
+              <tr><td colspan="4" class="center muted">Loading directs...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal 2: Indirect Referral Modal -->
+  <div class="plan-modal" id="modalIndirectRef" hidden>
+    <div class="plan-modal-backdrop" data-close-modal></div>
+    <div class="plan-modal-sheet" style="max-width:760px;">
+      <header class="plan-modal-head">
+        <div>
+          <p class="kicker">Member List</p>
+          <h2>Indirect Referral (Levels 2–4)</h2>
+        </div>
+        <button class="plan-close" type="button" data-close-modal>×</button>
+      </header>
+      <div class="plan-modal-body">
+        <p class="tiny" style="margin-bottom:12px;">Downline members across Levels 2, 3, and 4 (₱5 indirect bonus per active downline).</p>
+        <div class="table-wrap">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Level</th>
+                <th>Mobile Number</th>
+                <th>Sponsor</th>
+                <th>Status</th>
+                <th>Joined Date</th>
+              </tr>
+            </thead>
+            <tbody id="tbodyIndirects">
+              <tr><td colspan="5" class="center muted">Loading indirects...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal 3: Genealogy Tree Modal -->
+  <div class="plan-modal" id="modalGenealogy" hidden>
+    <div class="plan-modal-backdrop" data-close-modal></div>
+    <div class="plan-modal-sheet" style="max-width:820px;">
+      <header class="plan-modal-head">
+        <div>
+          <p class="kicker">Member List</p>
+          <h2>Genealogy Tree (Binary Placement)</h2>
+        </div>
+        <button class="plan-close" type="button" data-close-modal>×</button>
+      </header>
+      <div class="plan-modal-body">
+        <div class="genealogy-wrap" id="genealogyContainer">
+          <!-- Rendered dynamically -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal 4: Code Vault Modal -->
+  <div class="plan-modal" id="modalCodeVault" hidden>
+    <div class="plan-modal-backdrop" data-close-modal></div>
+    <div class="plan-modal-sheet" style="max-width:680px;">
+      <header class="plan-modal-head">
+        <div>
+          <p class="kicker">Code Vault</p>
+          <h2 id="codeVaultTitle">Activation Codes</h2>
+        </div>
+        <button class="plan-close" type="button" data-close-modal>×</button>
+      </header>
+      <div class="plan-tabs" style="padding:0 22px 10px;">
+        <button type="button" class="plan-tab on" id="tabCodeAvail">Available (<span id="countAvailCodes">0</span>)</button>
+        <button type="button" class="plan-tab" id="tabCodeUsed">Used (<span id="countUsedCodes">0</span>)</button>
+      </div>
+      <div class="plan-modal-body">
+        <div id="viewCodesAvail" class="list" style="display:grid; grid-template-columns:repeat(auto-fill, minmax(220px, 1fr)); gap:10px;"></div>
+        <div id="viewCodesUsed" class="list" style="display:none; grid-template-columns:repeat(auto-fill, minmax(220px, 1fr)); gap:10px;"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal 5: Trade-In Deposit Modal -->
+  <div class="plan-modal" id="modalTradein" hidden>
+    <div class="plan-modal-backdrop" data-close-modal></div>
+    <div class="plan-modal-sheet" style="max-width:640px;">
+      <header class="plan-modal-head">
+        <div>
+          <p class="kicker">Trade-In Program</p>
+          <h2>Open a Trade-In Cycle</h2>
+        </div>
+        <button class="plan-close" type="button" data-close-modal>×</button>
+      </header>
+      <div class="plan-modal-body">
+        <div id="tradeinBlockedNotice" class="tradein-blocked-notice">
+          ⚠ Activate your account first to access Trade-In packages.
+        </div>
+        <div class="panel card" style="background:#f8fdf9;padding:16px;margin-bottom:16px;border:1px solid rgba(15,122,69,0.2);">
+          <h3 style="margin:0 0 6px;font-size:16px;color:var(--jade);">120% Total Return in 12 Days</h3>
+          <p style="font-size:13px;color:var(--muted);margin:0 0 12px;line-height:1.5;">
+            Earn 30% yield every 3 days across 4 payout cycles (₱300 payout every 3 days for a ₱1,000 package).
+          </p>
+          <fieldset style="border:none;padding:0;margin:0" id="tradeinFieldset">
+            <form id="tradeinDepositForm" class="row" style="margin-top:0;">
+              <input class="in" name="capital" id="tradeCapitalInput" type="number" min="1000" step="100" value="1000" placeholder="Capital (min ₱1,000)" style="font-size:15px;font-weight:700;" />
+              <button class="btn btn-mint btn-sm" style="white-space:nowrap;">Deposit &amp; Activate</button>
+            </form>
+          </fieldset>
+        </div>
+        <h3 style="font-size:15px;margin:16px 0 8px;">Your Active Trade-In Packages</h3>
+        <div id="packagesList" class="list"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal 6: Wallet for Withdrawal Modal -->
+  <div class="plan-modal" id="modalWithdrawal" hidden>
+    <div class="plan-modal-backdrop" data-close-modal></div>
+    <div class="plan-modal-sheet" style="max-width:760px;">
+      <header class="plan-modal-head">
+        <div>
+          <p class="kicker">Cash Out</p>
+          <h2>Wallet for Withdrawal</h2>
+        </div>
+        <button class="plan-close" type="button" data-close-modal>×</button>
+      </header>
+      <div class="plan-modal-body">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;background:#f8fdf9;padding:10px 14px;border-radius:12px;border:1px solid var(--line);">
+          <span class="tiny" style="font-weight:600;">Payout Window Status:</span>
+          <span id="payoutStatusBadge"><span class="pill open">Payouts Open</span></span>
+        </div>
+
+        <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(210px, 1fr));gap:12px;margin-bottom:18px;">
+          <!-- Wallet 1 -->
+          <article class="panel wallet" style="padding:16px;">
+            <p class="label">Binary Referral</p>
+            <p id="wBinaryModal" class="bal" style="font-size:24px;margin:6px 0;">₱0.00</p>
+            <form data-wallet="binary-ref" class="wd row" style="margin-top:10px;">
+              <input class="in" id="amtBinary" name="amount" type="number" min="100" step="0.01" placeholder="Min ₱100" />
+              <button class="btn btn-sm">Cash out</button>
+            </form>
+            <p class="fee-preview" id="feeBinary"></p>
+            <p class="payout-alert" id="alertBinary">Payouts closed.</p>
+          </article>
+
+          <!-- Wallet 2 -->
+          <article class="panel wallet ref" style="padding:16px;">
+            <p class="label">Trade-In Referral</p>
+            <p id="wTradeRefModal" class="bal" style="font-size:24px;margin:6px 0;">₱0.00</p>
+            <form data-wallet="tradein-ref" class="wd row" style="margin-top:10px;">
+              <input class="in" id="amtTradeRef" name="amount" type="number" min="100" step="0.01" placeholder="Min ₱100" />
+              <button class="btn btn-light btn-sm">Cash out</button>
+            </form>
+            <p class="fee-preview" id="feeTradeRef"></p>
+            <p class="payout-alert" id="alertTradeRef">Payouts closed.</p>
+          </article>
+
+          <!-- Wallet 3 -->
+          <article class="panel wallet cycle" style="padding:16px;">
+            <p class="label">Trade-In Cycle</p>
+            <p id="wCycleModal" class="bal" style="font-size:24px;margin:6px 0;">₱0.00</p>
+            <form data-wallet="tradein-cycle" class="wd row" style="margin-top:10px;">
+              <input class="in" id="amtCycle" name="amount" type="number" min="100" step="0.01" placeholder="Min ₱100" />
+              <button class="btn btn-mint btn-sm">Cash out</button>
+            </form>
+            <p class="fee-preview" id="feeCycle"></p>
+            <p class="payout-alert" id="alertCycle">Payouts closed.</p>
+          </article>
+        </div>
+
+        <h3 style="font-size:15px;margin:16px 0 8px;">Recent Withdrawal History</h3>
+        <div id="withdrawalsList" class="list"></div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://s3.tradingview.com/tv.js"></script>
+  <script>
+    const token = localStorage.getItem('it_token');
+    if (!token) location.href = '/login.html';
+    const headers = { Authorization: 'Bearer ' + token, 'Content-Type': 'application/json' };
+    const peso = (n) => '₱' + Number(n || 0).toLocaleString('en-PH', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    const esc  = (s) => String(s || '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+
+    let payoutsOpen = false;
+    let dashboardData = null;
+
+    document.getElementById('logout').onclick = () => {
+      localStorage.removeItem('it_token');
+      location.href = '/login.html';
+    };
+
+    function toast(msg, ok) {
+      const b = document.getElementById('banner');
+      b.textContent = msg;
+      b.classList.add('show');
+      b.classList.toggle('ok', !!ok);
+      setTimeout(() => b.classList.remove('show'), 5000);
+    }
+
+    document.getElementById('copyRef').onclick = async () => {
+      const v = document.getElementById('refLink').value;
+      try { await navigator.clipboard.writeText(v); toast('Referral link copied!', true); }
+      catch { toast('Copy failed.'); }
+    };
+
+    // Fee calculation helper
+    function calcFee(amount) {
+      if (amount <= 0) return null;
+      const rate = amount <= 1000 ? 0.12 : amount <= 5000 ? 0.10 : 0.08;
+      const fee  = Math.round(amount * rate * 100) / 100;
+      const net  = Math.round((amount - fee) * 100) / 100;
+      return { rate, fee, net };
+    }
+
+    function wireFeePreview(inputId, previewId) {
+      const inp  = document.getElementById(inputId);
+      const prev = document.getElementById(previewId);
+      if (!inp || !prev) return;
+      inp.addEventListener('input', () => {
+        const amt = Number(inp.value);
+        if (!amt || amt < 100) { prev.textContent = ''; prev.classList.remove('ready'); return; }
+        const f = calcFee(amt);
+        prev.textContent = `Fee ${Math.round(f.rate * 100)}% (₱${f.fee.toFixed(2)}) → You receive ₱${f.net.toFixed(2)}`;
+        prev.classList.add('ready');
+      });
+    }
+
+    wireFeePreview('amtBinary',   'feeBinary');
+    wireFeePreview('amtTradeRef', 'feeTradeRef');
+    wireFeePreview('amtCycle',    'feeCycle');
+
+    // Modal open/close helpers
+    function openModal(id) {
+      const el = document.getElementById(id);
+      if (el) { el.hidden = false; document.body.classList.add('modal-open'); }
+    }
+    function closeModal(id) {
+      const el = typeof id === 'string' ? document.getElementById(id) : id.closest('.plan-modal');
+      if (el) { el.hidden = true; document.body.classList.remove('modal-open'); }
+    }
+
+    document.querySelectorAll('[data-close-modal]').forEach(el => {
+      el.addEventListener('click', () => {
+        document.querySelectorAll('.plan-modal').forEach(m => m.hidden = true);
+        document.body.classList.remove('modal-open');
+      });
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        document.querySelectorAll('.plan-modal').forEach(m => m.hidden = true);
+        document.body.classList.remove('modal-open');
+      }
+    });
+
+    // Sidebar Accordion Folding/Collapsing
+    document.querySelectorAll('.side-nav-header[data-toggle-target]').forEach(header => {
+      header.addEventListener('click', () => {
+        const targetId = header.getAttribute('data-toggle-target');
+        const card = document.getElementById(targetId);
+        if (card) {
+          card.classList.toggle('collapsed');
+        }
+      });
+    });
+
+    // Sidebar button clicks
+    document.getElementById('btnDirectRef').onclick = () => openModal('modalDirectRef');
+    document.getElementById('btnIndirectRef').onclick = () => openModal('modalIndirectRef');
+    document.getElementById('btnGenealogy').onclick = () => openModal('modalGenealogy');
+    document.getElementById('btnTradeinDeposit').onclick = () => openModal('modalTradein');
+    document.getElementById('btnOpenWithdrawal').onclick = () => openModal('modalWithdrawal');
+
+    document.getElementById('btnCodesAvailable').onclick = () => {
+      openModal('modalCodeVault');
+      document.getElementById('tabCodeAvail').click();
+    };
+    document.getElementById('btnCodesUsed').onclick = () => {
+      openModal('modalCodeVault');
+      document.getElementById('tabCodeUsed').click();
+    };
+
+    // Code vault tabs
+    document.getElementById('tabCodeAvail').onclick = () => {
+      document.getElementById('tabCodeAvail').classList.add('on');
+      document.getElementById('tabCodeUsed').classList.remove('on');
+      document.getElementById('viewCodesAvail').style.display = 'grid';
+      document.getElementById('viewCodesUsed').style.display = 'none';
+    };
+    document.getElementById('tabCodeUsed').onclick = () => {
+      document.getElementById('tabCodeUsed').classList.add('on');
+      document.getElementById('tabCodeAvail').classList.remove('on');
+      document.getElementById('viewCodesUsed').style.display = 'grid';
+      document.getElementById('viewCodesAvail').style.display = 'none';
+    };
+
+    function nextPayoutLabel(pkg) {
+      if (pkg.cycle_status !== 'active') return '';
+      const completed = Number(pkg.payouts_completed || 0);
+      if (completed >= 4) return ' · Completed';
+      const start = new Date(pkg.start_date);
+      const nextMs = start.getTime() + (completed + 1) * 3 * 86400000;
+      const now = Date.now();
+      if (nextMs <= now) return ' · Payout due';
+      const daysLeft = Math.ceil((nextMs - now) / 86400000);
+      return ` · Next payout in ${daysLeft}d`;
+    }
+
+    // Render Genealogy Visualizer
+    function renderGenealogyTree(d) {
+      const u = d.user;
+      const t = d.tree;
+      const left = t.left_node;
+      const right = t.right_node;
+
+      const container = document.getElementById('genealogyContainer');
+      container.innerHTML = `
+        <div class="tree-node" style="border-color:var(--gold);background:#fffdfa;">
+          <p class="tree-node-name">👤 ${esc(u.mobile_number)}</p>
+          <span class="pill ${u.status === 'active' ? 'open' : 'closed'}">${esc(u.status)}</span>
+          <div class="tree-node-counts">
+            <span>Left: <strong>${t.left_count}</strong></span>
+            <span>Right: <strong>${t.right_count}</strong></span>
+          </div>
+        </div>
+        <div class="tree-connector"></div>
+        <div class="tree-branches">
+          <!-- Left Sub-tree -->
+          <div style="display:flex;flex-direction:column;align-items:center;">
+            <div class="tree-connector"></div>
+            ${left ? `
+              <div class="tree-node">
+                <span class="pill open" style="font-size:9px;margin-bottom:2px;">LEFT</span>
+                <p class="tree-node-name">👤 ${esc(left.mobile)}</p>
+                <span class="pill ${left.status === 'active' ? 'open' : 'closed'}">${esc(left.status)}</span>
+                <div class="tree-node-counts">
+                  <span>L: ${left.left_count}</span>
+                  <span>R: ${left.right_count}</span>
+                </div>
+              </div>
+            ` : `
+              <div class="tree-node empty">
+                <span class="pill" style="font-size:9px;margin-bottom:2px;">LEFT</span>
+                <p style="margin:0;font-size:12px;">Empty Slot</p>
+              </div>
+            `}
+          </div>
+
+          <!-- Right Sub-tree -->
+          <div style="display:flex;flex-direction:column;align-items:center;">
+            <div class="tree-connector"></div>
+            ${right ? `
+              <div class="tree-node">
+                <span class="pill open" style="font-size:9px;margin-bottom:2px;">RIGHT</span>
+                <p class="tree-node-name">👤 ${esc(right.mobile)}</p>
+                <span class="pill ${right.status === 'active' ? 'open' : 'closed'}">${esc(right.status)}</span>
+                <div class="tree-node-counts">
+                  <span>L: ${right.left_count}</span>
+                  <span>R: ${right.right_count}</span>
+                </div>
+              </div>
+            ` : `
+              <div class="tree-node empty">
+                <span class="pill" style="font-size:9px;margin-bottom:2px;">RIGHT</span>
+                <p style="margin:0;font-size:12px;">Empty Slot</p>
+              </div>
+            `}
+          </div>
+        </div>
+      `;
+    }
+
+    async function load() {
+      const res = await fetch('/api/dashboard', { headers });
+      if (res.status === 401) { localStorage.removeItem('it_token'); location.href = '/login.html'; return; }
+      const d = await res.json();
+      dashboardData = d;
+      const u = d.user;
+      const m = d.metrics || {};
+
+      // Header
+      document.getElementById('who').textContent = u.mobile_number + ' · ' + u.status;
+      if (u.role === 'admin') document.getElementById('adminLink').style.display = 'inline';
+
+      document.getElementById('headerAccountBadge').innerHTML =
+        u.status === 'active'   ? '<span class="pill open">● Active</span>' :
+        u.status === 'inactive' ? '<span class="pill closed">● Inactive</span>' :
+        '<span class="pill closed">● ' + esc(u.status) + '</span>';
+
+      // Inactive vs Active vs Expired gates
+      const isInactive = u.status === 'inactive';
+      const isExpired  = u.status === 'expired';
+
+      document.getElementById('activationBox').style.display = isInactive ? 'block' : 'none';
+      document.getElementById('renewBox').style.display      = isExpired ? 'block' : 'none';
+
+      if (isInactive) {
+        document.getElementById('refCard').style.opacity = '0.4';
+        document.getElementById('refCard').style.pointerEvents = 'none';
+        document.getElementById('tradeinBlockedNotice').textContent = '⚠ Activate your account with a ₱300 code to access Trade-In packages.';
+        document.getElementById('tradeinBlockedNotice').classList.add('show');
+        document.getElementById('tradeinFieldset').disabled = true;
+      } else if (isExpired) {
+        document.getElementById('refCard').style.opacity = '';
+        document.getElementById('refCard').style.pointerEvents = '';
+        document.getElementById('tradeinBlockedNotice').textContent = '⚠ Your account is expired. Renew with a ₱300 code to access Trade-In.';
+        document.getElementById('tradeinBlockedNotice').classList.add('show');
+        document.getElementById('tradeinFieldset').disabled = true;
+      } else {
+        document.getElementById('refCard').style.opacity = '';
+        document.getElementById('refCard').style.pointerEvents = '';
+        document.getElementById('tradeinBlockedNotice').classList.remove('show');
+        document.getElementById('tradeinFieldset').disabled = false;
+      }
+
+      // 7 METRICS CARDS
+      document.getElementById('mBinary').textContent       = peso(m.binary || u.binary_ref_balance);
+      document.getElementById('mPPT').textContent          = peso(m.ppt_earnings);
+      document.getElementById('mPPTSub').textContent       = (m.ppt_pairs || 0) + ' / 10 pairs today';
+      document.getElementById('mInPPT').textContent        = peso(m.in_ppt_earnings);
+      document.getElementById('mInPPTSub').textContent     = (m.in_ppt_count || 0) + ' downlines (₱5 ea)';
+      document.getElementById('mTotal').textContent        = peso(m.total_balance);
+      document.getElementById('mTradeDeposit').textContent = peso(m.tradein_deposit);
+      document.getElementById('mTradeDepositSub').textContent = d.packages.filter(p=>p.cycle_status==='active').length + ' active packages';
+      document.getElementById('mTradeProfit').textContent  = peso(m.tradein_profit || u.tradein_cycle_balance);
+      document.getElementById('mTradeRef').textContent     = peso(m.tradein_ref || u.tradein_ref_balance);
+
+      // Modal wallet balances
+      document.getElementById('wBinaryModal').textContent   = peso(u.binary_ref_balance);
+      document.getElementById('wTradeRefModal').textContent = peso(u.tradein_ref_balance);
+      document.getElementById('wCycleModal').textContent    = peso(u.tradein_cycle_balance);
+
+      // Binary Cap Progress Bar
+      const cap    = d.constants.binaryCap || 3000;
+      const earned = Number(u.total_binary_earnings || 0);
+      document.getElementById('capLabel').textContent = peso(earned) + ' / ' + peso(cap);
+      setTimeout(() => {
+        document.getElementById('capBar').style.width = Math.min(100, (earned / cap) * 100) + '%';
+      }, 80);
+
+      document.getElementById('treeCounts').textContent = 'Left: ' + d.tree.left_count + ' · Right: ' + d.tree.right_count;
+      document.getElementById('pairsTodayText').textContent = 'Pairs today: ' + (u.pairs_today || 0) + ' / 10';
+
+      // Referral link
+      document.getElementById('refLink').value = location.origin + '/register.html?sponsor=' + encodeURIComponent(u.mobile_number);
+
+      // Sidebar badges
+      document.getElementById('badgeDirectCount').textContent   = d.directs.length;
+      document.getElementById('badgeIndirectCount').textContent = (d.indirects || []).length;
+
+      const cv = d.code_vault || {};
+      const availList = cv.available_list || [];
+      const usedList  = cv.used_list || [];
+      document.getElementById('badgeAvailCodes').textContent = availList.length;
+      document.getElementById('badgeUsedCodes').textContent  = usedList.length;
+      document.getElementById('countAvailCodes').textContent = availList.length;
+      document.getElementById('countUsedCodes').textContent  = usedList.length;
+
+      // Payout window status
+      payoutsOpen = d.weekly_payout_enabled;
+      document.getElementById('payoutStatusBadge').innerHTML = payoutsOpen
+        ? '<span class="pill open">Payouts Open</span>'
+        : '<span class="pill closed">Payouts Closed</span>';
+
+      ['alertBinary', 'alertTradeRef', 'alertCycle'].forEach(id => {
+        document.getElementById(id).classList.toggle('show', !payoutsOpen);
+      });
+
+      // Render Directs Table
+      document.getElementById('tbodyDirects').innerHTML = d.directs.length
+        ? d.directs.map(x => `
+            <tr>
+              <td><strong>${esc(x.mobile_number)}</strong></td>
+              <td><span class="pill">${esc(x.position || '—')}</span></td>
+              <td><span class="pill ${x.status === 'active' ? 'open' : 'closed'}">${esc(x.status)}</span></td>
+              <td class="tiny muted">${new Date(x.created_at).toLocaleDateString()}</td>
+            </tr>
+          `).join('')
+        : '<tr><td colspan="4" class="center muted" style="padding:16px;">No direct referrals yet.</td></tr>';
+
+      // Render Indirects Table
+      const indirects = d.indirects || [];
+      document.getElementById('tbodyIndirects').innerHTML = indirects.length
+        ? indirects.map(x => `
+            <tr>
+              <td><span class="pill open" style="font-weight:700;">L${x.level}</span></td>
+              <td><strong>${esc(x.mobile_number)}</strong></td>
+              <td>${esc(x.sponsor_mobile)}</td>
+              <td><span class="pill ${x.status === 'active' ? 'open' : 'closed'}">${esc(x.status)}</span></td>
+              <td class="tiny muted">${new Date(x.created_at).toLocaleDateString()}</td>
+            </tr>
+          `).join('')
+        : '<tr><td colspan="5" class="center muted" style="padding:16px;">No indirect downlines yet.</td></tr>';
+
+      // Render Code Vault Lists
+      document.getElementById('viewCodesAvail').innerHTML = availList.length
+        ? availList.map(c => `
+            <div class="item" style="display:flex;justify-content:space-between;align-items:center;background:#fff;border-color:var(--jade);">
+              <code style="font-size:14px;font-weight:700;color:var(--jade);">${esc(c.code)}</code>
+              <button type="button" data-copy-vault="${esc(c.code)}" class="btn btn-ghost btn-sm" style="padding:4px 10px;font-size:11px;">Copy</button>
+            </div>
+          `).join('')
+        : '<p class="tiny muted center" style="grid-column:1/-1;">No available codes in inventory.</p>';
+
+      document.getElementById('viewCodesUsed').innerHTML = usedList.length
+        ? usedList.map(c => `
+            <div class="item" style="display:flex;justify-content:space-between;align-items:center;background:#f9faf9;">
+              <code style="font-size:13px;color:var(--muted);text-decoration:line-through;">${esc(c.code)}</code>
+              <span class="tiny muted">${c.used_at ? new Date(c.used_at).toLocaleDateString() : 'Used'}</span>
+            </div>
+          `).join('')
+        : '<p class="tiny muted center" style="grid-column:1/-1;">No used codes found.</p>';
+
+      document.querySelectorAll('button[data-copy-vault]').forEach(btn => {
+        btn.onclick = async () => {
+          const codeVal = btn.dataset.copyVault;
+          try {
+            await navigator.clipboard.writeText(codeVal);
+            toast('Copied code ' + codeVal + ' to clipboard!', true);
+          } catch { toast('Copy failed.'); }
+        };
+      });
+
+      // Render Packages List
+      document.getElementById('packagesList').innerHTML = d.packages.length
+        ? d.packages.map(p => `
+            <div class="item" style="background:#fff;margin-bottom:8px;">
+              <div>
+                <strong>${peso(p.capital)}</strong> → <span style="color:var(--jade);font-weight:700;">${peso(p.total_return)}</span>
+                <p class="tiny" style="margin:2px 0 0;">Cycle Status: ${esc(p.cycle_status)} · Payouts ${p.payouts_completed}/4</p>
+              </div>
+              <span class="pill ${p.cycle_status === 'active' ? 'open' : 'closed'}">${nextPayoutLabel(p)}</span>
+            </div>
+          `).join('')
+        : '<p class="tiny muted">No trade-in packages yet.</p>';
+
+      // Render Withdrawals List
+      document.getElementById('withdrawalsList').innerHTML = d.withdrawals.length
+        ? d.withdrawals.map(w => {
+            const walletLabel = w.wallet_type === 'binary_ref' ? 'Binary' : w.wallet_type === 'tradein_ref' ? 'Trade-In Ref' : 'Cycle Yield';
+            return `
+              <div class="item" style="background:#fff;margin-bottom:6px;">
+                <span><strong>${walletLabel}:</strong> ${peso(w.net_amount)}</span>
+                <span class="pill ${w.status === 'approved' ? 'open' : w.status === 'pending' ? 'closed' : ''}">${esc(w.status)}</span>
+              </div>
+            `;
+          }).join('')
+        : '<p class="tiny muted">No withdrawals yet.</p>';
+
+      // Render Genealogy Tree
+      renderGenealogyTree(d);
+    }
+
+    // Activate Account
+    document.getElementById('activateForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const code = new FormData(e.target).get('code');
+      const res = await fetch('/api/account/activate', { method: 'POST', headers, body: JSON.stringify({ code }) });
+      const data = await res.json();
+      if (!res.ok) { toast(data.error || 'Activation failed.'); return; }
+      toast('🎉 Account activated successfully! Welcome to the tree.', true);
+      e.target.reset();
+      load();
+    });
+
+    // Renew Account
+    document.getElementById('renewForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const code = new FormData(e.target).get('code');
+      const res = await fetch('/api/account/renew', { method: 'POST', headers, body: JSON.stringify({ code }) });
+      const data = await res.json();
+      if (!res.ok) { toast(data.error || 'Renewal failed.'); return; }
+      toast('Account renewed! Binary earnings reopened.', true);
+      e.target.reset();
+      load();
+    });
+
+    // Trade-In Deposit
+    document.getElementById('tradeinDepositForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const capital = Number(new FormData(e.target).get('capital'));
+      const res = await fetch('/api/tradein/purchase', { method: 'POST', headers, body: JSON.stringify({ capital }) });
+      const data = await res.json();
+      if (!res.ok) { toast(data.error || 'Purchase failed.'); return; }
+      toast('Trade-in cycle activated! ₱' + capital.toFixed(2) + ' invested.', true);
+      closeModal('modalTradein');
+      load();
+    });
+
+    // Withdrawal submission
+    document.querySelectorAll('form.wd').forEach((form) => {
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        if (!payoutsOpen) { toast('Payouts are currently closed by admin. Please try again later.'); return; }
+        const wallet = form.getAttribute('data-wallet');
+        const amount = Number(new FormData(form).get('amount'));
+        const res = await fetch('/api/withdraw/' + wallet, { method: 'POST', headers, body: JSON.stringify({ amount }) });
+        const data = await res.json();
+        if (!res.ok) { toast(data.error || 'Withdrawal failed.'); return; }
+        toast('Withdrawal submitted — net payout: ' + peso(data.withdrawal.net_amount), true);
+        form.reset();
+        form.parentElement.querySelector('.fee-preview').textContent = '';
+        load();
+      });
+    });
+
+    // TradingView Widget
+    try {
+      new TradingView.widget({
+        autosize: true, symbol: 'BINANCE:BTCUSDT', interval: '60',
+        timezone: 'Asia/Manila', theme: 'light', style: '1', locale: 'en', container_id: 'tvchart',
+      });
+    } catch(e) {}
+
+    load();
+  </script>
+</body>
+</html>

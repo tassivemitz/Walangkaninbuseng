@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Dashboard · Infinite Trading</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,560&family=Sora:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body class="admin-body">
+  <!-- Top Navigation -->
+  <header class="admin-header">
+    <div class="admin-wrap wrap">
+      <div class="admin-brand">
+        <span class="mark">∞</span>
+        <div>
+          <h1>ADMIN DASHBOARD</h1>
+          <span class="badge-live">● System Live</span>
+        </div>
+      </div>
+      <div class="nav">
+        <button id="togglePayoutsBtn" class="btn btn-ghost btn-sm">Payouts: Loading...</button>
+        <button id="runYieldsBtn" class="btn btn-ghost btn-sm">Process yields</button>
+        <a class="btn btn-ghost btn-sm" href="/dashboard.html">Member desk</a>
+        <button id="logoutBtn" class="btn btn-sm">Sign out</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="admin-wrap" style="padding: 24px 0 80px">
+    <div id="msg" class="banner" style="margin-bottom:20px"></div>
+
+    <!-- 1. HOME SECTION -->
+    <section class="admin-sec">
+      <div class="admin-sec-head">
+        <div>
+          <h2 class="admin-sec-title">HOME</h2>
+        </div>
+        <div class="tiny muted" id="lastUpdatedText">Synced</div>
+      </div>
+
+      <!-- 5 Metric Cards matching the reference diagram -->
+      <div class="kpi-row-1">
+        <div class="admin-card">
+          <div>
+            <p class="kpi-label">TOTAL TRADE-IN DEPOSIT</p>
+            <p class="kpi-val" id="kpiTradeinDeposit">₱0.00</p>
+            <p class="kpi-sub" id="kpiTradeinCount">0 Active accounts</p>
+          </div>
+          <div class="kpi-icon">💰</div>
+        </div>
+
+        <div class="admin-card gold">
+          <div>
+            <p class="kpi-label">TOTAL TRADE-IN REF</p>
+            <p class="kpi-val" id="kpiTradeinRef">₱0.00</p>
+            <p class="kpi-sub">Referral commission pool</p>
+          </div>
+          <div class="kpi-icon">👥</div>
+        </div>
+
+        <div class="admin-card mint">
+          <div>
+            <p class="kpi-label">TOTAL CODE</p>
+            <p class="kpi-val" id="kpiTotalCode">0</p>
+            <p class="kpi-sub" id="kpiAvailableCodes">0 Available in vault</p>
+          </div>
+          <div class="kpi-icon">🔐</div>
+        </div>
+      </div>
+
+      <div class="kpi-row-2">
+        <div class="admin-card">
+          <div>
+            <p class="kpi-label">TOTAL CODE BUY</p>
+            <p class="kpi-val" id="kpiTotalCodeBuy">0</p>
+            <p class="kpi-sub">Assigned & activated codes</p>
+          </div>
+          <div class="kpi-icon">🏷️</div>
+        </div>
+
+        <div class="admin-card">
+          <div>
+            <p class="kpi-label">TOTAL BINARY</p>
+            <p class="kpi-val" id="kpiTotalBinary">₱0.00</p>
+            <p class="kpi-sub">Network match earnings</p>
+          </div>
+          <div class="kpi-icon">📈</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- System Wallet Totals -->
+    <div class="wallet-totals-bar" id="walletTotalsBar">
+      <div class="wt-card">
+        <p class="wt-card-label">System · Binary Ref Balance</p>
+        <p class="wt-card-val" id="sysBinaryRef">₱0.00</p>
+      </div>
+      <div class="wt-card">
+        <p class="wt-card-label">System · Trade-In Ref Balance</p>
+        <p class="wt-card-val" id="sysTradeRef">₱0.00</p>
+      </div>
+      <div class="wt-card">
+        <p class="wt-card-label">System · Trade-In Cycle Balance</p>
+        <p class="wt-card-val" id="sysCycle">₱0.00</p>
+      </div>
+    </div>
+
+    <!-- 2. MEMBER LIST SECTION -->
+    <section class="admin-sec">
+      <div class="admin-sec-head">
+        <div>
+          <h2 class="admin-sec-title">MEMBER LIST</h2>
+          <p class="admin-sec-sub">WITH COMPLETE DETAILS · WITH DELETE USER</p>
+        </div>
+        <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+          <input id="userSearch" class="ctrl-search" type="search" placeholder="Search by mobile or ID..." />
+          <div class="ctrl-tabs">
+            <button class="ctrl-tab active" data-userfilter="all">All (<span id="userCountAll">0</span>)</button>
+            <button class="ctrl-tab" data-userfilter="active">Active</button>
+            <button class="ctrl-tab" data-userfilter="inactive">Inactive</button>
+            <button class="ctrl-tab" data-userfilter="expired">Expired</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="admin-table-panel table-wrap">
+        <table class="admin-table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Mobile / Username</th>
+              <th>Status</th>
+              <th>Sponsor</th>
+              <th>Directs</th>
+              <th>Binary Earned</th>
+              <th>Binary Ref</th>
+              <th>Trade-In Ref</th>
+              <th>Trade-In Cycle</th>
+              <th>Joined Date</th>
+              <th style="text-align:right">Actions</th>
+            </tr>
+          </thead>
+          <tbody id="userTableBody">
+            <tr><td colspan="11" style="padding:20px;text-align:center" class="muted">Loading members...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- 3. CODE VAULT SECTION -->
+    <section class="admin-sec">
+      <div class="admin-sec-head">
+        <div>
+          <h2 class="admin-sec-title">CODE VAULT</h2>
+          <p class="admin-sec-sub">GENERATE CODE ➔ SEND CODE</p>
+        </div>
+        <div class="ctrl-tabs">
+          <button class="ctrl-tab active" data-codefilter="all">All Codes</button>
+          <button class="ctrl-tab" data-codefilter="available">Available</button>
+          <button class="ctrl-tab" data-codefilter="assigned">Assigned</button>
+          <button class="ctrl-tab" data-codefilter="used">Used</button>
+        </div>
+      </div>
+
+      <div class="vault-container">
+        <!-- GENERATE CODE (Left Box) -->
+        <div class="vault-panel">
+          <div>
+            <h3>➔ GENERATE CODE</h3>
+            <p class="tiny muted" style="margin:0 0 10px">Fill custom code slots or mint 3 unique codes:</p>
+            <div class="slot-list">
+              <input id="codeSlot1" class="slot-input" type="text" placeholder="CODE SLOT 1" />
+              <input id="codeSlot2" class="slot-input" type="text" placeholder="CODE SLOT 2" />
+              <input id="codeSlot3" class="slot-input" type="text" placeholder="CODE SLOT 3" />
+            </div>
+          </div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap">
+            <button id="btnMintCustom" class="btn btn-sm">Generate Codes</button>
+            <button id="btnRandomizeSlots" class="btn btn-ghost btn-sm">Randomize Slots</button>
+          </div>
+        </div>
+
+        <!-- SEND CODE (Right Box) -->
+        <div class="vault-panel">
+          <div>
+            <h3>➔ SEND CODE</h3>
+            <p class="tiny muted" style="margin:0 0 10px">Transfer activation codes directly to a member account:</p>
+            <div class="send-grid">
+              <div class="send-field">
+                <label for="sendTargetMobile">USER NAME / MOBILE NUMBER</label>
+                <input id="sendTargetMobile" type="text" list="memberDatalist" placeholder="Select or enter mobile / username..." />
+                <datalist id="memberDatalist"></datalist>
+              </div>
+              <div class="send-field">
+                <label for="sendQty">QTY:</label>
+                <div class="qty-flex">
+                  <input id="sendQty" type="number" min="1" max="50" value="1" />
+                  <span class="tiny muted" id="freeCodesNotice">(0 available to send)</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div>
+            <button id="btnSendCodes" class="btn btn-mint btn-sm" style="width:100%">SEND CODE</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Code Vault Inventory Table -->
+      <div class="admin-table-panel table-wrap">
+        <table class="admin-table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Activation Code</th>
+              <th>Status</th>
+              <th>Assigned To</th>
+              <th>Created Date</th>
+              <th>Used Date</th>
+            </tr>
+          </thead>
+          <tbody id="codeTableBody">
+            <tr><td colspan="6" style="padding:20px;text-align:center" class="muted">Loading codes...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- 4. TRADE-IN DEPOSIT SECTION -->
+    <section class="admin-sec">
+      <div class="admin-sec-head">
+        <div>
+          <h2 class="admin-sec-title">TRADE-IN DEPOSIT:</h2>
+          <p class="admin-sec-sub">12-DAY CYCLES · 120% RETURN (3-DAY DIVIDENDS)</p>
+        </div>
+        <div style="display:flex;gap:10px;align-items:center">
+          <span class="tiny muted" id="tradeinSummaryText">0 Total Packages</span>
+          <button id="btnProcessTradeinYields" class="btn btn-mint btn-sm">Process Daily Yields</button>
+        </div>
+      </div>
+
+      <div class="admin-table-panel table-wrap">
+        <table class="admin-table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Member Mobile / User</th>
+              <th>Capital</th>
+              <th>Total Return (120%)</th>
+              <th>Cycle Progress</th>
+              <th>Status</th>
+              <th>Start Date</th>
+            </tr>
+          </thead>
+          <tbody id="tradeinTableBody">
+            <tr><td colspan="7" style="padding:20px;text-align:center" class="muted">No trade-in deposits found.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- 5. WITHDRAWAL SECTION -->
+    <section class="admin-sec">
+      <div class="admin-sec-head">
+        <div>
+          <h2 class="admin-sec-title">WITHDRAWAL:</h2>
+          <p class="admin-sec-sub">TRADE-IN & BINARY DISBURSEMENTS</p>
+        </div>
+        <div class="ctrl-tabs">
+          <button class="ctrl-tab active" data-wdfilter="all">ALL</button>
+          <button class="ctrl-tab" data-wdfilter="tradein">TRADE-IN</button>
+          <button class="ctrl-tab" data-wdfilter="binary">BINARY</button>
+          <button class="ctrl-tab" data-wdfilter="pending">PENDING</button>
+        </div>
+      </div>
+
+      <div class="admin-table-panel table-wrap">
+        <table class="admin-table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Member</th>
+              <th>Wallet Category</th>
+              <th>Requested Amount</th>
+              <th>Fee / Net Payout</th>
+              <th>Status</th>
+              <th>Date</th>
+              <th style="text-align:right">Actions</th>
+            </tr>
+          </thead>
+          <tbody id="wdTableBody">
+            <tr><td colspan="8" style="padding:20px;text-align:center" class="muted">No withdrawal requests found.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const token = localStorage.getItem('it_token');
+    if (!token) location.href = '/login.html';
+    const headers = { Authorization: 'Bearer ' + token, 'Content-Type': 'application/json' };
+
+    const peso = (n) => '₱' + Number(n || 0).toLocaleString('en-PH', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    const esc = (s) => String(s || '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+    const fmtDate = (iso) => {
+      if (!iso) return '—';
+      try {
+        const d = new Date(iso);
+        return d.toLocaleDateString('en-PH', { month: 'short', day: 'numeric', year: 'numeric' }) + ' ' + d.toLocaleTimeString('en-PH', { hour: '2-digit', minute: '2-digit' });
+      } catch { return iso; }
+    };
+
+    let payoutsEnabled = false;
+    let globalUsers = [];
+    let globalCodes = [];
+    let globalTradein = [];
+    let globalWithdrawals = [];
+    let userFilterMode = 'all';
+    let codeFilterMode = 'all';
+    let wdFilterMode = 'all';
+
+    function flash(text, ok) {
+      const el = document.getElementById('msg');
+      el.textContent = text;
+      el.className = 'banner show' + (ok ? ' ok' : '');
+      setTimeout(() => {
+        if (el.className.includes('show')) el.className = 'banner';
+      }, 5000);
+    }
+
+    async function api(url, opts = {}) {
+      const res = await fetch(url, { headers, ...opts });
+      const data = await res.json().catch(() => ({}));
+      if (res.status === 401 || res.status === 403) {
+        if (data.error && data.error.includes('Admin')) {
+          flash(data.error);
+        } else {
+          location.href = '/login.html';
+        }
+        throw new Error(data.error || 'Access denied');
+      }
+      if (!res.ok) throw new Error(data.error || 'Request failed');
+      return data;
+    }
+
+    function generateRandomCode() {
+      const chars = '23456789ABCDEFGHJKLMNPQRSTUVWXYZ';
+      let result = '';
+      for (let i = 0; i < 8; i++) result += chars[Math.floor(Math.random() * chars.length)];
+      return result;
+    }
+
+    function randomizeSlots() {
+      document.getElementById('codeSlot1').value = generateRandomCode();
+      document.getElementById('codeSlot2').value = generateRandomCode();
+      document.getElementById('codeSlot3').value = generateRandomCode();
+    }
+
+    function renderHomeKPIs(overview) {
+      payoutsEnabled = overview.weekly_payout_enabled;
+      const btn = document.getElementById('togglePayoutsBtn');
+      btn.textContent = payoutsEnabled ? 'Payouts: OPEN' : 'Payouts: CLOSED';
+      btn.className = 'btn btn-sm ' + (payoutsEnabled ? 'btn-mint' : 'btn-ghost');
+
+      const kpis = overview.kpis || {};
+      document.getElementById('kpiTradeinDeposit').textContent = peso(kpis.tradein_deposit);
+      document.getElementById('kpiTradeinRef').textContent = peso(kpis.tradein_ref);
+      document.getElementById('kpiTotalCode').textContent = Number(kpis.total_code || 0).toLocaleString();
+      document.getElementById('kpiAvailableCodes').textContent = Number(overview.available_codes || 0) + ' Available in vault';
+      document.getElementById('freeCodesNotice').textContent = '(' + Number(overview.available_codes || 0) + ' available)';
+      document.getElementById('kpiTotalCodeBuy').textContent = Number(kpis.total_code_buy || 0).toLocaleString();
+      document.getElementById('kpiTotalBinary').textContent = peso(kpis.total_binary);
+      document.getElementById('lastUpdatedText').textContent = 'Synced ' + new Date().toLocaleTimeString();
+
+      // Wallet totals bar
+      const w = overview.wallets || {};
+      document.getElementById('sysBinaryRef').textContent = peso(w.binary_ref || 0);
+      document.getElementById('sysTradeRef').textContent  = peso(w.tradein_ref || 0);
+      document.getElementById('sysCycle').textContent     = peso(w.tradein_cycle || 0);
+    }
+
+    function renderUsers() {
+      const query = document.getElementById('userSearch').value.trim().toLowerCase();
+      let list = globalUsers;
+      if (userFilterMode === 'active') list = list.filter((u) => u.status === 'active');
+      else if (userFilterMode === 'inactive') list = list.filter((u) => u.status === 'inactive');
+      else if (userFilterMode === 'expired') list = list.filter((u) => u.status === 'expired');
+
+      if (query) {
+        list = list.filter((u) => String(u.id).includes(query) || (u.mobile_number && u.mobile_number.toLowerCase().includes(query)) || (u.sponsor_mobile && u.sponsor_mobile.toLowerCase().includes(query)));
+      }
+
+      document.getElementById('userCountAll').textContent = globalUsers.length;
+      document.getElementById('kpiTradeinCount').textContent = globalUsers.filter(u => u.status === 'active').length + ' Active accounts';
+
+      const dl = document.getElementById('memberDatalist');
+      dl.innerHTML = globalUsers.map(u => '<option value="' + esc(u.mobile_number) + '">ID #' + u.id + ' (' + esc(u.status) + ')</option>').join('');
+
+      const tbody = document.getElementById('userTableBody');
+      if (!list.length) {
+        tbody.innerHTML = '<tr><td colspan="11" style="padding:20px;text-align:center" class="muted">No members found.</td></tr>';
+        return;
+      }
+
+      tbody.innerHTML = list.map((u) => {
+        const statusBadge = u.status === 'active'
+          ? '<span class="badge-tag tag-active">Active</span>'
+          : u.status === 'inactive'
+          ? '<span class="badge-tag tag-pending">Inactive</span>'
+          : u.status === 'expired'
+          ? '<span class="badge-tag tag-expired">Expired</span>'
+          : '<span class="badge-tag tag-rejected">' + esc(u.status) + '</span>';
+
+        const roleBadge = u.role === 'admin' ? ' <span class="badge-tag" style="background:#0b4d2c;color:#fff">Admin</span>' : '';
+        const sponsorText = u.sponsor_mobile ? esc(u.sponsor_mobile) : '<span class="muted">—</span>';
+        const deleteBtn = u.role === 'admin'
+          ? '<span class="tiny muted">Protected</span>'
+          : '<button data-del-id="' + u.id + '" data-del-mobile="' + esc(u.mobile_number) + '" class="btn-admin-del" style="margin-right:4px">Delete</button>' +
+            (u.status === 'banned'
+              ? '<button data-ban-id="' + u.id + '" data-ban-mobile="' + esc(u.mobile_number) + '" data-ban-current="banned" class="btn-admin-unban">Unban</button>'
+              : '<button data-ban-id="' + u.id + '" data-ban-mobile="' + esc(u.mobile_number) + '" data-ban-current="active" class="btn-admin-ban">Ban</button>'
+            );
+
+        return '<tr>' +
+          '<td><strong>#' + u.id + '</strong></td>' +
+          '<td><strong>' + esc(u.mobile_number) + '</strong>' + roleBadge + '</td>' +
+          '<td>' + statusBadge + '</td>' +
+          '<td>' + sponsorText + '</td>' +
+          '<td>' + (u.directs || 0) + '</td>' +
+          '<td style="color:#0f7a45;font-weight:700">' + peso(u.total_binary_earnings) + '</td>' +
+          '<td>' + peso(u.binary_ref_balance) + '</td>' +
+          '<td>' + peso(u.tradein_ref_balance) + '</td>' +
+          '<td>' + peso(u.tradein_cycle_balance) + '</td>' +
+          '<td class="tiny muted">' + fmtDate(u.created_at) + '</td>' +
+          '<td style="text-align:right">' + deleteBtn + '</td>' +
+        '</tr>';
+      }).join('');
+
+      document.querySelectorAll('button[data-del-id]').forEach((btn) => {
+        btn.onclick = async () => {
+          const id = btn.dataset.delId;
+          const mobile = btn.dataset.delMobile;
+          if (!confirm('Permanently delete member ' + mobile + ' (ID #' + id + ')? This will reparent downlines.')) return;
+          try {
+            await api('/api/admin/users/' + id, { method: 'DELETE' });
+            flash('Member ' + mobile + ' deleted.', true);
+            refreshAll();
+          } catch (e) { flash(e.message); }
+        };
+      });
+
+      document.querySelectorAll('button[data-ban-id]').forEach((btn) => {
+        btn.onclick = async () => {
+          const id = btn.dataset.banId;
+          const mobile = btn.dataset.banMobile;
+          const current = btn.dataset.banCurrent;
+          const action = current === 'banned' ? 'unban' : 'ban';
+          if (!confirm((action === 'ban' ? 'Ban' : 'Unban') + ' member ' + mobile + ' (ID #' + id + ')?')) return;
+          try {
+            const d = await api('/api/admin/users/' + id + '/ban', { method: 'POST', body: '{}' });
+            flash('Member ' + mobile + ' is now ' + d.status + '.', true);
+            refreshAll();
+          } catch (e) { flash(e.message); }
+        };
+      });
+    }
+
+    function renderCodes() {
+      let list = globalCodes;
+      if (codeFilterMode === 'available') list = list.filter((c) => c.status === 'available');
+      else if (codeFilterMode === 'assigned') list = list.filter((c) => c.status === 'assigned');
+      else if (codeFilterMode === 'used') list = list.filter((c) => c.status === 'used');
+
+      const tbody = document.getElementById('codeTableBody');
+      if (!list.length) {
+        tbody.innerHTML = '<tr><td colspan="6" style="padding:20px;text-align:center" class="muted">No activation codes found in this filter.</td></tr>';
+        return;
+      }
+
+      tbody.innerHTML = list.map((c) => {
+        const badge = c.status === 'available'
+          ? '<span class="badge-tag tag-available">Available</span>'
+          : c.status === 'assigned'
+          ? '<span class="badge-tag tag-assigned">Assigned</span>'
+          : '<span class="badge-tag tag-used">Used</span>';
+
+        const assignedMobile = c.assigned_mobile ? esc(c.assigned_mobile) : '<span class="muted">—</span>';
+
+        return '<tr>' +
+          '<td>#' + c.id + '</td>' +
+          '<td><code style="font-weight:700;color:#0b4d2c">' + esc(c.code) + '</code></td>' +
+          '<td>' + badge + '</td>' +
+          '<td>' + assignedMobile + '</td>' +
+          '<td class="tiny muted">' + fmtDate(c.created_at) + '</td>' +
+          '<td class="tiny muted">' + fmtDate(c.used_at) + '</td>' +
+        '</tr>';
+      }).join('');
+    }
+
+    function renderTradein() {
+      const tbody = document.getElementById('tradeinTableBody');
+      document.getElementById('tradeinSummaryText').textContent = globalTradein.length + ' Total Packages (' + globalTradein.filter(p => p.cycle_status === 'active').length + ' Active)';
+
+      if (!globalTradein.length) {
+        tbody.innerHTML = '<tr><td colspan="7" style="padding:20px;text-align:center" class="muted">No trade-in packages opened yet.</td></tr>';
+        return;
+      }
+
+      tbody.innerHTML = globalTradein.map((p) => {
+        const badge = p.cycle_status === 'active'
+          ? '<span class="badge-tag tag-active">Active</span>'
+          : '<span class="badge-tag tag-approved">Completed</span>';
+
+        const payouts = (p.payouts_completed || 0) + ' / 4 payouts';
+
+        return '<tr>' +
+          '<td><strong>#' + p.id + '</strong></td>' +
+          '<td><strong>' + esc(p.mobile_number) + '</strong></td>' +
+          '<td style="font-weight:600">' + peso(p.capital) + '</td>' +
+          '<td style="color:#0f7a45;font-weight:700">' + peso(p.total_return) + '</td>' +
+          '<td>' + payouts + '</td>' +
+          '<td>' + badge + '</td>' +
+          '<td class="tiny muted">' + fmtDate(p.start_date) + '</td>' +
+        '</tr>';
+      }).join('');
+    }
+
+    function renderWithdrawals() {
+      let list = globalWithdrawals;
+      if (wdFilterMode === 'tradein') list = list.filter((w) => w.wallet_type.includes('tradein'));
+      else if (wdFilterMode === 'binary') list = list.filter((w) => w.wallet_type.includes('binary'));
+      else if (wdFilterMode === 'pending') list = list.filter((w) => w.status === 'pending');
+
+      const tbody = document.getElementById('wdTableBody');
+      if (!list.length) {
+        tbody.innerHTML = '<tr><td colspan="8" style="padding:20px;text-align:center" class="muted">No withdrawal requests found.</td></tr>';
+        return;
+      }
+
+      tbody.innerHTML = list.map((w) => {
+        const badge = w.status === 'pending'
+          ? '<span class="badge-tag tag-pending">Pending</span>'
+          : w.status === 'approved'
+          ? '<span class="badge-tag tag-approved">Approved</span>'
+          : '<span class="badge-tag tag-rejected">Rejected</span>';
+
+        const walletLabel = w.wallet_type === 'binary_ref'
+          ? 'Binary Referral'
+          : w.wallet_type === 'tradein_ref'
+          ? 'Trade-In Referral'
+          : 'Trade-In Cycle';
+
+        const actions = w.status === 'pending'
+          ? '<button data-wd-id="' + w.id + '" data-wd-act="approve" class="btn-admin-action btn-admin-approve" style="margin-right:6px">Approve</button>' +
+            '<button data-wd-id="' + w.id + '" data-wd-act="reject" class="btn-admin-action btn-admin-reject">Reject</button>'
+          : '<span class="tiny muted">Reviewed</span>';
+
+        return '<tr>' +
+          '<td><strong>#' + w.id + '</strong></td>' +
+          '<td><strong>' + esc(w.mobile_number) + '</strong></td>' +
+          '<td>' + walletLabel + '</td>' +
+          '<td style="font-weight:600">' + peso(w.amount) + '</td>' +
+          '<td>' + peso(w.fee) + ' / <strong style="color:#0f7a45">' + peso(w.net_amount) + '</strong></td>' +
+          '<td>' + badge + '</td>' +
+          '<td class="tiny muted">' + fmtDate(w.created_at) + '</td>' +
+          '<td style="text-align:right">' + actions + '</td>' +
+        '</tr>';
+      }).join('');
+
+      document.querySelectorAll('button[data-wd-id]').forEach((btn) => {
+        btn.onclick = async () => {
+          const id = btn.dataset.wdId;
+          const act = btn.dataset.wdAct;
+          try {
+            await api('/api/admin/withdrawals/' + id + '/review', {
+              method: 'POST',
+              body: JSON.stringify({ action: act }),
+            });
+            flash('Withdrawal #' + id + ' ' + act + 'd successfully.', true);
+            refreshAll();
+          } catch (e) { flash(e.message); }
+        };
+      });
+    }
+
+    async function refreshAll() {
+      try {
+        const [overview, usersData, tradeinData, withdrawalsData, codesData] = await Promise.all([
+          api('/api/admin/overview'),
+          api('/api/admin/users'),
+          api('/api/admin/tradein'),
+          api('/api/admin/withdrawals'),
+          api('/api/admin/codes'),
+        ]);
+
+        globalUsers = usersData.users || [];
+        globalTradein = tradeinData.packages || [];
+        globalWithdrawals = withdrawalsData.withdrawals || [];
+        globalCodes = codesData.codes || [];
+
+        renderHomeKPIs(overview);
+        renderUsers();
+        renderCodes();
+        renderTradein();
+        renderWithdrawals();
+      } catch (err) {
+        flash(err.message);
+      }
+    }
+
+    document.getElementById('logoutBtn').onclick = () => {
+      localStorage.removeItem('it_token');
+      location.href = '/login.html';
+    };
+
+    document.getElementById('btnRandomizeSlots').onclick = randomizeSlots;
+
+    document.getElementById('btnMintCustom').onclick = async () => {
+      const s1 = document.getElementById('codeSlot1').value.trim();
+      const s2 = document.getElementById('codeSlot2').value.trim();
+      const s3 = document.getElementById('codeSlot3').value.trim();
+      const customCodes = [s1, s2, s3].filter(Boolean);
+
+      try {
+        const payload = customCodes.length > 0 ? { codes: customCodes } : { count: 3 };
+        const data = await api('/api/admin/codes', {
+          method: 'POST',
+          body: JSON.stringify(payload),
+        });
+        flash('Successfully generated ' + data.codes.length + ' code(s): ' + data.codes.join(', '), true);
+        document.getElementById('codeSlot1').value = '';
+        document.getElementById('codeSlot2').value = '';
+        document.getElementById('codeSlot3').value = '';
+        refreshAll();
+      } catch (e) { flash(e.message); }
+    };
+
+    document.getElementById('btnSendCodes').onclick = async () => {
+      const mobile = document.getElementById('sendTargetMobile').value.trim();
+      const qty = Number(document.getElementById('sendQty').value) || 1;
+      if (!mobile) return flash('Please enter a target member mobile / username.');
+
+      try {
+        const data = await api('/api/admin/codes/send', {
+          method: 'POST',
+          body: JSON.stringify({ mobile_number: mobile, qty }),
+        });
+        flash('Sent ' + data.codes.length + ' code(s) to member ' + data.mobile + '.', true);
+        document.getElementById('sendTargetMobile').value = '';
+        document.getElementById('sendQty').value = 1;
+        refreshAll();
+      } catch (e) { flash(e.message); }
+    };
+
+    document.getElementById('togglePayoutsBtn').onclick = async () => {
+      try {
+        const data = await api('/api/admin/settings/payouts', {
+          method: 'POST',
+          body: JSON.stringify({ enabled: !payoutsEnabled }),
+        });
+        flash('Weekly payouts ' + (data.weekly_payout_enabled ? 'opened' : 'closed') + '.', true);
+        refreshAll();
+      } catch (e) { flash(e.message); }
+    };
+
+    const processYieldsHandler = async () => {
+      try {
+        const data = await api('/api/admin/process-yields', { method: 'POST', body: '{}' });
+        flash('Yields processed: ' + data.updated + ' of ' + data.processed + ' active package(s) updated.', true);
+        refreshAll();
+      } catch (e) { flash(e.message); }
+    };
+    document.getElementById('runYieldsBtn').onclick = processYieldsHandler;
+    document.getElementById('btnProcessTradeinYields').onclick = processYieldsHandler;
+
+    // Filters
+    document.querySelectorAll('[data-userfilter]').forEach((btn) => {
+      btn.onclick = () => {
+        document.querySelectorAll('[data-userfilter]').forEach((b) => b.classList.remove('active'));
+        btn.classList.add('active');
+        userFilterMode = btn.dataset.userfilter;
+        renderUsers();
+      };
+    });
+    document.getElementById('userSearch').oninput = renderUsers;
+
+    document.querySelectorAll('[data-codefilter]').forEach((btn) => {
+      btn.onclick = () => {
+        document.querySelectorAll('[data-codefilter]').forEach((b) => b.classList.remove('active'));
+        btn.classList.add('active');
+        codeFilterMode = btn.dataset.codefilter;
+        renderCodes();
+      };
+    });
+
+    document.querySelectorAll('[data-wdfilter]').forEach((btn) => {
+      btn.onclick = () => {
+        document.querySelectorAll('[data-wdfilter]').forEach((b) => b.classList.remove('active'));
+        btn.classList.add('active');
+        wdFilterMode = btn.dataset.wdfilter;
+        renderWithdrawals();
+      };
+    });
+
+    randomizeSlots();
+    refreshAll();
+  </script>
+</body>
+</html>

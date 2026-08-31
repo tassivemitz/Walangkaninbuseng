@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Register · Infinite Trading</title>
+  <meta name="description"
+    content="Create your Infinite Trading account. Enter your mobile number, password, and sponsor's mobile number to get started." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,560&family=Sora:wght@400;500;600;700&display=swap"
+    rel="stylesheet" />
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+
+<body>
+  <div class="auth-shell">
+    <aside class="auth-art">
+      <a class="auth-logo" href="/">
+        <img src="/images/site-logo.png" alt="Infinite Trading" />
+      </a>
+      <div>
+        <p class="kicker">Join the network</p>
+        <p class="muted">Binary earnings cap at ₱3,000. Earn referral bonuses, pairing income, and Trade-In yield.</p>
+      </div>
+      <div class="stats-band"
+        style="grid-template-columns: repeat(3, 1fr); margin: 0; padding: 0; gap: 10px; width: 100%; max-width: 380px;">
+        <div class="stat" style="text-align: center;"><span class="tiny">Entry</span><b>₱300</b></div>
+        <div class="stat" style="text-align: center;"><span class="tiny">Cap</span><b>₱3,000</b></div>
+        <div class="stat" style="text-align: center;"><span class="tiny">Trade-In</span><b>120%</b></div>
+      </div>
+    </aside>
+    <section class="auth-form">
+      <form id="form" class="panel form" autocomplete="off">
+        <a class="form-logo" href="/"><img src="/images/site-logo.png" alt="Infinite Trading" /></a>
+        <h1>Create account</h1>
+        <p class="muted">Takes less than a minute.</p>
+        <p id="error" class="err"></p>
+
+        <label class="field">Mobile number
+          <input id="mobile_input" type="text" inputmode="numeric" autocomplete="off" autocorrect="off"
+            autocapitalize="off" spellcheck="false" required placeholder="09XXXXXXXXX" />
+        </label>
+
+        <label class="field">Password
+          <input id="password_input" type="text" class="pwd-masked" minlength="6" autocomplete="off" autocorrect="off"
+            autocapitalize="off" spellcheck="false" required placeholder="••••••••" />
+        </label>
+
+        <p id="sponsorNotice" class="sponsor-notice"></p>
+
+        <button class="btn" id="submitBtn" style="width:100%;margin-top:14px">Create Account</button>
+        <p class="center">Already in? <a href="/login.html">Sign in</a></p>
+      </form>
+    </section>
+  </div>
+  <script>
+    const params = new URLSearchParams(location.search);
+    const mobInput = document.getElementById('mobile_input');
+    const pwdInput = document.getElementById('password_input');
+    const sponsorNotice = document.getElementById('sponsorNotice');
+
+    // Auto-capture sponsor from referral link
+    const urlSponsor = params.get('sponsor');
+    if (urlSponsor) {
+      sponsorNotice.textContent = '✓ Referred by ' + urlSponsor;
+      sponsorNotice.classList.add('show');
+    }
+
+    // Autofill wipe
+    let userTouched = false;
+    ['input', 'keydown', 'paste', 'focus'].forEach(ev => {
+      mobInput.addEventListener(ev, () => { userTouched = true; });
+      pwdInput.addEventListener(ev, () => { userTouched = true; });
+    });
+
+    const wipeAutofill = () => {
+      if (!userTouched) {
+        if (mobInput.value.includes('@') || (mobInput.value && !userTouched)) {
+          mobInput.value = '';
+          pwdInput.value = '';
+        }
+      }
+    };
+
+    window.addEventListener('pageshow', () => { mobInput.value = ''; pwdInput.value = ''; });
+    window.addEventListener('DOMContentLoaded', wipeAutofill);
+    window.addEventListener('load', wipeAutofill);
+    const interval = setInterval(wipeAutofill, 40);
+    setTimeout(() => clearInterval(interval), 3000);
+
+    document.getElementById('form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const errEl = document.getElementById('error');
+      errEl.classList.remove('show');
+      const mobileVal = mobInput.value.trim();
+      const pwdVal = pwdInput.value;
+
+      const submitBtn = document.getElementById('submitBtn');
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Creating account…';
+
+      const res = await fetch('/api/auth/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          mobile_number: mobileVal,
+          password: pwdVal,
+          sponsor_mobile: urlSponsor || undefined,
+        }),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        errEl.textContent = data.error || 'Registration failed.';
+        errEl.classList.add('show');
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Create Account';
+        return;
+      }
+      localStorage.setItem('it_token', data.token);
+      location.href = '/dashboard.html';
+    });
+  </script>
+</body>
+
+</html>

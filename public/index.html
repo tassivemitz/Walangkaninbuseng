@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Infinite Trading — Building Your Future, Beyond Limits</title>
+  <meta name="description" content="Infinite Trading — Join the Binary Program with a ₱300 entry, or invest in the Trade-In Program for 120% ROI in 12 days. Earn referral commissions on 4 levels." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Sora:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body class="landing">
+  <!-- Animated background orbs -->
+  <div class="orbs">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+
+  <!-- Cursor glow -->
+  <div class="cursor-glow" id="cursorGlow"></div>
+
+  <!-- Scrolling ticker -->
+  <div class="ticker">
+    <div class="ticker-track" id="tickerTrack">
+      <span>✦ Entry Fee ₱300</span>
+      <span>✦ Binary Cap ₱3,000</span>
+      <span>✦ Direct Referral ₱50</span>
+      <span>✦ Indirect L2–L4 ₱5 each</span>
+      <span>✦ Pairing Bonus ₱50 / pair</span>
+      <span>✦ Max 10 Pairs / Day</span>
+      <span>✦ Trade-In Min ₱1,000</span>
+      <span>✦ 120% ROI in 12 Days</span>
+      <span>✦ Payouts Every 3 Days</span>
+      <span>✦ L1 Trade-In Ref 10%</span>
+      <span>✦ L2 Ref 5% · L3 Ref 3% · L4 Ref 2%</span>
+      <span>✦ Min Withdrawal ₱100</span>
+      <span>✦ Entry Fee ₱300</span>
+      <span>✦ Binary Cap ₱3,000</span>
+      <span>✦ Direct Referral ₱50</span>
+      <span>✦ Indirect L2–L4 ₱5 each</span>
+      <span>✦ Pairing Bonus ₱50 / pair</span>
+      <span>✦ Max 10 Pairs / Day</span>
+      <span>✦ Trade-In Min ₱1,000</span>
+      <span>✦ 120% ROI in 12 Days</span>
+      <span>✦ Payouts Every 3 Days</span>
+      <span>✦ L1 Trade-In Ref 10%</span>
+      <span>✦ L2 Ref 5% · L3 Ref 3% · L4 Ref 2%</span>
+      <span>✦ Min Withdrawal ₱100</span>
+    </div>
+  </div>
+
+  <main class="wrap">
+    <section class="hero">
+      <div class="hero-logo reveal d1">
+        <img src="/images/site-logo.png" alt="Infinite Trading — Building Your Future, Beyond Limits." />
+      </div>
+      <div>
+        <p class="kicker"><span class="pulse-dot"></span>Premier platform for financial growth</p>
+        <h1 class="reveal d2" style="font-size: clamp(30px, 4vw, 46px); margin: 8px 0 14px; line-height: 1.15;">Building Your Future,<br>Beyond Limits.</h1>
+        <p class="lede reveal d3">Bridging traditional and modern trading. Start with a ₱300 entry in the Binary Program or invest in the Trade-In Program for a <strong>120% return in 12 days</strong>.</p>
+        <div class="cta reveal d4">
+          <a class="btn" href="/register.html" id="ctaRegister">Register Now</a>
+          <a class="btn btn-ghost" href="/login.html" id="ctaLogin">Login</a>
+          <button class="btn btn-ghost" type="button" data-open-plan id="ctaViewPlan">View compensation plan</button>
+        </div>
+
+        <div class="stats-band reveal d5">
+          <div class="stat"><span class="tiny">Entry</span><b>₱300</b></div>
+          <div class="stat"><span class="tiny">Binary cap</span><b>₱3,000</b></div>
+          <div class="stat"><span class="tiny">Trade-in min</span><b>₱1,000</b></div>
+          <div class="stat"><span class="tiny">ROI</span><b>120%</b></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="land-foot">
+    <span>© 2024 Infinite Trading · All rights reserved</span>
+  </footer>
+
+  <!-- Compensation Plan Modal -->
+  <div class="plan-modal" id="planModal" hidden>
+    <div class="plan-modal-backdrop" data-close-plan></div>
+    <div class="plan-modal-sheet" role="dialog" aria-modal="true" aria-labelledby="planTitle">
+      <header class="plan-modal-head">
+        <div>
+          <p class="kicker">Programs</p>
+          <h2 id="planTitle">Compensation plan</h2>
+        </div>
+        <button class="plan-close" type="button" data-close-plan aria-label="Close">×</button>
+      </header>
+
+      <div class="plan-tabs" role="tablist">
+        <button type="button" class="plan-tab on" data-tab="highlights">Highlights</button>
+        <button type="button" class="plan-tab" data-tab="binary">Binary</button>
+        <button type="button" class="plan-tab" data-tab="tradein">Trade-In</button>
+        <button type="button" class="plan-tab" data-tab="wallets">Wallets</button>
+        <button type="button" class="plan-tab" data-tab="steps">How it works</button>
+      </div>
+
+      <div class="plan-modal-body">
+        <section class="plan-pane on" id="tab-highlights">
+          <div class="hl">
+            <article class="panel card">
+              <h3>Low capital</h3>
+              <p>Only a ₱300 entry fee required to start an account.</p>
+            </article>
+            <article class="panel card">
+              <h3>Fast ROI</h3>
+              <p>120% total return in the Trade-In Program within 12 days (payouts every 3 days).</p>
+            </article>
+            <article class="panel card">
+              <h3>3-wallet system</h3>
+              <p>Separate management of binary, referral, and trade-in yield earnings.</p>
+            </article>
+            <article class="panel card">
+              <h3>Instant sign-up</h3>
+              <p>Register using only your mobile number and password — binary earnings start immediately.</p>
+            </article>
+          </div>
+          <div class="stats-band">
+            <div class="stat"><span class="tiny">Entry</span><b>₱300</b></div>
+            <div class="stat"><span class="tiny">Binary cap</span><b>₱3,000</b></div>
+            <div class="stat"><span class="tiny">Trade-in min</span><b>₱1,000</b></div>
+            <div class="stat"><span class="tiny">Trade-in ROI</span><b>120%</b></div>
+          </div>
+        </section>
+
+        <section class="plan-pane" id="tab-binary">
+          <h3>1. Entry &amp; Binary Matching</h3>
+          <div class="panel card plan-block">
+            <ul>
+              <li><strong>Entry fee:</strong> ₱300 per account (activation code required at registration)</li>
+              <li><strong>Direct referral:</strong> ₱50 for every direct referral you bring in</li>
+              <li><strong>Indirect referral:</strong> ₱5 from Level 2, Level 3, and Level 4 downlines</li>
+              <li><strong>Pairing / matching:</strong> ₱50 per pair (1 Left + 1 Right in your binary tree)</li>
+              <li><strong>Daily pairing limit:</strong> Maximum 10 pairs per day (₱500 / day max). No 5th-pair deduction and no flash out.</li>
+              <li><strong>Binary income cap:</strong> Maximum ₱3,000 gross per account. At ₱3,000 the account expires and needs a ₱300 renewal code to reopen matching.</li>
+            </ul>
+          </div>
+        </section>
+
+        <section class="plan-pane" id="tab-tradein">
+          <h3>2. Trade-In Investment (Passive Yield)</h3>
+          <div class="panel card plan-block">
+            <ul>
+              <li><strong>Total return:</strong> 120% ROI (includes original capital) over 12 days</li>
+              <li><strong>Minimum capital:</strong> ₱1,000 (yields ₱1,200 total in 12 days)</li>
+              <li><strong>Payout schedule:</strong> Every 3 days — ₱300 per cycle on a ₱1,000 package, across 4 cycles</li>
+              <li><strong>Expired account restriction:</strong> Account must be renewed (₱300 code) before accessing trade-in</li>
+              <li><strong>Downline commission</strong> (based on downline capital invested):
+                <ul>
+                  <li>Level 1 (Direct): 10%</li>
+                  <li>Level 2: 5%</li>
+                  <li>Level 3: 3%</li>
+                  <li>Level 4: 2%</li>
+                </ul>
+              </li>
+            </ul>
+          </div>
+        </section>
+
+        <section class="plan-pane" id="tab-wallets">
+          <h3>Earn in three wallets. Cash out by range.</h3>
+          <div class="detail-grid">
+            <article class="panel card">
+              <h3>Wallet 1 · Binary &amp; referral</h3>
+              <p>Direct ₱50, indirect ₱5 (L2–L4), and pairing ₱50 per match all flow into this wallet.</p>
+            </article>
+            <article class="panel card">
+              <h3>Wallet 2 · Trade-in referral</h3>
+              <p>Trade-in commissions on downline capital at Levels 1–4 (10/5/3/2%).</p>
+            </article>
+            <article class="panel card">
+              <h3>Wallet 3 · Trade-in cycle yield</h3>
+              <p>Every 3-day payout from your Trade-In investment — ₱300 per cycle on a ₱1,000 package.</p>
+            </article>
+            <article class="panel card">
+              <h3>Rules &amp; withdrawal fees</h3>
+              <p>Minimum ₱100 per request per wallet. Processing fee by amount:<br>
+                ₱100–₱1,000 = <strong>12%</strong><br>
+                ₱1,001–₱5,000 = <strong>10%</strong><br>
+                ₱5,001 &amp; up = <strong>8%</strong>
+              </p>
+            </article>
+          </div>
+        </section>
+
+        <section class="plan-pane" id="tab-steps">
+          <h3>3 easy steps</h3>
+          <div class="steps">
+            <article class="panel card">
+              <p class="step-n">Step 01</p>
+              <h3>Register</h3>
+              <p>Sign up with your mobile number, password, and your sponsor's mobile number.</p>
+            </article>
+            <article class="panel card">
+              <p class="step-n">Step 02</p>
+              <h3>Activate &amp; earn</h3>
+              <p>Receive referral and pairing bonuses immediately. Invest in Trade-In (min ₱1,000) for passive yield.</p>
+            </article>
+            <article class="panel card">
+              <p class="step-n">Step 03</p>
+              <h3>Withdraw</h3>
+              <p>Request payouts from any of your 3 wallets when the weekly payout window is open.</p>
+            </article>
+          </div>
+        </section>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Cursor glow
+    const glow = document.getElementById('cursorGlow');
+    document.addEventListener('mousemove', (e) => {
+      glow.style.left = e.clientX + 'px';
+      glow.style.top = e.clientY + 'px';
+      glow.classList.add('on');
+    });
+    document.addEventListener('mouseleave', () => glow.classList.remove('on'));
+
+    // Plan modal
+    const modal = document.getElementById('planModal');
+    const openPlan = () => { modal.hidden = false; document.body.classList.add('modal-open'); };
+    const closePlan = () => { modal.hidden = true; document.body.classList.remove('modal-open'); };
+
+    document.querySelectorAll('[data-open-plan]').forEach((el) => el.addEventListener('click', openPlan));
+    document.querySelectorAll('[data-close-plan]').forEach((el) => el.addEventListener('click', closePlan));
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !modal.hidden) closePlan(); });
+
+    document.querySelectorAll('.plan-tab').forEach((tab) => {
+      tab.addEventListener('click', () => {
+        document.querySelectorAll('.plan-tab').forEach((t) => t.classList.remove('on'));
+        document.querySelectorAll('.plan-pane').forEach((p) => p.classList.remove('on'));
+        tab.classList.add('on');
+        document.getElementById('tab-' + tab.dataset.tab).classList.add('on');
+      });
+    });
+
+    // Scroll-reveal for hero cards
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((e) => { if (e.isIntersecting) e.target.classList.add('in'); });
+    }, { threshold: 0.15 });
+    document.querySelectorAll('.landing .card').forEach((c) => observer.observe(c));
+
+    // If already logged in, redirect
+    const token = localStorage.getItem('it_token');
+    if (token) {
+      fetch('/api/me', { headers: { Authorization: 'Bearer ' + token } })
+        .then((r) => r.json())
+        .then((d) => {
+          if (d.user) location.href = d.user.role === 'admin' ? '/admin.html' : '/dashboard.html';
+        })
+        .catch(() => {});
+    }
+  </script>
+</body>
+</html>
