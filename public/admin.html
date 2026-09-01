@@ -1,302 +1,471 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Admin Dashboard · Infinite Trading</title>
+  <title>Admin Portal · Infinite Trading</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,560&family=Sora:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,560&family=Sora:wght@400;500;600;700&display=swap"
+    rel="stylesheet" />
   <link rel="stylesheet" href="/styles.css" />
 </head>
-<body class="admin-body">
-  <!-- Top Navigation -->
-  <header class="admin-header">
-    <div class="admin-wrap wrap">
-      <div class="admin-brand">
-        <span class="mark">∞</span>
-        <div>
-          <h1>ADMIN DASHBOARD</h1>
-          <span class="badge-live">● System Live</span>
+
+<body class="admin-terminal-body">
+  <!-- Mobile Drawer Backdrop Overlay -->
+  <div class="dash-sidebar-backdrop" id="adminSidebarBackdrop"></div>
+
+  <div class="admin-terminal-layout">
+    <!-- 1. FULL-HEIGHT ADMIN LEFT SIDEBAR (Desktop: Sticky / Mobile: Sliding Drawer) -->
+    <aside class="admin-sidebar" id="adminSidebar">
+      <!-- Mobile Close Button -->
+      <button type="button" class="dash-sidebar-close" id="adminSidebarClose" aria-label="Close Sidebar">✕</button>
+
+      <!-- Brand Logo at Top of Sidebar -->
+      <div class="admin-sidebar-brand">
+        <a href="/admin.html" style="display:inline-flex;align-items:center;text-decoration:none;">
+          <img src="/images/site-logo.png" alt="Infinite Trading" class="brand-logo" />
+        </a>
+        <div class="admin-brand-text">
+          <span class="admin-brand-title">ADMIN PANEL</span>
         </div>
       </div>
-      <div class="nav">
-        <button id="togglePayoutsBtn" class="btn btn-ghost btn-sm">Payouts: Loading...</button>
-        <button id="runYieldsBtn" class="btn btn-ghost btn-sm">Process yields</button>
-        <a class="btn btn-ghost btn-sm" href="/dashboard.html">Member desk</a>
-        <button id="logoutBtn" class="btn btn-sm">Sign out</button>
+
+      <!-- Navigation Tabs Menu Items -->
+      <div class="admin-sidebar-menu">
+        <button type="button" class="admin-nav-item active" data-nav-target="viewHome">
+          <span class="admin-nav-icon">🏠</span>
+          <span>Home / KPIs</span>
+        </button>
+
+        <button type="button" class="admin-nav-item" data-nav-target="viewMembers">
+          <span class="admin-nav-icon">👥</span>
+          <span>Member List</span>
+          <span class="admin-nav-badge" id="badgeNavMembers">0</span>
+        </button>
+
+        <button type="button" class="admin-nav-item" data-nav-target="viewVault">
+          <span class="admin-nav-icon">🔒</span>
+          <span>Code Vault</span>
+          <span class="admin-nav-badge" id="badgeNavCodes">0</span>
+        </button>
+
+        <button type="button" class="admin-nav-item" data-nav-target="viewTradein">
+          <span class="admin-nav-icon">📈</span>
+          <span>Trade-In Deposit</span>
+          <span class="admin-nav-badge" id="badgeNavTradein">0</span>
+        </button>
+
+        <button type="button" class="admin-nav-item" data-nav-target="viewWithdrawals">
+          <span class="admin-nav-icon">💳</span>
+          <span>Withdrawals</span>
+          <span class="admin-nav-badge" id="badgeNavWd">0</span>
+        </button>
       </div>
-    </div>
-  </header>
 
-  <main class="admin-wrap" style="padding: 24px 0 80px">
-    <div id="msg" class="banner" style="margin-bottom:20px"></div>
-
-    <!-- 1. HOME SECTION -->
-    <section class="admin-sec">
-      <div class="admin-sec-head">
-        <div>
-          <h2 class="admin-sec-title">HOME</h2>
-        </div>
-        <div class="tiny muted" id="lastUpdatedText">Synced</div>
+      <!-- Sidebar Footer -->
+      <div class="admin-sidebar-footer">
+        <button type="button" id="logoutSideBtn" class="admin-side-logout-btn">
+          <span>Sign Out ⏻</span>
+        </button>
       </div>
+    </aside>
 
-      <!-- 5 Metric Cards matching the reference diagram -->
-      <div class="kpi-row-1">
-        <div class="admin-card">
-          <div>
-            <p class="kpi-label">TOTAL TRADE-IN DEPOSIT</p>
-            <p class="kpi-val" id="kpiTradeinDeposit">₱0.00</p>
-            <p class="kpi-sub" id="kpiTradeinCount">0 Active accounts</p>
+    <!-- 2. MAIN RIGHT ADMIN AREA -->
+    <div class="admin-main-area">
+      <!-- Top Navigation Header -->
+      <header class="admin-top-bar">
+        <div class="admin-top-left">
+          <!-- Mobile Hamburger Toggle Button -->
+          <button type="button" class="dash-burger-btn" id="adminBurgerToggle" aria-label="Open Navigation Menu">
+            <span></span>
+            <span></span>
+            <span></span>
+          </button>
+          <!-- Mobile Header Brand Logo -->
+          <div class="dash-top-brand">
+            <a href="/admin.html">
+              <img src="/images/site-logo.png" alt="Infinite Trading" class="top-brand-logo" />
+            </a>
           </div>
-          <div class="kpi-icon">💰</div>
+          <!-- Live Breadcrumb Tag -->
+          <span class="admin-top-tag" id="currentViewTag">HOME OVERVIEW</span>
         </div>
 
-        <div class="admin-card gold">
-          <div>
-            <p class="kpi-label">TOTAL TRADE-IN REF</p>
-            <p class="kpi-val" id="kpiTradeinRef">₱0.00</p>
-            <p class="kpi-sub">Referral commission pool</p>
+        <div class="admin-top-right">
+          <div class="user-badge">
+            <span class="user-status-dot" id="systemStatusDot"></span>
+            <span style="font-size:11.5px;font-weight:700;color:#0b4d2c;">System Live</span>
           </div>
-          <div class="kpi-icon">👥</div>
+          <button id="togglePayoutsTopBtn" class="btn btn-sm btn-ghost"
+            style="font-size:11px;padding:6px 12px;">Payouts: Loading...</button>
+          <button id="logoutTopBtn" class="dash-logout-btn">
+            <span>Sign out</span>
+            <span class="logout-icon">⏻</span>
+          </button>
         </div>
+      </header>
 
-        <div class="admin-card mint">
-          <div>
-            <p class="kpi-label">TOTAL CODE</p>
-            <p class="kpi-val" id="kpiTotalCode">0</p>
-            <p class="kpi-sub" id="kpiAvailableCodes">0 Available in vault</p>
+      <!-- Scrollable Inner Content -->
+      <div class="admin-content-inner">
+        <div id="msg" class="banner"></div>
+
+        <!-- =========================================================
+             VIEW 1: HOME (5 KPI CARDS IN 2 ROWS + WALLET TOTALS)
+             ========================================================= -->
+        <section class="admin-view-panel active" id="viewHome">
+          <div class="admin-sec-head">
+            <div>
+              <h2 class="admin-sec-title">HOME</h2>
+              <p class="admin-sec-sub">OVERVIEW · 5 CORE METRIC INDICATORS</p>
+            </div>
+            <div class="tiny muted" id="lastUpdatedText">Synced</div>
           </div>
-          <div class="kpi-icon">🔐</div>
-        </div>
-      </div>
 
-      <div class="kpi-row-2">
-        <div class="admin-card">
-          <div>
-            <p class="kpi-label">TOTAL CODE BUY</p>
-            <p class="kpi-val" id="kpiTotalCodeBuy">0</p>
-            <p class="kpi-sub">Assigned & activated codes</p>
-          </div>
-          <div class="kpi-icon">🏷️</div>
-        </div>
+          <!-- 5 Metric Cards matching the reference diagram -->
+          <div class="kpi-row-1">
+            <!-- 1. TOTAL TRADE-IN DEPOSIT -->
+            <div class="admin-card">
+              <div>
+                <p class="kpi-label">TOTAL TRADE-IN DEPOSIT</p>
+                <p class="kpi-val" id="kpiTradeinDeposit">₱0.00</p>
+                <p class="kpi-sub" id="kpiTradeinCount">0 Active accounts</p>
+              </div>
+              <div class="kpi-icon">💰</div>
+            </div>
 
-        <div class="admin-card">
-          <div>
-            <p class="kpi-label">TOTAL BINARY</p>
-            <p class="kpi-val" id="kpiTotalBinary">₱0.00</p>
-            <p class="kpi-sub">Network match earnings</p>
-          </div>
-          <div class="kpi-icon">📈</div>
-        </div>
-      </div>
-    </section>
+            <!-- 2. TOTAL TRADE-IN REF -->
+            <div class="admin-card gold">
+              <div>
+                <p class="kpi-label">TOTAL TRADE-IN REF</p>
+                <p class="kpi-val" id="kpiTradeinRef">₱0.00</p>
+                <p class="kpi-sub">Referral commission pool</p>
+              </div>
+              <div class="kpi-icon">👥</div>
+            </div>
 
-    <!-- System Wallet Totals -->
-    <div class="wallet-totals-bar" id="walletTotalsBar">
-      <div class="wt-card">
-        <p class="wt-card-label">System · Binary Ref Balance</p>
-        <p class="wt-card-val" id="sysBinaryRef">₱0.00</p>
-      </div>
-      <div class="wt-card">
-        <p class="wt-card-label">System · Trade-In Ref Balance</p>
-        <p class="wt-card-val" id="sysTradeRef">₱0.00</p>
-      </div>
-      <div class="wt-card">
-        <p class="wt-card-label">System · Trade-In Cycle Balance</p>
-        <p class="wt-card-val" id="sysCycle">₱0.00</p>
-      </div>
-    </div>
-
-    <!-- 2. MEMBER LIST SECTION -->
-    <section class="admin-sec">
-      <div class="admin-sec-head">
-        <div>
-          <h2 class="admin-sec-title">MEMBER LIST</h2>
-          <p class="admin-sec-sub">WITH COMPLETE DETAILS · WITH DELETE USER</p>
-        </div>
-        <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
-          <input id="userSearch" class="ctrl-search" type="search" placeholder="Search by mobile or ID..." />
-          <div class="ctrl-tabs">
-            <button class="ctrl-tab active" data-userfilter="all">All (<span id="userCountAll">0</span>)</button>
-            <button class="ctrl-tab" data-userfilter="active">Active</button>
-            <button class="ctrl-tab" data-userfilter="inactive">Inactive</button>
-            <button class="ctrl-tab" data-userfilter="expired">Expired</button>
-          </div>
-        </div>
-      </div>
-
-      <div class="admin-table-panel table-wrap">
-        <table class="admin-table">
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>Mobile / Username</th>
-              <th>Status</th>
-              <th>Sponsor</th>
-              <th>Directs</th>
-              <th>Binary Earned</th>
-              <th>Binary Ref</th>
-              <th>Trade-In Ref</th>
-              <th>Trade-In Cycle</th>
-              <th>Joined Date</th>
-              <th style="text-align:right">Actions</th>
-            </tr>
-          </thead>
-          <tbody id="userTableBody">
-            <tr><td colspan="11" style="padding:20px;text-align:center" class="muted">Loading members...</td></tr>
-          </tbody>
-        </table>
-      </div>
-    </section>
-
-    <!-- 3. CODE VAULT SECTION -->
-    <section class="admin-sec">
-      <div class="admin-sec-head">
-        <div>
-          <h2 class="admin-sec-title">CODE VAULT</h2>
-          <p class="admin-sec-sub">GENERATE CODE ➔ SEND CODE</p>
-        </div>
-        <div class="ctrl-tabs">
-          <button class="ctrl-tab active" data-codefilter="all">All Codes</button>
-          <button class="ctrl-tab" data-codefilter="available">Available</button>
-          <button class="ctrl-tab" data-codefilter="assigned">Assigned</button>
-          <button class="ctrl-tab" data-codefilter="used">Used</button>
-        </div>
-      </div>
-
-      <div class="vault-container">
-        <!-- GENERATE CODE (Left Box) -->
-        <div class="vault-panel">
-          <div>
-            <h3>➔ GENERATE CODE</h3>
-            <p class="tiny muted" style="margin:0 0 10px">Fill custom code slots or mint 3 unique codes:</p>
-            <div class="slot-list">
-              <input id="codeSlot1" class="slot-input" type="text" placeholder="CODE SLOT 1" />
-              <input id="codeSlot2" class="slot-input" type="text" placeholder="CODE SLOT 2" />
-              <input id="codeSlot3" class="slot-input" type="text" placeholder="CODE SLOT 3" />
+            <!-- 3. TOTAL CODE -->
+            <div class="admin-card mint">
+              <div>
+                <p class="kpi-label">TOTAL CODE</p>
+                <p class="kpi-val" id="kpiTotalCode">0</p>
+                <p class="kpi-sub" id="kpiAvailableCodes">0 Available in vault</p>
+              </div>
+              <div class="kpi-icon">🔐</div>
             </div>
           </div>
-          <div style="display:flex;gap:8px;flex-wrap:wrap">
-            <button id="btnMintCustom" class="btn btn-sm">Generate Codes</button>
-            <button id="btnRandomizeSlots" class="btn btn-ghost btn-sm">Randomize Slots</button>
-          </div>
-        </div>
 
-        <!-- SEND CODE (Right Box) -->
-        <div class="vault-panel">
-          <div>
-            <h3>➔ SEND CODE</h3>
-            <p class="tiny muted" style="margin:0 0 10px">Transfer activation codes directly to a member account:</p>
-            <div class="send-grid">
-              <div class="send-field">
-                <label for="sendTargetMobile">USER NAME / MOBILE NUMBER</label>
-                <input id="sendTargetMobile" type="text" list="memberDatalist" placeholder="Select or enter mobile / username..." />
-                <datalist id="memberDatalist"></datalist>
+          <div class="kpi-row-2">
+            <!-- 4. TOTAL CODE BUY -->
+            <div class="admin-card">
+              <div>
+                <p class="kpi-label">TOTAL CODE BUY</p>
+                <p class="kpi-val" id="kpiTotalCodeBuy">0</p>
+                <p class="kpi-sub">Assigned & activated codes</p>
               </div>
-              <div class="send-field">
-                <label for="sendQty">QTY:</label>
-                <div class="qty-flex">
-                  <input id="sendQty" type="number" min="1" max="50" value="1" />
-                  <span class="tiny muted" id="freeCodesNotice">(0 available to send)</span>
+              <div class="kpi-icon">🏷️</div>
+            </div>
+
+            <!-- 5. TOTAL BINARY -->
+            <div class="admin-card">
+              <div>
+                <p class="kpi-label">TOTAL BINARY</p>
+                <p class="kpi-val" id="kpiTotalBinary">₱0.00</p>
+                <p class="kpi-sub">Network match earnings</p>
+              </div>
+              <div class="kpi-icon">📈</div>
+            </div>
+          </div>
+
+          <!-- System Wallet Totals Bar -->
+          <div class="wallet-totals-bar" style="margin-top:20px;">
+            <div class="wt-card">
+              <p class="wt-card-label">System · Binary Ref Balance</p>
+              <p class="wt-card-val" id="sysBinaryRef">₱0.00</p>
+            </div>
+            <div class="wt-card">
+              <p class="wt-card-label">System · Trade-In Ref Balance</p>
+              <p class="wt-card-val" id="sysTradeRef">₱0.00</p>
+            </div>
+            <div class="wt-card">
+              <p class="wt-card-label">System · Trade-In Cycle Balance</p>
+              <p class="wt-card-val" id="sysCycle">₱0.00</p>
+            </div>
+          </div>
+        </section>
+
+        <!-- =========================================================
+             VIEW 2: MEMBER LIST
+             ========================================================= -->
+        <section class="admin-view-panel" id="viewMembers">
+          <div class="admin-sec-head">
+            <div>
+              <h2 class="admin-sec-title">MEMBER LIST</h2>
+              <p class="admin-sec-sub">WITH COMPLETE DETAILS · WITH DELETE USER</p>
+            </div>
+            <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+              <input id="userSearch" class="ctrl-search" type="search" placeholder="Search by mobile or ID..." />
+              <div class="ctrl-tabs">
+                <button class="ctrl-tab active" data-userfilter="all">All (<span id="userCountAll">0</span>)</button>
+                <button class="ctrl-tab" data-userfilter="active">Active</button>
+                <button class="ctrl-tab" data-userfilter="inactive">Inactive</button>
+                <button class="ctrl-tab" data-userfilter="expired">Expired</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="admin-table-panel table-wrap">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Mobile / Username</th>
+                  <th>Status</th>
+                  <th>Sponsor</th>
+                  <th>Directs</th>
+                  <th>Binary Earned</th>
+                  <th>Binary Ref</th>
+                  <th>Trade-In Ref</th>
+                  <th>Trade-In Cycle</th>
+                  <th>Joined Date</th>
+                  <th style="text-align:right">Actions</th>
+                </tr>
+              </thead>
+              <tbody id="userTableBody">
+                <tr>
+                  <td colspan="11" style="padding:20px;text-align:center" class="muted">Loading members...</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- =========================================================
+             VIEW 3: CODE VAULT
+             ========================================================= -->
+        <section class="admin-view-panel" id="viewVault">
+          <div class="admin-sec-head">
+            <div>
+              <h2 class="admin-sec-title">CODE VAULT</h2>
+              <p class="admin-sec-sub">GENERATE CODE ➔ SEND CODE</p>
+            </div>
+            <div class="ctrl-tabs">
+              <button class="ctrl-tab active" data-codefilter="all">All Codes</button>
+              <button class="ctrl-tab" data-codefilter="available">Available</button>
+              <button class="ctrl-tab" data-codefilter="assigned">Assigned</button>
+              <button class="ctrl-tab" data-codefilter="used">Used</button>
+            </div>
+          </div>
+
+          <div class="vault-container">
+            <!-- GENERATE CODE (Left Box) -->
+            <div class="vault-panel">
+              <div>
+                <h3>➔ GENERATE CODE</h3>
+                <p class="tiny muted" style="margin:0 0 10px">Quick batch mint 8-character codes or fill custom slots:
+                </p>
+                <div style="margin-bottom:12px;">
+                  <span class="tiny" style="font-weight:700;color:var(--muted);display:block;margin-bottom:6px;">QUICK
+                    BULK MINT:</span>
+                  <div style="display:flex;gap:6px;flex-wrap:wrap;">
+                    <button type="button" class="btn btn-mint btn-sm" data-mint-count="1">+1 Code</button>
+                    <button type="button" class="btn btn-mint btn-sm" data-mint-count="5">+5 Codes</button>
+                    <button type="button" class="btn btn-mint btn-sm" data-mint-count="10">+10 Codes</button>
+                    <button type="button" class="btn btn-mint btn-sm" data-mint-count="20">+20 Codes</button>
+                    <button type="button" class="btn btn-mint btn-sm" data-mint-count="50">+50 Codes</button>
+                  </div>
+                </div>
+                <div class="slot-list">
+                  <input id="codeSlot1" class="slot-input" type="text" placeholder="CODE SLOT 1 (8 CHARS)" maxlength="8"
+                    style="text-transform:uppercase;font-family:ui-monospace,monospace;font-weight:700;" />
+                  <input id="codeSlot2" class="slot-input" type="text" placeholder="CODE SLOT 2 (8 CHARS)" maxlength="8"
+                    style="text-transform:uppercase;font-family:ui-monospace,monospace;font-weight:700;" />
+                  <input id="codeSlot3" class="slot-input" type="text" placeholder="CODE SLOT 3 (8 CHARS)" maxlength="8"
+                    style="text-transform:uppercase;font-family:ui-monospace,monospace;font-weight:700;" />
                 </div>
               </div>
+              <div style="display:flex;gap:8px;flex-wrap:wrap">
+                <button id="btnMintCustom" class="btn btn-sm">Generate Custom Slots</button>
+                <button id="btnRandomizeSlots" class="btn btn-ghost btn-sm">Randomize Slots</button>
+              </div>
+            </div>
+
+            <!-- SEND CODE (Right Box) -->
+            <div class="vault-panel">
+              <div>
+                <h3>➔ SEND CODE</h3>
+                <p class="tiny muted" style="margin:0 0 10px">Transfer activation codes directly to a code seller /
+                  member account:</p>
+                <div class="send-grid">
+                  <div class="send-field">
+                    <label for="sendTargetMobile">USER NAME / MOBILE NUMBER</label>
+                    <input id="sendTargetMobile" type="text" list="memberDatalist"
+                      placeholder="Select or enter mobile / username..." />
+                    <datalist id="memberDatalist"></datalist>
+                  </div>
+                  <div class="send-field">
+                    <label for="sendQty">QTY:</label>
+                    <div class="qty-flex">
+                      <input id="sendQty" type="number" min="1" max="50" value="1" />
+                      <span class="tiny muted" id="freeCodesNotice">(0 available to send)</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div>
+                <button id="btnSendCodes" class="btn btn-mint btn-sm" style="width:100%">SEND CODE</button>
+              </div>
             </div>
           </div>
-          <div>
-            <button id="btnSendCodes" class="btn btn-mint btn-sm" style="width:100%">SEND CODE</button>
+
+          <!-- Code Vault Inventory Table -->
+          <div class="admin-table-panel table-wrap">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Activation Code</th>
+                  <th>Status</th>
+                  <th>Assigned Seller</th>
+                  <th>Used By Member</th>
+                  <th>Created Date</th>
+                  <th>Used Date</th>
+                </tr>
+              </thead>
+              <tbody id="codeTableBody">
+                <tr>
+                  <td colspan="7" style="padding:20px;text-align:center" class="muted">Loading codes...</td>
+                </tr>
+              </tbody>
+            </table>
           </div>
-        </div>
-      </div>
+        </section>
 
-      <!-- Code Vault Inventory Table -->
-      <div class="admin-table-panel table-wrap">
-        <table class="admin-table">
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>Activation Code</th>
-              <th>Status</th>
-              <th>Assigned To</th>
-              <th>Created Date</th>
-              <th>Used Date</th>
-            </tr>
-          </thead>
-          <tbody id="codeTableBody">
-            <tr><td colspan="6" style="padding:20px;text-align:center" class="muted">Loading codes...</td></tr>
-          </tbody>
-        </table>
-      </div>
-    </section>
+        <!-- =========================================================
+             VIEW 4: TRADE-IN DEPOSIT
+             ========================================================= -->
+        <section class="admin-view-panel" id="viewTradein">
+          <div class="admin-sec-head">
+            <div>
+              <h2 class="admin-sec-title">TRADE-IN DEPOSIT:</h2>
+              <p class="admin-sec-sub">12-DAY CYCLES · 120% RETURN (3-DAY DIVIDENDS)</p>
+            </div>
+            <div style="display:flex;gap:10px;align-items:center">
+              <span class="tiny muted" id="tradeinSummaryText">0 Total Packages</span>
+              <button id="btnProcessTradeinYields" class="btn btn-mint btn-sm">Process Daily Yields</button>
+            </div>
+          </div>
 
-    <!-- 4. TRADE-IN DEPOSIT SECTION -->
-    <section class="admin-sec">
-      <div class="admin-sec-head">
-        <div>
-          <h2 class="admin-sec-title">TRADE-IN DEPOSIT:</h2>
-          <p class="admin-sec-sub">12-DAY CYCLES · 120% RETURN (3-DAY DIVIDENDS)</p>
-        </div>
-        <div style="display:flex;gap:10px;align-items:center">
-          <span class="tiny muted" id="tradeinSummaryText">0 Total Packages</span>
-          <button id="btnProcessTradeinYields" class="btn btn-mint btn-sm">Process Daily Yields</button>
-        </div>
-      </div>
+          <div class="admin-table-panel table-wrap">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Member Mobile / User</th>
+                  <th>Capital</th>
+                  <th>Total Return (120%)</th>
+                  <th>Cycle Progress</th>
+                  <th>Status</th>
+                  <th>Start Date</th>
+                </tr>
+              </thead>
+              <tbody id="tradeinTableBody">
+                <tr>
+                  <td colspan="7" style="padding:20px;text-align:center" class="muted">No trade-in deposits found.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
 
-      <div class="admin-table-panel table-wrap">
-        <table class="admin-table">
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>Member Mobile / User</th>
-              <th>Capital</th>
-              <th>Total Return (120%)</th>
-              <th>Cycle Progress</th>
-              <th>Status</th>
-              <th>Start Date</th>
-            </tr>
-          </thead>
-          <tbody id="tradeinTableBody">
-            <tr><td colspan="7" style="padding:20px;text-align:center" class="muted">No trade-in deposits found.</td></tr>
-          </tbody>
-        </table>
-      </div>
-    </section>
+        <!-- =========================================================
+             VIEW 5: WITHDRAWAL
+             ========================================================= -->
+        <section class="admin-view-panel" id="viewWithdrawals">
+          <div class="admin-sec-head">
+            <div>
+              <h2 class="admin-sec-title">WITHDRAWAL REQUESTS</h2>
+              <p class="admin-sec-sub">3 SEPARATE WALLET TYPES · COMPLETE BOUND ACCOUNT PAYOUT DETAILS</p>
+            </div>
+            <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
+              <input id="wdSearch" class="ctrl-search" type="search"
+                placeholder="Search by mobile, name, or account #..." style="min-width:240px;" />
+            </div>
+          </div>
 
-    <!-- 5. WITHDRAWAL SECTION -->
-    <section class="admin-sec">
-      <div class="admin-sec-head">
-        <div>
-          <h2 class="admin-sec-title">WITHDRAWAL:</h2>
-          <p class="admin-sec-sub">TRADE-IN & BINARY DISBURSEMENTS</p>
-        </div>
-        <div class="ctrl-tabs">
-          <button class="ctrl-tab active" data-wdfilter="all">ALL</button>
-          <button class="ctrl-tab" data-wdfilter="tradein">TRADE-IN</button>
-          <button class="ctrl-tab" data-wdfilter="binary">BINARY</button>
-          <button class="ctrl-tab" data-wdfilter="pending">PENDING</button>
-        </div>
-      </div>
+          <!-- 3 Payout Category Summary Cards -->
+          <div class="admin-wd-summary-grid">
+            <div class="admin-wd-summary-card">
+              <div>
+                <p class="title">⇄ Binary Referral Payouts</p>
+                <p class="val" id="sumWdBinaryNet">₱0.00</p>
+                <p class="sub"><span id="sumWdBinaryPending">0</span> Pending Review</p>
+              </div>
+              <span style="font-size:24px;">👥</span>
+            </div>
+            <div class="admin-wd-summary-card">
+              <div>
+                <p class="title">💛 Trade-In Referral Payouts</p>
+                <p class="val" id="sumWdTradeRefNet">₱0.00</p>
+                <p class="sub"><span id="sumWdTradeRefPending">0</span> Pending Review</p>
+              </div>
+              <span style="font-size:24px;">🎁</span>
+            </div>
+            <div class="admin-wd-summary-card">
+              <div>
+                <p class="title">📈 Trade-In Cycle Yields</p>
+                <p class="val" id="sumWdCycleNet">₱0.00</p>
+                <p class="sub"><span id="sumWdCyclePending">0</span> Pending Review</p>
+              </div>
+              <span style="font-size:24px;">⚡</span>
+            </div>
+          </div>
 
-      <div class="admin-table-panel table-wrap">
-        <table class="admin-table">
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>Member</th>
-              <th>Wallet Category</th>
-              <th>Requested Amount</th>
-              <th>Fee / Net Payout</th>
-              <th>Status</th>
-              <th>Date</th>
-              <th style="text-align:right">Actions</th>
-            </tr>
-          </thead>
-          <tbody id="wdTableBody">
-            <tr><td colspan="8" style="padding:20px;text-align:center" class="muted">No withdrawal requests found.</td></tr>
-          </tbody>
-        </table>
+          <!-- Filter Sub-Tabs for the 3 Withdrawal Types -->
+          <div
+            style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;margin-bottom:12px;">
+            <div class="ctrl-tabs" style="flex-wrap:wrap;">
+              <button class="ctrl-tab active" data-wdfilter="all">ALL (<span id="countWdAll">0</span>)</button>
+              <button class="ctrl-tab" data-wdfilter="binary_ref">⇄ BINARY REF (<span
+                  id="countWdBinary">0</span>)</button>
+              <button class="ctrl-tab" data-wdfilter="tradein_ref">💛 TRADE-IN REF (<span
+                  id="countWdTradeRef">0</span>)</button>
+              <button class="ctrl-tab" data-wdfilter="tradein_cycle">📈 CYCLE YIELD (<span
+                  id="countWdCycle">0</span>)</button>
+              <button class="ctrl-tab" data-wdfilter="pending">⏳ PENDING (<span id="countWdPending">0</span>)</button>
+              <button class="ctrl-tab" data-wdfilter="approved">APPROVED</button>
+              <button class="ctrl-tab" data-wdfilter="rejected">REJECTED</button>
+            </div>
+          </div>
+
+          <div class="admin-table-panel table-wrap">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Member</th>
+                  <th>Payout / Wallet Type</th>
+                  <th>Bound Payout Account (Destination)</th>
+                  <th>Gross Amount</th>
+                  <th>Fee / Net Payout</th>
+                  <th>Status</th>
+                  <th>Request Date</th>
+                  <th style="text-align:right">Actions</th>
+                </tr>
+              </thead>
+              <tbody id="wdTableBody">
+                <tr>
+                  <td colspan="9" style="padding:20px;text-align:center" class="muted">No withdrawal requests found.
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
       </div>
-    </section>
-  </main>
+    </div>
+  </div>
 
   <script>
     const token = localStorage.getItem('it_token');
@@ -346,6 +515,63 @@
       return data;
     }
 
+    // =========================================================
+    // SIDEBAR TAB SWITCHING & MOBILE DRAWER LOGIC
+    // =========================================================
+    const viewTitles = {
+      viewHome: 'HOME OVERVIEW',
+      viewMembers: 'MEMBER LIST',
+      viewVault: 'CODE VAULT',
+      viewTradein: 'TRADE-IN DEPOSIT',
+      viewWithdrawals: 'WITHDRAWALS',
+    };
+
+    const sidebarEl = document.getElementById('adminSidebar');
+    const backdropEl = document.getElementById('adminSidebarBackdrop');
+    const burgerToggle = document.getElementById('adminBurgerToggle');
+    const sidebarClose = document.getElementById('adminSidebarClose');
+
+    function openMobileDrawer() {
+      if (sidebarEl) sidebarEl.classList.add('open');
+      if (backdropEl) backdropEl.classList.add('show');
+      document.body.classList.add('sidebar-drawer-open');
+    }
+
+    function closeMobileDrawer() {
+      if (sidebarEl) sidebarEl.classList.remove('open');
+      if (backdropEl) backdropEl.classList.remove('show');
+      document.body.classList.remove('sidebar-drawer-open');
+    }
+
+    if (burgerToggle) burgerToggle.onclick = openMobileDrawer;
+    if (sidebarClose) sidebarClose.onclick = closeMobileDrawer;
+    if (backdropEl) backdropEl.onclick = closeMobileDrawer;
+
+    function switchAdminView(targetId) {
+      document.querySelectorAll('.admin-nav-item').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.navTarget === targetId);
+      });
+
+      document.querySelectorAll('.admin-view-panel').forEach(panel => {
+        panel.classList.toggle('active', panel.id === targetId);
+      });
+
+      const tag = document.getElementById('currentViewTag');
+      if (tag && viewTitles[targetId]) {
+        tag.textContent = viewTitles[targetId];
+      }
+
+      if (window.innerWidth <= 900) {
+        closeMobileDrawer();
+      }
+    }
+
+    document.querySelectorAll('.admin-nav-item[data-nav-target]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        switchAdminView(btn.dataset.navTarget);
+      });
+    });
+
     function generateRandomCode() {
       const chars = '23456789ABCDEFGHJKLMNPQRSTUVWXYZ';
       let result = '';
@@ -361,9 +587,13 @@
 
     function renderHomeKPIs(overview) {
       payoutsEnabled = overview.weekly_payout_enabled;
-      const btn = document.getElementById('togglePayoutsBtn');
-      btn.textContent = payoutsEnabled ? 'Payouts: OPEN' : 'Payouts: CLOSED';
-      btn.className = 'btn btn-sm ' + (payoutsEnabled ? 'btn-mint' : 'btn-ghost');
+
+      // Top bar button
+      const topBtn = document.getElementById('togglePayoutsTopBtn');
+      if (topBtn) {
+        topBtn.textContent = payoutsEnabled ? 'Payouts: OPEN' : 'Payouts: CLOSED';
+        topBtn.className = 'btn btn-sm ' + (payoutsEnabled ? 'btn-mint' : 'btn-ghost');
+      }
 
       const kpis = overview.kpis || {};
       document.getElementById('kpiTradeinDeposit').textContent = peso(kpis.tradein_deposit);
@@ -375,11 +605,28 @@
       document.getElementById('kpiTotalBinary').textContent = peso(kpis.total_binary);
       document.getElementById('lastUpdatedText').textContent = 'Synced ' + new Date().toLocaleTimeString();
 
+      // Sidebar Badges
+      const bCodes = document.getElementById('badgeNavCodes');
+      if (bCodes) bCodes.textContent = overview.available_codes || 0;
+
+      const bWd = document.getElementById('badgeNavWd');
+      if (bWd) {
+        const pendingWd = overview.pending_withdrawals || 0;
+        bWd.textContent = pendingWd;
+        if (pendingWd > 0) {
+          bWd.style.background = '#fee2e2';
+          bWd.style.color = '#b91c1c';
+        } else {
+          bWd.style.background = '';
+          bWd.style.color = '';
+        }
+      }
+
       // Wallet totals bar
       const w = overview.wallets || {};
       document.getElementById('sysBinaryRef').textContent = peso(w.binary_ref || 0);
-      document.getElementById('sysTradeRef').textContent  = peso(w.tradein_ref || 0);
-      document.getElementById('sysCycle').textContent     = peso(w.tradein_cycle || 0);
+      document.getElementById('sysTradeRef').textContent = peso(w.tradein_ref || 0);
+      document.getElementById('sysCycle').textContent = peso(w.tradein_cycle || 0);
     }
 
     function renderUsers() {
@@ -396,6 +643,9 @@
       document.getElementById('userCountAll').textContent = globalUsers.length;
       document.getElementById('kpiTradeinCount').textContent = globalUsers.filter(u => u.status === 'active').length + ' Active accounts';
 
+      const bMembers = document.getElementById('badgeNavMembers');
+      if (bMembers) bMembers.textContent = globalUsers.length;
+
       const dl = document.getElementById('memberDatalist');
       dl.innerHTML = globalUsers.map(u => '<option value="' + esc(u.mobile_number) + '">ID #' + u.id + ' (' + esc(u.status) + ')</option>').join('');
 
@@ -409,20 +659,20 @@
         const statusBadge = u.status === 'active'
           ? '<span class="badge-tag tag-active">Active</span>'
           : u.status === 'inactive'
-          ? '<span class="badge-tag tag-pending">Inactive</span>'
-          : u.status === 'expired'
-          ? '<span class="badge-tag tag-expired">Expired</span>'
-          : '<span class="badge-tag tag-rejected">' + esc(u.status) + '</span>';
+            ? '<span class="badge-tag tag-pending">Inactive</span>'
+            : u.status === 'expired'
+              ? '<span class="badge-tag tag-expired">Expired</span>'
+              : '<span class="badge-tag tag-rejected">' + esc(u.status) + '</span>';
 
         const roleBadge = u.role === 'admin' ? ' <span class="badge-tag" style="background:#0b4d2c;color:#fff">Admin</span>' : '';
         const sponsorText = u.sponsor_mobile ? esc(u.sponsor_mobile) : '<span class="muted">—</span>';
         const deleteBtn = u.role === 'admin'
           ? '<span class="tiny muted">Protected</span>'
           : '<button data-del-id="' + u.id + '" data-del-mobile="' + esc(u.mobile_number) + '" class="btn-admin-del" style="margin-right:4px">Delete</button>' +
-            (u.status === 'banned'
-              ? '<button data-ban-id="' + u.id + '" data-ban-mobile="' + esc(u.mobile_number) + '" data-ban-current="banned" class="btn-admin-unban">Unban</button>'
-              : '<button data-ban-id="' + u.id + '" data-ban-mobile="' + esc(u.mobile_number) + '" data-ban-current="active" class="btn-admin-ban">Ban</button>'
-            );
+          (u.status === 'banned'
+            ? '<button data-ban-id="' + u.id + '" data-ban-mobile="' + esc(u.mobile_number) + '" data-ban-current="banned" class="btn-admin-unban">Unban</button>'
+            : '<button data-ban-id="' + u.id + '" data-ban-mobile="' + esc(u.mobile_number) + '" data-ban-current="active" class="btn-admin-ban">Ban</button>'
+          );
 
         return '<tr>' +
           '<td><strong>#' + u.id + '</strong></td>' +
@@ -436,7 +686,7 @@
           '<td>' + peso(u.tradein_cycle_balance) + '</td>' +
           '<td class="tiny muted">' + fmtDate(u.created_at) + '</td>' +
           '<td style="text-align:right">' + deleteBtn + '</td>' +
-        '</tr>';
+          '</tr>';
       }).join('');
 
       document.querySelectorAll('button[data-del-id]').forEach((btn) => {
@@ -476,7 +726,7 @@
 
       const tbody = document.getElementById('codeTableBody');
       if (!list.length) {
-        tbody.innerHTML = '<tr><td colspan="6" style="padding:20px;text-align:center" class="muted">No activation codes found in this filter.</td></tr>';
+        tbody.innerHTML = '<tr><td colspan="7" style="padding:20px;text-align:center" class="muted">No activation codes found in this filter.</td></tr>';
         return;
       }
 
@@ -484,25 +734,31 @@
         const badge = c.status === 'available'
           ? '<span class="badge-tag tag-available">Available</span>'
           : c.status === 'assigned'
-          ? '<span class="badge-tag tag-assigned">Assigned</span>'
-          : '<span class="badge-tag tag-used">Used</span>';
+            ? '<span class="badge-tag tag-assigned">Assigned</span>'
+            : '<span class="badge-tag tag-used">Used</span>';
 
         const assignedMobile = c.assigned_mobile ? esc(c.assigned_mobile) : '<span class="muted">—</span>';
+        const usedMobile = c.used_mobile ? esc(c.used_mobile) : '<span class="muted">—</span>';
 
         return '<tr>' +
           '<td>#' + c.id + '</td>' +
           '<td><code style="font-weight:700;color:#0b4d2c">' + esc(c.code) + '</code></td>' +
           '<td>' + badge + '</td>' +
           '<td>' + assignedMobile + '</td>' +
+          '<td>' + usedMobile + '</td>' +
           '<td class="tiny muted">' + fmtDate(c.created_at) + '</td>' +
           '<td class="tiny muted">' + fmtDate(c.used_at) + '</td>' +
-        '</tr>';
+          '</tr>';
       }).join('');
     }
 
     function renderTradein() {
       const tbody = document.getElementById('tradeinTableBody');
-      document.getElementById('tradeinSummaryText').textContent = globalTradein.length + ' Total Packages (' + globalTradein.filter(p => p.cycle_status === 'active').length + ' Active)';
+      const activeCount = globalTradein.filter(p => p.cycle_status === 'active').length;
+      document.getElementById('tradeinSummaryText').textContent = globalTradein.length + ' Total Packages (' + activeCount + ' Active)';
+
+      const bTradein = document.getElementById('badgeNavTradein');
+      if (bTradein) bTradein.textContent = activeCount;
 
       if (!globalTradein.length) {
         tbody.innerHTML = '<tr><td colspan="7" style="padding:20px;text-align:center" class="muted">No trade-in packages opened yet.</td></tr>';
@@ -524,19 +780,99 @@
           '<td>' + payouts + '</td>' +
           '<td>' + badge + '</td>' +
           '<td class="tiny muted">' + fmtDate(p.start_date) + '</td>' +
-        '</tr>';
+          '</tr>';
       }).join('');
     }
 
+    function getPayoutImg(method, size = 22) {
+      const m = String(method || '').toLowerCase();
+      let file = 'GCash.png';
+      let alt = 'GCash';
+      if (m.includes('maya')) { file = 'Maya.png'; alt = 'Maya'; }
+      else if (m.includes('gotyme')) { file = 'Gotyme.png'; alt = 'GoTyme'; }
+      else if (m.includes('maribank')) { file = 'Maribank.png'; alt = 'MariBank'; }
+      else if (m.includes('ub') || m.includes('unionbank')) { file = 'UnionBank.png'; alt = 'UnionBank'; }
+
+      return `<img src="/images/${file}" alt="${alt}" style="width:${size}px;height:${size}px;object-fit:contain;vertical-align:middle;display:inline-block;flex-shrink:0;" />`;
+    }
+
     function renderWithdrawals() {
+      // 1. Update Sub-Tab Counts
+      const countAll = globalWithdrawals.length;
+      const countBinary = globalWithdrawals.filter((w) => w.wallet_type === 'binary_ref').length;
+      const countTradeRef = globalWithdrawals.filter((w) => w.wallet_type === 'tradein_ref').length;
+      const countCycle = globalWithdrawals.filter((w) => w.wallet_type === 'tradein_cycle').length;
+      const countPending = globalWithdrawals.filter((w) => w.status === 'pending').length;
+
+      const elAll = document.getElementById('countWdAll');
+      const elBinary = document.getElementById('countWdBinary');
+      const elTradeRef = document.getElementById('countWdTradeRef');
+      const elCycle = document.getElementById('countWdCycle');
+      const elPending = document.getElementById('countWdPending');
+
+      if (elAll) elAll.textContent = countAll;
+      if (elBinary) elBinary.textContent = countBinary;
+      if (elTradeRef) elTradeRef.textContent = countTradeRef;
+      if (elCycle) elCycle.textContent = countCycle;
+      if (elPending) elPending.textContent = countPending;
+
+      // 2. Update 3 Category Summary Cards
+      const binPendingList = globalWithdrawals.filter((w) => w.wallet_type === 'binary_ref' && w.status === 'pending');
+      const binPendingNet = binPendingList.reduce((s, w) => s + (Number(w.net_amount) || 0), 0);
+      const sumBinNet = document.getElementById('sumWdBinaryNet');
+      const sumBinPending = document.getElementById('sumWdBinaryPending');
+      if (sumBinNet) sumBinNet.textContent = peso(binPendingNet);
+      if (sumBinPending) sumBinPending.textContent = binPendingList.length;
+
+      const tradeRefPendingList = globalWithdrawals.filter((w) => w.wallet_type === 'tradein_ref' && w.status === 'pending');
+      const tradeRefPendingNet = tradeRefPendingList.reduce((s, w) => s + (Number(w.net_amount) || 0), 0);
+      const sumTradeRefNet = document.getElementById('sumWdTradeRefNet');
+      const sumTradeRefPending = document.getElementById('sumWdTradeRefPending');
+      if (sumTradeRefNet) sumTradeRefNet.textContent = peso(tradeRefPendingNet);
+      if (sumTradeRefPending) sumTradeRefPending.textContent = tradeRefPendingList.length;
+
+      const cyclePendingList = globalWithdrawals.filter((w) => w.wallet_type === 'tradein_cycle' && w.status === 'pending');
+      const cyclePendingNet = cyclePendingList.reduce((s, w) => s + (Number(w.net_amount) || 0), 0);
+      const sumCycleNet = document.getElementById('sumWdCycleNet');
+      const sumCyclePending = document.getElementById('sumWdCyclePending');
+      if (sumCycleNet) sumCycleNet.textContent = peso(cyclePendingNet);
+      if (sumCyclePending) sumCyclePending.textContent = cyclePendingList.length;
+
+      // 3. Filter by Tab Category
       let list = globalWithdrawals;
-      if (wdFilterMode === 'tradein') list = list.filter((w) => w.wallet_type.includes('tradein'));
-      else if (wdFilterMode === 'binary') list = list.filter((w) => w.wallet_type.includes('binary'));
-      else if (wdFilterMode === 'pending') list = list.filter((w) => w.status === 'pending');
+      if (wdFilterMode === 'binary_ref' || wdFilterMode === 'binary') {
+        list = list.filter((w) => w.wallet_type === 'binary_ref');
+      } else if (wdFilterMode === 'tradein_ref') {
+        list = list.filter((w) => w.wallet_type === 'tradein_ref');
+      } else if (wdFilterMode === 'tradein_cycle') {
+        list = list.filter((w) => w.wallet_type === 'tradein_cycle');
+      } else if (wdFilterMode === 'pending') {
+        list = list.filter((w) => w.status === 'pending');
+      } else if (wdFilterMode === 'approved') {
+        list = list.filter((w) => w.status === 'approved');
+      } else if (wdFilterMode === 'rejected') {
+        list = list.filter((w) => w.status === 'rejected');
+      }
+
+      // 4. Search Filter
+      const searchInput = document.getElementById('wdSearch');
+      const q = searchInput ? searchInput.value.trim().toLowerCase() : '';
+      if (q) {
+        list = list.filter((w) => {
+          return (
+            String(w.id).includes(q) ||
+            String(w.mobile_number || '').toLowerCase().includes(q) ||
+            String(w.account_name || '').toLowerCase().includes(q) ||
+            String(w.account_number || '').toLowerCase().includes(q) ||
+            String(w.payout_method || '').toLowerCase().includes(q) ||
+            String(w.wallet_type || '').toLowerCase().includes(q)
+          );
+        });
+      }
 
       const tbody = document.getElementById('wdTableBody');
       if (!list.length) {
-        tbody.innerHTML = '<tr><td colspan="8" style="padding:20px;text-align:center" class="muted">No withdrawal requests found.</td></tr>';
+        tbody.innerHTML = '<tr><td colspan="9" style="padding:24px;text-align:center" class="muted">No withdrawal requests found matching this filter.</td></tr>';
         return;
       }
 
@@ -544,36 +880,90 @@
         const badge = w.status === 'pending'
           ? '<span class="badge-tag tag-pending">Pending</span>'
           : w.status === 'approved'
-          ? '<span class="badge-tag tag-approved">Approved</span>'
-          : '<span class="badge-tag tag-rejected">Rejected</span>';
+            ? '<span class="badge-tag tag-approved">Approved</span>'
+            : '<span class="badge-tag tag-rejected">Rejected</span>';
 
-        const walletLabel = w.wallet_type === 'binary_ref'
-          ? 'Binary Referral'
+        const walletBadge = w.wallet_type === 'binary_ref'
+          ? '<span class="badge-tag tag-cat-binary">⇄ Binary Referral</span>'
           : w.wallet_type === 'tradein_ref'
-          ? 'Trade-In Referral'
-          : 'Trade-In Cycle';
+            ? '<span class="badge-tag tag-cat-traderef">💛 Trade-In Ref</span>'
+            : '<span class="badge-tag tag-cat-cycle">📈 Trade-In Cycle</span>';
+
+        // Payout Method Tag & SVG
+        const mKey = String(w.payout_method || '').toLowerCase();
+        let methodTagClass = 'badge-tag tag-gcash';
+        if (mKey.includes('maya')) methodTagClass = 'badge-tag tag-maya';
+        else if (mKey.includes('gotyme')) methodTagClass = 'badge-tag tag-gotyme';
+        else if (mKey.includes('maribank')) methodTagClass = 'badge-tag tag-maribank';
+        else if (mKey.includes('ub') || mKey.includes('unionbank')) methodTagClass = 'badge-tag tag-ub';
+
+        const iconImg = getPayoutImg(w.payout_method, 28);
+        const methodBadge = w.payout_method && w.payout_method !== '—'
+          ? '<span class="' + methodTagClass + '" style="font-size:10.5px;padding:2px 8px;">' + esc(w.payout_method) + '</span>'
+          : '<span class="badge-tag tag-rejected" style="font-size:10px;">Unbound</span>';
+
+        const accName = w.account_name && w.account_name !== '—' ? esc(w.account_name) : '<span class="muted">—</span>';
+        const accNum = w.account_number && w.account_number !== '—' ? esc(w.account_number) : '';
+        const copyBtn = accNum
+          ? '<button type="button" class="btn-admin-copy" data-copy-acc="' + esc(accNum) + '" title="Copy account number">📋 Copy</button>'
+          : '';
+
+        const payoutDetails = '<div style="display:flex;align-items:center;gap:8px;">' +
+          iconImg +
+          '<div>' +
+          '<div style="display:flex;align-items:center;gap:6px;margin-bottom:2px;">' +
+          methodBadge +
+          '<strong style="font-size:12.5px;color:#0b4d2c;">' + accName + '</strong>' +
+          '</div>' +
+          (accNum ? '<div style="display:flex;align-items:center;gap:6px;"><code style="font-weight:700;font-size:12px;color:#0f7a45;background:rgba(15,122,69,0.06);padding:2px 6px;border-radius:4px;">' + accNum + '</code>' + copyBtn + '</div>' : '') +
+          '</div>' +
+          '</div>';
 
         const actions = w.status === 'pending'
           ? '<button data-wd-id="' + w.id + '" data-wd-act="approve" class="btn-admin-action btn-admin-approve" style="margin-right:6px">Approve</button>' +
-            '<button data-wd-id="' + w.id + '" data-wd-act="reject" class="btn-admin-action btn-admin-reject">Reject</button>'
+          '<button data-wd-id="' + w.id + '" data-wd-act="reject" class="btn-admin-action btn-admin-reject">Reject</button>'
           : '<span class="tiny muted">Reviewed</span>';
 
         return '<tr>' +
           '<td><strong>#' + w.id + '</strong></td>' +
           '<td><strong>' + esc(w.mobile_number) + '</strong></td>' +
-          '<td>' + walletLabel + '</td>' +
+          '<td>' + walletBadge + '</td>' +
+          '<td>' + payoutDetails + '</td>' +
           '<td style="font-weight:600">' + peso(w.amount) + '</td>' +
-          '<td>' + peso(w.fee) + ' / <strong style="color:#0f7a45">' + peso(w.net_amount) + '</strong></td>' +
+          '<td><span class="tiny muted">' + peso(w.fee) + '</span> / <strong style="color:#0f7a45;font-size:13.5px;">' + peso(w.net_amount) + '</strong></td>' +
           '<td>' + badge + '</td>' +
           '<td class="tiny muted">' + fmtDate(w.created_at) + '</td>' +
           '<td style="text-align:right">' + actions + '</td>' +
-        '</tr>';
+          '</tr>';
       }).join('');
 
+      // Copy account number event listeners
+      document.querySelectorAll('button[data-copy-acc]').forEach((btn) => {
+        btn.onclick = (e) => {
+          e.stopPropagation();
+          const txt = btn.dataset.copyAcc;
+          navigator.clipboard.writeText(txt).then(() => {
+            const orig = btn.innerHTML;
+            btn.innerHTML = '✓ Copied!';
+            btn.style.borderColor = 'var(--jade)';
+            btn.style.color = 'var(--jade)';
+            setTimeout(() => {
+              btn.innerHTML = orig;
+              btn.style.borderColor = '';
+              btn.style.color = '';
+            }, 2000);
+          }).catch(() => {
+            prompt('Copy Account Number:', txt);
+          });
+        };
+      });
+
+      // Review actions
       document.querySelectorAll('button[data-wd-id]').forEach((btn) => {
         btn.onclick = async () => {
           const id = btn.dataset.wdId;
           const act = btn.dataset.wdAct;
+          if (!confirm((act === 'approve' ? 'Approve' : 'Reject') + ' withdrawal request #' + id + '?')) return;
           try {
             await api('/api/admin/withdrawals/' + id + '/review', {
               method: 'POST',
@@ -611,12 +1001,28 @@
       }
     }
 
-    document.getElementById('logoutBtn').onclick = () => {
+    const doSignOut = () => {
       localStorage.removeItem('it_token');
       location.href = '/login.html';
     };
+    document.getElementById('logoutTopBtn').onclick = doSignOut;
+    document.getElementById('logoutSideBtn').onclick = doSignOut;
 
     document.getElementById('btnRandomizeSlots').onclick = randomizeSlots;
+
+    document.querySelectorAll('[data-mint-count]').forEach(btn => {
+      btn.onclick = async () => {
+        const count = Number(btn.dataset.mintCount) || 1;
+        try {
+          const data = await api('/api/admin/codes', {
+            method: 'POST',
+            body: JSON.stringify({ count }),
+          });
+          flash('Minted ' + data.codes.length + ' new 8-character code(s): ' + data.codes.join(', '), true);
+          refreshAll();
+        } catch (e) { flash(e.message); }
+      };
+    });
 
     document.getElementById('btnMintCustom').onclick = async () => {
       const s1 = document.getElementById('codeSlot1').value.trim();
@@ -655,7 +1061,7 @@
       } catch (e) { flash(e.message); }
     };
 
-    document.getElementById('togglePayoutsBtn').onclick = async () => {
+    const togglePayoutsAction = async () => {
       try {
         const data = await api('/api/admin/settings/payouts', {
           method: 'POST',
@@ -665,6 +1071,7 @@
         refreshAll();
       } catch (e) { flash(e.message); }
     };
+    document.getElementById('togglePayoutsTopBtn').onclick = togglePayoutsAction;
 
     const processYieldsHandler = async () => {
       try {
@@ -673,7 +1080,6 @@
         refreshAll();
       } catch (e) { flash(e.message); }
     };
-    document.getElementById('runYieldsBtn').onclick = processYieldsHandler;
     document.getElementById('btnProcessTradeinYields').onclick = processYieldsHandler;
 
     // Filters
@@ -704,9 +1110,13 @@
         renderWithdrawals();
       };
     });
+    if (document.getElementById('wdSearch')) {
+      document.getElementById('wdSearch').oninput = renderWithdrawals;
+    }
 
     randomizeSlots();
     refreshAll();
   </script>
 </body>
+
 </html>

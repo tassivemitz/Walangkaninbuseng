@@ -9,58 +9,27 @@
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,560&family=Sora:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="/styles.css" />
 </head>
-<body>
-  <!-- Top Navigation Header -->
-  <header class="appbar">
-    <div class="wrap top">
-      <a class="brand" href="/dashboard.html">
-        <img src="/images/site-logo.png" alt="Infinite Trading" class="brand-logo" />
-      </a>
-      <div class="nav">
-        <span id="who" class="tiny"></span>
-        <a id="adminLink" class="tiny" href="/admin.html" style="display:none;color:var(--gold);font-weight:700;">Admin</a>
-        <button id="logout" class="btn btn-ghost btn-sm">Log Out</button>
+<body class="dash-terminal-body">
+  <!-- Mobile Drawer Backdrop Overlay -->
+  <div class="dash-sidebar-backdrop" id="sidebarBackdrop"></div>
+
+  <div class="dash-terminal-layout">
+    <!-- 1. FULL-HEIGHT LEFT SIDEBAR (Desktop: Fixed Sticky / Mobile: Off-Canvas Drawer) -->
+    <aside class="dash-sidebar" id="dashSidebar">
+      <!-- Mobile Close Button -->
+      <button type="button" class="dash-sidebar-close" id="sidebarClose" aria-label="Close Sidebar">✕</button>
+
+      <!-- Brand Logo at Top of Sidebar -->
+      <div class="dash-sidebar-brand">
+        <a class="brand" href="/dashboard.html">
+          <img src="/images/site-logo.png" alt="Infinite Trading" class="brand-logo" />
+        </a>
       </div>
-    </div>
-  </header>
 
-  <main class="wrap" style="padding-top:12px">
-    <p id="banner" class="banner"></p>
-
-    <!-- Inactive Account Activation Box -->
-    <div id="activationBox" class="panel card activation-panel" style="display:none; margin-bottom: 20px; border: 2px solid var(--jade); background: #ffffff;">
-      <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:12px;">
-        <div>
-          <span class="pill closed" style="margin-bottom:6px">● Account Pending Activation</span>
-          <h2 style="margin:6px 0; font-size:24px; color:var(--jade);">Activate Your Account</h2>
-          <p style="font-size:13px; color:var(--muted); margin:0 0 14px; max-width:62ch;">
-            Enter your ₱300 Activation Code from your sponsor or code seller to enter the binary tree, start matching pairs, and unlock trade-in earnings.
-          </p>
-        </div>
-      </div>
-      <form id="activateForm" class="row" style="max-width:480px; margin-top:0;">
-        <input class="in" name="code" id="activateCodeInput" required placeholder="8-CHAR CODE (e.g. K9X2M4N7)" style="text-transform:uppercase; font-family:ui-monospace, monospace; font-weight:700; letter-spacing:0.08em;" maxlength="12" />
-        <button class="btn btn-mint btn-sm" style="white-space:nowrap;">Activate Account</button>
-      </form>
-    </div>
-
-    <!-- Binary Cap Expiration Renewal Box -->
-    <div id="renewBox" class="panel card" style="display:none; margin-bottom: 20px; border: 2px solid var(--gold); background: #ffffff;">
-      <span class="pill closed" style="margin-bottom:6px">● Binary Cap Reached (₱3,000)</span>
-      <h2 style="margin:6px 0; font-size:22px; color:var(--gold);">Renew Account (₱300)</h2>
-      <p style="font-size:13px; color:var(--muted); margin:0 0 12px;">Enter an activation code to reopen binary matching and trade-in access.</p>
-      <form id="renewForm" class="row" style="max-width:480px; margin-top:0;">
-        <input class="in" name="code" required placeholder="8-CHAR CODE" style="text-transform:uppercase; font-family:ui-monospace, monospace; font-weight:700;" maxlength="12" />
-        <button class="btn btn-sm">Renew</button>
-      </form>
-    </div>
-
-    <!-- Main Dashboard Two-Column Suite -->
-    <div class="dash-layout">
-      <!-- 1. LEFT SIDEBAR -->
-      <aside class="desk-sidebar">
-        <!-- Sidebar Box 1: Member List (Collapsible Accordion) -->
-        <div class="side-nav-card" id="sideCardMembers">
+      <!-- Navigation Accordion Menu Items -->
+      <div class="dash-sidebar-menu">
+        <!-- 1. Member List (Collapsed by default) -->
+        <div class="side-nav-card collapsed" id="sideCardMembers">
           <div class="side-nav-header" data-toggle-target="sideCardMembers">
             <span class="side-title">👥 Member List</span>
             <span class="accordion-caret">▼</span>
@@ -80,8 +49,8 @@
           </div>
         </div>
 
-        <!-- Sidebar Box 2: Code Vault (Collapsible Accordion) -->
-        <div class="side-nav-card" id="sideCardVault">
+        <!-- 2. Code Vault (Collapsed by default) -->
+        <div class="side-nav-card collapsed" id="sideCardVault">
           <div class="side-nav-header" data-toggle-target="sideCardVault">
             <span class="side-title">🔒 Code Vault</span>
             <span class="accordion-caret">▼</span>
@@ -98,15 +67,15 @@
           </div>
         </div>
 
-        <!-- Sidebar Box 3: Trade In (Collapsible Accordion) -->
-        <div class="side-nav-card" id="sideCardTradein">
+        <!-- 3. Trade In (Collapsed by default) -->
+        <div class="side-nav-card collapsed" id="sideCardTradein">
           <div class="side-nav-header" data-toggle-target="sideCardTradein">
-            <span class="side-title">📈 TRADE IN</span>
+            <span class="side-title">⇄ TRADE IN</span>
             <span class="accordion-caret">▼</span>
           </div>
           <div class="side-nav-body">
             <button type="button" class="side-nav-btn" id="btnTradeinDeposit" style="color:var(--jade);font-weight:700;">
-              <span>⬆ Deposit</span>
+              <span>⬆ Deposit Package</span>
             </button>
             <div class="side-info-card">
               <p style="margin:0 0 4px;"><strong>*Every 3 days cycle*</strong> — 120% ROI in 12 days (payouts every 3 days).</p>
@@ -115,110 +84,288 @@
           </div>
         </div>
 
-        <!-- Sidebar Box 4: Wallet for Withdrawal -->
-        <button type="button" class="btn btn-ghost side-cta-btn" id="btnOpenWithdrawal" style="border:1.5px solid var(--jade);color:var(--jade);">
-          <span>💳 Wallet for Withdrawal</span>
+        <!-- 4. Wallet Withdrawal CTA -->
+        <button type="button" class="side-cta-btn" id="btnOpenWithdrawal">
+          <span class="side-cta-icon">💳</span>
+          <span>WALLET WITHDRAWAL</span>
         </button>
+      </div>
 
-        <!-- Referral Link Floating Card -->
-        <div class="side-nav-card" id="refCard" style="padding:14px;background:rgba(255,255,255,0.9);">
-          <p class="tiny" style="margin:0 0 4px;font-weight:700;color:var(--muted);">YOUR REFERRAL LINK</p>
-          <div class="row" style="margin-top:6px;gap:6px;">
-            <input id="refLink" class="in" style="font-size:11px;padding:8px 10px;" readonly />
-            <button id="copyRef" type="button" class="btn btn-ghost btn-sm" style="padding:6px 10px;font-size:11px;">Copy</button>
+      <!-- Bottom Referral Link Box -->
+      <div class="side-ref-card" id="refCard">
+        <p class="tiny" style="margin:0 0 6px;font-weight:700;color:var(--muted);letter-spacing:0.04em;text-transform:uppercase;">YOUR REFERRAL LINK</p>
+        <div class="row" style="margin-top:6px;gap:6px;">
+          <input id="refLink" class="in" style="font-size:11px;padding:8px 10px;" readonly />
+          <button id="copyRef" type="button" class="btn btn-ghost btn-sm" style="padding:6px 12px;font-size:11px;white-space:nowrap;">Copy</button>
+        </div>
+      </div>
+    </aside>
+
+    <!-- 2. MAIN RIGHT DASHBOARD AREA -->
+    <div class="dash-main-area">
+      <!-- Top Header Navigation Bar on Right -->
+      <header class="dash-top-bar">
+        <div class="dash-top-left">
+          <!-- Mobile Hamburger Toggle Button -->
+          <button type="button" class="dash-burger-btn" id="burgerToggle" aria-label="Open Navigation Menu">
+            <span></span>
+            <span></span>
+            <span></span>
+          </button>
+          <!-- Mobile Header Brand Logo -->
+          <div class="dash-top-brand">
+            <a href="/dashboard.html">
+              <img src="/images/site-logo.png" alt="Infinite Trading" class="top-brand-logo" />
+            </a>
+          </div>
+          <!-- Live Breadcrumb Tag (Desktop) -->
+          <span class="dash-top-tag">INFINITE TRADING DESK</span>
+        </div>
+        <div class="dash-top-right">
+          <div class="user-badge" id="whoWrapper">
+            <span class="user-avatar-icon">👤</span>
+            <div class="user-badge-info">
+              <span id="who" class="user-badge-name">Loading...</span>
+              <span class="user-badge-status"><span class="user-status-dot" id="userStatusDot"></span> <span id="userStatusText">Active</span></span>
+            </div>
+          </div>
+          <a id="adminLink" class="btn btn-ghost btn-sm" href="/admin.html" style="display:none;color:var(--gold);border-color:rgba(232,148,58,0.3);font-weight:700;">⚙ Admin Panel</a>
+          <button id="logout" class="dash-logout-btn">
+            <span>Log out</span>
+            <span class="logout-icon">⏻</span>
+          </button>
+        </div>
+      </header>
+
+      <!-- Scrollable Inner Content -->
+      <div class="dash-content-inner">
+        <p id="banner" class="banner"></p>
+
+        <!-- Inactive Account Activation Box -->
+        <div id="activationBox" class="panel card activation-panel" style="display:none; margin-bottom: 20px; border: 2px solid var(--jade); background: #ffffff;">
+          <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:12px;">
+            <div>
+              <span class="pill closed" style="margin-bottom:6px">● Account Pending Activation</span>
+              <h2 style="margin:6px 0; font-size:24px; color:var(--jade);">Activate Your Account</h2>
+              <p style="font-size:13px; color:var(--muted); margin:0 0 14px; max-width:62ch;">
+                Enter your ₱300 Activation Code from your sponsor or code seller to enter the binary tree, start matching pairs, and unlock trade-in earnings.
+              </p>
+            </div>
+          </div>
+          <form id="activateForm" class="row" style="max-width:480px; margin-top:0;">
+            <input class="in" name="code" id="activateCodeInput" required placeholder="8-CHAR CODE (e.g. K9X2M4N7)" style="text-transform:uppercase; font-family:ui-monospace, monospace; font-weight:700; letter-spacing:0.08em;" maxlength="12" />
+            <button class="btn btn-mint btn-sm" style="white-space:nowrap;">Activate Account</button>
+          </form>
+        </div>
+
+        <!-- Binary Cap Expiration Renewal Box -->
+        <div id="renewBox" class="panel card" style="display:none; margin-bottom: 20px; border: 2px solid var(--gold); background: #ffffff;">
+          <span class="pill closed" style="margin-bottom:6px">● Binary Cap Reached (₱3,000)</span>
+          <h2 style="margin:6px 0; font-size:22px; color:var(--gold);">Renew Account (₱300)</h2>
+          <p style="font-size:13px; color:var(--muted); margin:0 0 12px;">Enter an activation code to reopen binary matching and trade-in access.</p>
+          <form id="renewForm" class="row" style="max-width:480px; margin-top:0;">
+            <input class="in" name="code" required placeholder="8-CHAR CODE" style="text-transform:uppercase; font-family:ui-monospace, monospace; font-weight:700;" maxlength="12" />
+            <button class="btn btn-sm">Renew</button>
+          </form>
+        </div>
+
+        <!-- Code Seller Vault Inventory Desk Banner (Shown if user holds available codes) -->
+        <div id="sellerDeskPanel" class="panel card" style="display:none; margin-bottom: 20px; border: 2px solid var(--jade); background: #f8fdf9;">
+          <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-bottom:12px;">
+            <div>
+              <span class="pill open" style="font-size:10px; font-weight:700;">📦 CODE SELLER DESK</span>
+              <h3 style="margin:4px 0 2px; font-size:18px; color:var(--jade);">My Code Vault Inventory (<span id="sellerDeskCount">0</span> Available)</h3>
+              <p class="tiny muted" style="margin:0;">Ready-to-sell activation codes. Click Copy to distribute to new signups:</p>
+            </div>
+            <button type="button" class="btn btn-ghost btn-sm" id="btnOpenFullVault">Open Full Vault ➔</button>
+          </div>
+          <div id="sellerDeskCodeList" style="display:grid; grid-template-columns:repeat(auto-fill, minmax(200px, 1fr)); gap:8px;"></div>
+        </div>
+
+        <!-- =========================================================
+             ROW 1: 3 METRIC CARDS (TOTAL BALANCE ~48%, BINARY ~26%, PPT ~26%)
+             ========================================================= -->
+        <div class="metrics-row-1">
+          <!-- 1. TOTAL BALANCE (HERO SPOTLIGHT CARD) -->
+          <div class="m-card-hero">
+            <div class="m-hero-left">
+              <div class="m-hero-icon-stack">
+                <span class="hero-coin-icon">💰</span>
+              </div>
+              <div class="m-hero-content">
+                <span class="m-label">TOTAL BALANCE</span>
+                <p class="m-hero-val" id="mTotal">₱0.00</p>
+                <span class="m-sub">Combined 3 wallets</span>
+              </div>
+            </div>
+            <div class="m-hero-right">
+              <span class="m-corner-icon">🪙</span>
+              <svg class="sparkline-svg" viewBox="0 0 130 40" fill="none">
+                <path d="M0 32 Q 28 34, 52 20 T 90 15 T 130 5" stroke="#0f7a45" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+                <path d="M0 32 Q 28 34, 52 20 T 90 15 T 130 5 L 130 40 L 0 40 Z" fill="url(#heroSparkGrad)" opacity="0.16"/>
+                <defs>
+                  <linearGradient id="heroSparkGrad" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stop-color="#0f7a45" stop-opacity="0.8"/>
+                    <stop offset="100%" stop-color="#0f7a45" stop-opacity="0"/>
+                  </linearGradient>
+                </defs>
+              </svg>
+            </div>
+          </div>
+
+          <!-- 2. BINARY -->
+          <div class="m-card-std m-card-binary">
+            <div class="m-card-top">
+              <span class="m-label">BINARY</span>
+              <span class="m-badge-icon" style="color:var(--jade);">⇄</span>
+            </div>
+            <div class="m-card-center">
+              <p class="m-val" id="mBinary">₱0.00</p>
+              <span class="m-sub">Direct &amp; Matching Wallet</span>
+            </div>
+            <div class="m-card-bottom-line line-emerald"></div>
+          </div>
+
+          <!-- 3. PPT (PAIRS TODAY) WITH CIRCULAR PROGRESS DIAL -->
+          <div class="m-card-std m-card-ppt">
+            <div class="m-card-split-content">
+              <div class="m-card-top">
+                <span class="m-label">PPT (PAIRS TODAY)</span>
+              </div>
+              <div class="m-card-center">
+                <p class="m-val" id="mPPT">₱0.00</p>
+                <span class="m-sub" id="mPPTSub">0 / 10 pairs today</span>
+              </div>
+            </div>
+            <div class="ppt-dial-wrap">
+              <svg class="ppt-dial-svg" viewBox="0 0 50 50">
+                <circle class="ppt-dial-bg" cx="25" cy="25" r="20"></circle>
+                <circle class="ppt-dial-bar" id="pptDialCircle" cx="25" cy="25" r="20" stroke-dasharray="125.66" stroke-dashoffset="125.66"></circle>
+              </svg>
+              <span class="ppt-dial-text" id="pptDialText">0/10</span>
+            </div>
           </div>
         </div>
-      </aside>
 
-      <!-- 2. RIGHT MAIN CONTENT AREA -->
-      <section class="desk-main">
-        <!-- Section Title Header -->
-        <div class="dash-sec-head">
-          <div class="dash-sec-title">
-            <span>WALLET DASHBOARD</span>
-            <span class="tiny" style="color:var(--muted);font-weight:500;text-transform:none;">(Show only)</span>
-          </div>
-          <div id="headerAccountBadge"></div>
-        </div>
-
-        <!-- 7 Floating Metric Cards (No enclosing white box) -->
-        <div class="metrics-7-grid">
-          <!-- 1. BINARY -->
-          <div class="m7-card">
-            <p class="m7-label">BINARY</p>
-            <p class="m7-val" id="mBinary">₱0.00</p>
-            <p class="m7-sub">Direct &amp; Matching Wallet</p>
-          </div>
-
-          <!-- 2. PPT -->
-          <div class="m7-card">
-            <p class="m7-label">PPT (PAIRS TODAY)</p>
-            <p class="m7-val" id="mPPT">₱0.00</p>
-            <p class="m7-sub" id="mPPTSub">0 / 10 pairs today</p>
-          </div>
-
-          <!-- 3. IN-PPT -->
-          <div class="m7-card">
-            <p class="m7-label">IN-PPT (INDIRECT)</p>
-            <p class="m7-val" id="mInPPT">₱0.00</p>
-            <p class="m7-sub" id="mInPPTSub">0 L2–L4 downlines</p>
-          </div>
-
-          <!-- 4. TOTAL -->
-          <div class="m7-card highlight">
-            <p class="m7-label" style="color:var(--jade);">TOTAL BALANCE</p>
-            <p class="m7-val" id="mTotal" style="color:var(--jade);font-size:28px;">₱0.00</p>
-            <p class="m7-sub">Combined 3 wallets</p>
+        <!-- =========================================================
+             ROW 2: 4 METRIC CARDS (IN-PPT, TRADE DEPOSIT, TRADE PROFIT, TRADE REF)
+             ========================================================= -->
+        <div class="metrics-row-2">
+          <!-- 4. IN-PPT (INDIRECT) -->
+          <div class="m-card-std m-card-inppt">
+            <div class="m-card-top">
+              <span class="m-label">IN-PPT (INDIRECT)</span>
+              <span class="m-pill-badge badge-purple">PPT</span>
+            </div>
+            <div class="m-card-center">
+              <p class="m-val" id="mInPPT">₱0.00</p>
+              <span class="m-sub" id="mInPPTSub">0 downlines (₱5 ea)</span>
+            </div>
+            <div class="m-card-bottom-line line-purple"></div>
           </div>
 
           <!-- 5. TRADE-IN DEPOSIT -->
-          <div class="m7-card">
-            <p class="m7-label">TRADE-IN DEPOSIT</p>
-            <p class="m7-val" id="mTradeDeposit">₱0.00</p>
-            <p class="m7-sub" id="mTradeDepositSub">0 active packages</p>
+          <div class="m-card-std m-card-trade-dep">
+            <div class="m-card-top">
+              <span class="m-label">TRADE-IN DEPOSIT</span>
+              <span class="m-badge-icon" style="color:var(--gold);">👤</span>
+            </div>
+            <div class="m-card-center">
+              <p class="m-val" id="mTradeDeposit">₱0.00</p>
+              <span class="m-sub" id="mTradeDepositSub">0 active packages</span>
+            </div>
+            <div class="m-card-bottom-line line-gold"></div>
           </div>
 
           <!-- 6. TRADE-IN PROFIT -->
-          <div class="m7-card">
-            <p class="m7-label">TRADE-IN PROFIT</p>
-            <p class="m7-val" id="mTradeProfit">₱0.00</p>
-            <p class="m7-sub">120% Cycle Yield Balance</p>
+          <div class="m-card-std m-card-trade-profit">
+            <div class="m-card-top">
+              <span class="m-label">TRADE-IN PROFIT</span>
+              <span class="m-badge-icon" style="color:var(--mint);">📈</span>
+            </div>
+            <div class="m-card-center-spark">
+              <div>
+                <p class="m-val" id="mTradeProfit">₱0.00</p>
+                <span class="m-sub">120% Cycle Yield Balance</span>
+              </div>
+              <svg class="sparkline-mini-svg" viewBox="0 0 54 20" fill="none">
+                <path d="M0 15 Q 15 17, 28 9 T 54 3" stroke="#22c55e" stroke-width="2" stroke-linecap="round" fill="none"/>
+              </svg>
+            </div>
           </div>
 
           <!-- 7. TRADE-IN REF -->
-          <div class="m7-card">
-            <p class="m7-label">TRADE-IN REF</p>
-            <p class="m7-val" id="mTradeRef">₱0.00</p>
-            <p class="m7-sub">L1-L4 Capital Commission</p>
+          <div class="m-card-std m-card-trade-ref">
+            <div class="m-card-top">
+              <span class="m-label">TRADE-IN REF</span>
+              <span class="m-badge-icon" style="color:#eab308;">💛</span>
+            </div>
+            <div class="m-card-center">
+              <p class="m-val" id="mTradeRef">₱0.00</p>
+              <span class="m-sub">L1-L4 Capital Commission</span>
+            </div>
+            <div class="m-card-bottom-line line-yellow"></div>
           </div>
         </div>
 
-        <!-- Binary Cap Floating Status Card -->
-        <div class="floating-card" style="padding:16px 20px;">
-          <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;">
-            <div>
-              <p class="tiny" style="margin:0;font-weight:700;color:var(--muted);text-transform:uppercase;">Binary Earnings Cap (₱3,000 Max)</p>
-              <p id="capLabel" class="display" style="font-size:22px;margin:4px 0 0;color:var(--jade);">₱0 / ₱3,000</p>
+        <!-- =========================================================
+             ROW 3: BINARY EARNINGS CAP STRIP
+             ========================================================= -->
+        <div class="binary-cap-card floating-card">
+          <div class="cap-header-row">
+            <div class="cap-left-side">
+              <span class="cap-main-label">BINARY EARNINGS CAP (₱3,000 MAX)</span>
+              <span class="cap-val-display" id="capLabel">₱0.00 / ₱3,000.00</span>
             </div>
-            <div style="text-align:right;">
-              <p id="treeCounts" class="tiny" style="margin:0;font-weight:600;"></p>
-              <p id="pairsTodayText" class="tiny" style="margin:2px 0 0;"></p>
+            <div class="cap-right-side">
+              <span class="pill open" id="treeCounts" style="font-weight:700;font-size:11px;">Left: 0 · Right: 0</span>
+              <span class="tiny" id="pairsTodayText" style="font-weight:600;color:var(--muted);">Pairs today: 0 / 10</span>
             </div>
           </div>
-          <div class="bar" style="margin-top:10px;"><i id="capBar"></i></div>
+          <div class="cap-track-bar">
+            <i id="capBar"></i>
+          </div>
         </div>
 
-        <!-- Trading Chart Floating Card -->
-        <div class="floating-card">
-          <div class="chart-head" style="background:linear-gradient(135deg,#0b4d2c,#0f7a45);color:#fff;font-weight:700;display:flex;justify-content:space-between;align-items:center;padding:12px 18px;">
-            <span>Trading Chart · BTCUSDT (1h)</span>
-            <span class="tiny" style="color:rgba(255,255,255,0.85);">Live Market Feed</span>
+        <!-- =========================================================
+             ROW 4: TRADING VIEW LIVE CHART CARD
+             ========================================================= -->
+        <div class="trading-chart-card floating-card">
+          <div class="chart-top-bar">
+            <div class="chart-title-group">
+              <span class="pulse-dot" style="background:#22c55e;margin:0;"></span>
+              <span class="chart-title-text">Trading Chart · BTCUSDT (1h)</span>
+            </div>
+            <div class="chart-status-badge">
+              <span class="pill open" style="font-size:11px;font-weight:700;background:rgba(255,255,255,0.2);color:#ffffff;border-color:rgba(255,255,255,0.4);">● BTCUSDT Live Market Feed</span>
+            </div>
           </div>
-          <div id="tvchart" style="height:420px;"></div>
+          <div id="tvchart" style="height:460px;"></div>
         </div>
-      </section>
+
+        <!-- =========================================================
+             DASHBOARD FOOTER (CLEAN & MINIMAL)
+             ========================================================= -->
+        <footer class="dash-footer">
+          <div class="dash-footer-content">
+            <div class="dash-footer-left">
+              <a href="/dashboard.html" class="dash-footer-brand">
+                <img src="/images/site-logo.png" alt="Infinite Trading" class="dash-footer-logo" />
+              </a>
+              <span class="dash-footer-copy">© 2024–2026 <strong>Infinite Trading</strong>. All rights reserved.</span>
+            </div>
+            <div class="dash-footer-links">
+              <button type="button" id="btnFooterTerms">Terms of Service</button>
+              <span class="dash-footer-sep">·</span>
+              <button type="button" id="btnFooterPrivacy">Privacy Policy</button>
+              <span class="dash-footer-sep">·</span>
+              <button type="button" id="btnFooterRisk">Risk Disclosure</button>
+            </div>
+          </div>
+        </footer>
+      </div>
     </div>
-  </main>
+  </div>
 
   <!-- =========================================================
        MODALS & DETAIL VIEW PANELS
@@ -375,51 +522,245 @@
         <button class="plan-close" type="button" data-close-modal>×</button>
       </header>
       <div class="plan-modal-body">
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;background:#f8fdf9;padding:10px 14px;border-radius:12px;border:1px solid var(--line);">
-          <span class="tiny" style="font-weight:600;">Payout Window Status:</span>
-          <span id="payoutStatusBadge"><span class="pill open">Payouts Open</span></span>
+        <div id="withdrawalBlockedNotice" class="tradein-blocked-notice">
+          ⚠ Activate your account with a ₱300 code to enable wallet withdrawals.
         </div>
 
-        <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(210px, 1fr));gap:12px;margin-bottom:18px;">
-          <!-- Wallet 1 -->
-          <article class="panel wallet" style="padding:16px;">
-            <p class="label">Binary Referral</p>
-            <p id="wBinaryModal" class="bal" style="font-size:24px;margin:6px 0;">₱0.00</p>
-            <form data-wallet="binary-ref" class="wd row" style="margin-top:10px;">
-              <input class="in" id="amtBinary" name="amount" type="number" min="100" step="0.01" placeholder="Min ₱100" />
-              <button class="btn btn-sm">Cash out</button>
-            </form>
-            <p class="fee-preview" id="feeBinary"></p>
-            <p class="payout-alert" id="alertBinary">Payouts closed.</p>
-          </article>
-
-          <!-- Wallet 2 -->
-          <article class="panel wallet ref" style="padding:16px;">
-            <p class="label">Trade-In Referral</p>
-            <p id="wTradeRefModal" class="bal" style="font-size:24px;margin:6px 0;">₱0.00</p>
-            <form data-wallet="tradein-ref" class="wd row" style="margin-top:10px;">
-              <input class="in" id="amtTradeRef" name="amount" type="number" min="100" step="0.01" placeholder="Min ₱100" />
-              <button class="btn btn-light btn-sm">Cash out</button>
-            </form>
-            <p class="fee-preview" id="feeTradeRef"></p>
-            <p class="payout-alert" id="alertTradeRef">Payouts closed.</p>
-          </article>
-
-          <!-- Wallet 3 -->
-          <article class="panel wallet cycle" style="padding:16px;">
-            <p class="label">Trade-In Cycle</p>
-            <p id="wCycleModal" class="bal" style="font-size:24px;margin:6px 0;">₱0.00</p>
-            <form data-wallet="tradein-cycle" class="wd row" style="margin-top:10px;">
-              <input class="in" id="amtCycle" name="amount" type="number" min="100" step="0.01" placeholder="Min ₱100" />
-              <button class="btn btn-mint btn-sm">Cash out</button>
-            </form>
-            <p class="fee-preview" id="feeCycle"></p>
-            <p class="payout-alert" id="alertCycle">Payouts closed.</p>
-          </article>
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;background:#f8fdf9;padding:10px 14px;border-radius:12px;border:1px solid var(--line);flex-wrap:wrap;gap:8px;">
+          <div style="display:flex;align-items:center;gap:8px;">
+            <span class="tiny" style="font-weight:700;color:var(--text);text-transform:uppercase;letter-spacing:0.04em;">Window:</span>
+            <span id="payoutStatusBadge"><span class="pill open">Payouts Open</span></span>
+          </div>
+          <div style="font-size:11.5px;color:var(--muted);">
+            Processing Fee: <strong>8%–12%</strong> (Min. ₱100)
+          </div>
         </div>
+
+        <!-- Mode of Payment / Bound Payout Account Card -->
+        <div class="panel card" id="payoutAccountCard" style="background:#ffffff;border:1.5px solid rgba(15,122,69,0.3);padding:14px 16px;margin-bottom:16px;border-radius:14px;box-shadow:0 4px 16px rgba(15,122,69,0.05);">
+          <!-- 1. Display View -->
+          <div id="payoutDisplayView" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;">
+            <div style="display:flex;align-items:center;gap:12px;">
+              <div id="payoutMethodIconBox" class="payout-method-icon-box">
+                <span id="payoutMethodIcon" style="display:flex;align-items:center;justify-content:center;">
+                  <img src="/images/GCash.png" alt="GCash" style="max-width:44px;max-height:44px;object-fit:contain;display:block;" />
+                </span>
+              </div>
+              <div>
+                <div style="display:flex;align-items:center;gap:8px;margin-bottom:2px;">
+                  <span class="tiny" style="font-weight:700;letter-spacing:0.06em;text-transform:uppercase;color:var(--muted);">Bound Payout Destination</span>
+                  <span id="payoutMethodBadge" class="badge-tag tag-gcash" style="font-size:10px;font-weight:700;">GCash</span>
+                </div>
+                <div id="payoutAccountDetails" style="font-size:13.5px;font-weight:700;color:#0b4d2c;">
+                  <span id="payoutNameDisplay">No Account Bound</span> · <span id="payoutNumberDisplay" style="font-family:ui-monospace, monospace;color:var(--jade);">—</span>
+                </div>
+              </div>
+            </div>
+            <button type="button" id="btnEditPayoutAccount" class="btn btn-ghost btn-sm" style="font-size:11.5px;padding:6px 14px;border-color:var(--jade);color:var(--jade);font-weight:700;">
+              <span id="btnEditPayoutAccountText">✎ Edit Mode of Payment</span>
+            </button>
+          </div>
+
+          <!-- 2. Edit / Bind Form (Collapsible) -->
+          <form id="payoutAccountForm" style="display:none;margin-top:14px;padding-top:14px;border-top:1px dashed rgba(15,122,69,0.2);">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
+              <p class="tiny" style="font-weight:700;color:var(--jade);margin:0;text-transform:uppercase;letter-spacing:0.04em;">
+                ⚡ Select Payment Provider:
+              </p>
+              <span class="tiny muted">Click icon to choose provider</span>
+            </div>
+
+            <!-- Visual Method Tiles with Transparent Images -->
+            <div class="payout-method-picker" id="payoutTilePicker">
+              <div class="payout-method-tile active" data-method="GCash">
+                <div class="tile-icon">
+                  <img src="/images/GCash.png" alt="GCash" />
+                </div>
+                <span class="tile-name">GCash</span>
+              </div>
+
+              <div class="payout-method-tile" data-method="Maya">
+                <div class="tile-icon">
+                  <img src="/images/Maya.png" alt="Maya" />
+                </div>
+                <span class="tile-name">Maya</span>
+              </div>
+
+              <div class="payout-method-tile" data-method="GoTyme">
+                <div class="tile-icon">
+                  <img src="/images/Gotyme.png" alt="GoTyme" />
+                </div>
+                <span class="tile-name">GoTyme</span>
+              </div>
+
+              <div class="payout-method-tile" data-method="MariBank">
+                <div class="tile-icon">
+                  <img src="/images/Maribank.png" alt="MariBank" />
+                </div>
+                <span class="tile-name">MariBank</span>
+              </div>
+
+              <div class="payout-method-tile" data-method="UnionBank (UB)">
+                <div class="tile-icon">
+                  <img src="/images/UnionBank.png" alt="UnionBank" />
+                </div>
+                <span class="tile-name">UB (UnionBank)</span>
+              </div>
+            </div>
+
+            <input type="hidden" name="method" id="selectedPayoutMethod" value="GCash" />
+
+            <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(200px, 1fr));gap:10px;margin-bottom:12px;">
+              <div>
+                <label class="tiny muted" style="display:block;margin-bottom:4px;font-weight:600;">Account Name (Full Name on Account) *</label>
+                <input class="in" name="account_name" id="inputPayoutName" required placeholder="e.g. Juan Dela Cruz" style="font-size:13px;padding:8px 10px;" />
+              </div>
+              <div>
+                <label class="tiny muted" style="display:block;margin-bottom:4px;font-weight:600;">Account Number / Mobile Number *</label>
+                <input class="in" name="account_number" id="inputPayoutNumber" required placeholder="e.g. 0917XXXXXXX or Bank Acc #" style="font-size:13px;padding:8px 10px;font-family:ui-monospace, monospace;font-weight:700;" />
+              </div>
+            </div>
+            <div style="display:flex;gap:8px;justify-content:flex-end;">
+              <button type="button" id="btnCancelPayoutEdit" class="btn btn-ghost btn-sm" style="padding:6px 12px;font-size:11.5px;">Cancel</button>
+              <button type="submit" id="btnSavePayoutAccount" class="btn btn-mint btn-sm" style="padding:6px 18px;font-size:11.5px;font-weight:700;">Save &amp; Bind Account</button>
+            </div>
+          </form>
+        </div>
+
+        <fieldset id="withdrawalFieldset" style="border:none;padding:0;margin:0;">
+          <div class="wd-cards-grid">
+            <!-- Wallet 1: Binary Referral -->
+            <article class="wd-card theme-binary">
+              <div class="wd-card-head">
+                <div class="wd-card-title-group">
+                  <span class="wd-icon-pill icon-binary">⇄</span>
+                  <div>
+                    <span class="wd-card-label">Binary Referral</span>
+                    <span class="wd-card-sub">Direct &amp; Pair Matching</span>
+                  </div>
+                </div>
+                <span class="wd-badge badge-binary">Binary</span>
+              </div>
+
+              <div class="wd-card-bal-box">
+                <span class="wd-card-bal-title">Available Balance</span>
+                <div id="wBinaryModal" class="wd-card-bal">₱0.00</div>
+              </div>
+
+              <form data-wallet="binary-ref" class="wd wd-card-form">
+                <div class="wd-input-wrapper">
+                  <span class="wd-curr-symbol">₱</span>
+                  <input class="wd-input-field in" id="amtBinary" name="amount" type="number" min="100" step="0.01" placeholder="100.00" required />
+                  <button type="button" class="wd-max-pill" data-fill-target="amtBinary" data-balance-key="binary">MAX</button>
+                </div>
+                <div class="wd-min-info">
+                  <span>Min: <strong>₱100.00</strong></span>
+                  <span class="wd-fee-rate-tag">Fee: 8%–12%</span>
+                </div>
+                <button type="submit" class="wd-btn-cashout btn-theme-binary">
+                  <span>Cash out</span>
+                  <span class="btn-arrow">➔</span>
+                </button>
+                <div class="wd-fee-preview" id="feeBinary"></div>
+                <div class="wd-payout-alert" id="alertBinary">Payouts closed.</div>
+              </form>
+            </article>
+
+            <!-- Wallet 2: Trade-In Referral -->
+            <article class="wd-card theme-ref">
+              <div class="wd-card-head">
+                <div class="wd-card-title-group">
+                  <span class="wd-icon-pill icon-ref">★</span>
+                  <div>
+                    <span class="wd-card-label">Trade-In Referral</span>
+                    <span class="wd-card-sub">5% Direct Sponsor</span>
+                  </div>
+                </div>
+                <span class="wd-badge badge-ref">Trade-In</span>
+              </div>
+
+              <div class="wd-card-bal-box">
+                <span class="wd-card-bal-title">Available Balance</span>
+                <div id="wTradeRefModal" class="wd-card-bal">₱0.00</div>
+              </div>
+
+              <form data-wallet="tradein-ref" class="wd wd-card-form">
+                <div class="wd-input-wrapper">
+                  <span class="wd-curr-symbol">₱</span>
+                  <input class="wd-input-field in" id="amtTradeRef" name="amount" type="number" min="100" step="0.01" placeholder="100.00" required />
+                  <button type="button" class="wd-max-pill" data-fill-target="amtTradeRef" data-balance-key="tradeRef">MAX</button>
+                </div>
+                <div class="wd-min-info">
+                  <span>Min: <strong>₱100.00</strong></span>
+                  <span class="wd-fee-rate-tag">Fee: 8%–12%</span>
+                </div>
+                <button type="submit" class="wd-btn-cashout btn-theme-ref">
+                  <span>Cash out</span>
+                  <span class="btn-arrow">➔</span>
+                </button>
+                <div class="wd-fee-preview" id="feeTradeRef"></div>
+                <div class="wd-payout-alert" id="alertTradeRef">Payouts closed.</div>
+              </form>
+            </article>
+
+            <!-- Wallet 3: Trade-In Cycle Yield -->
+            <article class="wd-card theme-cycle">
+              <div class="wd-card-head">
+                <div class="wd-card-title-group">
+                  <span class="wd-icon-pill icon-cycle">⚡</span>
+                  <div>
+                    <span class="wd-card-label">Trade-In Cycle</span>
+                    <span class="wd-card-sub">10-Day Profit Yield</span>
+                  </div>
+                </div>
+                <span class="wd-badge badge-cycle">Cycle</span>
+              </div>
+
+              <div class="wd-card-bal-box">
+                <span class="wd-card-bal-title">Available Balance</span>
+                <div id="wCycleModal" class="wd-card-bal">₱0.00</div>
+              </div>
+
+              <form data-wallet="tradein-cycle" class="wd wd-card-form">
+                <div class="wd-input-wrapper">
+                  <span class="wd-curr-symbol">₱</span>
+                  <input class="wd-input-field in" id="amtCycle" name="amount" type="number" min="100" step="0.01" placeholder="100.00" required />
+                  <button type="button" class="wd-max-pill" data-fill-target="amtCycle" data-balance-key="cycle">MAX</button>
+                </div>
+                <div class="wd-min-info">
+                  <span>Min: <strong>₱100.00</strong></span>
+                  <span class="wd-fee-rate-tag">Fee: 8%–12%</span>
+                </div>
+                <button type="submit" class="wd-btn-cashout btn-theme-cycle">
+                  <span>Cash out</span>
+                  <span class="btn-arrow">➔</span>
+                </button>
+                <div class="wd-fee-preview" id="feeCycle"></div>
+                <div class="wd-payout-alert" id="alertCycle">Payouts closed.</div>
+              </form>
+            </article>
+          </div>
+        </fieldset>
 
         <h3 style="font-size:15px;margin:16px 0 8px;">Recent Withdrawal History</h3>
         <div id="withdrawalsList" class="list"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal 7: Platform Terms, Privacy & Risk Disclosure Modal -->
+  <div class="plan-modal" id="modalPlatformInfo" hidden>
+    <div class="plan-modal-backdrop" data-close-modal></div>
+    <div class="plan-modal-sheet" style="max-width:680px;">
+      <header class="plan-modal-head">
+        <div>
+          <p class="kicker" id="platformInfoKicker">Policy &amp; Information</p>
+          <h2 id="platformInfoTitle">Platform Information</h2>
+        </div>
+        <button class="plan-close" type="button" data-close-modal>×</button>
+      </header>
+      <div class="plan-modal-body" id="platformInfoBody" style="line-height:1.65;font-size:13px;">
+        <!-- Injected via JS -->
       </div>
     </div>
   </div>
@@ -450,7 +791,18 @@
 
     document.getElementById('copyRef').onclick = async () => {
       const v = document.getElementById('refLink').value;
-      try { await navigator.clipboard.writeText(v); toast('Referral link copied!', true); }
+      const btn = document.getElementById('copyRef');
+      try {
+        await navigator.clipboard.writeText(v);
+        toast('Referral link copied to clipboard!', true);
+        const prevText = btn.textContent;
+        btn.textContent = 'Copied! ✓';
+        btn.style.color = 'var(--jade)';
+        setTimeout(() => {
+          btn.textContent = prevText;
+          btn.style.color = '';
+        }, 2000);
+      }
       catch { toast('Copy failed.'); }
     };
 
@@ -469,9 +821,9 @@
       if (!inp || !prev) return;
       inp.addEventListener('input', () => {
         const amt = Number(inp.value);
-        if (!amt || amt < 100) { prev.textContent = ''; prev.classList.remove('ready'); return; }
+        if (!amt || amt < 100) { prev.innerHTML = ''; prev.classList.remove('ready'); return; }
         const f = calcFee(amt);
-        prev.textContent = `Fee ${Math.round(f.rate * 100)}% (₱${f.fee.toFixed(2)}) → You receive ₱${f.net.toFixed(2)}`;
+        prev.innerHTML = `<span style="font-weight:700;">Fee ${Math.round(f.rate * 100)}% (₱${f.fee.toFixed(2)})</span> ➔ You receive: <strong style="color:var(--jade);font-size:12px;">₱${f.net.toFixed(2)}</strong>`;
         prev.classList.add('ready');
       });
     }
@@ -479,6 +831,23 @@
     wireFeePreview('amtBinary',   'feeBinary');
     wireFeePreview('amtTradeRef', 'feeTradeRef');
     wireFeePreview('amtCycle',    'feeCycle');
+
+    let latestBalances = { binary: 0, tradeRef: 0, cycle: 0 };
+
+    document.querySelectorAll('[data-fill-target]').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.preventDefault();
+        const targetId = btn.getAttribute('data-fill-target');
+        const key = btn.getAttribute('data-balance-key');
+        const inp = document.getElementById(targetId);
+        if (inp && key && latestBalances[key] !== undefined) {
+          const bal = latestBalances[key];
+          inp.value = bal > 0 ? bal.toFixed(2) : '100.00';
+          inp.dispatchEvent(new Event('input', { bubbles: true }));
+          inp.focus();
+        }
+      });
+    });
 
     // Modal open/close helpers
     function openModal(id) {
@@ -502,6 +871,37 @@
         document.querySelectorAll('.plan-modal').forEach(m => m.hidden = true);
         document.body.classList.remove('modal-open');
       }
+    });
+
+    // Mobile Drawer Open / Close Logic
+    const sidebarEl = document.getElementById('dashSidebar');
+    const backdropEl = document.getElementById('sidebarBackdrop');
+    const burgerToggle = document.getElementById('burgerToggle');
+    const sidebarClose = document.getElementById('sidebarClose');
+
+    function openMobileDrawer() {
+      if (sidebarEl) sidebarEl.classList.add('open');
+      if (backdropEl) backdropEl.classList.add('show');
+      document.body.classList.add('sidebar-drawer-open');
+    }
+
+    function closeMobileDrawer() {
+      if (sidebarEl) sidebarEl.classList.remove('open');
+      if (backdropEl) backdropEl.classList.remove('show');
+      document.body.classList.remove('sidebar-drawer-open');
+    }
+
+    if (burgerToggle) burgerToggle.onclick = openMobileDrawer;
+    if (sidebarClose) sidebarClose.onclick = closeMobileDrawer;
+    if (backdropEl) backdropEl.onclick = closeMobileDrawer;
+
+    // Auto-close mobile drawer when tapping an action button inside sidebar
+    document.querySelectorAll('.dash-sidebar button:not(.dash-sidebar-close)').forEach(btn => {
+      btn.addEventListener('click', () => {
+        if (window.innerWidth <= 900 && !btn.closest('.side-nav-header')) {
+          closeMobileDrawer();
+        }
+      });
     });
 
     // Sidebar Accordion Folding/Collapsing
@@ -530,6 +930,13 @@
       openModal('modalCodeVault');
       document.getElementById('tabCodeUsed').click();
     };
+    const btnOpenFullVault = document.getElementById('btnOpenFullVault');
+    if (btnOpenFullVault) {
+      btnOpenFullVault.onclick = () => {
+        openModal('modalCodeVault');
+        document.getElementById('tabCodeAvail').click();
+      };
+    }
 
     // Code vault tabs
     document.getElementById('tabCodeAvail').onclick = () => {
@@ -544,6 +951,58 @@
       document.getElementById('viewCodesUsed').style.display = 'grid';
       document.getElementById('viewCodesAvail').style.display = 'none';
     };
+
+    // Legal / Policy Modal Opener
+    function showPlatformInfo(type) {
+      const modal = document.getElementById('modalPlatformInfo');
+      const kicker = document.getElementById('platformInfoKicker');
+      const title = document.getElementById('platformInfoTitle');
+      const body = document.getElementById('platformInfoBody');
+      if (!modal || !body) return;
+
+      if (type === 'terms') {
+        kicker.textContent = 'Platform Agreement';
+        title.textContent = 'Terms of Service';
+        body.innerHTML = `
+          <h4 style="margin:0 0 8px;color:var(--jade);font-size:15px;">1. Participation &amp; Account Verification</h4>
+          <p style="margin:0 0 14px;">All members participate in the Infinite Trading network desk by registering a valid mobile identifier and activating their slot with an authentic ₱300 activation code. Each account operates under standard binary matching guidelines.</p>
+          <h4 style="margin:0 0 8px;color:var(--jade);font-size:15px;">2. Earning Caps &amp; Renewals</h4>
+          <p style="margin:0 0 14px;">Binary referral earnings are capped at ₱3,000 per cycle. Upon reaching the maximum binary cap, an account requires renewal with a ₱300 code to continue participating in paired payouts.</p>
+          <h4 style="margin:0 0 8px;color:var(--jade);font-size:15px;">3. Weekly Cashout Schedule</h4>
+          <p style="margin:0;">Withdrawals are available when the weekly payout window is toggled open by administration. All submitted withdrawal requests are subject to standard verification and tier-based processing fees.</p>
+        `;
+      } else if (type === 'privacy') {
+        kicker.textContent = 'Data Protection';
+        title.textContent = 'Privacy Policy';
+        body.innerHTML = `
+          <h4 style="margin:0 0 8px;color:var(--jade);font-size:15px;">1. Encrypted Credentials</h4>
+          <p style="margin:0 0 14px;">User passwords and authentication tokens are salted and hashed using industry-standard bcrypt algorithms. Infinite Trading never stores plain-text passwords.</p>
+          <h4 style="margin:0 0 8px;color:var(--jade);font-size:15px;">2. Account Data Usage</h4>
+          <p style="margin:0 0 14px;">Your mobile number is solely utilized for tree structure placement, downline tracking, and cashout authorization. We do not sell or distribute member data to third parties.</p>
+          <h4 style="margin:0 0 8px;color:var(--jade);font-size:15px;">3. Session Security</h4>
+          <p style="margin:0;">Desk sessions are secured via cryptographically signed JSON Web Tokens (JWT) with automatic expiration and revocation controls.</p>
+        `;
+      } else if (type === 'risk') {
+        kicker.textContent = 'Important Notice';
+        title.textContent = 'Risk Disclosure';
+        body.innerHTML = `
+          <h4 style="margin:0 0 8px;color:var(--gold);font-size:15px;">1. Market Volatility &amp; Trading Risk</h4>
+          <p style="margin:0 0 14px;">Digital currency trading and financial market operations involve risk of capital fluctuation. Past algorithmic performance does not guarantee future results.</p>
+          <h4 style="margin:0 0 8px;color:var(--gold);font-size:15px;">2. Program Participation</h4>
+          <p style="margin:0 0 14px;">Trade-In packages run on a 12-day schedule with 4 disbursements every 3 days. Members are advised to allocate capital prudently within their risk tolerance.</p>
+          <h4 style="margin:0 0 8px;color:var(--gold);font-size:15px;">3. Responsible Networking</h4>
+          <p style="margin:0;">Sponsors and direct referrers are expected to accurately convey platform rules, fees, and binary cap requirements without misrepresenting potential returns.</p>
+        `;
+      }
+      openModal('modalPlatformInfo');
+    }
+
+    const btnTerms = document.getElementById('btnFooterTerms');
+    if (btnTerms) btnTerms.onclick = () => showPlatformInfo('terms');
+    const btnPrivacy = document.getElementById('btnFooterPrivacy');
+    if (btnPrivacy) btnPrivacy.onclick = () => showPlatformInfo('privacy');
+    const btnRisk = document.getElementById('btnFooterRisk');
+    if (btnRisk) btnRisk.onclick = () => showPlatformInfo('risk');
 
     function nextPayoutLabel(pkg) {
       if (pkg.cycle_status !== 'active') return '';
@@ -630,13 +1089,20 @@
       const m = d.metrics || {};
 
       // Header
-      document.getElementById('who').textContent = u.mobile_number + ' · ' + u.status;
-      if (u.role === 'admin') document.getElementById('adminLink').style.display = 'inline';
+      document.getElementById('who').textContent = u.mobile_number;
+      const uDot = document.getElementById('userStatusDot');
+      if (uDot) uDot.className = 'user-status-dot' + (u.status === 'active' ? '' : ' inactive');
+      const uStatusTxt = document.getElementById('userStatusText');
+      if (uStatusTxt) uStatusTxt.textContent = u.status === 'active' ? 'Active' : (u.status || 'Inactive');
+      if (u.role === 'admin') document.getElementById('adminLink').style.display = 'inline-flex';
 
-      document.getElementById('headerAccountBadge').innerHTML =
-        u.status === 'active'   ? '<span class="pill open">● Active</span>' :
-        u.status === 'inactive' ? '<span class="pill closed">● Inactive</span>' :
-        '<span class="pill closed">● ' + esc(u.status) + '</span>';
+      const badge = document.getElementById('headerAccountBadge');
+      if (badge) {
+        badge.innerHTML =
+          u.status === 'active'   ? '<span class="pill open">● Active</span>' :
+          u.status === 'inactive' ? '<span class="pill closed">● Inactive</span>' :
+          '<span class="pill closed">● ' + esc(u.status) + '</span>';
+      }
 
       // Inactive vs Active vs Expired gates
       const isInactive = u.status === 'inactive';
@@ -645,29 +1111,64 @@
       document.getElementById('activationBox').style.display = isInactive ? 'block' : 'none';
       document.getElementById('renewBox').style.display      = isExpired ? 'block' : 'none';
 
+      const copyRefBtn = document.getElementById('copyRef');
+      const refInput = document.getElementById('refLink');
+      const wdFieldset = document.getElementById('withdrawalFieldset');
+      const wdNotice = document.getElementById('withdrawalBlockedNotice');
+
       if (isInactive) {
         document.getElementById('refCard').style.opacity = '0.4';
         document.getElementById('refCard').style.pointerEvents = 'none';
+        if (copyRefBtn) copyRefBtn.disabled = true;
+        if (refInput) refInput.value = 'Activate account to unlock referral link';
         document.getElementById('tradeinBlockedNotice').textContent = '⚠ Activate your account with a ₱300 code to access Trade-In packages.';
         document.getElementById('tradeinBlockedNotice').classList.add('show');
         document.getElementById('tradeinFieldset').disabled = true;
+        if (wdNotice) {
+          wdNotice.textContent = '⚠ Activate your account with a ₱300 code to enable wallet cashouts.';
+          wdNotice.classList.add('show');
+        }
+        if (wdFieldset) wdFieldset.disabled = true;
       } else if (isExpired) {
         document.getElementById('refCard').style.opacity = '';
         document.getElementById('refCard').style.pointerEvents = '';
+        if (copyRefBtn) copyRefBtn.disabled = false;
+        if (refInput) refInput.value = location.origin + '/register.html?sponsor=' + encodeURIComponent(u.mobile_number);
         document.getElementById('tradeinBlockedNotice').textContent = '⚠ Your account is expired. Renew with a ₱300 code to access Trade-In.';
         document.getElementById('tradeinBlockedNotice').classList.add('show');
         document.getElementById('tradeinFieldset').disabled = true;
+        if (wdNotice) {
+          wdNotice.textContent = '⚠ Your account is expired. Renew with a ₱300 code to enable wallet cashouts.';
+          wdNotice.classList.add('show');
+        }
+        if (wdFieldset) wdFieldset.disabled = true;
       } else {
         document.getElementById('refCard').style.opacity = '';
         document.getElementById('refCard').style.pointerEvents = '';
+        if (copyRefBtn) copyRefBtn.disabled = false;
+        if (refInput) refInput.value = location.origin + '/register.html?sponsor=' + encodeURIComponent(u.mobile_number);
         document.getElementById('tradeinBlockedNotice').classList.remove('show');
         document.getElementById('tradeinFieldset').disabled = false;
+        if (wdNotice) wdNotice.classList.remove('show');
+        if (wdFieldset) wdFieldset.disabled = false;
       }
 
       // 7 METRICS CARDS
       document.getElementById('mBinary').textContent       = peso(m.binary || u.binary_ref_balance);
       document.getElementById('mPPT').textContent          = peso(m.ppt_earnings);
       document.getElementById('mPPTSub').textContent       = (m.ppt_pairs || 0) + ' / 10 pairs today';
+
+      // PPT Pairs Today circular dial animation
+      const pairs = Number(m.ppt_pairs || u.pairs_today || 0);
+      const pptDialText = document.getElementById('pptDialText');
+      if (pptDialText) pptDialText.textContent = pairs + '/10';
+      const pptDialCircle = document.getElementById('pptDialCircle');
+      if (pptDialCircle) {
+        const circ = 125.66;
+        const offset = circ - (Math.min(10, pairs) / 10) * circ;
+        pptDialCircle.style.strokeDashoffset = offset;
+      }
+
       document.getElementById('mInPPT').textContent        = peso(m.in_ppt_earnings);
       document.getElementById('mInPPTSub').textContent     = (m.in_ppt_count || 0) + ' downlines (₱5 ea)';
       document.getElementById('mTotal').textContent        = peso(m.total_balance);
@@ -681,6 +1182,10 @@
       document.getElementById('wTradeRefModal').textContent = peso(u.tradein_ref_balance);
       document.getElementById('wCycleModal').textContent    = peso(u.tradein_cycle_balance);
 
+      latestBalances.binary   = Number(u.binary_ref_balance || 0);
+      latestBalances.tradeRef = Number(u.tradein_ref_balance || 0);
+      latestBalances.cycle    = Number(u.tradein_cycle_balance || 0);
+
       // Binary Cap Progress Bar
       const cap    = d.constants.binaryCap || 3000;
       const earned = Number(u.total_binary_earnings || 0);
@@ -691,9 +1196,6 @@
 
       document.getElementById('treeCounts').textContent = 'Left: ' + d.tree.left_count + ' · Right: ' + d.tree.right_count;
       document.getElementById('pairsTodayText').textContent = 'Pairs today: ' + (u.pairs_today || 0) + ' / 10';
-
-      // Referral link
-      document.getElementById('refLink').value = location.origin + '/register.html?sponsor=' + encodeURIComponent(u.mobile_number);
 
       // Sidebar badges
       document.getElementById('badgeDirectCount').textContent   = d.directs.length;
@@ -706,6 +1208,25 @@
       document.getElementById('badgeUsedCodes').textContent  = usedList.length;
       document.getElementById('countAvailCodes').textContent = availList.length;
       document.getElementById('countUsedCodes').textContent  = usedList.length;
+
+      // Code Seller Desk on main dashboard view
+      const sellerPanel = document.getElementById('sellerDeskPanel');
+      const sellerListEl = document.getElementById('sellerDeskCodeList');
+      const sellerCountEl = document.getElementById('sellerDeskCount');
+      if (availList.length > 0) {
+        if (sellerPanel) sellerPanel.style.display = 'block';
+        if (sellerCountEl) sellerCountEl.textContent = availList.length;
+        if (sellerListEl) {
+          sellerListEl.innerHTML = availList.slice(0, 8).map(c => `
+            <div style="display:flex;justify-content:space-between;align-items:center;background:#fff;padding:6px 10px;border-radius:8px;border:1px solid rgba(15,122,69,0.3);">
+              <code style="font-size:13px;font-weight:700;color:var(--jade);">${esc(c.code)}</code>
+              <button type="button" data-copy-vault="${esc(c.code)}" class="btn btn-ghost btn-sm" style="padding:2px 8px;font-size:10.5px;">Copy</button>
+            </div>
+          `).join('');
+        }
+      } else {
+        if (sellerPanel) sellerPanel.style.display = 'none';
+      }
 
       // Payout window status
       payoutsOpen = d.weekly_payout_enabled;
@@ -756,7 +1277,10 @@
       document.getElementById('viewCodesUsed').innerHTML = usedList.length
         ? usedList.map(c => `
             <div class="item" style="display:flex;justify-content:space-between;align-items:center;background:#f9faf9;">
-              <code style="font-size:13px;color:var(--muted);text-decoration:line-through;">${esc(c.code)}</code>
+              <div>
+                <code style="font-size:13px;color:var(--muted);text-decoration:line-through;">${esc(c.code)}</code>
+                ${c.used_by_mobile ? `<p class="tiny muted" style="margin:2px 0 0;">Used by: <strong>${esc(c.used_by_mobile)}</strong></p>` : ''}
+              </div>
               <span class="tiny muted">${c.used_at ? new Date(c.used_at).toLocaleDateString() : 'Used'}</span>
             </div>
           `).join('')
@@ -785,22 +1309,182 @@
           `).join('')
         : '<p class="tiny muted">No trade-in packages yet.</p>';
 
-      // Render Withdrawals List
-      document.getElementById('withdrawalsList').innerHTML = d.withdrawals.length
-        ? d.withdrawals.map(w => {
-            const walletLabel = w.wallet_type === 'binary_ref' ? 'Binary' : w.wallet_type === 'tradein_ref' ? 'Trade-In Ref' : 'Cycle Yield';
-            return `
-              <div class="item" style="background:#fff;margin-bottom:6px;">
-                <span><strong>${walletLabel}:</strong> ${peso(w.net_amount)}</span>
-                <span class="pill ${w.status === 'approved' ? 'open' : w.status === 'pending' ? 'closed' : ''}">${esc(w.status)}</span>
-              </div>
-            `;
-          }).join('')
-        : '<p class="tiny muted">No withdrawals yet.</p>';
+    // Payout Provider Transparent Logo Helper
+    function getPayoutImg(method, size = 26) {
+      const m = String(method || '').toLowerCase();
+      let file = 'GCash.png';
+      let alt = 'GCash';
+      if (m.includes('maya')) { file = 'Maya.png'; alt = 'Maya'; }
+      else if (m.includes('gotyme')) { file = 'Gotyme.png'; alt = 'GoTyme'; }
+      else if (m.includes('maribank')) { file = 'Maribank.png'; alt = 'MariBank'; }
+      else if (m.includes('ub') || m.includes('unionbank')) { file = 'UnionBank.png'; alt = 'UnionBank'; }
 
-      // Render Genealogy Tree
-      renderGenealogyTree(d);
+      return `<img src="/images/${file}" alt="${alt}" style="width:${size}px;height:${size}px;object-fit:contain;vertical-align:middle;display:inline-block;flex-shrink:0;" />`;
     }
+
+    // Interactive Payout Tile Selector
+    function selectPayoutTile(methodName) {
+      const tiles = document.querySelectorAll('#payoutTilePicker .payout-method-tile');
+      tiles.forEach(t => {
+        const isMatch = t.dataset.method.toLowerCase() === methodName.toLowerCase() ||
+          t.dataset.method.toLowerCase().includes(methodName.toLowerCase()) ||
+          methodName.toLowerCase().includes(t.dataset.method.toLowerCase());
+        t.classList.toggle('active', isMatch);
+      });
+      const hiddenInput = document.getElementById('selectedPayoutMethod');
+      if (hiddenInput) hiddenInput.value = methodName;
+    }
+
+    document.querySelectorAll('#payoutTilePicker .payout-method-tile').forEach(tile => {
+      tile.addEventListener('click', () => {
+        selectPayoutTile(tile.dataset.method);
+      });
+    });
+
+    // Payout Account State & UI Binding
+    currentPayoutAccount = u.payout_account || null;
+    const pBadge = document.getElementById('payoutMethodBadge');
+    const pName = document.getElementById('payoutNameDisplay');
+    const pNum = document.getElementById('payoutNumberDisplay');
+    const pIcon = document.getElementById('payoutMethodIcon');
+    const pBtnText = document.getElementById('btnEditPayoutAccountText');
+    const pCard = document.getElementById('payoutAccountCard');
+
+    if (currentPayoutAccount && currentPayoutAccount.account_number) {
+      const mName = currentPayoutAccount.method || 'GCash';
+      const mKey = mName.toLowerCase();
+      let badgeClass = 'badge-tag tag-gcash';
+
+      if (mKey.includes('maya')) badgeClass = 'badge-tag tag-maya';
+      else if (mKey.includes('gotyme')) badgeClass = 'badge-tag tag-gotyme';
+      else if (mKey.includes('maribank')) badgeClass = 'badge-tag tag-maribank';
+      else if (mKey.includes('ub') || mKey.includes('unionbank')) badgeClass = 'badge-tag tag-ub';
+
+      pBadge.className = badgeClass;
+      pBadge.textContent = mName;
+      pIcon.innerHTML = getPayoutImg(mName, 42);
+      pName.textContent = currentPayoutAccount.account_name || 'Bound Account';
+      pNum.textContent = currentPayoutAccount.account_number || '';
+      pBtnText.textContent = '✎ Edit Account';
+      pCard.style.borderColor = 'rgba(15, 122, 69, 0.35)';
+
+      // Pre-select active tile and fill inputs
+      selectPayoutTile(mName);
+      document.getElementById('inputPayoutName').value = currentPayoutAccount.account_name || '';
+      document.getElementById('inputPayoutNumber').value = currentPayoutAccount.account_number || '';
+    } else {
+      pBadge.className = 'badge-tag tag-rejected';
+      pBadge.textContent = 'Unbound';
+      pIcon.innerHTML = '<span style="font-size:28px;">💳</span>';
+      pName.textContent = 'No Account Bound';
+      pNum.textContent = 'Bind to withdraw';
+      pBtnText.textContent = '+ Bind Payout Account';
+      pCard.style.borderColor = '#eab308';
+      selectPayoutTile('GCash');
+    }
+
+    // Render Withdrawals List
+    document.getElementById('withdrawalsList').innerHTML = d.withdrawals.length
+      ? d.withdrawals.map(w => {
+          const walletLabel = w.wallet_type === 'binary_ref' ? 'Binary Ref' : w.wallet_type === 'tradein_ref' ? 'Trade-In Ref' : 'Cycle Yield';
+          const iconImg = getPayoutImg(w.payout_method, 28);
+          const mTag = w.payout_method ? `<span class="badge-tag tag-available" style="font-size:9.5px;padding:2px 6px;margin-left:4px;">${esc(w.payout_method)}</span>` : '';
+          const accInfo = w.account_number ? `<span class="tiny muted" style="margin-left:4px;">(${esc(w.account_number)})</span>` : '';
+          return `
+            <div class="item" style="background:#fff;margin-bottom:8px;padding:10px 14px;border-radius:10px;display:flex;justify-content:space-between;align-items:center;">
+              <div style="display:flex;align-items:center;gap:10px;">
+                ${iconImg}
+                <div>
+                  <div style="display:flex;align-items:center;gap:4px;">
+                    <strong style="color:#0b4d2c;">${walletLabel}</strong>
+                    ${mTag}
+                  </div>
+                  <p class="tiny muted" style="margin:2px 0 0;">
+                    Net: <strong style="color:var(--jade);">${peso(w.net_amount)}</strong> (Gross: ${peso(w.amount)}) ${accInfo}
+                  </p>
+                </div>
+              </div>
+              <div style="text-align:right;">
+                <span class="pill ${w.status === 'approved' ? 'open' : w.status === 'pending' ? 'closed' : ''}">${esc(w.status)}</span>
+                <p class="tiny muted" style="margin:2px 0 0;">${new Date(w.created_at).toLocaleDateString()}</p>
+              </div>
+            </div>
+          `;
+        }).join('')
+      : '<p class="tiny muted">No withdrawals yet.</p>';
+
+    // Render Genealogy Tree
+    renderGenealogyTree(d);
+  }
+
+  // Toggle Payout Account Binding Form
+  let currentPayoutAccount = null;
+  const btnEditPayout = document.getElementById('btnEditPayoutAccount');
+  const formPayout = document.getElementById('payoutAccountForm');
+  const btnCancelPayout = document.getElementById('btnCancelPayoutEdit');
+
+  if (btnEditPayout && formPayout) {
+    btnEditPayout.addEventListener('click', () => {
+      const isHidden = formPayout.style.display === 'none' || !formPayout.style.display;
+      formPayout.style.display = isHidden ? 'block' : 'none';
+      if (isHidden) {
+        document.getElementById('inputPayoutName').focus();
+      }
+    });
+  }
+
+  if (btnCancelPayout && formPayout) {
+    btnCancelPayout.addEventListener('click', () => {
+      formPayout.style.display = 'none';
+    });
+  }
+
+  // Save Payout Account
+  if (formPayout) {
+    formPayout.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const method = document.getElementById('selectedPayoutMethod').value || 'GCash';
+      const account_name = document.getElementById('inputPayoutName').value.trim();
+      const account_number = document.getElementById('inputPayoutNumber').value.trim();
+
+      if (!account_name || account_name.length < 2) {
+        toast('Please enter a valid Account Name.');
+        document.getElementById('inputPayoutName').focus();
+        return;
+      }
+      if (!account_number || account_number.length < 5) {
+        toast('Please enter a valid Account/Mobile Number.');
+        document.getElementById('inputPayoutNumber').focus();
+        return;
+      }
+
+      const body = { method, account_name, account_number };
+      const btnSave = document.getElementById('btnSavePayoutAccount');
+      btnSave.disabled = true;
+      btnSave.textContent = 'Saving...';
+
+      try {
+        const res = await fetch('/api/user/payout-account', {
+          method: 'POST',
+          headers,
+          body: JSON.stringify(body),
+        });
+        const data = await res.json().catch(() => ({}));
+        if (!res.ok) {
+          toast(data.error || 'Failed to save payout account. Please try again.');
+          return;
+        }
+        toast('✓ Payout account successfully bound (' + esc(body.method) + ')!', true);
+        formPayout.style.display = 'none';
+        load();
+      } catch (err) {
+        toast(err.message || 'Error saving payout account.');
+      } finally {
+        btnSave.disabled = false;
+        btnSave.textContent = 'Save & Bind Account';
+      }
+    });
+  }
 
     // Activate Account
     document.getElementById('activateForm').addEventListener('submit', async (e) => {
@@ -843,14 +1527,28 @@
       form.addEventListener('submit', async (e) => {
         e.preventDefault();
         if (!payoutsOpen) { toast('Payouts are currently closed by admin. Please try again later.'); return; }
+        
+        if (!currentPayoutAccount || !currentPayoutAccount.method || !currentPayoutAccount.account_number) {
+          toast('⚠ Please bind your payout account (GCash, Maya, GoTyme, MariBank, or UB) first before withdrawing.');
+          if (formPayout) {
+            formPayout.style.display = 'block';
+            document.getElementById('inputPayoutName').focus();
+          }
+          return;
+        }
+
         const wallet = form.getAttribute('data-wallet');
         const amount = Number(new FormData(form).get('amount'));
         const res = await fetch('/api/withdraw/' + wallet, { method: 'POST', headers, body: JSON.stringify({ amount }) });
         const data = await res.json();
         if (!res.ok) { toast(data.error || 'Withdrawal failed.'); return; }
-        toast('Withdrawal submitted — net payout: ' + peso(data.withdrawal.net_amount), true);
+        toast('✓ Withdrawal submitted: ' + peso(data.withdrawal.net_amount) + ' ➔ ' + esc(data.withdrawal.payout_method) + ' (' + esc(data.withdrawal.account_number) + ')', true);
         form.reset();
-        form.parentElement.querySelector('.fee-preview').textContent = '';
+        const feeBox = form.querySelector('.wd-fee-preview') || form.parentElement.querySelector('.fee-preview') || form.querySelector('.fee-preview');
+        if (feeBox) {
+          feeBox.innerHTML = '';
+          feeBox.classList.remove('ready');
+        }
         load();
       });
     });

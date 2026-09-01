@@ -48,9 +48,20 @@
             autocapitalize="off" spellcheck="false" required placeholder="••••••••" />
         </label>
 
+        <label class="field">Sponsor Mobile (Optional / Referral)
+          <input id="sponsor_input" type="text" autocomplete="off" autocorrect="off"
+            autocapitalize="off" spellcheck="false" placeholder="09XXXXXXXXX (or leave blank)" />
+        </label>
+
         <p id="sponsorNotice" class="sponsor-notice"></p>
 
-        <button class="btn" id="submitBtn" style="width:100%;margin-top:14px">Create Account</button>
+        <div style="background:#f8fdf9;border:1px solid rgba(15,122,69,0.2);padding:10px 12px;border-radius:10px;margin-top:6px;">
+          <p class="tiny" style="margin:0;color:var(--jade);line-height:1.4;">
+            <strong>✨ Free Instant Registration:</strong> Create your account now. Enter your ₱300 activation code on your dashboard to unlock the binary tree and trading yields.
+          </p>
+        </div>
+
+        <button class="btn" id="submitBtn" style="width:100%;margin-top:14px">Create Free Account</button>
         <p class="center">Already in? <a href="/login.html">Sign in</a></p>
       </form>
     </section>
@@ -59,11 +70,13 @@
     const params = new URLSearchParams(location.search);
     const mobInput = document.getElementById('mobile_input');
     const pwdInput = document.getElementById('password_input');
+    const spInput = document.getElementById('sponsor_input');
     const sponsorNotice = document.getElementById('sponsorNotice');
 
     // Auto-capture sponsor from referral link
     const urlSponsor = params.get('sponsor');
     if (urlSponsor) {
+      spInput.value = urlSponsor;
       sponsorNotice.textContent = '✓ Referred by ' + urlSponsor;
       sponsorNotice.classList.add('show');
     }
@@ -73,6 +86,7 @@
     ['input', 'keydown', 'paste', 'focus'].forEach(ev => {
       mobInput.addEventListener(ev, () => { userTouched = true; });
       pwdInput.addEventListener(ev, () => { userTouched = true; });
+      spInput.addEventListener(ev, () => { userTouched = true; });
     });
 
     const wipeAutofill = () => {
@@ -80,11 +94,12 @@
         if (mobInput.value.includes('@') || (mobInput.value && !userTouched)) {
           mobInput.value = '';
           pwdInput.value = '';
+          if (!urlSponsor) spInput.value = '';
         }
       }
     };
 
-    window.addEventListener('pageshow', () => { mobInput.value = ''; pwdInput.value = ''; });
+    window.addEventListener('pageshow', () => { mobInput.value = ''; pwdInput.value = ''; if (!urlSponsor) spInput.value = ''; });
     window.addEventListener('DOMContentLoaded', wipeAutofill);
     window.addEventListener('load', wipeAutofill);
     const interval = setInterval(wipeAutofill, 40);
@@ -96,6 +111,7 @@
       errEl.classList.remove('show');
       const mobileVal = mobInput.value.trim();
       const pwdVal = pwdInput.value;
+      const sponsorVal = spInput.value.trim();
 
       const submitBtn = document.getElementById('submitBtn');
       submitBtn.disabled = true;
@@ -107,7 +123,7 @@
         body: JSON.stringify({
           mobile_number: mobileVal,
           password: pwdVal,
-          sponsor_mobile: urlSponsor || undefined,
+          sponsor_mobile: sponsorVal || undefined,
         }),
       });
       const data = await res.json();
@@ -115,7 +131,7 @@
         errEl.textContent = data.error || 'Registration failed.';
         errEl.classList.add('show');
         submitBtn.disabled = false;
-        submitBtn.textContent = 'Create Account';
+        submitBtn.textContent = 'Create Free Account';
         return;
       }
       localStorage.setItem('it_token', data.token);
