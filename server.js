@@ -58,6 +58,10 @@ function normalizeMobile(raw) {
   return null;
 }
 
+function normalizeCode(raw) {
+  return String(raw || '').trim().toUpperCase().replace(/[^A-Z0-9]/g, '');
+}
+
 function signToken(user) {
   return jwt.sign({ id: user.id, role: user.role }, JWT_SECRET, { expiresIn: '7d' });
 }
@@ -140,6 +144,7 @@ function publicUser(userId, data = db.getStore()) {
     position: t.position || null,
     pairs_today: t.pairs_today || 0,
     last_pair_date: t.last_pair_date || null,
+    payout_account: u.payout_account || null,
   };
 }
 
@@ -452,7 +457,7 @@ app.post('/api/account/activate', auth, async (req, res) => {
       }
 
       // Check code vault
-      const vault = data.code_vault.find((c) => c.code === code && c.status !== 'used');
+      const vault = data.code_vault.find((c) => normalizeCode(c.code) === code && c.status !== 'used');
       if (!vault) {
         const err = new Error('Activation code is invalid or already used.');
         err.status = 400;
@@ -461,7 +466,10 @@ app.post('/api/account/activate', auth, async (req, res) => {
 
       // Mark code as used
       vault.status = 'used';
-      vault.assigned_to = u.id;
+      vault.used_by = u.id;
+      if (!vault.assigned_to) {
+        vault.assigned_to = u.id;
+      }
       vault.used_at = nowIso();
 
       // Activate user account
@@ -501,7 +509,7 @@ app.post('/api/account/activate', auth, async (req, res) => {
 });
 
 app.post('/api/account/renew', auth, async (req, res) => {
-  const code = String(req.body.code || '').trim().toUpperCase().replace(/[^A-Z0-9]/g, '');
+  const code = normalizeCode(req.body.code);
   if (!code || code.length < 6) return res.status(400).json({ error: 'Please enter a valid 8-character activation code to renew.' });
   try {
     const user = await db.tx((data) => {
@@ -516,14 +524,17 @@ app.post('/api/account/renew', auth, async (req, res) => {
         err.status = 403;
         throw err;
       }
-      const vault = data.code_vault.find((c) => c.code === code && c.status !== 'used');
+      const vault = data.code_vault.find((c) => normalizeCode(c.code) === code && c.status !== 'used');
       if (!vault) {
         const err = new Error('Activation code is invalid or already used.');
         err.status = 400;
         throw err;
       }
       vault.status = 'used';
-      vault.assigned_to = u.id;
+      vault.used_by = u.id;
+      if (!vault.assigned_to) {
+        vault.assigned_to = u.id;
+      }
       vault.used_at = nowIso();
       u.status = 'active';
       u.total_binary_earnings = 0;
@@ -628,14 +639,19 @@ app.get('/api/dashboard', auth, async (req, res) => {
   const leftChildNode = leftChild ? getNodeInfo(leftChild.user_id) : null;
   const rightChildNode = rightChild ? getNodeInfo(rightChild.user_id) : null;
 
-  // Code Vault stats for this user
+  // Code Vault stats for this user (Code seller inventory)
   const available_codes = data.code_vault
     .filter((c) => c.assigned_to === req.user.id && c.status === 'assigned')
     .map((c) => ({ id: c.id, code: c.code, created_at: c.created_at }));
 
   const used_codes = data.code_vault
     .filter((c) => c.assigned_to === req.user.id && c.status === 'used')
-    .map((c) => ({ id: c.id, code: c.code, used_at: c.used_at }));
+    .map((c) => ({
+      id: c.id,
+      code: c.code,
+      used_at: c.used_at,
+      used_by_mobile: c.used_by ? mobileOf(c.used_by, data) : '',
+    }));
 
   // Trade-In active capital
   const total_tradein_deposit = packages
@@ -725,6 +741,58 @@ app.post('/api/tradein/purchase', auth, async (req, res) => {
   }
 });
 
+function normalizePayoutMethod(m) {
+  const s = String(m || '').toLowerCase().trim();
+  if (s.includes('ub') || s.includes('unionbank')) return 'UnionBank (UB)';
+  if (s.includes('maribank')) return 'MariBank';
+  if (s.includes('gotyme')) return 'GoTyme';
+  if (s.includes('maya')) return 'Maya';
+  if (s.includes('gcash')) return 'GCash';
+  return null;
+}
+
+const VALID_PAYOUT_METHODS = ['GCash', 'Maya', 'GoTyme', 'MariBank', 'UB', 'UnionBank', 'UnionBank (UB)'];
+
+app.post('/api/user/payout-account', auth, async (req, res) => {
+  const rawMethod = String(req.body.method || '').trim();
+  const normalizedMethod = normalizePayoutMethod(rawMethod);
+  const account_name = String(req.body.account_name || '').trim();
+  const account_number = String(req.body.account_number || '').trim();
+
+  if (!normalizedMethod) {
+    return res.status(400).json({ error: 'Please select a valid payment method: GCash, Maya, GoTyme, MariBank, or UB.' });
+  }
+  if (!account_name || account_name.length < 2) {
+    return res.status(400).json({ error: 'Please enter a valid Account Name (minimum 2 characters).' });
+  }
+  if (!account_number || account_number.length < 5) {
+    return res.status(400).json({ error: 'Please enter a valid Account/Mobile Number (minimum 5 digits).' });
+  }
+
+  try {
+    const payoutAccount = await db.tx((data) => {
+      const user = data.users.find((u) => u.id === req.user.id);
+      if (!user) {
+        const err = new Error('User not found.');
+        err.status = 404;
+        throw err;
+      }
+      user.payout_account = {
+        method: normalizedMethod,
+        account_name,
+        account_number,
+        updated_at: nowIso(),
+      };
+      return user.payout_account;
+    });
+    res.json({ ok: true, payout_account: payoutAccount });
+  } catch (err) {
+    if (err.status) return res.status(err.status).json({ error: err.message });
+    console.error(err);
+    res.status(500).json({ error: 'Failed to bind payout account.' });
+  }
+});
+
 async function requestWithdrawal(req, res, walletType) {
   const amount = money(req.body.amount);
   const column = WALLET_COLUMNS[walletType];
@@ -747,6 +815,26 @@ async function requestWithdrawal(req, res, walletType) {
         err.status = 403;
         throw err;
       }
+
+      // Check or update bound payout account
+      let payout = user.payout_account;
+      if (req.body.method && req.body.account_name && req.body.account_number) {
+        const norm = normalizePayoutMethod(req.body.method) || 'GCash';
+        payout = {
+          method: norm,
+          account_name: String(req.body.account_name).trim(),
+          account_number: String(req.body.account_number).trim(),
+          updated_at: nowIso(),
+        };
+        user.payout_account = payout;
+      }
+
+      if (!payout || !payout.method || !payout.account_number) {
+        const err = new Error('Please bind your payout account (GCash, Maya, GoTyme, MariBank, or UB) before cashing out.');
+        err.status = 400;
+        throw err;
+      }
+
       const wallet = data.wallets.find((w) => w.user_id === req.user.id);
       const bal = money(wallet[column]);
       if (amount > bal) {
@@ -763,6 +851,9 @@ async function requestWithdrawal(req, res, walletType) {
         amount,
         fee,
         net_amount: net,
+        payout_method: payout.method,
+        account_name: payout.account_name,
+        account_number: payout.account_number,
         status: 'pending',
         created_at: nowIso(),
         processed_at: null,
@@ -872,10 +963,17 @@ app.get('/api/admin/withdrawals', auth, adminOnly, (_req, res) => {
   const withdrawals = data.withdrawals
     .slice()
     .sort((a, b) => b.id - a.id)
-    .slice(0, 200)
+    .slice(0, 300)
     .map((w) => {
       const u = data.users.find((x) => x.id === w.user_id);
-      return { ...w, mobile_number: u ? u.mobile_number : '' };
+      const userPayout = u && u.payout_account ? u.payout_account : null;
+      return {
+        ...w,
+        mobile_number: u ? u.mobile_number : '',
+        payout_method: w.payout_method || (userPayout ? userPayout.method : '—'),
+        account_name: w.account_name || (userPayout ? userPayout.account_name : '—'),
+        account_number: w.account_number || (userPayout ? userPayout.account_number : '—'),
+      };
     });
   res.json({ withdrawals });
 });
@@ -942,6 +1040,7 @@ app.post('/api/admin/codes', auth, adminOnly, async (req, res) => {
           code,
           status: 'available',
           assigned_to: null,
+          used_by: null,
           created_at: nowIso(),
           used_at: null,
         });
@@ -1002,7 +1101,11 @@ app.get('/api/admin/codes', auth, adminOnly, (_req, res) => {
     .slice()
     .sort((a, b) => b.id - a.id)
     .slice(0, 200)
-    .map((c) => ({ ...c, assigned_mobile: c.assigned_to ? mobileOf(c.assigned_to, data) : '' }));
+    .map((c) => ({
+      ...c,
+      assigned_mobile: c.assigned_to ? mobileOf(c.assigned_to, data) : '',
+      used_mobile: c.used_by ? mobileOf(c.used_by, data) : (c.status === 'used' && c.assigned_to ? mobileOf(c.assigned_to, data) : ''),
+    }));
   res.json({ codes });
 });
 

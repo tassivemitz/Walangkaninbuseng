@@ -1,18 +1,18 @@
 {
   "nextId": {
-    "users": 6,
+    "users": 11,
     "tradein_packages": 3,
     "withdrawals": 1,
-    "code_vault": 15
+    "code_vault": 28
   },
   "users": [
     {
       "id": 1,
       "mobile_number": "Toshi",
-      "password": "$2a$10$EFUcq6cfUgQv7GGivIteA.VpeDxujoBBEKb9qKsHJ4QeZSjmtgPrK",
+      "password": "$2a$10$RUOrfMi3LQiVLyWBYaBXNelpFUouBT2vXSLdXGeB8NsjqExeMppCm",
       "role": "admin",
       "status": "active",
-      "total_binary_earnings": 250,
+      "total_binary_earnings": 400,
       "created_at": "2026-08-30T11:27:35.642Z"
     },
     {
@@ -22,7 +22,13 @@
       "role": "user",
       "status": "active",
       "total_binary_earnings": 0,
-      "created_at": "2026-08-30T13:39:45.880Z"
+      "created_at": "2026-08-30T13:39:45.880Z",
+      "payout_account": {
+        "method": "UnionBank (UB)",
+        "account_name": "Jakol Salsalani",
+        "account_number": "09123456789",
+        "updated_at": "2026-09-01T09:31:57.675Z"
+      }
     },
     {
       "id": 4,
@@ -41,12 +47,57 @@
       "status": "active",
       "total_binary_earnings": 0,
       "created_at": "2026-08-31T03:46:34.793Z"
+    },
+    {
+      "id": 6,
+      "mobile_number": "09174772390",
+      "password": "$2a$10$r0MmqzdycQdK21sWU8CnTOfBIn1/309c/LpEtsS6VixasO/9aJaKq",
+      "role": "user",
+      "status": "inactive",
+      "total_binary_earnings": 0,
+      "created_at": "2026-09-01T07:08:02.235Z"
+    },
+    {
+      "id": 7,
+      "mobile_number": "09176307199",
+      "password": "$2a$10$oCn9/2HulhqyuaqG41sN..Iv/3Bv4Y6rckg.LkJpVK3cPeQETos3e",
+      "role": "user",
+      "status": "active",
+      "total_binary_earnings": 0,
+      "created_at": "2026-09-01T07:08:35.059Z"
+    },
+    {
+      "id": 8,
+      "mobile_number": "09184316013",
+      "password": "$2a$10$5pdSWuaWsLkQw12lZuAb5OAoImi0.Gam03IXJNjH7lJgaWunX4RSu",
+      "role": "user",
+      "status": "inactive",
+      "total_binary_earnings": 0,
+      "created_at": "2026-09-01T07:08:35.413Z"
+    },
+    {
+      "id": 9,
+      "mobile_number": "09177543614",
+      "password": "$2a$10$xo8kx4Lw.Lbn93zaxMZHJOah0zdVULqSsFxe12rdXdpYiTYjLNKrm",
+      "role": "user",
+      "status": "active",
+      "total_binary_earnings": 0,
+      "created_at": "2026-09-01T07:09:35.330Z"
+    },
+    {
+      "id": 10,
+      "mobile_number": "09181759446",
+      "password": "$2a$10$APwzVaw.nQdxECdAoIqHx.H62E55u6suJEkG7D7/8QP2hbxJPDeVC",
+      "role": "user",
+      "status": "inactive",
+      "total_binary_earnings": 0,
+      "created_at": "2026-09-01T07:09:35.611Z"
     }
   ],
   "wallets": [
     {
       "user_id": 1,
-      "binary_ref_balance": 250,
+      "binary_ref_balance": 400,
       "tradein_ref_balance": 200,
       "tradein_cycle_balance": 0
     },
@@ -67,6 +118,36 @@
       "binary_ref_balance": 0,
       "tradein_ref_balance": 0,
       "tradein_cycle_balance": 0
+    },
+    {
+      "user_id": 6,
+      "binary_ref_balance": 0,
+      "tradein_ref_balance": 0,
+      "tradein_cycle_balance": 0
+    },
+    {
+      "user_id": 7,
+      "binary_ref_balance": 0,
+      "tradein_ref_balance": 0,
+      "tradein_cycle_balance": 0
+    },
+    {
+      "user_id": 8,
+      "binary_ref_balance": 0,
+      "tradein_ref_balance": 0,
+      "tradein_cycle_balance": 0
+    },
+    {
+      "user_id": 9,
+      "binary_ref_balance": 0,
+      "tradein_ref_balance": 0,
+      "tradein_cycle_balance": 0
+    },
+    {
+      "user_id": 10,
+      "binary_ref_balance": 0,
+      "tradein_ref_balance": 0,
+      "tradein_cycle_balance": 0
     }
   ],
   "binary_tree": [
@@ -77,12 +158,52 @@
       "position": null,
       "leftover_left": 2,
       "leftover_right": 0,
-      "pairs_today": 0,
-      "last_pair_date": "2026-08-31"
+      "pairs_today": 1,
+      "last_pair_date": "2026-09-01"
     },
     {
       "user_id": 3,
       "parent_id": 1,
+      "sponsor_id": 1,
+      "position": "R",
+      "leftover_left": 0,
+      "leftover_right": 1,
+      "pairs_today": 0,
+      "last_pair_date": "2026-09-01"
+    },
+    {
+      "user_id": 4,
+      "parent_id": 1,
+      "sponsor_id": 1,
+      "position": "L",
+      "leftover_left": 2,
+      "leftover_right": 0,
+      "pairs_today": 0,
+      "last_pair_date": "2026-09-01"
+    },
+    {
+      "user_id": 5,
+      "parent_id": 4,
+      "sponsor_id": 1,
+      "position": "L",
+      "leftover_left": 1,
+      "leftover_right": 0,
+      "pairs_today": 0,
+      "last_pair_date": "2026-09-01"
+    },
+    {
+      "user_id": 6,
+      "parent_id": null,
+      "sponsor_id": 1,
+      "position": null,
+      "leftover_left": 0,
+      "leftover_right": 0,
+      "pairs_today": 0,
+      "last_pair_date": null
+    },
+    {
+      "user_id": 7,
+      "parent_id": 3,
       "sponsor_id": 1,
       "position": "R",
       "leftover_left": 0,
@@ -91,20 +212,30 @@
       "last_pair_date": null
     },
     {
-      "user_id": 4,
-      "parent_id": 1,
-      "sponsor_id": 1,
-      "position": "L",
-      "leftover_left": 1,
+      "user_id": 8,
+      "parent_id": null,
+      "sponsor_id": 7,
+      "position": null,
+      "leftover_left": 0,
       "leftover_right": 0,
       "pairs_today": 0,
-      "last_pair_date": "2026-08-31"
+      "last_pair_date": null
     },
     {
-      "user_id": 5,
-      "parent_id": 4,
+      "user_id": 9,
+      "parent_id": 5,
       "sponsor_id": 1,
       "position": "L",
+      "leftover_left": 0,
+      "leftover_right": 0,
+      "pairs_today": 0,
+      "last_pair_date": null
+    },
+    {
+      "user_id": 10,
+      "parent_id": null,
+      "sponsor_id": 9,
+      "position": null,
       "leftover_left": 0,
       "leftover_right": 0,
       "pairs_today": 0,
@@ -136,32 +267,32 @@
     {
       "id": 1,
       "code": "IT-045E260D",
-      "status": "available",
-      "assigned_to": null,
+      "status": "assigned",
+      "assigned_to": 7,
       "created_at": "2026-08-30T11:27:35.642Z",
       "used_at": null
     },
     {
       "id": 2,
       "code": "IT-0B451295",
-      "status": "available",
-      "assigned_to": null,
+      "status": "assigned",
+      "assigned_to": 7,
       "created_at": "2026-08-30T11:27:35.642Z",
       "used_at": null
     },
     {
       "id": 3,
       "code": "IT-14DF8D30",
-      "status": "available",
-      "assigned_to": null,
+      "status": "assigned",
+      "assigned_to": 9,
       "created_at": "2026-08-30T11:27:35.642Z",
       "used_at": null
     },
     {
       "id": 4,
       "code": "IT-C642D944",
-      "status": "available",
-      "assigned_to": null,
+      "status": "assigned",
+      "assigned_to": 9,
       "created_at": "2026-08-30T11:27:35.642Z",
       "used_at": null
     },
@@ -244,9 +375,113 @@
       "assigned_to": null,
       "created_at": "2026-08-31T03:46:34.631Z",
       "used_at": null
+    },
+    {
+      "id": 15,
+      "code": "CVXZU97N",
+      "status": "available",
+      "assigned_to": null,
+      "created_at": "2026-09-01T03:14:57.258Z",
+      "used_at": null
+    },
+    {
+      "id": 16,
+      "code": "RWXBU8TP",
+      "status": "available",
+      "assigned_to": null,
+      "created_at": "2026-09-01T03:14:57.258Z",
+      "used_at": null
+    },
+    {
+      "id": 17,
+      "code": "6L48YJEC",
+      "status": "available",
+      "assigned_to": null,
+      "created_at": "2026-09-01T03:14:57.258Z",
+      "used_at": null
+    },
+    {
+      "id": 18,
+      "code": "WRHQKXVL",
+      "status": "used",
+      "assigned_to": 7,
+      "created_at": "2026-09-01T07:08:34.921Z",
+      "used_at": "2026-09-01T07:08:35.129Z"
+    },
+    {
+      "id": 19,
+      "code": "BPP2DT6K",
+      "status": "available",
+      "assigned_to": null,
+      "created_at": "2026-09-01T07:08:34.921Z",
+      "used_at": null
+    },
+    {
+      "id": 20,
+      "code": "8VPPP48J",
+      "status": "available",
+      "assigned_to": null,
+      "created_at": "2026-09-01T07:08:34.921Z",
+      "used_at": null
+    },
+    {
+      "id": 21,
+      "code": "AT8KU3SA",
+      "status": "available",
+      "assigned_to": null,
+      "created_at": "2026-09-01T07:08:34.921Z",
+      "used_at": null
+    },
+    {
+      "id": 22,
+      "code": "N9DD3EUN",
+      "status": "available",
+      "assigned_to": null,
+      "created_at": "2026-09-01T07:08:34.921Z",
+      "used_at": null
+    },
+    {
+      "id": 23,
+      "code": "PAYE7ZCC",
+      "status": "used",
+      "assigned_to": 9,
+      "created_at": "2026-09-01T07:09:35.189Z",
+      "used_at": "2026-09-01T07:09:35.402Z"
+    },
+    {
+      "id": 24,
+      "code": "L6SSYCRK",
+      "status": "available",
+      "assigned_to": null,
+      "created_at": "2026-09-01T07:09:35.189Z",
+      "used_at": null
+    },
+    {
+      "id": 25,
+      "code": "PR4DMU5Y",
+      "status": "available",
+      "assigned_to": null,
+      "created_at": "2026-09-01T07:09:35.189Z",
+      "used_at": null
+    },
+    {
+      "id": 26,
+      "code": "SX53D3N6",
+      "status": "available",
+      "assigned_to": null,
+      "created_at": "2026-09-01T07:09:35.189Z",
+      "used_at": null
+    },
+    {
+      "id": 27,
+      "code": "2RF7VERU",
+      "status": "available",
+      "assigned_to": null,
+      "created_at": "2026-09-01T07:09:35.189Z",
+      "used_at": null
     }
   ],
   "settings": {
-    "weekly_payout_enabled": 0
+    "weekly_payout_enabled": 1
   }
 }
