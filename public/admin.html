@@ -64,6 +64,18 @@
         </button>
       </div>
 
+      <!-- Admin Referral Link Card in Sidebar -->
+      <div class="admin-side-ref-box" id="adminSideRefCard">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;">
+          <p class="tiny" style="margin:0;font-weight:700;color:#0b4d2c;letter-spacing:0.04em;text-transform:uppercase;font-size:10px;">ADMIN REFERRAL LINK</p>
+          <span style="font-size:9.5px;background:#0f7a45;color:#fff;padding:1px 6px;border-radius:4px;font-weight:700;">ROOT</span>
+        </div>
+        <div style="display:flex;gap:6px;margin-top:6px;">
+          <input id="adminSideRefLink" class="in" style="font-size:11px;padding:8px 10px;flex:1;min-width:0;background:#fff;color:#0b4d2c;font-weight:600;" readonly value="Loading..." />
+          <button id="copyAdminSideRef" type="button" class="btn btn-ghost btn-sm" style="padding:6px 12px;font-size:11px;white-space:nowrap;">Copy</button>
+        </div>
+      </div>
+
       <!-- Sidebar Footer -->
       <div class="admin-sidebar-footer">
         <button type="button" id="logoutSideBtn" class="admin-side-logout-btn">
@@ -121,6 +133,26 @@
               <p class="admin-sec-sub">OVERVIEW · 5 CORE METRIC INDICATORS</p>
             </div>
             <div class="tiny muted" id="lastUpdatedText">Synced</div>
+          </div>
+
+          <!-- Admin Master Referral Link Card -->
+          <div class="admin-ref-banner">
+            <div class="admin-ref-banner-left">
+              <div class="admin-ref-banner-icon">🔗</div>
+              <div>
+                <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
+                  <h3 style="margin:0;font-size:15px;font-weight:700;color:#0b4d2c;font-family:'Fraunces', serif;">Admin Master Referral Link</h3>
+                  <span class="badge-tag tag-available" style="font-size:10px;">Direct Sponsor: <strong id="adminSponsorLabel">Toshi</strong></span>
+                </div>
+                <p style="margin:3px 0 0;font-size:12px;color:var(--muted);">Invite new members directly under the Root Admin account with this link.</p>
+              </div>
+            </div>
+            <div class="admin-ref-banner-right">
+              <input id="adminHomeRefLink" class="in" style="font-size:12px;padding:10px 14px;background:#fff;border:1px solid rgba(15,122,69,0.25);font-weight:600;color:#0b4d2c;border-radius:8px;flex:1;" readonly value="Loading..." />
+              <button id="copyAdminHomeRef" type="button" class="btn btn-mint btn-sm" style="padding:10px 18px;font-size:12px;font-weight:700;white-space:nowrap;box-shadow:0 2px 8px rgba(15,122,69,0.2);">
+                📋 Copy Link
+              </button>
+            </div>
           </div>
 
           <!-- 5 Metric Cards matching the reference diagram -->
@@ -1075,20 +1107,42 @@
       });
     }
 
+    let currentAdminUser = null;
+
+    function updateAdminRefLinks(u) {
+      if (!u) return;
+      const sponsor = u.mobile_number || 'Toshi';
+      const refUrl = window.location.origin + '/register.html?sponsor=' + encodeURIComponent(sponsor);
+      const sideInput = document.getElementById('adminSideRefLink');
+      const homeInput = document.getElementById('adminHomeRefLink');
+      const sponsorBadge = document.getElementById('adminSponsorLabel');
+      if (sideInput) sideInput.value = refUrl;
+      if (homeInput) homeInput.value = refUrl;
+      if (sponsorBadge) sponsorBadge.textContent = sponsor;
+    }
+
     async function refreshAll() {
       try {
-        const [overview, usersData, tradeinData, withdrawalsData, codesData] = await Promise.all([
+        const [overview, usersData, tradeinData, withdrawalsData, codesData, meData] = await Promise.all([
           api('/api/admin/overview'),
           api('/api/admin/users'),
           api('/api/admin/tradein'),
           api('/api/admin/withdrawals'),
           api('/api/admin/codes'),
+          api('/api/me').catch(() => null),
         ]);
 
         globalUsers = usersData.users || [];
         globalTradein = tradeinData.packages || [];
         globalWithdrawals = withdrawalsData.withdrawals || [];
         globalCodes = codesData.codes || [];
+
+        if (meData && meData.user) {
+          currentAdminUser = meData.user;
+        } else if (!currentAdminUser && globalUsers.length) {
+          currentAdminUser = globalUsers.find((u) => u.role === 'admin') || globalUsers[0];
+        }
+        updateAdminRefLinks(currentAdminUser);
 
         renderHomeKPIs(overview);
         renderUsers();
@@ -1234,12 +1288,39 @@
       };
     }
 
+    function wireRefCopyBtn(btnId, inputId, label) {
+      const btn = document.getElementById(btnId);
+      if (!btn) return;
+      btn.onclick = async () => {
+        const input = document.getElementById(inputId);
+        if (!input || !input.value) return;
+        try {
+          await navigator.clipboard.writeText(input.value);
+          flash(label + ' copied to clipboard!', true);
+          const orig = btn.innerHTML;
+          btn.innerHTML = '✓ Copied!';
+          btn.style.color = 'var(--jade)';
+          setTimeout(() => {
+            btn.innerHTML = orig;
+            btn.style.color = '';
+          }, 2000);
+        } catch {
+          prompt('Copy Referral Link:', input.value);
+        }
+      };
+    }
+
+    wireRefCopyBtn('copyAdminSideRef', 'adminSideRefLink', 'Admin referral link');
+    wireRefCopyBtn('copyAdminHomeRef', 'adminHomeRefLink', 'Admin master referral link');
+
     const btnTemplateCopy = document.getElementById('btnCopyCodeInviteTemplate');
     if (btnTemplateCopy) {
       btnTemplateCopy.onclick = async () => {
         const avail = globalCodes.find((c) => c.status === 'available');
         const sampleCode = avail ? avail.code : 'XXXXXXXX';
-        const msg = `🌟 INFINITE TRADING PLATFORM 🌟\nHere is your ₱300 Activation Code: ${sampleCode}\n\n1. Sign up: ${window.location.origin}/register.html\n2. Log in and paste your 8-character activation code.\n3. Choose your Binary Leg (LEFT or RIGHT) to unlock direct & pairing commissions!\n\nWelcome to the network!`;
+        const sponsorMobile = (currentAdminUser && currentAdminUser.mobile_number) || 'Toshi';
+        const regUrl = `${window.location.origin}/register.html?sponsor=${encodeURIComponent(sponsorMobile)}`;
+        const msg = `🌟 INFINITE TRADING PLATFORM 🌟\nHere is your ₱300 Activation Code: ${sampleCode}\n\n1. Sign up: ${regUrl}\n2. Log in and paste your 8-character activation code.\n3. Choose your Binary Leg (LEFT or RIGHT) to unlock direct & pairing commissions!\n\nWelcome to the network!`;
         try {
           await navigator.clipboard.writeText(msg);
           flash('Promo / Invitation template copied to clipboard! (Sample Code: ' + sampleCode + ')', true);
