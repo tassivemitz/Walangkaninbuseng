@@ -319,6 +319,22 @@
             </div>
           </div>
 
+          <!-- Code Vault Search & Batch Copy Actions Bar -->
+          <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;margin-bottom:12px;">
+            <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
+              <input id="codeSearch" class="ctrl-search" type="search" placeholder="Search code, seller, or member..." style="min-width:240px;" />
+              <span class="tiny muted" id="codeSearchCount"></span>
+            </div>
+            <div style="display:flex;gap:8px;flex-wrap:wrap;">
+              <button type="button" id="btnCopyAllAvailableCodes" class="btn btn-sm btn-ghost" style="padding:6px 12px;font-size:11.5px;">
+                <span>📋 Copy All Available Codes</span>
+              </button>
+              <button type="button" id="btnCopyCodeInviteTemplate" class="btn btn-sm btn-mint" style="padding:6px 12px;font-size:11.5px;">
+                <span>💬 Copy Member Promo Template</span>
+              </button>
+            </div>
+          </div>
+
           <!-- Code Vault Inventory Table -->
           <div class="admin-table-panel table-wrap">
             <table class="admin-table">
@@ -329,13 +345,15 @@
                   <th>Status</th>
                   <th>Assigned Seller</th>
                   <th>Used By Member</th>
+                  <th>Binary Placement (Upline &amp; Leg)</th>
                   <th>Created Date</th>
                   <th>Used Date</th>
+                  <th style="text-align:right">Action</th>
                 </tr>
               </thead>
               <tbody id="codeTableBody">
                 <tr>
-                  <td colspan="7" style="padding:20px;text-align:center" class="muted">Loading codes...</td>
+                  <td colspan="9" style="padding:20px;text-align:center" class="muted">Loading codes...</td>
                 </tr>
               </tbody>
             </table>
@@ -724,9 +742,26 @@
       else if (codeFilterMode === 'assigned') list = list.filter((c) => c.status === 'assigned');
       else if (codeFilterMode === 'used') list = list.filter((c) => c.status === 'used');
 
+      const q = document.getElementById('codeSearch') ? document.getElementById('codeSearch').value.trim().toLowerCase() : '';
+      if (q) {
+        list = list.filter((c) =>
+          String(c.id).includes(q) ||
+          String(c.code).toLowerCase().includes(q) ||
+          String(c.assigned_mobile || '').toLowerCase().includes(q) ||
+          String(c.used_mobile || '').toLowerCase().includes(q) ||
+          String(c.placement_parent_mobile || '').toLowerCase().includes(q) ||
+          String(c.position || '').toLowerCase().includes(q)
+        );
+      }
+
+      const countEl = document.getElementById('codeSearchCount');
+      if (countEl) {
+        countEl.textContent = list.length + ' of ' + globalCodes.length + ' codes';
+      }
+
       const tbody = document.getElementById('codeTableBody');
       if (!list.length) {
-        tbody.innerHTML = '<tr><td colspan="7" style="padding:20px;text-align:center" class="muted">No activation codes found in this filter.</td></tr>';
+        tbody.innerHTML = '<tr><td colspan="9" style="padding:24px;text-align:center" class="muted">No activation codes found matching this filter.</td></tr>';
         return;
       }
 
@@ -734,22 +769,86 @@
         const badge = c.status === 'available'
           ? '<span class="badge-tag tag-available">Available</span>'
           : c.status === 'assigned'
-            ? '<span class="badge-tag tag-assigned">Assigned</span>'
-            : '<span class="badge-tag tag-used">Used</span>';
+            ? '<span class="badge-tag tag-assigned">Assigned to Seller</span>'
+            : '<span class="badge-tag tag-used">Used / Active</span>';
 
-        const assignedMobile = c.assigned_mobile ? esc(c.assigned_mobile) : '<span class="muted">—</span>';
-        const usedMobile = c.used_mobile ? esc(c.used_mobile) : '<span class="muted">—</span>';
+        const assignedMobile = c.assigned_mobile ? '<strong style="color:#0b4d2c;">' + esc(c.assigned_mobile) + '</strong>' : '<span class="muted">—</span>';
+        const usedMobile = c.used_mobile ? '<strong style="color:#0f7a45;">' + esc(c.used_mobile) + '</strong>' : '<span class="muted">—</span>';
+
+        // Placement column
+        let placementHtml = '<span class="muted">—</span>';
+        if (c.status === 'used') {
+          if (c.placement_parent_mobile) {
+            const legBadge = c.position === 'L'
+              ? '<span class="badge-tag tag-available" style="font-size:9.5px;padding:2px 6px;">◀ LEFT Leg</span>'
+              : '<span class="badge-tag tag-assigned" style="font-size:9.5px;padding:2px 6px;">RIGHT Leg ▶</span>';
+            placementHtml = '<div style="display:flex;flex-direction:column;gap:3px;">' +
+              '<span class="tiny" style="font-weight:600;">Under ' + esc(c.placement_parent_mobile) + '</span>' +
+              '<div>' + legBadge + '</div>' +
+              '</div>';
+          } else if (c.position) {
+            placementHtml = c.position === 'L'
+              ? '<span class="badge-tag tag-available" style="font-size:10px;">LEFT Leg</span>'
+              : '<span class="badge-tag tag-assigned" style="font-size:10px;">RIGHT Leg</span>';
+          }
+        }
+
+        const copyBtn = '<button type="button" class="btn-admin-copy" data-copy-code="' + esc(c.code) + '" title="Copy code to clipboard">📋 Copy</button>';
+
+        const actionHtml = c.status !== 'used'
+          ? '<button type="button" class="btn-admin-action btn-admin-reject" data-revoke-code="' + c.id + '" data-code-str="' + esc(c.code) + '" style="font-size:10.5px;padding:3px 8px;">Revoke</button>'
+          : '<span class="tiny" style="color:var(--jade);font-weight:700;">✓ Encoded</span>';
 
         return '<tr>' +
-          '<td>#' + c.id + '</td>' +
-          '<td><code style="font-weight:700;color:#0b4d2c">' + esc(c.code) + '</code></td>' +
+          '<td><strong>#' + c.id + '</strong></td>' +
+          '<td><div style="display:flex;align-items:center;gap:6px;"><code style="font-weight:700;font-size:13px;color:#0b4d2c;letter-spacing:0.04em;">' + esc(c.code) + '</code>' + copyBtn + '</div></td>' +
           '<td>' + badge + '</td>' +
           '<td>' + assignedMobile + '</td>' +
           '<td>' + usedMobile + '</td>' +
+          '<td>' + placementHtml + '</td>' +
           '<td class="tiny muted">' + fmtDate(c.created_at) + '</td>' +
-          '<td class="tiny muted">' + fmtDate(c.used_at) + '</td>' +
+          '<td class="tiny muted">' + (c.used_at ? fmtDate(c.used_at) : '—') + '</td>' +
+          '<td style="text-align:right">' + actionHtml + '</td>' +
           '</tr>';
       }).join('');
+
+      // Wire copy buttons
+      document.querySelectorAll('button[data-copy-code]').forEach((btn) => {
+        btn.onclick = (e) => {
+          e.stopPropagation();
+          const txt = btn.dataset.copyCode;
+          navigator.clipboard.writeText(txt).then(() => {
+            const orig = btn.innerHTML;
+            btn.innerHTML = '✓ Copied!';
+            btn.style.color = 'var(--jade)';
+            btn.style.borderColor = 'var(--jade)';
+            setTimeout(() => {
+              btn.innerHTML = orig;
+              btn.style.color = '';
+              btn.style.borderColor = '';
+            }, 2000);
+          }).catch(() => {
+            prompt('Copy Code:', txt);
+          });
+        };
+      });
+
+      // Wire revoke buttons
+      document.querySelectorAll('button[data-revoke-code]').forEach((btn) => {
+        btn.onclick = async (e) => {
+          e.stopPropagation();
+          const id = btn.dataset.revokeCode;
+          const codeStr = btn.dataset.codeStr;
+          if (!confirm('Are you sure you want to revoke and delete code ' + codeStr + ' (#' + id + ')?')) return;
+          try {
+            await api('/api/admin/codes/' + id, { method: 'DELETE' });
+            flash('Code ' + codeStr + ' revoked and deleted.', true);
+            refreshAll();
+          } catch (err) {
+            flash(err.message);
+          }
+        };
+      });
     }
 
     function renderTradein() {
@@ -1112,6 +1211,42 @@
     });
     if (document.getElementById('wdSearch')) {
       document.getElementById('wdSearch').oninput = renderWithdrawals;
+    }
+    if (document.getElementById('codeSearch')) {
+      document.getElementById('codeSearch').oninput = renderCodes;
+    }
+
+    const btnBatchCopy = document.getElementById('btnCopyAllAvailableCodes');
+    if (btnBatchCopy) {
+      btnBatchCopy.onclick = async () => {
+        const avail = globalCodes.filter((c) => c.status === 'available');
+        if (!avail.length) return flash('No available / unused codes to copy.');
+        const today = new Date().toLocaleDateString();
+        const header = `=== INFINITE TRADING ACTIVATION CODES (${avail.length} AVAILABLE) ===\nGenerated: ${today}\nEntry: ₱300.00\n\n`;
+        const body = avail.map((c, idx) => `${idx + 1}. ${c.code}`).join('\n');
+        const text = header + body;
+        try {
+          await navigator.clipboard.writeText(text);
+          flash(`Copied ${avail.length} available code(s) to clipboard! Ready to send to seller.`, true);
+        } catch {
+          prompt('Copy Available Codes:', text);
+        }
+      };
+    }
+
+    const btnTemplateCopy = document.getElementById('btnCopyCodeInviteTemplate');
+    if (btnTemplateCopy) {
+      btnTemplateCopy.onclick = async () => {
+        const avail = globalCodes.find((c) => c.status === 'available');
+        const sampleCode = avail ? avail.code : 'XXXXXXXX';
+        const msg = `🌟 INFINITE TRADING PLATFORM 🌟\nHere is your ₱300 Activation Code: ${sampleCode}\n\n1. Sign up: ${window.location.origin}/register.html\n2. Log in and paste your 8-character activation code.\n3. Choose your Binary Leg (LEFT or RIGHT) to unlock direct & pairing commissions!\n\nWelcome to the network!`;
+        try {
+          await navigator.clipboard.writeText(msg);
+          flash('Promo / Invitation template copied to clipboard! (Sample Code: ' + sampleCode + ')', true);
+        } catch {
+          prompt('Copy Template:', msg);
+        }
+      };
     }
 
     randomizeSlots();

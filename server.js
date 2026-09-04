@@ -432,13 +432,17 @@ app.post('/api/auth/login', async (req, res) => {
 });
 
 app.post('/api/account/activate', auth, async (req, res) => {
-  const code = String(req.body.code || '').trim().toUpperCase().replace(/[^A-Z0-9]/g, '');
+  const code = normalizeCode(req.body.code);
+  const rawPos = String(req.body.position || '').trim().toUpperCase();
+  const preferredPos = rawPos.startsWith('R') ? 'R' : rawPos.startsWith('L') ? 'L' : null;
+  const placementMobile = req.body.placement_mobile ? normalizeMobile(req.body.placement_mobile) : null;
+
   if (!code || code.length < 6) {
     return res.status(400).json({ error: 'Please enter a valid 8-character activation code.' });
   }
 
   try {
-    const user = await db.tx((data) => {
+    const result = await db.tx((data) => {
       const u = data.users.find((x) => x.id === req.user.id);
       if (!u) {
         const err = new Error('Account not found.');
@@ -456,7 +460,7 @@ app.post('/api/account/activate', auth, async (req, res) => {
         throw err;
       }
 
-      // Check code vault
+      // Check code vault - universal & random codes
       const vault = data.code_vault.find((c) => normalizeCode(c.code) === code && c.status !== 'used');
       if (!vault) {
         const err = new Error('Activation code is invalid or already used.');
@@ -464,18 +468,7 @@ app.post('/api/account/activate', auth, async (req, res) => {
         throw err;
       }
 
-      // Mark code as used
-      vault.status = 'used';
-      vault.used_by = u.id;
-      if (!vault.assigned_to) {
-        vault.assigned_to = u.id;
-      }
-      vault.used_at = nowIso();
-
-      // Activate user account
-      u.status = 'active';
-
-      // Place user into the binary tree under sponsor
+      // Determine sponsor
       let treeNode = data.binary_tree.find((t) => t.user_id === u.id);
       let sponsorId = treeNode && treeNode.sponsor_id ? treeNode.sponsor_id : null;
       if (!sponsorId) {
@@ -488,23 +481,160 @@ app.post('/api/account/activate', auth, async (req, res) => {
         data.binary_tree.push(treeNode);
       }
 
-      const place = findPlacement(sponsorId, null, data);
+      // Placement root: either designated upline parent or fallback to sponsor
+      let startNodeId = sponsorId;
+      if (placementMobile) {
+        const pUser = data.users.find((x) => x.mobile_number === placementMobile && x.status === 'active');
+        if (pUser && data.binary_tree.some((t) => t.user_id === pUser.id)) {
+          startNodeId = pUser.id;
+        }
+      }
+
+      // Binary placement with deliberate positioning & spillover cascading
+      const place = findPlacement(startNodeId, preferredPos, data);
       treeNode.parent_id = place.parentId;
       treeNode.position = place.position;
       treeNode.sponsor_id = sponsorId;
 
-      // NOW trigger Direct (₱50), Indirect (₱5), and Pairing Bonuses (₱50/pair)
+      // Mark code as used with full audit data for anti-fraud tracking
+      vault.status = 'used';
+      vault.used_by = u.id;
+      if (!vault.assigned_to) {
+        vault.assigned_to = u.id;
+      }
+      vault.used_at = nowIso();
+      vault.placement_parent_id = place.parentId;
+      vault.position = place.position;
+
+      // Activate user account
+      u.status = 'active';
+
+      // Trigger Direct (₱50), Indirect (₱5), and Pairing Bonuses (₱50/pair)
       paySponsorBinary(data, sponsorId);
       processPairing(data, place.parentId, place.position);
 
-      return publicUser(u.id, data);
+      return {
+        user: publicUser(u.id, data),
+        placement: {
+          parent_id: place.parentId,
+          parent_mobile: mobileOf(place.parentId, data),
+          position: place.position,
+        },
+      };
     });
 
-    res.json({ ok: true, user });
+    res.json({ ok: true, user: result.user, placement: result.placement });
   } catch (err) {
     if (err.status) return res.status(err.status).json({ error: err.message });
     console.error(err);
     res.status(500).json({ error: 'Account activation failed.' });
+  }
+});
+
+// Sponsor / Encoder Downline Placement Endpoint
+app.post('/api/binary/encode-downline', auth, async (req, res) => {
+  const memberMobile = normalizeMobile(req.body.member_mobile);
+  const code = normalizeCode(req.body.code);
+  const rawPos = String(req.body.position || '').trim().toUpperCase();
+  const preferredPos = rawPos.startsWith('R') ? 'R' : rawPos.startsWith('L') ? 'L' : null;
+  const placementMobile = req.body.placement_mobile ? normalizeMobile(req.body.placement_mobile) : null;
+
+  if (!memberMobile) return res.status(400).json({ error: 'Please enter a valid member mobile number to encode.' });
+  if (!code || code.length < 6) return res.status(400).json({ error: 'Please enter a valid 8-character activation code.' });
+
+  try {
+    const result = await db.tx((data) => {
+      const encoder = data.users.find((x) => x.id === req.user.id);
+      if (!encoder || encoder.status === 'banned') {
+        const err = new Error('You do not have permission to encode accounts.');
+        err.status = 403;
+        throw err;
+      }
+
+      const target = data.users.find((x) => x.mobile_number === memberMobile);
+      if (!target) {
+        const err = new Error(`Member with mobile ${memberMobile} was not found.`);
+        err.status = 404;
+        throw err;
+      }
+      if (target.status === 'active') {
+        const err = new Error(`Member ${memberMobile} is already activated in the binary tree.`);
+        err.status = 400;
+        throw err;
+      }
+      if (target.status === 'banned') {
+        const err = new Error('This account is banned.');
+        err.status = 403;
+        throw err;
+      }
+
+      // Check code vault - universal code
+      const vault = data.code_vault.find((c) => normalizeCode(c.code) === code && c.status !== 'used');
+      if (!vault) {
+        const err = new Error('Activation code is invalid or already used.');
+        err.status = 400;
+        throw err;
+      }
+
+      // Check member tree record
+      let targetTree = data.binary_tree.find((t) => t.user_id === target.id);
+      let sponsorId = targetTree && targetTree.sponsor_id ? targetTree.sponsor_id : encoder.id;
+      if (!targetTree) {
+        targetTree = emptyTree(target.id, null, sponsorId, null);
+        data.binary_tree.push(targetTree);
+      }
+
+      // Placement starting node: defaults to placement_mobile or encoder or sponsor
+      let startNodeId = encoder.id;
+      if (placementMobile) {
+        const pUser = data.users.find((x) => x.mobile_number === placementMobile && x.status === 'active');
+        if (pUser && data.binary_tree.some((t) => t.user_id === pUser.id)) {
+          startNodeId = pUser.id;
+        } else {
+          const err = new Error(`Placement upline ${placementMobile} is not an active binary node.`);
+          err.status = 400;
+          throw err;
+        }
+      } else if (targetTree.sponsor_id) {
+        startNodeId = targetTree.sponsor_id;
+      }
+
+      // Calculate binary placement and spillover
+      const place = findPlacement(startNodeId, preferredPos, data);
+      targetTree.parent_id = place.parentId;
+      targetTree.position = place.position;
+      targetTree.sponsor_id = sponsorId;
+
+      // Mark code as used with full audit trail
+      vault.status = 'used';
+      vault.used_by = target.id;
+      vault.encoded_by = encoder.id;
+      vault.used_at = nowIso();
+      vault.placement_parent_id = place.parentId;
+      vault.position = place.position;
+
+      // Activate target user
+      target.status = 'active';
+
+      // Commissions
+      paySponsorBinary(data, sponsorId);
+      processPairing(data, place.parentId, place.position);
+
+      return {
+        user: publicUser(target.id, data),
+        placement: {
+          parent_id: place.parentId,
+          parent_mobile: mobileOf(place.parentId, data),
+          position: place.position,
+        },
+      };
+    });
+
+    res.json({ ok: true, user: result.user, placement: result.placement });
+  } catch (err) {
+    if (err.status) return res.status(err.status).json({ error: err.message });
+    console.error(err);
+    res.status(500).json({ error: 'Downline encoding failed.' });
   }
 });
 
@@ -1057,8 +1187,14 @@ app.post('/api/admin/codes', auth, adminOnly, async (req, res) => {
 app.get('/api/user/codes', auth, (req, res) => {
   const data = db.getStore();
   const codes = data.code_vault
-    .filter((c) => c.assigned_to === req.user.id && c.status === 'assigned')
-    .sort((a, b) => b.id - a.id);
+    .filter((c) => c.assigned_to === req.user.id)
+    .sort((a, b) => b.id - a.id)
+    .map((c) => ({
+      ...c,
+      used_by_mobile: c.used_by ? mobileOf(c.used_by, data) : '',
+      placement_parent_mobile: c.placement_parent_id ? mobileOf(c.placement_parent_id, data) : '',
+      position: c.position || '',
+    }));
   res.json({ codes });
 });
 
@@ -1100,13 +1236,48 @@ app.get('/api/admin/codes', auth, adminOnly, (_req, res) => {
   const codes = data.code_vault
     .slice()
     .sort((a, b) => b.id - a.id)
-    .slice(0, 200)
-    .map((c) => ({
-      ...c,
-      assigned_mobile: c.assigned_to ? mobileOf(c.assigned_to, data) : '',
-      used_mobile: c.used_by ? mobileOf(c.used_by, data) : (c.status === 'used' && c.assigned_to ? mobileOf(c.assigned_to, data) : ''),
-    }));
+    .slice(0, 500)
+    .map((c) => {
+      const treeNode = c.used_by ? data.binary_tree.find((t) => t.user_id === c.used_by) : null;
+      const placementParentId = c.placement_parent_id || (treeNode ? treeNode.parent_id : null);
+      const position = c.position || (treeNode ? treeNode.position : null);
+      const sponsorId = treeNode ? treeNode.sponsor_id : null;
+      return {
+        ...c,
+        assigned_mobile: c.assigned_to ? mobileOf(c.assigned_to, data) : '',
+        used_mobile: c.used_by ? mobileOf(c.used_by, data) : (c.status === 'used' && c.assigned_to ? mobileOf(c.assigned_to, data) : ''),
+        placement_parent_mobile: placementParentId ? mobileOf(placementParentId, data) : '',
+        position: position || '',
+        sponsor_mobile: sponsorId ? mobileOf(sponsorId, data) : '',
+      };
+    });
   res.json({ codes });
+});
+
+app.delete('/api/admin/codes/:id', auth, adminOnly, async (req, res) => {
+  const id = Number(req.params.id);
+  if (!id) return res.status(400).json({ error: 'Invalid code ID.' });
+  try {
+    await db.tx((data) => {
+      const code = data.code_vault.find((c) => c.id === id);
+      if (!code) {
+        const err = new Error('Code not found.');
+        err.status = 404;
+        throw err;
+      }
+      if (code.status === 'used') {
+        const err = new Error('Cannot delete a code that has already been used.');
+        err.status = 400;
+        throw err;
+      }
+      data.code_vault = data.code_vault.filter((c) => c.id !== id);
+    });
+    res.json({ ok: true, id });
+  } catch (err) {
+    if (err.status) return res.status(err.status).json({ error: err.message });
+    console.error(err);
+    res.status(500).json({ error: 'Could not delete code.' });
+  }
 });
 
 app.post('/api/admin/settings/payouts', auth, adminOnly, async (req, res) => {

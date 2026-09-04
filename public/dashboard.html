@@ -148,13 +148,41 @@
               <span class="pill closed" style="margin-bottom:6px">● Account Pending Activation</span>
               <h2 style="margin:6px 0; font-size:24px; color:var(--jade);">Activate Your Account</h2>
               <p style="font-size:13px; color:var(--muted); margin:0 0 14px; max-width:62ch;">
-                Enter your ₱300 Activation Code from your sponsor or code seller to enter the binary tree, start matching pairs, and unlock trade-in earnings.
+                Enter your ₱300 Activation Code from your sponsor or code seller. Choose your binary placement leg (Left or Right) to enter the network tree, start matching pairs, and unlock trade-in earnings.
               </p>
             </div>
           </div>
-          <form id="activateForm" class="row" style="max-width:480px; margin-top:0;">
-            <input class="in" name="code" id="activateCodeInput" required placeholder="8-CHAR CODE (e.g. K9X2M4N7)" style="text-transform:uppercase; font-family:ui-monospace, monospace; font-weight:700; letter-spacing:0.08em;" maxlength="12" />
-            <button class="btn btn-mint btn-sm" style="white-space:nowrap;">Activate Account</button>
+          <form id="activateForm" style="max-width:520px; margin-top:0;">
+            <div style="margin-bottom:12px;">
+              <label class="tiny muted" style="display:block; font-weight:700; margin-bottom:4px;">8-CHARACTER ACTIVATION CODE *</label>
+              <input class="in" name="code" id="activateCodeInput" required placeholder="8-CHAR CODE (e.g. K9X2M4N7)" style="text-transform:uppercase; font-family:ui-monospace, monospace; font-weight:700; letter-spacing:0.08em; width:100%;" maxlength="12" />
+            </div>
+
+            <div style="margin-bottom:14px;">
+              <label class="tiny muted" style="display:block; font-weight:700; margin-bottom:6px;">SELECT BINARY POSITION (PLACEMENT LEG) *</label>
+              <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
+                <button type="button" class="btn btn-ghost self-pos-btn active" id="btnSelfPosLeft" data-pos="L" style="font-weight:700; border:2px solid var(--jade); background:#f0fbf5; padding:9px;">
+                  ◀ LEFT LEG
+                </button>
+                <button type="button" class="btn btn-ghost self-pos-btn" id="btnSelfPosRight" data-pos="R" style="font-weight:700; border:1px solid var(--line); padding:9px;">
+                  RIGHT LEG ▶
+                </button>
+              </div>
+              <input type="hidden" name="position" id="activatePositionInput" value="L" />
+              <span class="tiny muted" style="display:block; margin-top:4px;">Codes are universal: any code can be placed on the Left or Right leg.</span>
+            </div>
+
+            <details style="margin-bottom:14px; background:#f9faf9; padding:8px 12px; border-radius:8px; border:1px solid var(--line);">
+              <summary class="tiny" style="cursor:pointer; font-weight:700; color:var(--jade);">Spillover Placement (Optional / Advanced)</summary>
+              <div style="margin-top:8px;">
+                <input class="in" name="placement_mobile" id="activatePlacementMobile" placeholder="Placement Upline Mobile (leave blank for sponsor)" style="font-size:12.5px; width:100%;" />
+                <span class="tiny muted" style="display:block; margin-top:4px; font-size:11px;">
+                  Leave blank to place directly under your sponsor. If your chosen slot is already filled, the system will automatically cascade (spillover) down that leg.
+                </span>
+              </div>
+            </details>
+
+            <button class="btn btn-mint btn-sm" style="padding:10px 24px; font-weight:700; font-size:13.5px; width:100%;">Activate Account ➔</button>
           </form>
         </div>
 
@@ -451,6 +479,66 @@
         <div class="genealogy-wrap" id="genealogyContainer">
           <!-- Rendered dynamically -->
         </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: Encode Downline & Binary Placement Modal -->
+  <div class="plan-modal" id="modalEncodeDownline" hidden>
+    <div class="plan-modal-backdrop" data-close-modal></div>
+    <div class="plan-modal-sheet" style="max-width:540px;">
+      <header class="plan-modal-head">
+        <div>
+          <p class="kicker">Binary System</p>
+          <h2>Encode Downline Placement</h2>
+        </div>
+        <button class="plan-close" type="button" data-close-modal>×</button>
+      </header>
+      <div class="plan-modal-body">
+        <p class="tiny muted" style="margin-bottom:14px; line-height:1.5;">
+          Place an inactive member into the binary tree using an activation code. Choose the placement upline and leg (Left or Right). If the position is already occupied, the account will automatically spillover down the chosen side.
+        </p>
+        <form id="formEncodeDownline">
+          <div style="margin-bottom:12px;">
+            <label class="tiny muted" style="display:block; font-weight:700; margin-bottom:4px;">INACTIVE MEMBER TO ACTIVATE *</label>
+            <input class="in" name="member_mobile" id="encodeMemberMobile" required placeholder="09XXXXXXXXX (Enter member mobile)" style="font-size:14px; font-weight:600; width:100%;" list="inactiveDirectsList" />
+            <datalist id="inactiveDirectsList"></datalist>
+            <span class="tiny muted" id="encodeMemberNotice" style="display:block; margin-top:3px;"></span>
+          </div>
+
+          <div style="margin-bottom:12px;">
+            <label class="tiny muted" style="display:block; font-weight:700; margin-bottom:4px;">8-CHARACTER ACTIVATION CODE *</label>
+            <div style="display:flex; gap:8px;">
+              <input class="in" name="code" id="encodeActivationCode" required placeholder="8-CHAR CODE (e.g. K9X2M4N7)" maxlength="12" style="text-transform:uppercase; font-family:ui-monospace, monospace; font-weight:700; letter-spacing:0.06em; flex:1;" />
+              <button type="button" class="btn btn-ghost btn-sm" id="btnPickSellerCode" style="white-space:nowrap; font-size:11.5px;">Pick from My Vault</button>
+            </div>
+            <span class="tiny muted" id="encodeCodeNotice" style="display:block; margin-top:3px;"></span>
+          </div>
+
+          <div style="margin-bottom:12px;">
+            <label class="tiny muted" style="display:block; font-weight:700; margin-bottom:4px;">PLACEMENT UPLINE (DIRECT PARENT) *</label>
+            <input class="in" name="placement_mobile" id="encodePlacementMobile" placeholder="Placement Upline Mobile (leave blank for default)" style="font-size:13.5px; width:100%;" />
+            <span class="tiny muted" style="display:block; margin-top:3px;">The account attaches under this node (or cascades as spillover down this branch).</span>
+          </div>
+
+          <div style="margin-bottom:16px;">
+            <label class="tiny muted" style="display:block; font-weight:700; margin-bottom:6px;">CHOOSE BINARY LEG (POSITION) *</label>
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
+              <button type="button" class="btn btn-ghost encode-pos-btn active" id="encodePosLeft" data-pos="L" style="font-weight:700; border:2px solid var(--jade); background:#f0fbf5; padding:9px;">
+                ◀ LEFT LEG
+              </button>
+              <button type="button" class="btn btn-ghost encode-pos-btn" id="encodePosRight" data-pos="R" style="font-weight:700; border:1px solid var(--line); padding:9px;">
+                RIGHT LEG ▶
+              </button>
+            </div>
+            <input type="hidden" name="position" id="encodePositionHidden" value="L" />
+          </div>
+
+          <div style="display:flex; gap:8px; justify-content:flex-end;">
+            <button type="button" class="btn btn-ghost btn-sm" data-close-modal>Cancel</button>
+            <button type="submit" class="btn btn-mint btn-sm" id="btnSubmitEncode" style="padding:8px 22px; font-weight:700;">Confirm &amp; Place in Tree ➔</button>
+          </div>
+        </form>
       </div>
     </div>
   </div>
@@ -1049,9 +1137,9 @@
                 </div>
               </div>
             ` : `
-              <div class="tree-node empty">
-                <span class="pill" style="font-size:9px;margin-bottom:2px;">LEFT</span>
-                <p style="margin:0;font-size:12px;">Empty Slot</p>
+              <div class="tree-node empty clickable-slot" data-slot-parent="${esc(u.mobile_number)}" data-slot-pos="L" style="cursor:pointer;border:2px dashed var(--jade);background:#fafffc;transition:all 0.2s ease;" title="Click to encode member into Left slot">
+                <span class="pill" style="font-size:9px;margin-bottom:2px;background:#e8f9f0;color:var(--jade);">LEFT</span>
+                <p style="margin:2px 0 0;font-size:12px;font-weight:700;color:var(--jade);">+ Encode Slot</p>
               </div>
             `}
           </div>
@@ -1070,14 +1158,22 @@
                 </div>
               </div>
             ` : `
-              <div class="tree-node empty">
-                <span class="pill" style="font-size:9px;margin-bottom:2px;">RIGHT</span>
-                <p style="margin:0;font-size:12px;">Empty Slot</p>
+              <div class="tree-node empty clickable-slot" data-slot-parent="${esc(u.mobile_number)}" data-slot-pos="R" style="cursor:pointer;border:2px dashed var(--jade);background:#fafffc;transition:all 0.2s ease;" title="Click to encode member into Right slot">
+                <span class="pill" style="font-size:9px;margin-bottom:2px;background:#e8f9f0;color:var(--jade);">RIGHT</span>
+                <p style="margin:2px 0 0;font-size:12px;font-weight:700;color:var(--jade);">+ Encode Slot</p>
               </div>
             `}
           </div>
         </div>
       `;
+
+      container.querySelectorAll('.clickable-slot').forEach(slot => {
+        slot.onclick = () => {
+          const parentMob = slot.dataset.slotParent;
+          const pos = slot.dataset.slotPos;
+          openEncodeDownlineModal({ placement_mobile: parentMob, position: pos });
+        };
+      });
     }
 
     async function load() {
@@ -1238,17 +1334,39 @@
         document.getElementById(id).classList.toggle('show', !payoutsOpen);
       });
 
-      // Render Directs Table
+      // Render Directs Table & Inactive Datalist
+      const inactives = (d.directs || []).filter(x => x.status !== 'active');
+      const datalist = document.getElementById('inactiveDirectsList');
+      if (datalist) {
+        datalist.innerHTML = inactives.map(x => `<option value="${esc(x.mobile_number)}">${esc(x.mobile_number)} (Inactive)</option>`).join('');
+      }
+
       document.getElementById('tbodyDirects').innerHTML = d.directs.length
-        ? d.directs.map(x => `
+        ? d.directs.map(x => {
+            const encodeBtn = x.status !== 'active'
+              ? `<button type="button" class="btn btn-mint btn-sm" data-encode-direct="${esc(x.mobile_number)}" style="font-size:10px;padding:3px 8px;margin-left:6px;white-space:nowrap;">⚡ Encode</button>`
+              : '';
+            const posBadge = x.position
+              ? `<span class="pill ${x.position === 'L' ? 'open' : ''}">${x.position === 'L' ? 'LEFT' : 'RIGHT'}</span>`
+              : '<span class="pill closed">Not Placed</span>';
+            return `
             <tr>
-              <td><strong>${esc(x.mobile_number)}</strong></td>
-              <td><span class="pill">${esc(x.position || '—')}</span></td>
+              <td><div style="display:flex;align-items:center;gap:6px;"><strong>${esc(x.mobile_number)}</strong> ${encodeBtn}</div></td>
+              <td>${posBadge}</td>
               <td><span class="pill ${x.status === 'active' ? 'open' : 'closed'}">${esc(x.status)}</span></td>
               <td class="tiny muted">${new Date(x.created_at).toLocaleDateString()}</td>
             </tr>
-          `).join('')
+            `;
+          }).join('')
         : '<tr><td colspan="4" class="center muted" style="padding:16px;">No direct referrals yet.</td></tr>';
+
+      document.querySelectorAll('button[data-encode-direct]').forEach(btn => {
+        btn.onclick = () => {
+          const mob = btn.dataset.encodeDirect;
+          closeModal('modalDirectRef');
+          openEncodeDownlineModal({ member_mobile: mob, position: 'L' });
+        };
+      });
 
       // Render Indirects Table
       const indirects = d.indirects || [];
@@ -1486,14 +1604,150 @@
     });
   }
 
-    // Activate Account
+    // Self Activation Position Buttons
+    const btnSelfL = document.getElementById('btnSelfPosLeft');
+    const btnSelfR = document.getElementById('btnSelfPosRight');
+    const inSelfPos = document.getElementById('activatePositionInput');
+    if (btnSelfL && btnSelfR && inSelfPos) {
+      btnSelfL.onclick = () => {
+        btnSelfL.style.border = '2px solid var(--jade)';
+        btnSelfL.style.background = '#f0fbf5';
+        btnSelfR.style.border = '1px solid var(--line)';
+        btnSelfR.style.background = '';
+        inSelfPos.value = 'L';
+      };
+      btnSelfR.onclick = () => {
+        btnSelfR.style.border = '2px solid var(--jade)';
+        btnSelfR.style.background = '#f0fbf5';
+        btnSelfL.style.border = '1px solid var(--line)';
+        btnSelfL.style.background = '';
+        inSelfPos.value = 'R';
+      };
+    }
+
+    // Downline Encoding Position Buttons
+    const btnEncL = document.getElementById('encodePosLeft');
+    const btnEncR = document.getElementById('encodePosRight');
+    const inEncPos = document.getElementById('encodePositionHidden');
+    if (btnEncL && btnEncR && inEncPos) {
+      btnEncL.onclick = () => {
+        btnEncL.style.border = '2px solid var(--jade)';
+        btnEncL.style.background = '#f0fbf5';
+        btnEncR.style.border = '1px solid var(--line)';
+        btnEncR.style.background = '';
+        inEncPos.value = 'L';
+      };
+      btnEncR.onclick = () => {
+        btnEncR.style.border = '2px solid var(--jade)';
+        btnEncR.style.background = '#f0fbf5';
+        btnEncL.style.border = '1px solid var(--line)';
+        btnEncL.style.background = '';
+        inEncPos.value = 'R';
+      };
+    }
+
+    function openEncodeDownlineModal(opts = {}) {
+      if (opts.member_mobile) {
+        document.getElementById('encodeMemberMobile').value = opts.member_mobile;
+      }
+      if (opts.placement_mobile) {
+        document.getElementById('encodePlacementMobile').value = opts.placement_mobile;
+      }
+      if (opts.position === 'R') {
+        if (btnEncR) btnEncR.click();
+      } else {
+        if (btnEncL) btnEncL.click();
+      }
+
+      // Check available seller codes
+      const avail = (dashboardData && dashboardData.inventory_codes) || [];
+      const notice = document.getElementById('encodeCodeNotice');
+      if (notice) {
+        notice.textContent = avail.length > 0
+          ? `${avail.length} code(s) in your vault. Click 'Pick from My Vault' to auto-fill.`
+          : 'No codes in vault. Paste code from admin/seller.';
+      }
+      openModal('modalEncodeDownline');
+    }
+
+    const btnPick = document.getElementById('btnPickSellerCode');
+    if (btnPick) {
+      btnPick.onclick = () => {
+        const avail = (dashboardData && dashboardData.inventory_codes) || [];
+        if (!avail.length) {
+          toast('No available codes in your vault inventory.');
+          return;
+        }
+        document.getElementById('encodeActivationCode').value = avail[0].code;
+        toast('Selected code ' + avail[0].code + ' from your vault!', true);
+      };
+    }
+
+    // Submit Downline Encoding
+    const formEnc = document.getElementById('formEncodeDownline');
+    if (formEnc) {
+      formEnc.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const member_mobile = document.getElementById('encodeMemberMobile').value.trim();
+        const code = document.getElementById('encodeActivationCode').value.trim();
+        const placement_mobile = document.getElementById('encodePlacementMobile').value.trim();
+        const position = inEncPos ? inEncPos.value : 'L';
+
+        const btnSubmit = document.getElementById('btnSubmitEncode');
+        btnSubmit.disabled = true;
+        btnSubmit.textContent = 'Encoding Member...';
+
+        try {
+          const res = await fetch('/api/binary/encode-downline', {
+            method: 'POST',
+            headers,
+            body: JSON.stringify({
+              member_mobile,
+              code,
+              placement_mobile: placement_mobile || undefined,
+              position,
+            }),
+          });
+          const data = await res.json();
+          if (!res.ok) {
+            toast(data.error || 'Encoding failed.');
+            return;
+          }
+          const legText = data.placement && data.placement.position === 'L' ? 'LEFT' : 'RIGHT';
+          const parentText = data.placement ? data.placement.parent_mobile : 'Upline';
+          toast(`🎉 Success! Member ${data.user.mobile_number} placed on ${legText} leg under ${parentText}!`, true);
+          formEnc.reset();
+          closeModal('modalEncodeDownline');
+          load();
+        } catch (err) {
+          toast(err.message || 'Encoding failed.');
+        } finally {
+          btnSubmit.disabled = false;
+          btnSubmit.textContent = 'Confirm & Place in Tree ➔';
+        }
+      });
+    }
+
+    // Activate Account (Self-Activation)
     document.getElementById('activateForm').addEventListener('submit', async (e) => {
       e.preventDefault();
-      const code = new FormData(e.target).get('code');
-      const res = await fetch('/api/account/activate', { method: 'POST', headers, body: JSON.stringify({ code }) });
+      const code = document.getElementById('activateCodeInput').value.trim();
+      const position = inSelfPos ? inSelfPos.value : 'L';
+      const placement_mobile = document.getElementById('activatePlacementMobile').value.trim();
+
+      const res = await fetch('/api/account/activate', {
+        method: 'POST',
+        headers,
+        body: JSON.stringify({
+          code,
+          position,
+          placement_mobile: placement_mobile || undefined,
+        }),
+      });
       const data = await res.json();
       if (!res.ok) { toast(data.error || 'Activation failed.'); return; }
-      toast('🎉 Account activated successfully! Welcome to the tree.', true);
+      const legText = data.placement && data.placement.position === 'L' ? 'LEFT' : 'RIGHT';
+      toast(`🎉 Account activated successfully on ${legText} leg! Welcome to the tree.`, true);
       e.target.reset();
       load();
     });

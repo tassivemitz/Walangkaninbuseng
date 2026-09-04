@@ -1,43 +1,127 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Sign in · Infinite Trading</title>
+  <title>Sign In · Infinite Trading Backoffice</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,560&family=Sora:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,560&family=Sora:wght@400;500;600;700&display=swap"
+    rel="stylesheet" />
   <link rel="stylesheet" href="/styles.css" />
 </head>
-<body>
+
+<body class="auth-page-body">
+  <!-- Interactive Ambient Mouse Glow Element -->
+  <div class="auth-ambient-glow" id="ambientGlow"></div>
+
   <div class="auth-shell">
+    <!-- Left: Brand Showcase & Live Activity -->
     <aside class="auth-art">
-      <a class="auth-logo" href="/">
-        <img src="/images/site-logo.png" alt="Infinite Trading" />
+      <a class="auth-logo-interactive" href="/" title="Infinite Trading Home">
+        <img src="/images/site-logo.png" alt="Infinite Trading" style="max-width:320px;width:100%;height:auto;display:block;" />
       </a>
-      <div>
-        <p class="kicker">Backoffice</p>
-        <h2>Sign in and the desks light up.</h2>
-        <p class="muted">Wallets, pairing, and the chart — one session.</p>
+      <div class="auth-art-copy">
+        <span class="pill open" style="margin-bottom:8px;font-size:11px;letter-spacing:0.12em;font-weight:700;">● BACKOFFICE DESK</span>
+        <h2 style="font-size:36px;margin:8px 0 10px;line-height:1.2;">Sign in and the desks light up.</h2>
+        <p class="muted" style="font-size:14px;max-width:36ch;margin:0 auto;line-height:1.6;">
+          Real-time binary tree visualizer, matching pairs, and daily Trade-In cycle yield in one desk session.
+        </p>
       </div>
     </aside>
-    <section class="auth-form">
-      <form id="form" class="panel form" autocomplete="off">
-        <a class="form-logo" href="/"><img src="/images/site-logo.png" alt="Infinite Trading" /></a>
-        <h1>Welcome back</h1>
-        <p class="muted">Use the mobile or username you registered with.</p>
-        <p id="error" class="err"></p>
-        <label class="field">Mobile or Username
-          <input id="login_mobile" type="text" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" required placeholder="e.g. 09XXXXXXXXX or Username" />
-        </label>
-        <label class="field">Password
-          <input id="login_password" type="text" class="pwd-masked" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" required placeholder="••••••••" />
-        </label>
-        <button class="btn" style="width:100%;margin-top:8px">Sign in</button>
-        <p class="center">New here? <a href="/register.html">Activate an account</a></p>
-      </form>
+
+    <!-- Right: Interactive Glassmorphism Login Card -->
+    <section class="auth-form-wrap">
+      <div class="auth-card" id="authCard">
+        <!-- Interactive Button Redirection Tab -->
+        <div class="auth-switcher">
+          <a href="/login.html" class="auth-switcher-btn active" id="btnNavSignIn">Sign In</a>
+          <a href="/register.html" class="auth-switcher-btn" id="btnNavCreateAccount">Create Account</a>
+        </div>
+
+        <div style="margin-bottom:20px;">
+          <h1 style="font-size:28px;margin:0 0 6px;color:var(--text);">Welcome back</h1>
+          <p class="muted" style="font-size:13px;margin:0;">
+            Enter your mobile number or username to access your desk.
+          </p>
+        </div>
+
+        <p id="error" class="err" style="margin-bottom:16px;"></p>
+
+        <form id="form" autocomplete="off">
+          <!-- Invisible dummy inputs to absorb aggressive browser autofill -->
+          <div style="position:absolute;left:-9999px;top:-9999px;width:0;height:0;opacity:0;pointer-events:none;overflow:hidden;" aria-hidden="true">
+            <input type="text" name="fake_username_trap" tabindex="-1" autocomplete="off" />
+            <input type="password" name="fake_password_trap" tabindex="-1" autocomplete="new-password" />
+          </div>
+
+          <!-- Field 1: Mobile or Username -->
+          <div class="auth-field-group">
+            <label class="auth-field-label" for="login_mobile">
+              <span>MOBILE NUMBER OR USERNAME</span>
+              <span class="auth-field-status" id="mobileStatusCheck">✓ Ready</span>
+            </label>
+            <div class="auth-field-inner">
+              <span class="auth-field-icon">📱</span>
+              <input
+                id="login_mobile"
+                name="desk_login_id"
+                class="auth-input"
+                type="text"
+                autocomplete="chrome-off"
+                autocorrect="off"
+                autocapitalize="off"
+                spellcheck="false"
+                required
+                placeholder="e.g. 09XXXXXXXXX or Username"
+                readonly
+                onfocus="this.removeAttribute('readonly')"
+              />
+            </div>
+          </div>
+
+          <!-- Field 2: Password -->
+          <div class="auth-field-group">
+            <div class="auth-field-label">
+              <label for="login_password">PASSWORD</label>
+              <span id="capsNotice" class="tiny" style="color:var(--gold);display:none;font-weight:700;">⚠ CapsLock is ON</span>
+            </div>
+            <div class="auth-field-inner">
+              <span class="auth-field-icon">🔒</span>
+              <input
+                id="login_password"
+                name="desk_secret_key"
+                class="auth-input"
+                type="password"
+                autocomplete="new-password"
+                autocorrect="off"
+                autocapitalize="off"
+                spellcheck="false"
+                required
+                placeholder="Enter your password"
+                style="padding-right:42px;"
+                readonly
+                onfocus="this.removeAttribute('readonly')"
+              />
+              <button type="button" class="auth-toggle-pwd" id="btnTogglePwd" title="Show/Hide Password" aria-label="Toggle password visibility">
+                👁
+              </button>
+            </div>
+          </div>
+
+          <!-- Interactive Submit Button -->
+          <button class="auth-submit-btn" id="submitBtn" style="margin-top:20px;">
+            <span id="submitBtnText">Sign In to Backoffice</span>
+            <span id="submitArrow" style="font-size:16px;">➔</span>
+          </button>
+        </form>
+      </div>
     </section>
   </div>
+
   <script>
+    // 1. Session Redirect if already authenticated
     const token = localStorage.getItem('it_token');
     if (token) {
       fetch('/api/me', { headers: { Authorization: 'Bearer ' + token } })
@@ -48,55 +132,162 @@
         .catch(() => {});
     }
 
+    // 2. Interactive Ambient Cursor Light
+    const glowEl = document.getElementById('ambientGlow');
+    if (glowEl) {
+      let mouseX = window.innerWidth / 2;
+      let mouseY = window.innerHeight / 2;
+      let curX = mouseX;
+      let curY = mouseY;
+
+      window.addEventListener('mousemove', (e) => {
+        mouseX = e.clientX;
+        mouseY = e.clientY;
+      });
+
+      function animateGlow() {
+        curX += (mouseX - curX) * 0.12;
+        curY += (mouseY - curY) * 0.12;
+        glowEl.style.left = curX + 'px';
+        glowEl.style.top = curY + 'px';
+        requestAnimationFrame(animateGlow);
+      }
+      animateGlow();
+    }
+
+    // 3. Elements & Autofill Guard
     const mobInput = document.getElementById('login_mobile');
     const pwdInput = document.getElementById('login_password');
+    const statusCheck = document.getElementById('mobileStatusCheck');
+    const capsNotice = document.getElementById('capsNotice');
+    const btnToggle = document.getElementById('btnTogglePwd');
+    const cardEl = document.getElementById('authCard');
+    const submitBtn = document.getElementById('submitBtn');
+    const submitText = document.getElementById('submitBtnText');
+    const submitArrow = document.getElementById('submitArrow');
+    const errEl = document.getElementById('error');
 
-    let userTouched = false;
-    ['input', 'keydown', 'paste', 'focus'].forEach(ev => {
-      mobInput.addEventListener(ev, () => { userTouched = true; });
-      pwdInput.addEventListener(ev, () => { userTouched = true; });
+    let userHasTyped = false;
+    mobInput.addEventListener('keydown', () => { userHasTyped = true; });
+    pwdInput.addEventListener('keydown', () => { userHasTyped = true; });
+    mobInput.addEventListener('paste', () => { userHasTyped = true; });
+    pwdInput.addEventListener('paste', () => { userHasTyped = true; });
+
+    // Remove readonly attribute when user focuses to allow immediate typing
+    mobInput.addEventListener('focus', function () {
+      this.removeAttribute('readonly');
+    });
+    pwdInput.addEventListener('focus', function () {
+      this.removeAttribute('readonly');
     });
 
-    // Ruthlessly wipe any browser-injected autofill until user explicitly interacts
     const wipeAutofill = () => {
-      if (!userTouched) {
-        if (mobInput.value.includes('@') || mobInput.value.toLowerCase().includes('adminism') || (mobInput.value && !userTouched)) {
+      if (!userHasTyped) {
+        if (mobInput.value || pwdInput.value) {
           mobInput.value = '';
           pwdInput.value = '';
+          mobInput.classList.remove('is-valid');
+          statusCheck.classList.remove('show');
         }
       }
     };
 
     window.addEventListener('pageshow', () => {
+      userHasTyped = false;
       mobInput.value = '';
       pwdInput.value = '';
     });
     window.addEventListener('DOMContentLoaded', wipeAutofill);
-    window.addEventListener('load', wipeAutofill);
-    const interval = setInterval(wipeAutofill, 40);
-    setTimeout(() => clearInterval(interval), 3000);
+    window.addEventListener('load', () => {
+      wipeAutofill();
+      setTimeout(wipeAutofill, 60);
+      setTimeout(wipeAutofill, 200);
+      setTimeout(wipeAutofill, 500);
+    });
 
+    // 4. Live Mobile / Username Input Feedback
+    mobInput.addEventListener('input', () => {
+      const val = mobInput.value.trim();
+      const isPhMobile = /^(09|\+639|639)\d{9}$/.test(val.replace(/\D/g, ''));
+      const isValidUser = val.length >= 3;
+      if (isPhMobile || (val.length >= 4 && !/^\d+$/.test(val))) {
+        mobInput.classList.add('is-valid');
+        statusCheck.classList.add('show');
+        statusCheck.textContent = isPhMobile ? '✓ Valid PH Mobile' : '✓ Valid Username';
+      } else {
+        mobInput.classList.remove('is-valid');
+        statusCheck.classList.remove('show');
+      }
+    });
+
+    // 5. Show / Hide Password Toggle
+    btnToggle.addEventListener('click', () => {
+      pwdInput.removeAttribute('readonly');
+      const isPwd = pwdInput.type === 'password';
+      pwdInput.type = isPwd ? 'text' : 'password';
+      btnToggle.textContent = isPwd ? '🙈' : '👁';
+      btnToggle.title = isPwd ? 'Hide Password' : 'Show Password';
+      pwdInput.focus();
+    });
+
+    // 6. CapsLock Detection
+    pwdInput.addEventListener('keyup', (e) => {
+      if (e.getModifierState && e.getModifierState('CapsLock')) {
+        capsNotice.style.display = 'inline-block';
+      } else {
+        capsNotice.style.display = 'none';
+      }
+    });
+
+    // 8. Form Submission with Interactive Loading & Shake Animation
     document.getElementById('form').addEventListener('submit', async (e) => {
       e.preventDefault();
-      const err = document.getElementById('error');
-      err.classList.remove('show');
+      errEl.classList.remove('show');
+      cardEl.classList.remove('shake');
+
       const mobileVal = mobInput.value.trim();
       const pwdVal = pwdInput.value;
 
-      const res = await fetch('/api/auth/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ mobile_number: mobileVal, password: pwdVal }),
-      });
-      const data = await res.json();
-      if (!res.ok) {
-        err.textContent = data.error || 'Sign in failed.';
-        err.classList.add('show');
-        return;
+      submitBtn.disabled = true;
+      submitText.textContent = 'Authenticating...';
+      submitArrow.textContent = '⏳';
+
+      try {
+        const res = await fetch('/api/auth/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ mobile_number: mobileVal, password: pwdVal }),
+        });
+        const data = await res.json();
+
+        if (!res.ok) {
+          errEl.textContent = data.error || 'Sign in failed. Please check credentials.';
+          errEl.classList.add('show');
+          cardEl.classList.add('shake');
+          setTimeout(() => cardEl.classList.remove('shake'), 500);
+          submitBtn.disabled = false;
+          submitText.textContent = 'Sign In to Backoffice';
+          submitArrow.textContent = '➔';
+          return;
+        }
+
+        submitText.textContent = 'Success! Entering Desk...';
+        submitArrow.textContent = '✓';
+        submitBtn.style.background = 'linear-gradient(135deg, #10b981 0%, #059669 100%)';
+
+        localStorage.setItem('it_token', data.token);
+        setTimeout(() => {
+          location.href = data.user.role === 'admin' ? '/admin.html' : '/dashboard.html';
+        }, 400);
+      } catch (err) {
+        errEl.textContent = 'Connection error. Please try again.';
+        errEl.classList.add('show');
+        submitBtn.disabled = false;
+        submitText.textContent = 'Sign In to Backoffice';
+        submitArrow.textContent = '➔';
       }
-      localStorage.setItem('it_token', data.token);
-      location.href = data.user.role === 'admin' ? '/admin.html' : '/dashboard.html';
     });
   </script>
 </body>
+
 </html>
