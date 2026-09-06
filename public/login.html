@@ -20,10 +20,12 @@
     <!-- Left: Brand Showcase & Live Activity -->
     <aside class="auth-art">
       <a class="auth-logo-interactive" href="/" title="Infinite Trading Home">
-        <img src="/images/site-logo.png" alt="Infinite Trading" style="max-width:320px;width:100%;height:auto;display:block;" />
+        <img src="/images/site-logo.png" alt="Infinite Trading"
+          style="max-width:320px;width:100%;height:auto;display:block;" />
       </a>
       <div class="auth-art-copy">
-        <span class="pill open" style="margin-bottom:8px;font-size:11px;letter-spacing:0.12em;font-weight:700;">● BACKOFFICE DESK</span>
+        <span class="pill open" style="margin-bottom:8px;font-size:11px;letter-spacing:0.12em;font-weight:700;">●
+          BACKOFFICE DESK</span>
         <h2 style="font-size:36px;margin:8px 0 10px;line-height:1.2;">Sign in and the desks light up.</h2>
         <p class="muted" style="font-size:14px;max-width:36ch;margin:0 auto;line-height:1.6;">
           Real-time binary tree visualizer, matching pairs, and daily Trade-In cycle yield in one desk session.
@@ -51,7 +53,9 @@
 
         <form id="form" autocomplete="off">
           <!-- Invisible dummy inputs to absorb aggressive browser autofill -->
-          <div style="position:absolute;left:-9999px;top:-9999px;width:0;height:0;opacity:0;pointer-events:none;overflow:hidden;" aria-hidden="true">
+          <div
+            style="position:absolute;left:-9999px;top:-9999px;width:0;height:0;opacity:0;pointer-events:none;overflow:hidden;"
+            aria-hidden="true">
             <input type="text" name="fake_username_trap" tabindex="-1" autocomplete="off" />
             <input type="password" name="fake_password_trap" tabindex="-1" autocomplete="new-password" />
           </div>
@@ -64,20 +68,9 @@
             </label>
             <div class="auth-field-inner">
               <span class="auth-field-icon">👤</span>
-              <input
-                id="login_mobile"
-                name="desk_login_id"
-                class="auth-input"
-                type="text"
-                autocomplete="chrome-off"
-                autocorrect="off"
-                autocapitalize="off"
-                spellcheck="false"
-                required
-                placeholder="Enter your username"
-                readonly
-                onfocus="this.removeAttribute('readonly')"
-              />
+              <input id="login_mobile" name="desk_login_id" class="auth-input" type="text" autocomplete="chrome-off"
+                autocorrect="off" autocapitalize="off" spellcheck="false" required placeholder="Enter your username"
+                readonly onfocus="this.removeAttribute('readonly')" />
             </div>
           </div>
 
@@ -85,26 +78,17 @@
           <div class="auth-field-group">
             <div class="auth-field-label">
               <label for="login_password">PASSWORD</label>
-              <span id="capsNotice" class="tiny" style="color:var(--gold);display:none;font-weight:700;">⚠ CapsLock is ON</span>
+              <span id="capsNotice" class="tiny" style="color:var(--gold);display:none;font-weight:700;">⚠ CapsLock is
+                ON</span>
             </div>
             <div class="auth-field-inner">
               <span class="auth-field-icon">🔒</span>
-              <input
-                id="login_password"
-                name="desk_secret_key"
-                class="auth-input"
-                type="password"
-                autocomplete="new-password"
-                autocorrect="off"
-                autocapitalize="off"
-                spellcheck="false"
-                required
-                placeholder="Enter your password"
-                style="padding-right:42px;"
-                readonly
-                onfocus="this.removeAttribute('readonly')"
-              />
-              <button type="button" class="auth-toggle-pwd" id="btnTogglePwd" title="Show/Hide Password" aria-label="Toggle password visibility">
+              <input id="login_password" name="desk_secret_key" class="auth-input" type="password"
+                autocomplete="new-password" autocorrect="off" autocapitalize="off" spellcheck="false" required
+                placeholder="Enter your password" style="padding-right:42px;" readonly
+                onfocus="this.removeAttribute('readonly')" />
+              <button type="button" class="auth-toggle-pwd" id="btnTogglePwd" title="Show/Hide Password"
+                aria-label="Toggle password visibility">
                 👁
               </button>
             </div>
@@ -129,7 +113,7 @@
         .then((d) => {
           if (d.user) location.href = d.user.role === 'admin' ? '/admin.html' : '/dashboard.html';
         })
-        .catch(() => {});
+        .catch(() => { });
     }
 
     // 2. Interactive Ambient Cursor Light

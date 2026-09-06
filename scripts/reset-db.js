@@ -120,6 +120,7 @@ async function runReset() {
     settings: {
       weekly_payout_enabled: 0,
       binary_cap: 6000,
+      max_tradein_slots: 5,
     },
   };
 

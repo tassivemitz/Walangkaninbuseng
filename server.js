@@ -23,6 +23,8 @@ const TRADEIN_DAYS = 12;
 const TRADEIN_PAYOUT_EVERY = 3;
 const TRADEIN_PAYOUTS = TRADEIN_DAYS / TRADEIN_PAYOUT_EVERY;
 const TRADEIN_REF_RATES = [0.1, 0.05, 0.03, 0.02];
+const MAX_TRADEIN_SLOTS = 5;
+const TRADEIN_CYCLE_DURATION_MS = TRADEIN_PAYOUT_EVERY * 24 * 60 * 60 * 1000;
 const MIN_WITHDRAWAL = 100;
 
 function feeRateForAmount(amount) {
@@ -459,49 +461,108 @@ function payTradeinReferrals(data, buyerId, capital, packageId = null) {
 
 function getPackageCycleInfo(pkg) {
   const isCompleted = pkg.cycle_status === 'completed';
+  const totalPayouts = TRADEIN_PAYOUTS; // 4 cycles
+  const completed = Number(pkg.payouts_completed || 0);
+  const installment = money(Number(pkg.total_return || (pkg.capital * TRADEIN_ROI)) / totalPayouts);
+
   if (pkg.cycle_status !== 'active' && !isCompleted) {
     return {
+      current_cycle: 1,
+      total_cycles: totalPayouts,
+      payouts_completed: 0,
+      is_completed: false,
+      is_paused: false,
+      can_claim: false,
+      claimable_payouts: 0,
+      claimable_amount: 0,
+      installment_amount: installment,
       elapsed_days: 0,
       total_days: TRADEIN_DAYS,
       progress_percent: 0,
-      matured_payouts: 0,
-      claimable_payouts: 0,
-      claimable_amount: 0,
       next_payout_date: null,
       next_payout_in_hours: null,
+      cycle_start_date: null,
+      status_label: pkg.cycle_status === 'pending' ? 'Pending Approval' : 'Inactive',
     };
   }
 
-  const start = new Date(pkg.start_date || pkg.created_at);
-  const now = Date.now();
-  const elapsedMs = Math.max(0, now - start.getTime());
-  const elapsedDays = Math.min(TRADEIN_DAYS, elapsedMs / (24 * 60 * 60 * 1000));
-  const progressPercent = isCompleted ? 100 : Math.min(100, Math.round((elapsedDays / TRADEIN_DAYS) * 100));
-
-  const totalMaturedPayouts = isCompleted ? TRADEIN_PAYOUTS : Math.min(TRADEIN_PAYOUTS, Math.floor(elapsedDays / TRADEIN_PAYOUT_EVERY));
-  const completed = Number(pkg.payouts_completed || 0);
-  const claimablePayouts = isCompleted ? 0 : Math.max(0, totalMaturedPayouts - completed);
-  const installment = money(Number(pkg.total_return) / TRADEIN_PAYOUTS);
-  const claimableAmount = money(installment * claimablePayouts);
-
-  let nextPayoutDate = null;
-  let nextPayoutInHours = null;
-  if (!isCompleted && completed < TRADEIN_PAYOUTS) {
-    const nextMilestoneDays = (completed + 1) * TRADEIN_PAYOUT_EVERY;
-    nextPayoutDate = new Date(start.getTime() + nextMilestoneDays * 24 * 60 * 60 * 1000).toISOString();
-    const remainingMs = new Date(nextPayoutDate).getTime() - now;
-    nextPayoutInHours = Math.max(0, Math.round((remainingMs / (1000 * 60 * 60)) * 10) / 10);
+  if (isCompleted || completed >= totalPayouts) {
+    return {
+      current_cycle: totalPayouts,
+      total_cycles: totalPayouts,
+      payouts_completed: totalPayouts,
+      is_completed: true,
+      is_paused: false,
+      can_claim: false,
+      claimable_payouts: 0,
+      claimable_amount: 0,
+      installment_amount: installment,
+      elapsed_days: TRADEIN_DAYS,
+      total_days: TRADEIN_DAYS,
+      progress_percent: 100,
+      next_payout_date: null,
+      next_payout_in_hours: null,
+      cycle_start_date: pkg.cycle_start_date || pkg.start_date,
+      status_label: 'Completed',
+    };
   }
 
+  // Active package: Cycle start date is pkg.cycle_start_date (or fallback to start_date or created_at)
+  const currentCycleStartIso = pkg.cycle_start_date || pkg.start_date || pkg.created_at;
+  const currentCycleStartMs = new Date(currentCycleStartIso).getTime();
+  const now = Date.now();
+  const elapsedInCycleMs = Math.max(0, now - currentCycleStartMs);
+
+  const isCycleMatured = elapsedInCycleMs >= TRADEIN_CYCLE_DURATION_MS;
+
+  if (isCycleMatured) {
+    // 3 days have elapsed!
+    // Payout is ready to claim.
+    // PAUSED: The timer is FROZEN/STOPPED until the user claims!
+    return {
+      current_cycle: completed + 1,
+      total_cycles: totalPayouts,
+      payouts_completed: completed,
+      is_completed: false,
+      is_paused: true, // NEXT CYCLE IS PAUSED UNTIL CLAIMED!
+      can_claim: true,
+      claimable_payouts: 1,
+      claimable_amount: installment,
+      installment_amount: installment,
+      elapsed_days: Math.round(((completed * TRADEIN_PAYOUT_EVERY) + TRADEIN_PAYOUT_EVERY) * 10) / 10,
+      total_days: TRADEIN_DAYS,
+      progress_percent: Math.round((completed / totalPayouts) * 100),
+      next_payout_date: null,
+      next_payout_in_hours: 0,
+      cycle_start_date: currentCycleStartIso,
+      status_label: `Cycle ${completed + 1} Ready to Claim! (Cycle ${completed + 2 <= totalPayouts ? completed + 2 : ''} Paused)`,
+    };
+  }
+
+  // Still within the 3 days of current cycle
+  const remainingMs = TRADEIN_CYCLE_DURATION_MS - elapsedInCycleMs;
+  const remainingHours = Math.max(0, Math.round((remainingMs / (1000 * 60 * 60)) * 10) / 10);
+  const nextPayoutDate = new Date(currentCycleStartMs + TRADEIN_CYCLE_DURATION_MS).toISOString();
+  const cycleProgressFrac = Math.min(1, elapsedInCycleMs / TRADEIN_CYCLE_DURATION_MS);
+  const overallProgress = Math.min(99, Math.round(((completed + cycleProgressFrac) / totalPayouts) * 100));
+
   return {
-    elapsed_days: Math.round(elapsedDays * 10) / 10,
+    current_cycle: completed + 1,
+    total_cycles: totalPayouts,
+    payouts_completed: completed,
+    is_completed: false,
+    is_paused: false,
+    can_claim: false,
+    claimable_payouts: 0,
+    claimable_amount: 0,
+    installment_amount: installment,
+    elapsed_days: Math.round(((completed * TRADEIN_PAYOUT_EVERY) + (elapsedInCycleMs / (24 * 60 * 60 * 1000))) * 10) / 10,
     total_days: TRADEIN_DAYS,
-    progress_percent: progressPercent,
-    matured_payouts: totalMaturedPayouts,
-    claimable_payouts: claimablePayouts,
-    claimable_amount: claimableAmount,
+    progress_percent: overallProgress,
     next_payout_date: nextPayoutDate,
-    next_payout_in_hours: nextPayoutInHours,
+    next_payout_in_hours: remainingHours,
+    cycle_start_date: currentCycleStartIso,
+    status_label: `Cycle ${completed + 1} Running (${remainingHours}h remaining)`,
   };
 }
 
@@ -509,7 +570,6 @@ function processTradeinYieldsIn(data) {
   const packages = data.tradein_packages.filter((p) => p.cycle_status === 'active');
   let updated = 0;
   for (const pkg of packages) {
-    const info = getPackageCycleInfo(pkg);
     if (Number(pkg.payouts_completed) >= TRADEIN_PAYOUTS && pkg.cycle_status !== 'completed') {
       pkg.cycle_status = 'completed';
       pkg.completed_at = nowIso();
@@ -791,7 +851,8 @@ app.post('/api/account/activate', auth, async (req, res) => {
 
 // Sponsor / Encoder Downline Placement Endpoint
 app.post('/api/binary/encode-downline', auth, async (req, res) => {
-  const memberMobile = normalizeUsername(req.body.member_mobile || req.body.member_username);
+  const memberMobile = normalizeUsername(req.body.member_mobile || req.body.member_username || req.body.username);
+  const password = String(req.body.password || '').trim();
   const code = normalizeCode(req.body.code);
   const rawPos = String(req.body.position || '').trim().toUpperCase();
   const preferredPos = rawPos.startsWith('R') ? 'R' : rawPos.startsWith('L') ? 'L' : null;
@@ -800,6 +861,8 @@ app.post('/api/binary/encode-downline', auth, async (req, res) => {
 
   if (!memberMobile) return res.status(400).json({ error: 'Please enter a valid member username to encode.' });
   if (!code || code.length < 6) return res.status(400).json({ error: 'Please enter a valid 8-character activation code.' });
+
+  const passwordHash = password ? await bcrypt.hash(password, 10) : null;
 
   try {
     const result = await db.tx((data) => {
@@ -810,21 +873,38 @@ app.post('/api/binary/encode-downline', auth, async (req, res) => {
         throw err;
       }
 
-      const target = data.users.find((x) => (x.username && x.username.toLowerCase() === memberMobile.toLowerCase()) || (x.mobile_number && x.mobile_number.toLowerCase() === memberMobile.toLowerCase()));
+      let target = data.users.find((x) => (x.username && x.username.toLowerCase() === memberMobile.toLowerCase()) || (x.mobile_number && x.mobile_number.toLowerCase() === memberMobile.toLowerCase()));
       if (!target) {
-        const err = new Error(`Member ${memberMobile} was not found.`);
-        err.status = 404;
-        throw err;
-      }
-      if (target.status === 'active') {
-        const err = new Error(`Member ${memberMobile} is already activated in the binary tree.`);
-        err.status = 400;
-        throw err;
-      }
-      if (target.status === 'banned') {
-        const err = new Error('This account is banned.');
-        err.status = 403;
-        throw err;
+        // If user does not exist yet, require password (at least 4 characters) to register and place them directly
+        if (!passwordHash || password.length < 4) {
+          const err = new Error(`Member "${memberMobile}" is not yet registered. Please enter a password (min 4 characters) to register and place this new account into the slot.`);
+          err.status = 404;
+          throw err;
+        }
+        target = db.insert('users', {
+          username: memberMobile,
+          mobile_number: memberMobile,
+          password: passwordHash,
+          role: 'user',
+          status: 'active',
+          total_binary_earnings: 0,
+          created_at: nowIso(),
+        });
+        data.wallets.push(emptyWallet(target.id));
+      } else {
+        if (target.status === 'active') {
+          const err = new Error(`Member "${memberMobile}" is already activated in the binary tree.`);
+          err.status = 400;
+          throw err;
+        }
+        if (target.status === 'banned') {
+          const err = new Error('This account is banned.');
+          err.status = 403;
+          throw err;
+        }
+        if (passwordHash) {
+          target.password = passwordHash;
+        }
       }
 
       // Check code vault - universal code
@@ -854,7 +934,7 @@ app.post('/api/binary/encode-downline', auth, async (req, res) => {
           throw err;
         }
       } else if (placementMobile) {
-        pUser = data.users.find((x) => x.mobile_number === placementMobile && x.status === 'active');
+        pUser = data.users.find((x) => ((x.username && x.username.toLowerCase() === placementMobile.toLowerCase()) || (x.mobile_number && x.mobile_number.toLowerCase() === placementMobile.toLowerCase())) && x.status === 'active');
         if (!pUser) {
           const err = new Error(`Placement upline ${placementMobile} is not an active member.`);
           err.status = 400;
@@ -864,7 +944,7 @@ app.post('/api/binary/encode-downline', auth, async (req, res) => {
 
       if (pUser) {
         if (!data.binary_tree.some((t) => t.user_id === pUser.id)) {
-          const err = new Error(`Placement parent ${pUser.mobile_number} is not an active binary node.`);
+          const err = new Error(`Placement parent ${pUser.username || pUser.mobile_number} is not an active binary node.`);
           err.status = 400;
           throw err;
         }
@@ -1067,7 +1147,13 @@ app.get('/api/dashboard', auth, async (req, res) => {
       used_by_mobile: c.used_by ? mobileOf(c.used_by, data) : '',
     }));
 
-  // Trade-In active capital
+  // Trade-In active capital and slots capacity
+  const maxTradeinSlots = Number(data.settings && data.settings.max_tradein_slots) || MAX_TRADEIN_SLOTS;
+  const occupiedTradeinCount = packages.filter(
+    (p) => p.cycle_status === 'active' || p.cycle_status === 'pending'
+  ).length;
+  const availableTradeinSlots = Math.max(0, maxTradeinSlots - occupiedTradeinCount);
+
   const total_tradein_deposit = packages
     .filter((p) => p.cycle_status === 'active')
     .reduce((sum, p) => sum + (Number(p.capital) || 0), 0);
@@ -1085,6 +1171,11 @@ app.get('/api/dashboard', auth, async (req, res) => {
   res.json({
     user,
     packages: enrichedPackages,
+    tradein_slots: {
+      max: maxTradeinSlots,
+      active: occupiedTradeinCount,
+      available: availableTradeinSlots,
+    },
     withdrawals,
     directs,
     indirects,
@@ -1228,11 +1319,23 @@ app.post('/api/tradein/purchase', auth, async (req, res) => {
         err.status = 403;
         throw err;
       }
+
+      const maxSlots = Number(data.settings && data.settings.max_tradein_slots) || MAX_TRADEIN_SLOTS;
+      const occupied = data.tradein_packages.filter(
+        (p) => p.user_id === req.user.id && (p.cycle_status === 'active' || p.cycle_status === 'pending')
+      );
+      if (occupied.length >= maxSlots) {
+        const err = new Error(`Trade-In Slots Full: You have reached the maximum capacity of ${maxSlots} active trade-in slots. Please complete an existing 4-cycle package before opening a new slot.`);
+        err.status = 400;
+        throw err;
+      }
+
       const created = db.insert('tradein_packages', {
         user_id: req.user.id,
         capital,
         total_return: money(capital * TRADEIN_ROI),
         start_date: null,
+        cycle_start_date: null,
         cycle_status: 'pending',
         payouts_completed: 0,
         ref_number,
@@ -1276,9 +1379,9 @@ app.post('/api/tradein/claim/:id', auth, async (req, res) => {
       }
 
       const cycleInfo = getPackageCycleInfo(pkg);
-      if (cycleInfo.claimable_payouts <= 0 || cycleInfo.claimable_amount <= 0) {
+      if (!cycleInfo.can_claim || cycleInfo.claimable_amount <= 0) {
         const remainingHours = cycleInfo.next_payout_in_hours !== null ? ` (next payout in ~${cycleInfo.next_payout_in_hours}h)` : '';
-        const err = new Error(`No matured payouts ready to claim right now${remainingHours}.`);
+        const err = new Error(`Payout for Cycle ${Number(pkg.payouts_completed || 0) + 1} is not yet ready to claim${remainingHours}. Each cycle takes 3 full days.`);
         err.status = 400;
         throw err;
       }
@@ -1291,23 +1394,28 @@ app.post('/api/tradein/claim/:id', auth, async (req, res) => {
       }
 
       const claimedAmount = cycleInfo.claimable_amount;
-      const claimedPayouts = cycleInfo.claimable_payouts;
 
+      // Credit to cash out wallet
       wallet.tradein_cycle_balance = money(wallet.tradein_cycle_balance + claimedAmount);
-      pkg.payouts_completed = Number(pkg.payouts_completed || 0) + claimedPayouts;
+      pkg.payouts_completed = Number(pkg.payouts_completed || 0) + 1;
+      pkg.last_claimed_at = nowIso();
 
       logEarning(data, {
         userId: pkg.user_id,
         category: 'tradein_earnings',
         amount: claimedAmount,
         sourceUserId: pkg.user_id,
-        description: `Trade-In Cycle Payout Claim (${pkg.payouts_completed}/${TRADEIN_PAYOUTS})`,
+        description: `Trade-In Cycle ${pkg.payouts_completed}/${TRADEIN_PAYOUTS} Payout Claim`,
         refId: pkg.id,
       });
 
       if (pkg.payouts_completed >= TRADEIN_PAYOUTS) {
         pkg.cycle_status = 'completed';
         pkg.completed_at = nowIso();
+      } else {
+        // STRICT PAUSED CYCLE RULE:
+        // THE NEXT 3-DAY CYCLE COUNTDOWN STARTS RIGHT HERE, ONLY AFTER CLAIMING!
+        pkg.cycle_start_date = nowIso();
       }
 
       return {
@@ -1322,6 +1430,29 @@ app.post('/api/tradein/claim/:id', auth, async (req, res) => {
     if (err.status) return res.status(err.status).json({ error: err.message });
     console.error(err);
     res.status(500).json({ error: 'Failed to claim trade-in payout.' });
+  }
+});
+
+// Test / Admin helper to simulate elapsed cycle time safely
+app.post('/api/tradein/test-fastforward/:id', auth, adminOnly, async (req, res) => {
+  const id = Number(req.params.id);
+  const days = Number(req.body.days || 3);
+  try {
+    const pkg = await db.tx((data) => {
+      const p = data.tradein_packages.find((x) => x.id === id);
+      if (!p) {
+        const err = new Error('Package not found.');
+        err.status = 404;
+        throw err;
+      }
+      const prev = new Date(p.cycle_start_date || p.start_date || p.created_at).getTime();
+      p.cycle_start_date = new Date(prev - (days * 24 * 60 * 60 * 1000 + 5000)).toISOString();
+      return p;
+    });
+    res.json({ ok: true, package: { ...pkg, cycle_info: getPackageCycleInfo(pkg) } });
+  } catch (err) {
+    if (err.status) return res.status(err.status).json({ error: err.message });
+    res.status(500).json({ error: 'Fast-forward failed.' });
   }
 });
 
@@ -1380,6 +1511,15 @@ app.post('/api/admin/settings/binary-cap', auth, adminOnly, async (req, res) => 
     data.settings.binary_cap = cap;
   });
   res.json({ ok: true, binary_cap: cap });
+});
+
+// Admin Trade-In Slots Settings Endpoint
+app.post('/api/admin/settings/tradein-slots', auth, adminOnly, async (req, res) => {
+  const slots = Math.min(20, Math.max(1, Number(req.body.slots || req.body.max_tradein_slots) || 5));
+  await db.tx((data) => {
+    data.settings.max_tradein_slots = slots;
+  });
+  res.json({ ok: true, max_tradein_slots: slots });
 });
 
 function normalizePayoutMethod(m) {
@@ -1621,6 +1761,8 @@ app.post('/api/admin/tradein/:id/approve', auth, adminOnly, async (req, res) => 
       }
       p.cycle_status = 'active';
       p.start_date = nowIso();
+      p.cycle_start_date = nowIso(); // Initialize Cycle 1 countdown timer
+      p.payouts_completed = 0;
       p.approved_at = nowIso();
       payTradeinReferrals(data, p.user_id, p.capital, p.id);
       return p;
