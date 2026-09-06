@@ -84,6 +84,7 @@ async function runReset() {
     users: [
       {
         id: 1,
+        username: adminMobile,
         mobile_number: adminMobile,
         password: adminPasswordHash,
         role: 'admin',

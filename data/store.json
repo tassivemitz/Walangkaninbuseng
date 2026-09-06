@@ -9,12 +9,13 @@
   "users": [
     {
       "id": 1,
+      "username": "Toshi",
       "mobile_number": "Toshi",
-      "password": "$2a$10$PcxxiAa4PRjecXImuCAkgOskrIvbmS7UwoaNGnwSLrt7XORZRt8SS",
+      "password": "$2a$10$sxOssgZ8hPux31AfNXsP..HZQRq6vq0.HW3AxR3vFjqoIvJsmhONO",
       "role": "admin",
       "status": "active",
       "total_binary_earnings": 0,
-      "created_at": "2026-09-06T04:40:42.671Z"
+      "created_at": "2026-09-06T05:08:34.390Z"
     }
   ],
   "wallets": [
@@ -42,47 +43,47 @@
   "code_vault": [
     {
       "id": 1,
-      "code": "X28B356U",
+      "code": "YRPHZQZU",
       "status": "available",
       "assigned_to": null,
       "used_by": null,
-      "created_at": "2026-09-06T04:40:42.671Z",
+      "created_at": "2026-09-06T05:08:34.390Z",
       "used_at": null
     },
     {
       "id": 2,
-      "code": "VKY4X27K",
+      "code": "WX255J64",
       "status": "available",
       "assigned_to": null,
       "used_by": null,
-      "created_at": "2026-09-06T04:40:42.671Z",
+      "created_at": "2026-09-06T05:08:34.390Z",
       "used_at": null
     },
     {
       "id": 3,
-      "code": "JJVNDNZJ",
+      "code": "L3XZ6NNL",
       "status": "available",
       "assigned_to": null,
       "used_by": null,
-      "created_at": "2026-09-06T04:40:42.671Z",
+      "created_at": "2026-09-06T05:08:34.390Z",
       "used_at": null
     },
     {
       "id": 4,
-      "code": "ZZY3ULCH",
+      "code": "72BP43SX",
       "status": "available",
       "assigned_to": null,
       "used_by": null,
-      "created_at": "2026-09-06T04:40:42.671Z",
+      "created_at": "2026-09-06T05:08:34.390Z",
       "used_at": null
     },
     {
       "id": 5,
-      "code": "2ZVHMRYQ",
+      "code": "WM4YB8QN",
       "status": "available",
       "assigned_to": null,
       "used_by": null,
-      "created_at": "2026-09-06T04:40:42.671Z",
+      "created_at": "2026-09-06T05:08:34.390Z",
       "used_at": null
     }
   ],

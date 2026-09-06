@@ -49,14 +49,18 @@ function nowIso() {
   return new Date().toISOString();
 }
 
-function normalizeMobile(raw) {
+function normalizeUsername(raw) {
   const str = String(raw || '').trim();
+  if (str.length >= 3 && /^[a-zA-Z0-9_\-.@]+$/.test(str)) return str;
   const digits = str.replace(/\D/g, '');
   if (digits.length === 10 && digits.startsWith('9')) return `0${digits}`;
   if (digits.length === 12 && digits.startsWith('63')) return `0${digits.slice(2)}`;
   if (digits.length === 11 && digits.startsWith('09')) return digits;
-  if (str.length >= 3 && /^[a-zA-Z0-9_\-.@]+$/.test(str)) return str;
   return null;
+}
+
+function normalizeMobile(raw) {
+  return normalizeUsername(raw);
 }
 
 function normalizeCode(raw) {
@@ -108,7 +112,7 @@ function emptyTree(userId, parentId, sponsorId, position) {
 
 function mobileOf(userId, data) {
   const u = data.users.find((x) => x.id === userId);
-  return u ? u.mobile_number : '';
+  return u ? (u.username || u.mobile_number) : '';
 }
 
 function adminUserRow(userId, data = db.getStore()) {
@@ -116,10 +120,14 @@ function adminUserRow(userId, data = db.getStore()) {
   if (!u) return null;
   const sponsor = u.sponsor_id ? data.users.find((x) => x.id === u.sponsor_id) : null;
   const parent = u.parent_id ? data.users.find((x) => x.id === u.parent_id) : null;
+  const sponsorName = sponsor ? (sponsor.username || sponsor.mobile_number) : '';
+  const parentName = parent ? (parent.username || parent.mobile_number) : '';
   return {
     ...u,
-    sponsor_mobile: sponsor ? sponsor.mobile_number : '',
-    parent_mobile: parent ? parent.mobile_number : '',
+    sponsor_username: sponsorName,
+    parent_username: parentName,
+    sponsor_mobile: sponsorName,
+    parent_mobile: parentName,
     directs: data.binary_tree.filter((t) => t.sponsor_id === userId).length,
     packages: data.tradein_packages.filter((p) => p.user_id === userId).length,
   };
@@ -130,9 +138,11 @@ function publicUser(userId, data = db.getStore()) {
   if (!u) return null;
   const w = data.wallets.find((x) => x.user_id === userId) || emptyWallet(userId);
   const t = data.binary_tree.find((x) => x.user_id === userId) || {};
+  const identifier = u.username || u.mobile_number;
   return {
     id: u.id,
-    mobile_number: u.mobile_number,
+    username: identifier,
+    mobile_number: identifier,
     role: u.role,
     status: u.status,
     total_binary_earnings: u.total_binary_earnings,
@@ -188,10 +198,12 @@ function getAncestorsPath(rootUserId, targetUserId, data) {
     const u = data.users.find((x) => x.id === curr);
     const node = data.binary_tree.find((x) => x.user_id === curr);
     if (u) {
+      const name = u.username || u.mobile_number;
       path.unshift({
         id: u.id,
-        mobile: u.mobile_number,
-        mobile_number: u.mobile_number,
+        username: name,
+        mobile: name,
+        mobile_number: name,
         status: u.status,
         position: node ? node.position : null,
       });
@@ -212,15 +224,21 @@ function buildSubtree(userId, data, depth = 1, maxDepth = 3) {
 
   const leftChild = data.binary_tree.find((t) => t.parent_id === userId && t.position === 'L');
   const rightChild = data.binary_tree.find((t) => t.parent_id === userId && t.position === 'R');
+  const name = u.username || u.mobile_number;
+  const sponsorName = sponsor ? (sponsor.username || sponsor.mobile_number) : null;
+  const parentName = parent ? (parent.username || parent.mobile_number) : null;
 
   return {
     id: u.id,
-    mobile: u.mobile_number,
-    mobile_number: u.mobile_number,
+    username: name,
+    mobile: name,
+    mobile_number: name,
     status: u.status,
     position: node ? node.position : null,
-    sponsor_mobile: sponsor ? sponsor.mobile_number : null,
-    parent_mobile: parent ? parent.mobile_number : null,
+    sponsor_username: sponsorName,
+    parent_username: parentName,
+    sponsor_mobile: sponsorName,
+    parent_mobile: parentName,
     left_count: countLeg(userId, 'L', data),
     right_count: countLeg(userId, 'R', data),
     left: depth < maxDepth && leftChild ? buildSubtree(leftChild.user_id, data, depth + 1, maxDepth) : null,
@@ -244,7 +262,8 @@ function getFlatDownlines(rootUserId, data) {
     for (const kid of kids) {
       const u = data.users.find((x) => x.id === kid.user_id);
       if (u) {
-        list.push({ id: u.id, mobile: u.mobile_number, position: kid.position });
+        const name = u.username || u.mobile_number;
+        list.push({ id: u.id, username: name, mobile: name, mobile_number: name, position: kid.position });
       }
       queue.push(kid.user_id);
     }
@@ -515,6 +534,7 @@ async function seedAdmin() {
     const hash = await bcrypt.hash(password, 10);
     if (!admin) {
       admin = db.insert('users', {
+        username: mobile,
         mobile_number: mobile,
         password: hash,
         role: 'admin',
@@ -525,6 +545,7 @@ async function seedAdmin() {
       data.wallets.push(emptyWallet(admin.id));
       data.binary_tree.push(emptyTree(admin.id, null, null, null));
     } else {
+      admin.username = mobile;
       admin.mobile_number = mobile;
       admin.password = hash;
     }
@@ -585,25 +606,27 @@ function generateRandomCode(length = 8) {
 }
 
 app.post('/api/auth/register', async (req, res) => {
-  const mobile = normalizeMobile(req.body.mobile_number);
+  const rawUser = req.body.username || req.body.mobile_number;
+  const username = normalizeUsername(rawUser);
   const password = String(req.body.password || '');
-  const sponsorMobile = req.body.sponsor_mobile ? normalizeMobile(req.body.sponsor_mobile) : null;
+  const sponsorRaw = req.body.sponsor_username || req.body.sponsor_mobile;
+  const sponsorUsername = sponsorRaw ? normalizeUsername(sponsorRaw) : null;
 
-  if (!mobile) return res.status(400).json({ error: 'Enter a valid PH mobile number.' });
+  if (!username) return res.status(400).json({ error: 'Please enter a valid username (min 3 alphanumeric characters).' });
   if (password.length < 6) return res.status(400).json({ error: 'Password must be at least 6 characters.' });
 
   try {
     const hash = await bcrypt.hash(password, 10);
     const userId = await db.tx((data) => {
-      if (data.users.some((u) => u.mobile_number === mobile)) {
-        const err = new Error('Mobile number is already registered.');
+      if (data.users.some((u) => (u.username && u.username.toLowerCase() === username.toLowerCase()) || (u.mobile_number && u.mobile_number.toLowerCase() === username.toLowerCase()))) {
+        const err = new Error('Username is already taken.');
         err.status = 409;
         throw err;
       }
 
       let sponsorId = null;
-      if (sponsorMobile) {
-        const sponsor = data.users.find((u) => u.mobile_number === sponsorMobile);
+      if (sponsorUsername) {
+        const sponsor = data.users.find((u) => (u.username && u.username.toLowerCase() === sponsorUsername.toLowerCase()) || (u.mobile_number && u.mobile_number.toLowerCase() === sponsorUsername.toLowerCase()));
         if (sponsor && sponsor.status !== 'banned') {
           sponsorId = sponsor.id;
         }
@@ -615,7 +638,8 @@ app.post('/api/auth/register', async (req, res) => {
 
       // New accounts start as INACTIVE — no binary placement or commissions yet
       const user = db.insert('users', {
-        mobile_number: mobile,
+        username,
+        mobile_number: username,
         password: hash,
         role: 'user',
         status: 'inactive',
@@ -639,15 +663,16 @@ app.post('/api/auth/register', async (req, res) => {
 });
 
 app.post('/api/auth/login', async (req, res) => {
-  const mobile = normalizeMobile(req.body.mobile_number);
+  const rawId = req.body.username || req.body.mobile_number;
+  const username = normalizeUsername(rawId);
   const password = String(req.body.password || '');
-  if (!mobile || !password) return res.status(400).json({ error: 'Mobile number and password are required.' });
+  if (!username || !password) return res.status(400).json({ error: 'Username and password are required.' });
 
-  const userRow = db.find('users', (u) => u.mobile_number === mobile);
-  if (!userRow) return res.status(401).json({ error: 'Invalid mobile number or password.' });
+  const userRow = db.find('users', (u) => (u.username && u.username.toLowerCase() === username.toLowerCase()) || (u.mobile_number && u.mobile_number.toLowerCase() === username.toLowerCase()));
+  if (!userRow) return res.status(401).json({ error: 'Invalid username or password.' });
 
   const ok = await bcrypt.compare(password, userRow.password);
-  if (!ok) return res.status(401).json({ error: 'Invalid mobile number or password.' });
+  if (!ok) return res.status(401).json({ error: 'Invalid username or password.' });
   if (userRow.status === 'banned') return res.status(403).json({ error: 'This account is banned.' });
 
   const user = publicUser(userRow.id);
@@ -707,7 +732,7 @@ app.post('/api/account/activate', auth, async (req, res) => {
       // Placement root: either designated upline parent or fallback to sponsor
       let startNodeId = sponsorId;
       if (placementMobile) {
-        const pUser = data.users.find((x) => x.mobile_number === placementMobile && x.status === 'active');
+        const pUser = data.users.find((x) => ((x.username && x.username.toLowerCase() === placementMobile.toLowerCase()) || (x.mobile_number && x.mobile_number.toLowerCase() === placementMobile.toLowerCase())) && x.status === 'active');
         if (!pUser || !data.binary_tree.some((t) => t.user_id === pUser.id)) {
           const err = new Error(`Placement upline ${placementMobile} is not an active binary node.`);
           err.status = 400;
@@ -766,14 +791,14 @@ app.post('/api/account/activate', auth, async (req, res) => {
 
 // Sponsor / Encoder Downline Placement Endpoint
 app.post('/api/binary/encode-downline', auth, async (req, res) => {
-  const memberMobile = normalizeMobile(req.body.member_mobile);
+  const memberMobile = normalizeUsername(req.body.member_mobile || req.body.member_username);
   const code = normalizeCode(req.body.code);
   const rawPos = String(req.body.position || '').trim().toUpperCase();
   const preferredPos = rawPos.startsWith('R') ? 'R' : rawPos.startsWith('L') ? 'L' : null;
-  const placementMobile = req.body.placement_mobile ? normalizeMobile(req.body.placement_mobile) : null;
+  const placementMobile = (req.body.placement_mobile || req.body.placement_username) ? normalizeUsername(req.body.placement_mobile || req.body.placement_username) : null;
   const placementParentId = req.body.placement_parent_id ? Number(req.body.placement_parent_id) : null;
 
-  if (!memberMobile) return res.status(400).json({ error: 'Please enter a valid member mobile number to encode.' });
+  if (!memberMobile) return res.status(400).json({ error: 'Please enter a valid member username to encode.' });
   if (!code || code.length < 6) return res.status(400).json({ error: 'Please enter a valid 8-character activation code.' });
 
   try {
@@ -785,9 +810,9 @@ app.post('/api/binary/encode-downline', auth, async (req, res) => {
         throw err;
       }
 
-      const target = data.users.find((x) => x.mobile_number === memberMobile);
+      const target = data.users.find((x) => (x.username && x.username.toLowerCase() === memberMobile.toLowerCase()) || (x.mobile_number && x.mobile_number.toLowerCase() === memberMobile.toLowerCase()));
       if (!target) {
-        const err = new Error(`Member with mobile ${memberMobile} was not found.`);
+        const err = new Error(`Member ${memberMobile} was not found.`);
         err.status = 404;
         throw err;
       }
@@ -1113,11 +1138,11 @@ app.get('/api/tree', auth, async (req, res) => {
   let targetId = req.user.id;
   if (req.query.userId) {
     targetId = Number(req.query.userId);
-  } else if (req.query.mobile) {
-    const norm = normalizeMobile(req.query.mobile);
-    const found = data.users.find((u) => u.mobile_number === norm);
+  } else if (req.query.username || req.query.mobile) {
+    const norm = normalizeUsername(req.query.username || req.query.mobile);
+    const found = data.users.find((u) => (u.username && u.username.toLowerCase() === norm.toLowerCase()) || (u.mobile_number && u.mobile_number.toLowerCase() === norm.toLowerCase()));
     if (found) targetId = found.id;
-    else return res.status(404).json({ error: 'Member mobile not found.' });
+    else return res.status(404).json({ error: 'Member not found.' });
   }
 
   const targetUser = data.users.find((u) => u.id === targetId);
@@ -1133,8 +1158,14 @@ app.get('/api/tree', auth, async (req, res) => {
   const breadcrumbs = getAncestorsPath(rootId, targetId, data);
   const tree = buildSubtree(targetId, data, 1, depth);
   const downlines = isAdmin
-    ? data.users.filter((u) => u.role !== 'admin').map((u) => ({ id: u.id, mobile_number: u.mobile_number, mobile: u.mobile_number, status: u.status }))
-    : getFlatDownlines(caller.id, data).map(d => ({ ...d, mobile_number: d.mobile }));
+    ? data.users.filter((u) => u.role !== 'admin').map((u) => {
+      const name = u.username || u.mobile_number;
+      return { id: u.id, username: name, mobile_number: name, mobile: name, status: u.status };
+    })
+    : getFlatDownlines(caller.id, data).map((d) => {
+      const name = d.username || d.mobile;
+      return { ...d, username: name, mobile_number: name, mobile: name };
+    });
 
   // Pending unactivated directs for upline activation
   const unactivated_directs = data.users
@@ -1143,7 +1174,10 @@ app.get('/api/tree', auth, async (req, res) => {
       const t = data.binary_tree.find((x) => x.user_id === u.id);
       return (t && t.sponsor_id === caller.id) || (!t && u.id !== caller.id);
     })
-    .map((u) => ({ id: u.id, mobile_number: u.mobile_number, created_at: u.created_at }));
+    .map((u) => {
+      const name = u.username || u.mobile_number;
+      return { id: u.id, username: name, mobile_number: name, mobile: name, created_at: u.created_at };
+    });
 
   // Available codes in caller's inventory for quick activation
   const available_codes = data.code_vault
@@ -1155,8 +1189,9 @@ app.get('/api/tree', auth, async (req, res) => {
   const total_network_count = getFlatDownlines(targetId, data).length;
   const directs_count = data.binary_tree.filter(t => t.sponsor_id === targetId).length;
 
+  const targetName = targetUser.username || targetUser.mobile_number;
   res.json({
-    user: { id: targetUser.id, mobile_number: targetUser.mobile_number, mobile: targetUser.mobile_number },
+    user: { id: targetUser.id, username: targetName, mobile_number: targetName, mobile: targetName },
     root_user_id: caller.id,
     viewed_user_id: targetId,
     breadcrumbs,

@@ -56,14 +56,14 @@
             <input type="password" name="fake_password_trap" tabindex="-1" autocomplete="new-password" />
           </div>
 
-          <!-- Field 1: Mobile or Username -->
+          <!-- Field 1: Username -->
           <div class="auth-field-group">
             <label class="auth-field-label" for="login_mobile">
-              <span>MOBILE NUMBER OR USERNAME</span>
+              <span>USERNAME</span>
               <span class="auth-field-status" id="mobileStatusCheck">✓ Ready</span>
             </label>
             <div class="auth-field-inner">
-              <span class="auth-field-icon">📱</span>
+              <span class="auth-field-icon">👤</span>
               <input
                 id="login_mobile"
                 name="desk_login_id"
@@ -74,7 +74,7 @@
                 autocapitalize="off"
                 spellcheck="false"
                 required
-                placeholder="e.g. 09XXXXXXXXX or Username"
+                placeholder="Enter your username"
                 readonly
                 onfocus="this.removeAttribute('readonly')"
               />
@@ -205,15 +205,13 @@
       setTimeout(wipeAutofill, 500);
     });
 
-    // 4. Live Mobile / Username Input Feedback
+    // 4. Live Username Input Feedback
     mobInput.addEventListener('input', () => {
       const val = mobInput.value.trim();
-      const isPhMobile = /^(09|\+639|639)\d{9}$/.test(val.replace(/\D/g, ''));
-      const isValidUser = val.length >= 3;
-      if (isPhMobile || (val.length >= 4 && !/^\d+$/.test(val))) {
+      if (val.length >= 3) {
         mobInput.classList.add('is-valid');
         statusCheck.classList.add('show');
-        statusCheck.textContent = isPhMobile ? '✓ Valid PH Mobile' : '✓ Valid Username';
+        statusCheck.textContent = '✓ Ready';
       } else {
         mobInput.classList.remove('is-valid');
         statusCheck.classList.remove('show');
@@ -256,7 +254,7 @@
         const res = await fetch('/api/auth/login', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ mobile_number: mobileVal, password: pwdVal }),
+          body: JSON.stringify({ username: mobileVal, mobile_number: mobileVal, password: pwdVal }),
         });
         const data = await res.json();
 

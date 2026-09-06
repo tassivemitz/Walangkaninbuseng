@@ -181,7 +181,7 @@
             <details style="margin-bottom:14px; background:#f9faf9; padding:8px 12px; border-radius:8px; border:1px solid var(--line);">
               <summary class="tiny" style="cursor:pointer; font-weight:700; color:var(--jade);">Spillover Placement (Optional / Advanced)</summary>
               <div style="margin-top:8px;">
-                <input class="in" name="placement_mobile" id="activatePlacementMobile" placeholder="Placement Upline Mobile (leave blank for sponsor)" style="font-size:12.5px; width:100%;" />
+                <input class="in" name="placement_mobile" id="activatePlacementMobile" placeholder="Placement Upline Username (leave blank for sponsor)" style="font-size:12.5px; width:100%;" />
                 <span class="tiny muted" style="display:block; margin-top:4px; font-size:11px;">
                   Leave blank to place directly under your sponsor. If your chosen slot is already filled, the system will automatically cascade (spillover) down that leg.
                 </span>
@@ -417,12 +417,12 @@
         <button class="plan-close" type="button" data-close-modal>×</button>
       </header>
       <div class="plan-modal-body">
-        <p class="tiny" style="margin-bottom:12px;">Direct signups referred using your mobile/link (₱50 bonus per active direct).</p>
+        <p class="tiny" style="margin-bottom:12px;">Direct signups referred using your username/link (₱50 bonus per active direct).</p>
         <div class="table-wrap">
           <table class="table">
             <thead>
               <tr>
-                <th>Mobile Number</th>
+                <th>Username</th>
                 <th>Position</th>
                 <th>Status</th>
                 <th>Joined Date</th>
@@ -455,7 +455,7 @@
             <thead>
               <tr>
                 <th>Level</th>
-                <th>Mobile Number</th>
+                <th>Username</th>
                 <th>Sponsor</th>
                 <th>Status</th>
                 <th>Joined Date</th>
@@ -586,13 +586,13 @@
           <div id="unactivatedDirectsPickerWrap" style="display:none;margin-bottom:12px;background:#f0fbf5;padding:10px 12px;border-radius:10px;border:1px solid rgba(15,122,69,0.2);">
             <label class="tiny" style="font-weight:800;color:#0b4d2c;display:block;margin-bottom:4px;">⚡ PICK FROM YOUR PENDING DIRECTS:</label>
             <select class="in" id="selectPendingDirect" style="width:100%;font-size:13px;font-weight:600;">
-              <option value="">-- Or enter mobile manually below --</option>
+              <option value="">-- Or enter username manually below --</option>
             </select>
           </div>
 
           <div style="margin-bottom:12px;">
-            <label class="tiny muted" style="display:block; font-weight:700; margin-bottom:4px;">MEMBER MOBILE TO ACTIVATE *</label>
-            <input class="in" name="member_mobile" id="encodeMemberMobile" required placeholder="09XXXXXXXXX (Enter member mobile)" style="font-size:14px; font-weight:600; width:100%;" list="inactiveDirectsList" />
+            <label class="tiny muted" style="display:block; font-weight:700; margin-bottom:4px;">MEMBER USERNAME TO ACTIVATE *</label>
+            <input class="in" name="member_mobile" id="encodeMemberMobile" required placeholder="Enter member username" style="font-size:14px; font-weight:600; width:100%;" list="inactiveDirectsList" />
             <datalist id="inactiveDirectsList"></datalist>
             <span class="tiny muted" id="encodeMemberNotice" style="display:block; margin-top:3px;"></span>
           </div>
@@ -607,8 +607,8 @@
           </div>
 
           <div style="margin-bottom:12px;">
-            <label class="tiny muted" style="display:block; font-weight:700; margin-bottom:4px;">PLACEMENT UPLINE (DIRECT PARENT) *</label>
-            <input class="in" name="placement_mobile" id="encodePlacementMobile" placeholder="Placement Upline Mobile (leave blank for sponsor)" style="font-size:13.5px; width:100%;" />
+            <label class="tiny muted" style="display:block; font-weight:700; margin-bottom:4px;">PLACEMENT UPLINE (DIRECT PARENT)</label>
+            <input class="in" name="placement_mobile" id="encodePlacementMobile" placeholder="Placement Upline Username (leave blank for sponsor)" style="font-size:13.5px; width:100%;" />
             <span class="tiny muted" style="display:block; margin-top:3px;">Must be yourself or an existing downline in your tree.</span>
           </div>
 
