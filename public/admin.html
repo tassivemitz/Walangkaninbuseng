@@ -871,47 +871,52 @@
         const renderL4 = (node) => {
           if (node) {
             return `
-              <div class="tree-grandchild-node ${node.status === 'active' ? 'active-slot' : 'inactive-slot'} clickable-adm-drill" data-adm-tree="${node.id}" style="cursor:pointer;min-width:65px;padding:2px 4px;" title="Click to view subtree">
-                <p class="grandchild-mob" style="font-size:8.5px;">${esc(node.mobile)}</p>
-                <div class="grandchild-stats" style="font-size:7px;">
-                  <span>${node.left_count}L·${node.right_count}R</span>
-                </div>
+              <div class="tree-l4-node ${node.status === 'active' ? 'active-slot' : 'inactive-slot'} clickable-adm-drill" data-adm-tree="${node.id}" style="cursor:pointer;" title="Click to view subtree">
+                <span style="font-weight:700;color:#0b4d2c;display:block;">${esc(node.mobile)}</span>
+                <span style="color:var(--muted);font-size:7px;">${node.left_count}L·${node.right_count}R</span>
               </div>
             `;
           }
           return `
-            <div class="tree-grandchild-node empty-slot" style="min-width:55px;padding:2px 4px;">
-              <span style="font-size:8px;color:var(--muted);">Empty</span>
+            <div class="tree-l4-node empty-slot">
+              <span>Empty</span>
             </div>
           `;
         };
 
-        const renderMini = (node) => {
+        const renderMini = (node, pos = 'L') => {
           if (node) {
             const hasL4 = depth >= 4;
             const l4Row = hasL4 ? `
-              <div style="display:flex;gap:3px;justify-content:center;margin-top:4px;">
+              <div class="tree-l4-row">
                 ${renderL4(node.left)}
                 ${renderL4(node.right)}
               </div>
             ` : '';
 
             return `
-              <div style="display:flex;flex-direction:column;align-items:center;">
+              <div class="tree-grandchild-branch">
+                <div class="tree-grandchild-connector"></div>
                 <div class="tree-grandchild-node ${node.status === 'active' ? 'active-slot' : 'inactive-slot'} clickable-adm-drill" data-adm-tree="${node.id}" style="cursor:pointer;" title="Click to view subtree">
-                  <p class="grandchild-mob">${esc(node.mobile)}</p>
+                  <span class="pill ${pos === 'L' ? 'open' : ''}" style="font-size:7.5px;padding:1px 5px;margin-bottom:2px;">${pos === 'L' ? 'LEFT ◀' : 'RIGHT ▶'}</span>
+                  <p class="grandchild-mob">👤 ${esc(node.mobile)}</p>
+                  <span class="pill ${node.status === 'active' ? 'open' : 'closed'}" style="font-size:8px;padding:1px 5px;">${esc(node.status)}</span>
                   <div class="grandchild-stats">
-                    <span class="pill ${node.status === 'active' ? 'open' : 'closed'}" style="font-size:8px;padding:1px 4px;">${esc(node.status)}</span>
-                    <span>${node.left_count}L·${node.right_count}R</span>
+                    <span>L: <strong>${node.left_count}</strong></span>
+                    <span>R: <strong>${node.right_count}</strong></span>
                   </div>
+                  ${l4Row}
                 </div>
-                ${l4Row}
               </div>
             `;
           }
           return `
-            <div class="tree-grandchild-node empty-slot">
-              <span style="font-size:9px;color:var(--muted);">Empty</span>
+            <div class="tree-grandchild-branch">
+              <div class="tree-grandchild-connector"></div>
+              <div class="tree-grandchild-node empty-slot">
+                <span class="pill" style="font-size:8px;padding:1px 5px;margin-bottom:2px;background:#eee;color:var(--muted);">${pos === 'L' ? 'LEFT ◀' : 'RIGHT ▶'}</span>
+                <span style="font-size:10px;color:var(--muted);margin-top:2px;">Empty Slot</span>
+              </div>
             </div>
           `;
         };
@@ -920,33 +925,33 @@
           if (child) {
             return `
               <div class="tree-subbranch">
-                <div class="tree-connector"></div>
+                <div class="tree-branch-top-connector"></div>
                 <div class="tree-node child-node ${child.status === 'active' ? 'active-member' : 'inactive-member'}">
-                  <span class="pill ${posKey === 'L' ? 'open' : ''}" style="font-size:8.5px;padding:1px 5px;margin-bottom:2px;">${posLabel}</span>
+                  <span class="pill ${posKey === 'L' ? 'open' : ''}" style="font-size:8.5px;padding:1px 6px;margin-bottom:3px;">${posLabel}</span>
                   <p class="tree-node-name clickable-adm-drill" data-adm-tree="${child.id}" style="cursor:pointer;" title="Click to explore subtree">👤 ${esc(child.mobile)}</p>
-                  <span class="pill ${child.status === 'active' ? 'open' : 'closed'}" style="font-size:8.5px;padding:1px 5px;">${esc(child.status)}</span>
+                  <span class="pill ${child.status === 'active' ? 'open' : 'closed'}" style="font-size:8.5px;padding:1px 6px;">${esc(child.status)}</span>
                   <div class="tree-node-counts">
                     <span>L: <strong>${child.left_count}</strong></span>
                     <span>R: <strong>${child.right_count}</strong></span>
                   </div>
                   <button type="button" class="btn-drilldown-node clickable-adm-drill" data-adm-tree="${child.id}" title="Drill down">
-                    <span>Explore</span> ➔
+                    <span>Explore Subtree</span> ➔
                   </button>
                 </div>
-                <div class="tree-connector"></div>
+                <div class="tree-subbranch-down-connector"></div>
                 <div class="tree-grandchild-row">
-                  ${renderMini(child.left)}
-                  ${renderMini(child.right)}
+                  ${renderMini(child.left, 'L')}
+                  ${renderMini(child.right, 'R')}
                 </div>
               </div>
             `;
           }
           return `
             <div class="tree-subbranch">
-              <div class="tree-connector"></div>
-              <div class="tree-node empty" style="border:2px dashed var(--line);background:#fafafa;padding:14px 10px;">
+              <div class="tree-branch-top-connector"></div>
+              <div class="tree-node empty-slot">
                 <span class="pill" style="font-size:9px;margin-bottom:4px;background:#eee;color:var(--muted);">${posLabel}</span>
-                <p style="margin:2px 0 0;font-size:11px;color:var(--muted);">Empty Slot</p>
+                <p style="margin:2px 0 0;font-size:12px;color:var(--muted);">Empty Slot</p>
               </div>
             </div>
           `;
@@ -963,9 +968,9 @@
                 <span>Right: <strong>${root.right_count}</strong></span>
               </div>
             </div>
+            <div class="tree-connector-main"></div>
           </div>
-          <div class="tree-connector"></div>
-          <div class="tree-branches">
+          <div class="tree-children-row">
             ${renderChild(root.left, 'LEFT LEG', 'L')}
             ${renderChild(root.right, 'RIGHT LEG', 'R')}
           </div>

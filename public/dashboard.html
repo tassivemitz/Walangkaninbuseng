@@ -1451,47 +1451,52 @@
         const renderL4Slot = (node, parentMob, parentId, pos) => {
           if (node) {
             return `
-              <div class="tree-grandchild-node ${node.status === 'active' ? 'active-slot' : 'inactive-slot'} clickable-drill" data-tree-target="${node.id}" title="Click to drill down into ${esc(node.mobile || node.mobile_number)}" style="min-width:65px;padding:2px 4px;">
-                <p class="grandchild-mob" style="font-size:8.5px;">${esc(node.mobile || node.mobile_number)}</p>
-                <div class="grandchild-stats" style="font-size:7px;">
-                  <span>${node.left_count}L·${node.right_count}R</span>
-                </div>
+              <div class="tree-l4-node ${node.status === 'active' ? 'active-slot' : 'inactive-slot'} clickable-drill" data-tree-target="${node.id}" title="Click to drill down into ${esc(node.mobile || node.mobile_number)}">
+                <span style="font-weight:700;color:#0b4d2c;display:block;">${esc(node.mobile || node.mobile_number)}</span>
+                <span style="color:var(--muted);font-size:7px;">${node.left_count}L·${node.right_count}R</span>
               </div>
             `;
           }
           return `
-            <div class="tree-grandchild-node empty-slot clickable-encode-slot" data-slot-parent="${esc(parentMob)}" data-slot-parent-id="${parentId}" data-slot-pos="${pos}" title="Click to encode member here" style="min-width:55px;padding:2px 4px;">
-              <span style="font-size:7.5px;font-weight:700;color:var(--jade);">+ Slot</span>
+            <div class="tree-l4-node empty-slot clickable-encode-slot" data-slot-parent="${esc(parentMob)}" data-slot-parent-id="${parentId}" data-slot-pos="${pos}" title="Click to encode member here">
+              <span>+ Slot</span>
             </div>
           `;
         };
 
-        const renderMiniSlot = (node, parentMob, parentId, pos) => {
+        const renderMiniSlot = (node, parentMob, parentId, pos, posLabel = '') => {
           if (node) {
             const hasL4 = depth >= 4;
             const l4Row = hasL4 ? `
-              <div style="display:flex;gap:3px;justify-content:center;margin-top:4px;">
+              <div class="tree-l4-row">
                 ${renderL4Slot(node.left, node.mobile || node.mobile_number, node.id, 'L')}
                 ${renderL4Slot(node.right, node.mobile || node.mobile_number, node.id, 'R')}
               </div>
             ` : '';
 
             return `
-              <div style="display:flex;flex-direction:column;align-items:center;">
+              <div class="tree-grandchild-branch">
+                <div class="tree-grandchild-connector"></div>
                 <div class="tree-grandchild-node ${node.status === 'active' ? 'active-slot' : 'inactive-slot'} clickable-drill" data-tree-target="${node.id}" title="Click to drill down into ${esc(node.mobile || node.mobile_number)}">
-                  <p class="grandchild-mob">${esc(node.mobile || node.mobile_number)}</p>
+                  <span class="pill ${pos === 'L' ? 'open' : ''}" style="font-size:7.5px;padding:1px 5px;margin-bottom:2px;">${pos === 'L' ? 'LEFT ◀' : 'RIGHT ▶'}</span>
+                  <p class="grandchild-mob">👤 ${esc(node.mobile || node.mobile_number)}</p>
+                  <span class="pill ${node.status === 'active' ? 'open' : 'closed'}" style="font-size:8px;padding:1px 5px;">${esc(node.status)}</span>
                   <div class="grandchild-stats">
-                    <span class="pill ${node.status === 'active' ? 'open' : 'closed'}" style="font-size:8px;padding:1px 4px;">${esc(node.status)}</span>
-                    <span>${node.left_count}L·${node.right_count}R</span>
+                    <span>L: <strong>${node.left_count}</strong></span>
+                    <span>R: <strong>${node.right_count}</strong></span>
                   </div>
+                  ${l4Row}
                 </div>
-                ${l4Row}
               </div>
             `;
           }
           return `
-            <div class="tree-grandchild-node empty-slot clickable-encode-slot" data-slot-parent="${esc(parentMob)}" data-slot-parent-id="${parentId}" data-slot-pos="${pos}" title="Click to encode new downline here">
-              <span style="font-size:9px;font-weight:700;color:var(--jade);">+ Slot</span>
+            <div class="tree-grandchild-branch">
+              <div class="tree-grandchild-connector"></div>
+              <div class="tree-grandchild-node empty-slot clickable-encode-slot" data-slot-parent="${esc(parentMob)}" data-slot-parent-id="${parentId}" data-slot-pos="${pos}" title="Click to encode member into this slot">
+                <span class="pill" style="font-size:8px;padding:1px 5px;margin-bottom:2px;background:#e8f9f0;color:var(--jade);">${pos === 'L' ? 'LEFT ◀' : 'RIGHT ▶'}</span>
+                <span style="font-size:11px;font-weight:700;color:var(--jade);margin-top:2px;">+ Encode Slot</span>
+              </div>
             </div>
           `;
         };
@@ -1500,11 +1505,11 @@
           if (child) {
             return `
               <div class="tree-subbranch">
-                <div class="tree-connector"></div>
+                <div class="tree-branch-top-connector"></div>
                 <div class="tree-node child-node ${child.status === 'active' ? 'active-member' : 'inactive-member'}">
-                  <span class="pill ${posKey === 'L' ? 'open' : ''}" style="font-size:8.5px;padding:1px 5px;margin-bottom:2px;">${posLabel}</span>
+                  <span class="pill ${posKey === 'L' ? 'open' : ''}" style="font-size:8.5px;padding:1px 6px;margin-bottom:3px;">${posLabel}</span>
                   <p class="tree-node-name clickable-drill" data-tree-target="${child.id}" style="cursor:pointer;" title="Click to drill down">👤 ${esc(child.mobile || child.mobile_number)}</p>
-                  <span class="pill ${child.status === 'active' ? 'open' : 'closed'}" style="font-size:8.5px;padding:1px 5px;">${esc(child.status)}</span>
+                  <span class="pill ${child.status === 'active' ? 'open' : 'closed'}" style="font-size:8.5px;padding:1px 6px;">${esc(child.status)}</span>
                   <div class="tree-node-counts">
                     <span>L: <strong>${child.left_count}</strong></span>
                     <span>R: <strong>${child.right_count}</strong></span>
@@ -1515,7 +1520,7 @@
                 </div>
 
                 <!-- Level 3: Grandchildren -->
-                <div class="tree-connector"></div>
+                <div class="tree-subbranch-down-connector"></div>
                 <div class="tree-grandchild-row">
                   ${renderMiniSlot(child.left, child.mobile || child.mobile_number, child.id, 'L')}
                   ${renderMiniSlot(child.right, child.mobile || child.mobile_number, child.id, 'R')}
@@ -1525,10 +1530,10 @@
           }
           return `
             <div class="tree-subbranch">
-              <div class="tree-connector"></div>
-              <div class="tree-node empty clickable-encode-slot" data-slot-parent="${esc(parentMob)}" data-slot-parent-id="${parentId}" data-slot-pos="${posKey}" style="cursor:pointer;border:2px dashed var(--jade);background:#fafffc;transition:all 0.2s ease;padding:14px 10px;" title="Click to encode member into ${posLabel} slot">
+              <div class="tree-branch-top-connector"></div>
+              <div class="tree-node empty-slot clickable-encode-slot" data-slot-parent="${esc(parentMob)}" data-slot-parent-id="${parentId}" data-slot-pos="${posKey}" title="Click to encode member into ${posLabel} slot">
                 <span class="pill" style="font-size:9px;margin-bottom:4px;background:#e8f9f0;color:var(--jade);">${posLabel}</span>
-                <p style="margin:2px 0 0;font-size:12px;font-weight:700;color:var(--jade);">+ Encode Slot</p>
+                <p style="margin:2px 0 0;font-size:13px;font-weight:700;color:var(--jade);">+ Encode Slot</p>
               </div>
             </div>
           `;
