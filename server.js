@@ -52,8 +52,8 @@ function nowIso() {
 }
 
 function normalizeUsername(raw) {
-  const str = String(raw || '').trim();
-  if (str.length >= 3 && /^[a-zA-Z0-9_\-.@]+$/.test(str)) return str;
+  const str = String(raw || '').trim().replace(/\s+/g, ' ');
+  if (str.length >= 3 && /^[a-zA-Z0-9_\-.@ ]+$/.test(str)) return str;
   const digits = str.replace(/\D/g, '');
   if (digits.length === 10 && digits.startsWith('9')) return `0${digits}`;
   if (digits.length === 12 && digits.startsWith('63')) return `0${digits.slice(2)}`;
@@ -1231,7 +1231,7 @@ app.get('/api/tree', auth, async (req, res) => {
     targetId = Number(req.query.userId);
   } else if (req.query.username || req.query.mobile) {
     const norm = normalizeUsername(req.query.username || req.query.mobile);
-    const found = data.users.find((u) => (u.username && u.username.toLowerCase() === norm.toLowerCase()) || (u.mobile_number && u.mobile_number.toLowerCase() === norm.toLowerCase()));
+    const found = norm ? data.users.find((u) => (u.username && u.username.toLowerCase() === norm.toLowerCase()) || (u.mobile_number && u.mobile_number.toLowerCase() === norm.toLowerCase())) : null;
     if (found) targetId = found.id;
     else return res.status(404).json({ error: 'Member not found.' });
   }
@@ -1940,7 +1940,7 @@ app.post('/api/admin/codes/send', auth, adminOnly, async (req, res) => {
   if (!mobile) return res.status(400).json({ error: 'Enter a valid member mobile number.' });
   try {
     const sent = await db.tx((data) => {
-      const user = data.users.find((u) => u.mobile_number === mobile);
+      const user = data.users.find((u) => (u.mobile_number && u.mobile_number.toLowerCase() === mobile.toLowerCase()) || (u.username && u.username.toLowerCase() === mobile.toLowerCase()));
       if (!user) {
         const err = new Error('Member was not found.');
         err.status = 404;

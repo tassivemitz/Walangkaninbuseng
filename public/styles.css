@@ -1552,13 +1552,30 @@ input:-webkit-autofill:active {
 
 .banner {
   display: none;
-  margin: 18px 0 0;
-  padding: 12px 14px;
-  border-radius: 14px;
-  border: 1px solid rgba(143, 212, 200, .3);
-  background: rgba(143, 212, 200, .08);
-  color: var(--jade);
-  font-size: 13px;
+  position: fixed;
+  top: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 200000;
+  min-width: 320px;
+  max-width: min(92vw, 540px);
+  padding: 14px 22px;
+  border-radius: 16px;
+  border: 1.5px solid #ef4444;
+  background: #ffffff;
+  color: #991b1b;
+  font-size: 13.5px;
+  font-weight: 700;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.28), 0 4px 12px rgba(239, 68, 68, 0.2);
+  text-align: center;
+  pointer-events: auto;
+  backdrop-filter: blur(12px);
+  animation: bannerToastIn 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes bannerToastIn {
+  from { opacity: 0; transform: translate(-50%, -20px) scale(0.96); }
+  to { opacity: 1; transform: translate(-50%, 0) scale(1); }
 }
 
 .banner.show {
@@ -1566,9 +1583,10 @@ input:-webkit-autofill:active {
 }
 
 .banner.ok {
-  border-color: rgba(155, 231, 196, .3);
-  background: rgba(155, 231, 196, .08);
-  color: var(--ok);
+  border-color: #10b981;
+  background: #f0fdf4;
+  color: #065f46;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.25), 0 4px 12px rgba(16, 185, 129, 0.25);
 }
 
 .pill {

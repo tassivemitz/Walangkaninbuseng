@@ -588,6 +588,9 @@
           <span id="targetSlotLegBadge" class="pill" style="font-size:12px;font-weight:800;background:#0b4d2c;color:#fff;padding:6px 14px;border-radius:20px;">RIGHT LEG ▶</span>
         </div>
 
+        <!-- In-Modal Error Notification Banner -->
+        <div id="encodeErrorBanner" style="display:none;margin-bottom:14px;padding:12px 16px;background:#fef2f2;border:1.5px solid #ef4444;border-radius:12px;color:#991b1b;font-size:13px;font-weight:700;line-height:1.45;box-shadow:0 4px 12px rgba(239,68,68,0.12);"></div>
+
         <!-- Mode Selector: Register & Place vs Activate Existing -->
         <div class="encode-mode-tabs" id="encodeModeTabs">
           <button type="button" class="encode-mode-btn active" id="btnModeNewUser" data-mode="new">
@@ -2494,6 +2497,11 @@
           ? `✅ <strong>${avail.length} code(s) in your vault.</strong> Auto-selected <code>${(codeInp && codeInp.value) || avail[0].code}</code>. Click 'Pick from My Vault' to change.`
           : '⚠️ Walang activation code sa iyong vault. Mag-request o bumili ng code sa Admin.';
       }
+      const errBanner = document.getElementById('encodeErrorBanner');
+      if (errBanner) {
+        errBanner.textContent = '';
+        errBanner.style.display = 'none';
+      }
       openModal('modalEncodeDownline');
     }
 
@@ -2981,9 +2989,18 @@
               });
               const data = await res.json();
               if (!res.ok) {
-                toast(data.error || 'Encoding failed.');
+                const errMsg = data.error || 'Encoding failed.';
+                const errBanner = document.getElementById('encodeErrorBanner');
+                if (errBanner) {
+                  errBanner.textContent = '⚠️ ' + errMsg;
+                  errBanner.style.display = 'block';
+                  errBanner.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                }
+                toast(errMsg);
                 return;
               }
+              const errBanner = document.getElementById('encodeErrorBanner');
+              if (errBanner) errBanner.style.display = 'none';
               const legText = data.placement && data.placement.position === 'R' ? 'RIGHT' : 'LEFT';
               const parentText = data.placement ? (data.placement.parent_mobile || data.placement.parent_username) : 'Upline';
               toast(`🎉 Success! Member ${data.user.username || data.user.mobile_number} placed on ${legText} leg under ${parentText}!`, true);
@@ -2993,7 +3010,13 @@
               await fetchAndRenderTree(currentTreeUserId || (dashboardData && dashboardData.user && dashboardData.user.id));
               openModal('modalGenealogy');
             } catch (err) {
-              toast(err.message || 'Encoding failed.');
+              const errMsg = err.message || 'Encoding failed.';
+              const errBanner = document.getElementById('encodeErrorBanner');
+              if (errBanner) {
+                errBanner.textContent = '⚠️ ' + errMsg;
+                errBanner.style.display = 'block';
+              }
+              toast(errMsg);
             } finally {
               btnSubmit.disabled = false;
               btnSubmit.textContent = mode === 'new' ? '⚡ Create & Place in Tree ➔' : 'Confirm & Place in Tree ➔';
