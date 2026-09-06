@@ -1,181 +1,25 @@
 {
   "nextId": {
-    "users": 14,
-    "tradein_packages": 4,
+    "users": 2,
+    "tradein_packages": 1,
     "withdrawals": 1,
-    "code_vault": 35,
-    "earnings_history": 4
+    "code_vault": 6,
+    "earnings_history": 1
   },
   "users": [
     {
       "id": 1,
       "mobile_number": "Toshi",
-      "password": "$2a$10$4uFGwSAoxA6Tl3sCywcOtOutrPV1Rlwj1ZkItPK.ZxMat71YgYjzu",
+      "password": "$2a$10$PcxxiAa4PRjecXImuCAkgOskrIvbmS7UwoaNGnwSLrt7XORZRt8SS",
       "role": "admin",
       "status": "active",
-      "total_binary_earnings": 600,
-      "created_at": "2026-08-30T11:27:35.642Z"
-    },
-    {
-      "id": 3,
-      "mobile_number": "0912345678",
-      "password": "$2a$10$Se4H8LzEcH3KPY8Pf.NAP.7NFDnHx6LGFtBtI3KDR76T3xI2nrbDG",
-      "role": "user",
-      "status": "active",
       "total_binary_earnings": 0,
-      "created_at": "2026-08-30T13:39:45.880Z",
-      "payout_account": {
-        "method": "UnionBank (UB)",
-        "account_name": "Jakol Salsalani",
-        "account_number": "09123456789",
-        "updated_at": "2026-09-01T09:51:05.723Z"
-      }
-    },
-    {
-      "id": 4,
-      "mobile_number": "09884056289",
-      "password": "$2a$10$/JmX.xlFLIDzHzCsvjcM7OGGCi/ANKrlCUu.y7LsNGJHlmZ8qFQCm",
-      "role": "user",
-      "status": "active",
-      "total_binary_earnings": 0,
-      "created_at": "2026-08-31T03:45:41.455Z"
-    },
-    {
-      "id": 5,
-      "mobile_number": "09779193613",
-      "password": "$2a$10$EwU6uGHkHG1FqtW0Do4ieuQHbuewUyUf07WlFVqGocQtoK0wJsOyO",
-      "role": "user",
-      "status": "active",
-      "total_binary_earnings": 0,
-      "created_at": "2026-08-31T03:46:34.793Z"
-    },
-    {
-      "id": 6,
-      "mobile_number": "09174772390",
-      "password": "$2a$10$r0MmqzdycQdK21sWU8CnTOfBIn1/309c/LpEtsS6VixasO/9aJaKq",
-      "role": "user",
-      "status": "inactive",
-      "total_binary_earnings": 0,
-      "created_at": "2026-09-01T07:08:02.235Z"
-    },
-    {
-      "id": 7,
-      "mobile_number": "09176307199",
-      "password": "$2a$10$oCn9/2HulhqyuaqG41sN..Iv/3Bv4Y6rckg.LkJpVK3cPeQETos3e",
-      "role": "user",
-      "status": "active",
-      "total_binary_earnings": 0,
-      "created_at": "2026-09-01T07:08:35.059Z"
-    },
-    {
-      "id": 8,
-      "mobile_number": "09184316013",
-      "password": "$2a$10$5pdSWuaWsLkQw12lZuAb5OAoImi0.Gam03IXJNjH7lJgaWunX4RSu",
-      "role": "user",
-      "status": "inactive",
-      "total_binary_earnings": 0,
-      "created_at": "2026-09-01T07:08:35.413Z"
-    },
-    {
-      "id": 9,
-      "mobile_number": "09177543614",
-      "password": "$2a$10$xo8kx4Lw.Lbn93zaxMZHJOah0zdVULqSsFxe12rdXdpYiTYjLNKrm",
-      "role": "user",
-      "status": "active",
-      "total_binary_earnings": 0,
-      "created_at": "2026-09-01T07:09:35.330Z"
-    },
-    {
-      "id": 11,
-      "mobile_number": "09991110001",
-      "password": "$2a$10$eLq.eB.F5I7DNZ57dWUa4e2Ng6PuYVJSMlmlRvvA38anrSTvBG0pS",
-      "role": "user",
-      "status": "active",
-      "total_binary_earnings": 0,
-      "created_at": "2026-09-04T03:23:10.523Z"
-    },
-    {
-      "id": 12,
-      "mobile_number": "09991110002",
-      "password": "$2a$10$BR4VN9lyGeNlb4p5WOIsmeBNDpM0Qvzahru0KP0n7EClB/dTgL.KW",
-      "role": "user",
-      "status": "active",
-      "total_binary_earnings": 0,
-      "created_at": "2026-09-04T03:23:10.730Z"
-    },
-    {
-      "id": 13,
-      "mobile_number": "09991110003",
-      "password": "$2a$10$iUQTThFNUVVVrsYrcayGbOAQGNQhemMGbBmJI3DSH.G3nWa6jfn8i",
-      "role": "user",
-      "status": "active",
-      "total_binary_earnings": 0,
-      "created_at": "2026-09-04T03:23:10.938Z"
+      "created_at": "2026-09-06T04:40:42.671Z"
     }
   ],
   "wallets": [
     {
       "user_id": 1,
-      "binary_ref_balance": 600,
-      "tradein_ref_balance": 300,
-      "tradein_cycle_balance": 0
-    },
-    {
-      "user_id": 3,
-      "binary_ref_balance": 0,
-      "tradein_ref_balance": 0,
-      "tradein_cycle_balance": 0
-    },
-    {
-      "user_id": 4,
-      "binary_ref_balance": 0,
-      "tradein_ref_balance": 0,
-      "tradein_cycle_balance": 0
-    },
-    {
-      "user_id": 5,
-      "binary_ref_balance": 0,
-      "tradein_ref_balance": 0,
-      "tradein_cycle_balance": 0
-    },
-    {
-      "user_id": 6,
-      "binary_ref_balance": 0,
-      "tradein_ref_balance": 0,
-      "tradein_cycle_balance": 0
-    },
-    {
-      "user_id": 7,
-      "binary_ref_balance": 0,
-      "tradein_ref_balance": 0,
-      "tradein_cycle_balance": 0
-    },
-    {
-      "user_id": 8,
-      "binary_ref_balance": 0,
-      "tradein_ref_balance": 0,
-      "tradein_cycle_balance": 0
-    },
-    {
-      "user_id": 9,
-      "binary_ref_balance": 0,
-      "tradein_ref_balance": 0,
-      "tradein_cycle_balance": 0
-    },
-    {
-      "user_id": 11,
-      "binary_ref_balance": 0,
-      "tradein_ref_balance": 0,
-      "tradein_cycle_balance": 0
-    },
-    {
-      "user_id": 12,
-      "binary_ref_balance": 0,
-      "tradein_ref_balance": 0,
-      "tradein_cycle_balance": 0
-    },
-    {
-      "user_id": 13,
       "binary_ref_balance": 0,
       "tradein_ref_balance": 0,
       "tradein_cycle_balance": 0
@@ -187,424 +31,64 @@
       "parent_id": null,
       "sponsor_id": null,
       "position": null,
-      "leftover_left": 3,
-      "leftover_right": 0,
-      "pairs_today": 1,
-      "last_pair_date": "2026-09-04"
-    },
-    {
-      "user_id": 3,
-      "parent_id": 1,
-      "sponsor_id": 1,
-      "position": "R",
-      "leftover_left": 0,
-      "leftover_right": 2,
-      "pairs_today": 0,
-      "last_pair_date": "2026-09-04"
-    },
-    {
-      "user_id": 4,
-      "parent_id": 1,
-      "sponsor_id": 1,
-      "position": "L",
-      "leftover_left": 4,
-      "leftover_right": 0,
-      "pairs_today": 0,
-      "last_pair_date": "2026-09-04"
-    },
-    {
-      "user_id": 5,
-      "parent_id": 4,
-      "sponsor_id": 1,
-      "position": "L",
-      "leftover_left": 3,
-      "leftover_right": 0,
-      "pairs_today": 0,
-      "last_pair_date": "2026-09-04"
-    },
-    {
-      "user_id": 6,
-      "parent_id": null,
-      "sponsor_id": 1,
-      "position": null,
-      "leftover_left": 0,
-      "leftover_right": 0,
-      "pairs_today": 0,
-      "last_pair_date": null
-    },
-    {
-      "user_id": 7,
-      "parent_id": 3,
-      "sponsor_id": 1,
-      "position": "R",
-      "leftover_left": 0,
-      "leftover_right": 1,
-      "pairs_today": 0,
-      "last_pair_date": "2026-09-04"
-    },
-    {
-      "user_id": 8,
-      "parent_id": null,
-      "sponsor_id": 7,
-      "position": null,
-      "leftover_left": 0,
-      "leftover_right": 0,
-      "pairs_today": 0,
-      "last_pair_date": null
-    },
-    {
-      "user_id": 9,
-      "parent_id": 5,
-      "sponsor_id": 1,
-      "position": "L",
-      "leftover_left": 2,
-      "leftover_right": 0,
-      "pairs_today": 0,
-      "last_pair_date": "2026-09-04"
-    },
-    {
-      "user_id": 11,
-      "parent_id": 9,
-      "sponsor_id": 1,
-      "position": "L",
-      "leftover_left": 1,
-      "leftover_right": 0,
-      "pairs_today": 0,
-      "last_pair_date": "2026-09-04"
-    },
-    {
-      "user_id": 12,
-      "parent_id": 11,
-      "sponsor_id": 1,
-      "position": "L",
-      "leftover_left": 0,
-      "leftover_right": 0,
-      "pairs_today": 0,
-      "last_pair_date": null
-    },
-    {
-      "user_id": 13,
-      "parent_id": 7,
-      "sponsor_id": 1,
-      "position": "R",
       "leftover_left": 0,
       "leftover_right": 0,
       "pairs_today": 0,
       "last_pair_date": null
     }
   ],
-  "tradein_packages": [
-    {
-      "id": 1,
-      "user_id": 3,
-      "capital": 1000,
-      "total_return": 1200,
-      "start_date": "2026-08-30T17:49:05.261Z",
-      "cycle_status": "active",
-      "payouts_completed": 0
-    },
-    {
-      "id": 2,
-      "user_id": 3,
-      "capital": 1000,
-      "total_return": 1200,
-      "start_date": "2026-08-30T17:49:08.283Z",
-      "cycle_status": "active",
-      "payouts_completed": 0
-    },
-    {
-      "id": 3,
-      "user_id": 3,
-      "capital": 1000,
-      "total_return": 1200,
-      "start_date": "2026-09-02T10:28:14.420Z",
-      "cycle_status": "active",
-      "payouts_completed": 0
-    }
-  ],
+  "tradein_packages": [],
   "withdrawals": [],
   "code_vault": [
     {
       "id": 1,
-      "code": "IT-045E260D",
-      "status": "assigned",
-      "assigned_to": 7,
-      "created_at": "2026-08-30T11:27:35.642Z",
+      "code": "X28B356U",
+      "status": "available",
+      "assigned_to": null,
+      "used_by": null,
+      "created_at": "2026-09-06T04:40:42.671Z",
       "used_at": null
     },
     {
       "id": 2,
-      "code": "IT-0B451295",
-      "status": "assigned",
-      "assigned_to": 7,
-      "created_at": "2026-08-30T11:27:35.642Z",
+      "code": "VKY4X27K",
+      "status": "available",
+      "assigned_to": null,
+      "used_by": null,
+      "created_at": "2026-09-06T04:40:42.671Z",
       "used_at": null
     },
     {
       "id": 3,
-      "code": "IT-14DF8D30",
-      "status": "assigned",
-      "assigned_to": 9,
-      "created_at": "2026-08-30T11:27:35.642Z",
+      "code": "JJVNDNZJ",
+      "status": "available",
+      "assigned_to": null,
+      "used_by": null,
+      "created_at": "2026-09-06T04:40:42.671Z",
       "used_at": null
     },
     {
       "id": 4,
-      "code": "IT-C642D944",
-      "status": "assigned",
-      "assigned_to": 9,
-      "created_at": "2026-08-30T11:27:35.642Z",
+      "code": "ZZY3ULCH",
+      "status": "available",
+      "assigned_to": null,
+      "used_by": null,
+      "created_at": "2026-09-06T04:40:42.671Z",
       "used_at": null
     },
     {
       "id": 5,
-      "code": "IT-7EC9BAC8",
-      "status": "available",
-      "assigned_to": null,
-      "created_at": "2026-08-30T11:27:35.642Z",
-      "used_at": null
-    },
-    {
-      "id": 6,
-      "code": "IT-TEST001",
-      "status": "available",
-      "assigned_to": null,
-      "created_at": "2026-08-30T13:31:03.051Z",
-      "used_at": null
-    },
-    {
-      "id": 7,
-      "code": "IT-TEST002",
-      "status": "available",
-      "assigned_to": null,
-      "created_at": "2026-08-30T13:31:03.051Z",
-      "used_at": null
-    },
-    {
-      "id": 8,
-      "code": "IT-TEST003",
-      "status": "available",
-      "assigned_to": null,
-      "created_at": "2026-08-30T13:31:03.051Z",
-      "used_at": null
-    },
-    {
-      "id": 9,
-      "code": "IT-BBA39E69",
-      "status": "available",
-      "assigned_to": null,
-      "created_at": "2026-08-31T03:45:41.273Z",
-      "used_at": null
-    },
-    {
-      "id": 10,
-      "code": "IT-D8D60EEC",
-      "status": "available",
-      "assigned_to": null,
-      "created_at": "2026-08-31T03:45:41.273Z",
-      "used_at": null
-    },
-    {
-      "id": 11,
-      "code": "IT-D539E398",
-      "status": "available",
-      "assigned_to": null,
-      "created_at": "2026-08-31T03:45:41.273Z",
-      "used_at": null
-    },
-    {
-      "id": 12,
-      "code": "8E2URT6Z",
-      "status": "used",
-      "assigned_to": 5,
-      "created_at": "2026-08-31T03:46:34.631Z",
-      "used_at": "2026-08-31T03:46:35.009Z"
-    },
-    {
-      "id": 13,
-      "code": "HC2XFMUJ",
-      "status": "available",
-      "assigned_to": null,
-      "created_at": "2026-08-31T03:46:34.631Z",
-      "used_at": null
-    },
-    {
-      "id": 14,
-      "code": "ZPG6MCW2",
-      "status": "available",
-      "assigned_to": null,
-      "created_at": "2026-08-31T03:46:34.631Z",
-      "used_at": null
-    },
-    {
-      "id": 15,
-      "code": "CVXZU97N",
-      "status": "available",
-      "assigned_to": null,
-      "created_at": "2026-09-01T03:14:57.258Z",
-      "used_at": null
-    },
-    {
-      "id": 16,
-      "code": "RWXBU8TP",
-      "status": "available",
-      "assigned_to": null,
-      "created_at": "2026-09-01T03:14:57.258Z",
-      "used_at": null
-    },
-    {
-      "id": 17,
-      "code": "6L48YJEC",
-      "status": "available",
-      "assigned_to": null,
-      "created_at": "2026-09-01T03:14:57.258Z",
-      "used_at": null
-    },
-    {
-      "id": 18,
-      "code": "WRHQKXVL",
-      "status": "used",
-      "assigned_to": 7,
-      "created_at": "2026-09-01T07:08:34.921Z",
-      "used_at": "2026-09-01T07:08:35.129Z"
-    },
-    {
-      "id": 19,
-      "code": "BPP2DT6K",
-      "status": "available",
-      "assigned_to": null,
-      "created_at": "2026-09-01T07:08:34.921Z",
-      "used_at": null
-    },
-    {
-      "id": 20,
-      "code": "8VPPP48J",
-      "status": "available",
-      "assigned_to": null,
-      "created_at": "2026-09-01T07:08:34.921Z",
-      "used_at": null
-    },
-    {
-      "id": 21,
-      "code": "AT8KU3SA",
-      "status": "available",
-      "assigned_to": null,
-      "created_at": "2026-09-01T07:08:34.921Z",
-      "used_at": null
-    },
-    {
-      "id": 22,
-      "code": "N9DD3EUN",
-      "status": "available",
-      "assigned_to": null,
-      "created_at": "2026-09-01T07:08:34.921Z",
-      "used_at": null
-    },
-    {
-      "id": 23,
-      "code": "PAYE7ZCC",
-      "status": "used",
-      "assigned_to": 9,
-      "created_at": "2026-09-01T07:09:35.189Z",
-      "used_at": "2026-09-01T07:09:35.402Z"
-    },
-    {
-      "id": 24,
-      "code": "L6SSYCRK",
-      "status": "available",
-      "assigned_to": null,
-      "created_at": "2026-09-01T07:09:35.189Z",
-      "used_at": null
-    },
-    {
-      "id": 25,
-      "code": "PR4DMU5Y",
-      "status": "available",
-      "assigned_to": null,
-      "created_at": "2026-09-01T07:09:35.189Z",
-      "used_at": null
-    },
-    {
-      "id": 26,
-      "code": "SX53D3N6",
-      "status": "available",
-      "assigned_to": null,
-      "created_at": "2026-09-01T07:09:35.189Z",
-      "used_at": null
-    },
-    {
-      "id": 27,
-      "code": "2RF7VERU",
-      "status": "available",
-      "assigned_to": null,
-      "created_at": "2026-09-01T07:09:35.189Z",
-      "used_at": null
-    },
-    {
-      "id": 28,
-      "code": "4RDA7GWM",
+      "code": "2ZVHMRYQ",
       "status": "available",
       "assigned_to": null,
       "used_by": null,
-      "created_at": "2026-09-02T10:28:52.592Z",
+      "created_at": "2026-09-06T04:40:42.671Z",
       "used_at": null
-    },
-    {
-      "id": 29,
-      "code": "U2XG9FYY",
-      "status": "available",
-      "assigned_to": null,
-      "used_by": null,
-      "created_at": "2026-09-02T10:28:52.592Z",
-      "used_at": null
-    },
-    {
-      "id": 30,
-      "code": "P59992R3",
-      "status": "available",
-      "assigned_to": null,
-      "used_by": null,
-      "created_at": "2026-09-02T10:28:52.592Z",
-      "used_at": null
-    },
-    {
-      "id": 31,
-      "code": "QREG3TFN",
-      "status": "used",
-      "assigned_to": 11,
-      "used_by": 11,
-      "created_at": "2026-09-04T03:23:10.390Z",
-      "used_at": "2026-09-04T03:23:10.594Z",
-      "placement_parent_id": 9,
-      "position": "L"
-    },
-    {
-      "id": 32,
-      "code": "UN5T4FZV",
-      "status": "used",
-      "assigned_to": 12,
-      "used_by": 12,
-      "created_at": "2026-09-04T03:23:10.390Z",
-      "used_at": "2026-09-04T03:23:10.801Z",
-      "placement_parent_id": 11,
-      "position": "L"
-    },
-    {
-      "id": 33,
-      "code": "JJ9YPRZL",
-      "status": "used",
-      "assigned_to": null,
-      "used_by": 13,
-      "created_at": "2026-09-04T03:23:10.390Z",
-      "used_at": "2026-09-04T03:23:11.009Z",
-      "encoded_by": 1,
-      "placement_parent_id": 7,
-      "position": "R"
     }
   ],
   "earnings_history": [],
   "settings": {
-    "weekly_payout_enabled": 1,
+    "weekly_payout_enabled": 0,
     "binary_cap": 6000
   }
 }
