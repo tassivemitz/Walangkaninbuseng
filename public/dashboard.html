@@ -89,6 +89,12 @@
           <span class="side-cta-icon">💳</span>
           <span>WALLET WITHDRAWAL</span>
         </button>
+
+        <!-- 5. Earnings History CTA -->
+        <button type="button" class="side-cta-btn" id="btnOpenEarningsHistory" style="background:linear-gradient(135deg,#0b4d2c 0%,#15663a 100%);color:#fff;margin-top:6px;">
+          <span class="side-cta-icon">📊</span>
+          <span>EARNINGS HISTORY</span>
+        </button>
       </div>
 
       <!-- Bottom Referral Link Box -->
@@ -465,22 +471,73 @@
   </div>
 
   <!-- Modal 3: Genealogy Tree Modal -->
+  <!-- Modal 3: Genealogy Tree Modal -->
   <div class="plan-modal" id="modalGenealogy" hidden>
     <div class="plan-modal-backdrop" data-close-modal></div>
-    <div class="plan-modal-sheet" style="max-width:880px;">
+    <div class="plan-modal-sheet" style="max-width:920px;">
       <header class="plan-modal-head">
         <div>
-          <p class="kicker">Member List</p>
+          <p class="kicker">Binary Network Visualizer</p>
           <h2>Genealogy Tree (Binary Placement)</h2>
         </div>
         <button class="plan-close" type="button" data-close-modal>×</button>
       </header>
       <div class="plan-modal-body">
+        <!-- Team Network Metric Counters -->
+        <div class="tree-network-bar" id="treeNetworkBar">
+          <div class="tree-stat-card">
+            <div>
+              <div class="tree-stat-val" id="treeStatLeft">0</div>
+              <div class="tree-stat-lbl">◀ Left Team</div>
+            </div>
+          </div>
+          <div class="tree-stat-card">
+            <div>
+              <div class="tree-stat-val" id="treeStatRight">0</div>
+              <div class="tree-stat-lbl">Right Team ▶</div>
+            </div>
+          </div>
+          <div class="tree-stat-card">
+            <div>
+              <div class="tree-stat-val" id="treeStatDirects">0</div>
+              <div class="tree-stat-lbl">Direct Referrals</div>
+            </div>
+          </div>
+          <div class="tree-stat-card">
+            <div>
+              <div class="tree-stat-val" id="treeStatTotal">0</div>
+              <div class="tree-stat-lbl">Total Downlines</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Unactivated Directs Alert Banner -->
+        <div class="unactivated-directs-banner" id="treeUnactivatedBanner" style="display:none;">
+          <div style="display:flex;align-items:center;gap:8px;">
+            <span style="font-size:18px;">⚡</span>
+            <div>
+              <strong style="color:#b45309;font-size:12.5px;" id="treeUnactivatedTitle">You have pending directs waiting for activation!</strong>
+              <p class="tiny muted" style="margin:2px 0 0;">Click any empty <strong style="color:var(--jade);">+ Encode Slot</strong> below to place and activate them in your tree.</p>
+            </div>
+          </div>
+          <button type="button" class="btn btn-mint btn-sm" id="btnActivateDirectFast" style="padding:5px 14px;font-size:11.5px;font-weight:700;">
+            Encode Direct Now
+          </button>
+        </div>
+
         <div class="genealogy-toolbar">
           <div class="genealogy-breadcrumbs" id="genealogyBreadcrumbs">
             <!-- Breadcrumbs rendered dynamically -->
           </div>
           <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
+            <!-- Tree Depth Controls (3, 4, 5 levels) -->
+            <div class="tree-depth-controls" id="treeDepthControls">
+              <span style="font-size:10px;font-weight:800;color:var(--muted);padding-left:4px;">DEPTH:</span>
+              <button type="button" class="depth-btn active" data-depth="3">3 Levels</button>
+              <button type="button" class="depth-btn" data-depth="4">4 Levels</button>
+              <button type="button" class="depth-btn" data-depth="5">5 Levels</button>
+            </div>
+
             <div class="genealogy-search-box">
               <input type="text" class="genealogy-search-in" id="genealogySearchInput" placeholder="🔍 Search downline..." list="treeDownlineDataList" />
               <datalist id="treeDownlineDataList"></datalist>
@@ -493,12 +550,14 @@
             </button>
           </div>
         </div>
-        <div class="genealogy-canvas-wrap" id="genealogyContainer">
+
+        <div class="genealogy-canvas-wrap" id="genealogyContainer" style="overflow-x:auto;">
           <!-- Rendered dynamically -->
         </div>
+
         <div style="display:flex;justify-content:space-between;align-items:center;margin-top:12px;padding:8px 12px;background:#f9fcf9;border-radius:10px;font-size:11px;color:var(--muted);flex-wrap:wrap;gap:8px;">
-          <span>💡 <strong>Tip:</strong> Click any active member node to drill down and explore their subtree &amp; spillover downlines.</span>
-          <span>Click any <strong>+ Encode Slot</strong> to place a member.</span>
+          <span>💡 <strong>Tip:</strong> Click any active member card to drill down and explore deeper branches.</span>
+          <span>Click any <strong>+ Encode Slot</strong> to place an account directly in that slot.</span>
         </div>
       </div>
     </div>
@@ -516,12 +575,23 @@
         <button class="plan-close" type="button" data-close-modal>×</button>
       </header>
       <div class="plan-modal-body">
-        <p class="tiny muted" style="margin-bottom:14px; line-height:1.5;">
-          Place an inactive member into the binary tree using an activation code. Choose the placement upline and leg (Left or Right). If the position is already occupied, the account will automatically spillover down the chosen side.
-        </p>
+        <div style="padding:8px 12px;background:#fef9e7;border:1px solid rgba(234,179,8,0.3);border-radius:10px;font-size:11.5px;color:#854d0e;margin-bottom:14px;line-height:1.45;">
+          🛡️ <strong>Placement Rule:</strong> Bawal mapunta sa upline o crossline. Ang downline ay dapat ilagay sa ilalim mo o ng kahit sinong downline sa loob ng sarili mong network tree.
+        </div>
+
         <form id="formEncodeDownline">
+          <input type="hidden" name="placement_parent_id" id="encodePlacementParentId" value="" />
+
+          <!-- Quick Selector for Sponsor's Pending Directs -->
+          <div id="unactivatedDirectsPickerWrap" style="display:none;margin-bottom:12px;background:#f0fbf5;padding:10px 12px;border-radius:10px;border:1px solid rgba(15,122,69,0.2);">
+            <label class="tiny" style="font-weight:800;color:#0b4d2c;display:block;margin-bottom:4px;">⚡ PICK FROM YOUR PENDING DIRECTS:</label>
+            <select class="in" id="selectPendingDirect" style="width:100%;font-size:13px;font-weight:600;">
+              <option value="">-- Or enter mobile manually below --</option>
+            </select>
+          </div>
+
           <div style="margin-bottom:12px;">
-            <label class="tiny muted" style="display:block; font-weight:700; margin-bottom:4px;">INACTIVE MEMBER TO ACTIVATE *</label>
+            <label class="tiny muted" style="display:block; font-weight:700; margin-bottom:4px;">MEMBER MOBILE TO ACTIVATE *</label>
             <input class="in" name="member_mobile" id="encodeMemberMobile" required placeholder="09XXXXXXXXX (Enter member mobile)" style="font-size:14px; font-weight:600; width:100%;" list="inactiveDirectsList" />
             <datalist id="inactiveDirectsList"></datalist>
             <span class="tiny muted" id="encodeMemberNotice" style="display:block; margin-top:3px;"></span>
@@ -538,8 +608,8 @@
 
           <div style="margin-bottom:12px;">
             <label class="tiny muted" style="display:block; font-weight:700; margin-bottom:4px;">PLACEMENT UPLINE (DIRECT PARENT) *</label>
-            <input class="in" name="placement_mobile" id="encodePlacementMobile" placeholder="Placement Upline Mobile (leave blank for default)" style="font-size:13.5px; width:100%;" />
-            <span class="tiny muted" style="display:block; margin-top:3px;">The account attaches under this node (or cascades as spillover down this branch).</span>
+            <input class="in" name="placement_mobile" id="encodePlacementMobile" placeholder="Placement Upline Mobile (leave blank for sponsor)" style="font-size:13.5px; width:100%;" />
+            <span class="tiny muted" style="display:block; margin-top:3px;">Must be yourself or an existing downline in your tree.</span>
           </div>
 
           <div style="margin-bottom:16px;">
@@ -919,6 +989,61 @@
     </div>
   </div>
 
+  <!-- Modal 8: Earnings History Modal -->
+  <div class="plan-modal" id="modalEarningsHistory" hidden>
+    <div class="plan-modal-backdrop" data-close-modal></div>
+    <div class="plan-modal-sheet" style="max-width:840px;">
+      <header class="plan-modal-head">
+        <div>
+          <p class="kicker">Financial Audit</p>
+          <h2>Earnings &amp; Bonus History</h2>
+        </div>
+        <button class="plan-close" type="button" data-close-modal>×</button>
+      </header>
+      <div class="plan-modal-body">
+        <div class="earnings-summary-grid" id="earningsSummaryGrid">
+          <div class="earning-sum-card">
+            <div class="sum-val" id="sumTotalEarnings">₱0.00</div>
+            <div class="sum-lbl">Total Commission</div>
+          </div>
+          <div class="earning-sum-card">
+            <div class="sum-val" id="sumDirectEarnings">₱0.00</div>
+            <div class="sum-lbl">Direct Referral</div>
+          </div>
+          <div class="earning-sum-card">
+            <div class="sum-val" id="sumIndirectEarnings">₱0.00</div>
+            <div class="sum-lbl">Indirect Referral</div>
+          </div>
+          <div class="earning-sum-card">
+            <div class="sum-val" id="sumMatchingEarnings">₱0.00</div>
+            <div class="sum-lbl">Matching Pairs</div>
+          </div>
+          <div class="earning-sum-card">
+            <div class="sum-val" id="sumTradeinRefEarnings">₱0.00</div>
+            <div class="sum-lbl">Trade-In Referral</div>
+          </div>
+          <div class="earning-sum-card">
+            <div class="sum-val" id="sumTradeinCycleEarnings">₱0.00</div>
+            <div class="sum-lbl">Trade-In Profit</div>
+          </div>
+        </div>
+
+        <div class="earnings-filter-bar" id="earningsFilterBar">
+          <button type="button" class="earnings-filter-btn active" data-cat="all">🌐 All Records</button>
+          <button type="button" class="earnings-filter-btn" data-cat="referral">🎯 Direct Referral</button>
+          <button type="button" class="earnings-filter-btn" data-cat="indirect">👥 Indirect</button>
+          <button type="button" class="earnings-filter-btn" data-cat="matching">⚖ Matching</button>
+          <button type="button" class="earnings-filter-btn" data-cat="tradein_referral">🔄 Trade-In Ref</button>
+          <button type="button" class="earnings-filter-btn" data-cat="tradein_earnings">📈 Trade-In Yield</button>
+        </div>
+
+        <div id="earningsHistoryList" style="max-height:480px;overflow-y:auto;">
+          <!-- Dynamically injected rows -->
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- Modal 7: Platform Terms, Privacy & Risk Disclosure Modal -->
   <div class="plan-modal" id="modalPlatformInfo" hidden>
     <div class="plan-modal-backdrop" data-close-modal></div>
@@ -1180,7 +1305,7 @@
           <h4 style="margin:0 0 8px;color:var(--jade);font-size:15px;">1. Participation &amp; Account Verification</h4>
           <p style="margin:0 0 14px;">All members participate in the Infinite Trading network desk by registering a valid mobile identifier and activating their slot with an authentic ₱300 activation code. Each account operates under standard binary matching guidelines.</p>
           <h4 style="margin:0 0 8px;color:var(--jade);font-size:15px;">2. Earning Caps &amp; Renewals</h4>
-          <p style="margin:0 0 14px;">Binary referral earnings are capped at ₱3,000 per cycle. Upon reaching the maximum binary cap, an account requires renewal with a ₱300 code to continue participating in paired payouts.</p>
+          <p style="margin:0 0 14px;">Binary matching earnings are capped at ₱6,000 per cycle. Upon reaching the maximum binary matching cap, an account requires renewal with a ₱300 code to continue participating in paired payouts (Direct and Indirect referral commissions remain unrestricted).</p>
           <h4 style="margin:0 0 8px;color:var(--jade);font-size:15px;">3. Weekly Cashout Schedule</h4>
           <p style="margin:0;">Withdrawals are available when the weekly payout window is toggled open by administration. All submitted withdrawal requests are subject to standard verification and tier-based processing fees.</p>
         `;
@@ -1231,9 +1356,10 @@
 
     // Multi-Level Genealogy Visualizer & Drilldown
     let currentTreeUserId = null;
+    let currentTreeDepth = 3;
     let cachedAncestors = [];
 
-    async function fetchAndRenderTree(targetUserId = null) {
+    async function fetchAndRenderTree(targetUserId = null, depth = currentTreeDepth) {
       const container = document.getElementById('genealogyContainer');
       const breadcrumbsEl = document.getElementById('genealogyBreadcrumbs');
       const searchDatalist = document.getElementById('treeDownlineDataList');
@@ -1242,12 +1368,12 @@
       container.innerHTML = `
         <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;padding:48px 20px;color:var(--muted);gap:12px;">
           <div class="spinner" style="width:30px;height:30px;border:3px solid rgba(15,122,69,0.2);border-top-color:var(--jade);border-radius:50%;animation:spin 0.8s linear infinite;"></div>
-          <span style="font-size:12px;font-weight:600;color:#0b4d2c;">Loading Genealogy Subtree...</span>
+          <span style="font-size:12px;font-weight:600;color:#0b4d2c;">Loading Genealogy Network...</span>
         </div>
       `;
 
       try {
-        const url = targetUserId ? `/api/tree?userId=${encodeURIComponent(targetUserId)}` : '/api/tree';
+        const url = (targetUserId ? `/api/tree?userId=${encodeURIComponent(targetUserId)}&` : '/api/tree?') + `depth=${depth}`;
         const res = await fetch(url, { headers });
         if (!res.ok) {
           const err = await res.json().catch(() => ({}));
@@ -1258,24 +1384,61 @@
         currentTreeUserId = data.tree ? data.tree.id : null;
         cachedAncestors = data.ancestors || [];
 
+        // Update Team Counters
+        if (data.metrics) {
+          const elL = document.getElementById('treeStatLeft');
+          const elR = document.getElementById('treeStatRight');
+          const elD = document.getElementById('treeStatDirects');
+          const elT = document.getElementById('treeStatTotal');
+          if (elL) elL.textContent = data.metrics.left_team_count || 0;
+          if (elR) elR.textContent = data.metrics.right_team_count || 0;
+          if (elD) elD.textContent = data.metrics.directs_count || 0;
+          if (elT) elT.textContent = data.metrics.total_network_count || 0;
+        }
+
+        // Update Unactivated Directs Alert & Quick Picker
+        const unactiveBanner = document.getElementById('treeUnactivatedBanner');
+        const directPickerWrap = document.getElementById('unactivatedDirectsPickerWrap');
+        const directSelect = document.getElementById('selectPendingDirect');
+        if (data.unactivated_directs && data.unactivated_directs.length > 0) {
+          if (unactiveBanner) {
+            unactiveBanner.style.display = 'flex';
+            document.getElementById('treeUnactivatedTitle').textContent =
+              `You have ${data.unactivated_directs.length} pending direct(s) waiting for placement & activation!`;
+          }
+          if (directPickerWrap) directPickerWrap.style.display = 'block';
+          if (directSelect) {
+            directSelect.innerHTML = `<option value="">-- Choose a pending direct or type below --</option>` +
+              data.unactivated_directs.map(ud => `<option value="${esc(ud.mobile_number)}">${esc(ud.mobile_number)} (Registered ${new Date(ud.created_at).toLocaleDateString()})</option>`).join('');
+            directSelect.onchange = () => {
+              if (directSelect.value) {
+                document.getElementById('encodeMemberMobile').value = directSelect.value;
+              }
+            };
+          }
+        } else {
+          if (unactiveBanner) unactiveBanner.style.display = 'none';
+          if (directPickerWrap) directPickerWrap.style.display = 'none';
+        }
+
         // Render Breadcrumbs
         if (breadcrumbsEl) {
           if (cachedAncestors.length <= 1) {
-            breadcrumbsEl.innerHTML = `<span class="crumb active">🏠 Root (${esc(data.user.mobile_number)})</span>`;
+            breadcrumbsEl.innerHTML = `<span class="crumb active">🏠 Root (${esc(data.user.mobile_number || data.user.mobile)})</span>`;
           } else {
             breadcrumbsEl.innerHTML = cachedAncestors.map((anc, idx) => {
               const isLast = idx === cachedAncestors.length - 1;
               if (isLast) {
-                return `<span class="crumb active">👤 ${esc(anc.mobile)}</span>`;
+                return `<span class="crumb active">👤 ${esc(anc.mobile || anc.mobile_number)}</span>`;
               }
-              return `<button type="button" class="crumb-btn" data-tree-user="${anc.id}">${idx === 0 ? '🏠 ' : ''}${esc(anc.mobile)}</button><span class="crumb-sep">›</span>`;
+              return `<button type="button" class="crumb-btn" data-tree-user="${anc.id}">${idx === 0 ? '🏠 ' : ''}${esc(anc.mobile || anc.mobile_number)}</button><span class="crumb-sep">›</span>`;
             }).join('');
           }
         }
 
         // Render Search Datalist with all downlines
         if (searchDatalist && data.downlines) {
-          searchDatalist.innerHTML = data.downlines.map(d => `<option value="${esc(d.mobile_number)}">${esc(d.mobile_number)} (${esc(d.status)})</option>`).join('');
+          searchDatalist.innerHTML = data.downlines.map(d => `<option value="${esc(d.mobile_number || d.mobile)}">${esc(d.mobile_number || d.mobile)} (${esc(d.status)})</option>`).join('');
         }
 
         const root = data.tree;
@@ -1284,39 +1447,69 @@
           return;
         }
 
-        const renderMiniSlot = (node, parentMob, pos) => {
+        // Render Level 4 mini slots if depth >= 4
+        const renderL4Slot = (node, parentMob, parentId, pos) => {
           if (node) {
             return `
-              <div class="tree-grandchild-node ${node.status === 'active' ? 'active-slot' : 'inactive-slot'} clickable-drill" data-tree-target="${node.id}" title="Click to drill down into ${esc(node.mobile)}">
-                <p class="grandchild-mob">${esc(node.mobile)}</p>
-                <div class="grandchild-stats">
-                  <span class="pill ${node.status === 'active' ? 'open' : 'closed'}" style="font-size:8px;padding:1px 4px;">${esc(node.status)}</span>
+              <div class="tree-grandchild-node ${node.status === 'active' ? 'active-slot' : 'inactive-slot'} clickable-drill" data-tree-target="${node.id}" title="Click to drill down into ${esc(node.mobile || node.mobile_number)}" style="min-width:65px;padding:2px 4px;">
+                <p class="grandchild-mob" style="font-size:8.5px;">${esc(node.mobile || node.mobile_number)}</p>
+                <div class="grandchild-stats" style="font-size:7px;">
                   <span>${node.left_count}L·${node.right_count}R</span>
                 </div>
               </div>
             `;
           }
           return `
-            <div class="tree-grandchild-node empty-slot clickable-encode-slot" data-slot-parent="${esc(parentMob)}" data-slot-pos="${pos}" title="Click to encode new downline here">
+            <div class="tree-grandchild-node empty-slot clickable-encode-slot" data-slot-parent="${esc(parentMob)}" data-slot-parent-id="${parentId}" data-slot-pos="${pos}" title="Click to encode member here" style="min-width:55px;padding:2px 4px;">
+              <span style="font-size:7.5px;font-weight:700;color:var(--jade);">+ Slot</span>
+            </div>
+          `;
+        };
+
+        const renderMiniSlot = (node, parentMob, parentId, pos) => {
+          if (node) {
+            const hasL4 = depth >= 4;
+            const l4Row = hasL4 ? `
+              <div style="display:flex;gap:3px;justify-content:center;margin-top:4px;">
+                ${renderL4Slot(node.left, node.mobile || node.mobile_number, node.id, 'L')}
+                ${renderL4Slot(node.right, node.mobile || node.mobile_number, node.id, 'R')}
+              </div>
+            ` : '';
+
+            return `
+              <div style="display:flex;flex-direction:column;align-items:center;">
+                <div class="tree-grandchild-node ${node.status === 'active' ? 'active-slot' : 'inactive-slot'} clickable-drill" data-tree-target="${node.id}" title="Click to drill down into ${esc(node.mobile || node.mobile_number)}">
+                  <p class="grandchild-mob">${esc(node.mobile || node.mobile_number)}</p>
+                  <div class="grandchild-stats">
+                    <span class="pill ${node.status === 'active' ? 'open' : 'closed'}" style="font-size:8px;padding:1px 4px;">${esc(node.status)}</span>
+                    <span>${node.left_count}L·${node.right_count}R</span>
+                  </div>
+                </div>
+                ${l4Row}
+              </div>
+            `;
+          }
+          return `
+            <div class="tree-grandchild-node empty-slot clickable-encode-slot" data-slot-parent="${esc(parentMob)}" data-slot-parent-id="${parentId}" data-slot-pos="${pos}" title="Click to encode new downline here">
               <span style="font-size:9px;font-weight:700;color:var(--jade);">+ Slot</span>
             </div>
           `;
         };
 
-        const renderChildBranch = (child, posLabel, posKey, parentMob) => {
+        const renderChildBranch = (child, posLabel, posKey, parentMob, parentId) => {
           if (child) {
             return `
               <div class="tree-subbranch">
                 <div class="tree-connector"></div>
                 <div class="tree-node child-node ${child.status === 'active' ? 'active-member' : 'inactive-member'}">
                   <span class="pill ${posKey === 'L' ? 'open' : ''}" style="font-size:8.5px;padding:1px 5px;margin-bottom:2px;">${posLabel}</span>
-                  <p class="tree-node-name clickable-drill" data-tree-target="${child.id}" style="cursor:pointer;" title="Click to drill down">👤 ${esc(child.mobile)}</p>
+                  <p class="tree-node-name clickable-drill" data-tree-target="${child.id}" style="cursor:pointer;" title="Click to drill down">👤 ${esc(child.mobile || child.mobile_number)}</p>
                   <span class="pill ${child.status === 'active' ? 'open' : 'closed'}" style="font-size:8.5px;padding:1px 5px;">${esc(child.status)}</span>
                   <div class="tree-node-counts">
                     <span>L: <strong>${child.left_count}</strong></span>
                     <span>R: <strong>${child.right_count}</strong></span>
                   </div>
-                  <button type="button" class="btn-drilldown-node clickable-drill" data-tree-target="${child.id}" title="Drill down to ${esc(child.mobile)}">
+                  <button type="button" class="btn-drilldown-node clickable-drill" data-tree-target="${child.id}" title="Drill down to ${esc(child.mobile || child.mobile_number)}">
                     <span>Explore</span> ➔
                   </button>
                 </div>
@@ -1324,8 +1517,8 @@
                 <!-- Level 3: Grandchildren -->
                 <div class="tree-connector"></div>
                 <div class="tree-grandchild-row">
-                  ${renderMiniSlot(child.left, child.mobile, 'L')}
-                  ${renderMiniSlot(child.right, child.mobile, 'R')}
+                  ${renderMiniSlot(child.left, child.mobile || child.mobile_number, child.id, 'L')}
+                  ${renderMiniSlot(child.right, child.mobile || child.mobile_number, child.id, 'R')}
                 </div>
               </div>
             `;
@@ -1333,7 +1526,7 @@
           return `
             <div class="tree-subbranch">
               <div class="tree-connector"></div>
-              <div class="tree-node empty clickable-encode-slot" data-slot-parent="${esc(parentMob)}" data-slot-pos="${posKey}" style="cursor:pointer;border:2px dashed var(--jade);background:#fafffc;transition:all 0.2s ease;padding:14px 10px;" title="Click to encode member into ${posLabel} slot">
+              <div class="tree-node empty clickable-encode-slot" data-slot-parent="${esc(parentMob)}" data-slot-parent-id="${parentId}" data-slot-pos="${posKey}" style="cursor:pointer;border:2px dashed var(--jade);background:#fafffc;transition:all 0.2s ease;padding:14px 10px;" title="Click to encode member into ${posLabel} slot">
                 <span class="pill" style="font-size:9px;margin-bottom:4px;background:#e8f9f0;color:var(--jade);">${posLabel}</span>
                 <p style="margin:2px 0 0;font-size:12px;font-weight:700;color:var(--jade);">+ Encode Slot</p>
               </div>
@@ -1346,30 +1539,29 @@
           <div class="tree-root-wrapper">
             <div class="tree-node root-node" style="border-color:var(--gold);background:#fffdfa;box-shadow:0 6px 20px rgba(180,130,20,0.15);">
               <span class="pill" style="font-size:9px;background:#fef3c7;color:#92400e;margin-bottom:2px;font-weight:700;">★ FOCUS NODE</span>
-              <p class="tree-node-name" style="font-size:14px;">👤 ${esc(root.mobile)}</p>
+              <p class="tree-node-name" style="font-size:14px;">👤 ${esc(root.mobile || root.mobile_number)}</p>
               <span class="pill ${root.status === 'active' ? 'open' : 'closed'}">${esc(root.status)}</span>
               <div class="tree-node-counts">
                 <span>Left: <strong>${root.left_count}</strong></span>
                 <span>Right: <strong>${root.right_count}</strong></span>
               </div>
             </div>
+            <div class="tree-connector-main"></div>
           </div>
 
-          <div class="tree-connector"></div>
-
-          <!-- Level 2: Left & Right Branches -->
-          <div class="tree-branches">
-            ${renderChildBranch(root.left, 'LEFT LEG', 'L', root.mobile)}
-            ${renderChildBranch(root.right, 'RIGHT LEG', 'R', root.mobile)}
+          <!-- Level 2: Children & Deep Subtree -->
+          <div class="tree-children-row">
+            ${renderChildBranch(root.left, 'LEFT LEG ◀', 'L', root.mobile || root.mobile_number, root.id)}
+            ${renderChildBranch(root.right, 'RIGHT LEG ▶', 'R', root.mobile || root.mobile_number, root.id)}
           </div>
         `;
 
-        // Wire click handlers for drilldown
+        // Wire click handlers for drilldown nodes
         container.querySelectorAll('.clickable-drill').forEach(el => {
           el.onclick = (e) => {
             e.stopPropagation();
             const targetId = el.dataset.treeTarget;
-            if (targetId) fetchAndRenderTree(targetId);
+            if (targetId) fetchAndRenderTree(targetId, currentTreeDepth);
           };
         });
 
@@ -1378,17 +1570,24 @@
           breadcrumbsEl.querySelectorAll('.crumb-btn').forEach(btn => {
             btn.onclick = () => {
               const targetId = btn.dataset.treeUser;
-              if (targetId) fetchAndRenderTree(targetId);
+              if (targetId) fetchAndRenderTree(targetId, currentTreeDepth);
             };
           });
         }
 
-        // Wire clickable encode slots
+        // Wire clickable encode slots with placement parent ID
         container.querySelectorAll('.clickable-encode-slot').forEach(slot => {
-          slot.onclick = () => {
-            const parentMob = slot.dataset.slotParent;
-            const pos = slot.dataset.slotPos;
-            openEncodeDownlineModal({ placement_mobile: parentMob, position: pos });
+          slot.onclick = (e) => {
+            e.stopPropagation();
+            const parentMob = slot.dataset.slotParent || '';
+            const parentId = slot.dataset.slotParentId || '';
+            const pos = slot.dataset.slotPos || 'L';
+            closeModal('modalGenealogy');
+            openEncodeDownlineModal({
+              placement_mobile: parentMob,
+              placement_parent_id: parentId,
+              position: pos
+            });
           };
         });
 
@@ -1503,8 +1702,8 @@
       latestBalances.tradeRef = Number(u.tradein_ref_balance || 0);
       latestBalances.cycle    = Number(u.tradein_cycle_balance || 0);
 
-      // Binary Cap Progress Bar
-      const cap    = d.constants.binaryCap || 3000;
+      // Binary Cap Progress Bar (Matching Bonus Cap)
+      const cap    = d.binary_cap || (d.constants && d.constants.binaryCap) || 6000;
       const earned = Number(u.total_binary_earnings || 0);
       document.getElementById('capLabel').textContent = peso(earned) + ' / ' + peso(cap);
       setTimeout(() => {
@@ -1635,7 +1834,7 @@
         };
       });
 
-      // Render Packages List
+      // Render Packages List with Milestone Stepper & Claim Actions
       document.getElementById('packagesList').innerHTML = d.packages.length
         ? d.packages.map(p => {
             const isPending = p.cycle_status === 'pending';
@@ -1643,8 +1842,19 @@
             const isCompleted = p.cycle_status === 'completed';
             const isRejected = p.cycle_status === 'rejected';
 
-            const statusClass = isActive ? 'open' : isCompleted ? 'open' : isPending ? 'badge-tag tag-maya' : 'closed';
-            const statusLabel = isPending ? '⏳ Pending Verification' : isActive ? 'Active' + nextPayoutLabel(p) : isCompleted ? '✓ Completed' : '✕ Rejected';
+            const ci = p.cycle_info || {
+              elapsed_days: 0,
+              progress_percent: 0,
+              matured_payouts: 0,
+              claimable_payouts: 0,
+              claimable_amount: 0,
+              installment_amount: (p.total_return || (p.capital * 1.2)) / 4,
+              next_payout_date: null,
+              next_payout_in_hours: 0,
+            };
+
+            const statusClass = isActive ? (ci.claimable_payouts > 0 ? 'badge-tag tag-maya' : 'open') : isCompleted ? 'open' : isPending ? 'badge-tag tag-available' : 'closed';
+            const statusLabel = isPending ? '⏳ Pending Verification' : isActive ? (ci.claimable_payouts > 0 ? '🎁 Payout Ready to Claim' : `Active · Cycle ${p.payouts_completed}/4`) : isCompleted ? '✓ Completed' : '✕ Rejected';
 
             const receiptBtn = (p.receipt_image || p.receipt_url)
               ? `<button type="button" class="receipt-view-btn" data-receipt-src="${esc(p.receipt_image || p.receipt_url)}" style="margin-top:6px;">🧾 View Receipt</button>`
@@ -1653,24 +1863,81 @@
             const methodTag = p.payment_method ? `<span class="badge-tag tag-available" style="font-size:9.5px;padding:2px 6px;margin-left:4px;">${esc(p.payment_method)}</span>` : '';
             const refTag = p.ref_number ? `<span class="tiny muted" style="margin-left:4px;">Ref: ${esc(p.ref_number)}</span>` : '';
 
-            return `
-              <div class="item" style="background:#fff;margin-bottom:8px;padding:12px 14px;border-radius:12px;border:1px solid rgba(15,122,69,0.15);display:flex;justify-content:space-between;align-items:flex-start;gap:10px;">
-                <div>
-                  <div style="display:flex;align-items:center;gap:4px;">
-                    <strong style="font-size:14px;color:#0b4d2c;">${peso(p.capital)}</strong>
-                    <span style="color:var(--muted);font-size:12px;">➔</span>
-                    <span style="color:var(--jade);font-weight:700;font-size:14px;">${peso(p.total_return)}</span>
-                    ${methodTag}
+            // Milestones breakdown (4 cycles: Day 3, Day 6, Day 9, Day 12)
+            const milestonesHtml = (isActive || isCompleted) ? `
+              <div class="tradein-progress-wrap">
+                <div class="tradein-progress-bar" style="width:${Math.min(100, Math.max(0, ci.progress_percent))}%;"></div>
+              </div>
+              <div class="tradein-milestones">
+                ${[1, 2, 3, 4].map(idx => {
+                  const isDone = (p.payouts_completed || 0) >= idx;
+                  const isReady = !isDone && (ci.matured_payouts || 0) >= idx;
+                  const nodeCls = isDone ? 'milestone-node m-done' : isReady ? 'milestone-node m-claimable' : 'milestone-node m-pending';
+                  const dotSymbol = isDone ? '✓' : isReady ? '★' : idx;
+                  const lbl = isDone ? 'Claimed' : isReady ? 'Ready' : 'Pending';
+                  return `
+                    <div class="${nodeCls}">
+                      <div class="milestone-dot">${dotSymbol}</div>
+                      <div class="milestone-lbl">Day ${idx * 3}</div>
+                      <div class="milestone-sub">${lbl}</div>
+                    </div>
+                  `;
+                }).join('')}
+              </div>
+            ` : '';
+
+            // Payout Actions
+            let actionHtml = '';
+            if (isActive) {
+              if (ci.claimable_payouts > 0) {
+                actionHtml = `
+                  <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-top:10px;padding-top:10px;border-top:1px dashed rgba(15,122,69,0.2);">
+                    <button type="button" class="tradein-claim-btn" data-claim-pkg="${p.id}" data-claim-amt="${ci.claimable_amount}" data-claim-count="${ci.claimable_payouts}">
+                      🎁 Claim Payout (${peso(ci.claimable_amount)})
+                    </button>
+                    <span class="tiny muted">Matured: ${ci.claimable_payouts} installment(s)</span>
                   </div>
-                  <p class="tiny" style="margin:4px 0 0;color:var(--muted);">
-                    Cycle: <strong style="color:var(--text);">${esc(p.cycle_status)}</strong> · Payouts ${p.payouts_completed}/4 ${refTag}
-                  </p>
-                  ${receiptBtn}
+                `;
+              } else if (p.payouts_completed < 4) {
+                actionHtml = `
+                  <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-top:10px;padding-top:10px;border-top:1px dashed rgba(15,122,69,0.2);">
+                    <span class="tradein-countdown-pill">⏳ Next payout in ${ci.next_payout_in_hours || 0}h (${ci.next_payout_date ? new Date(ci.next_payout_date).toLocaleDateString() : 'Scheduled'})</span>
+                    <span class="tiny muted">Progress: <strong>${Math.round(ci.progress_percent)}%</strong></span>
+                  </div>
+                `;
+              } else {
+                actionHtml = `
+                  <div style="margin-top:8px;padding-top:8px;border-top:1px dashed rgba(15,122,69,0.2);display:flex;align-items:center;justify-content:space-between;">
+                    <span class="pill open" style="font-size:10px;">All 4 Payouts Claimed ✓</span>
+                    <span class="tiny muted">Package finished</span>
+                  </div>
+                `;
+              }
+            }
+
+            return `
+              <div class="tradein-monitor-card" style="margin-bottom:12px;">
+                <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:10px;">
+                  <div>
+                    <div style="display:flex;align-items:center;gap:4px;flex-wrap:wrap;">
+                      <strong style="font-size:15px;color:#0b4d2c;">${peso(p.capital)}</strong>
+                      <span style="color:var(--muted);font-size:12px;">➔</span>
+                      <span style="color:var(--jade);font-weight:800;font-size:15px;">${peso(p.total_return)}</span>
+                      ${methodTag}
+                    </div>
+                    <p class="tiny" style="margin:4px 0 0;color:var(--muted);">
+                      Status: <strong style="color:var(--text);">${esc(p.cycle_status)}</strong> · Payouts: <strong>${p.payouts_completed || 0}/4</strong> ${refTag}
+                    </p>
+                    ${receiptBtn}
+                  </div>
+                  <div style="text-align:right;">
+                    <span class="pill ${statusClass}" style="font-size:10.5px;font-weight:700;">${statusLabel}</span>
+                    <p class="tiny muted" style="margin:4px 0 0;">${new Date(p.created_at).toLocaleDateString()}</p>
+                  </div>
                 </div>
-                <div style="text-align:right;">
-                  <span class="pill ${statusClass}" style="font-size:10px;font-weight:700;">${statusLabel}</span>
-                  <p class="tiny muted" style="margin:4px 0 0;">${new Date(p.created_at).toLocaleDateString()}</p>
-                </div>
+
+                ${milestonesHtml}
+                ${actionHtml}
               </div>
             `;
           }).join('')
@@ -1680,6 +1947,48 @@
       document.querySelectorAll('#packagesList .receipt-view-btn').forEach(btn => {
         btn.onclick = () => {
           openReceiptLightbox(btn.dataset.receiptSrc, 'Trade-In Payment Receipt');
+        };
+      });
+
+      // Wire claim payout buttons
+      document.querySelectorAll('#packagesList .tradein-claim-btn').forEach(btn => {
+        btn.onclick = () => {
+          const pkgId = btn.dataset.claimPkg;
+          const claimAmt = Number(btn.dataset.claimAmt || 0);
+          const claimCount = Number(btn.dataset.claimCount || 0);
+
+          showConfirmPopup({
+            title: 'Claim Trade-In Payout',
+            subtitle: 'Transfer your matured trade-in earnings directly into your Cycle Profit wallet.',
+            icon: '🎁',
+            details: [
+              { label: 'Package ID', val: '#' + pkgId },
+              { label: 'Matured Payouts', val: claimCount + ' installment(s)' },
+              { label: 'Claim Amount', val: peso(claimAmt), highlight: true },
+              { label: 'Target Wallet', val: 'Trade-In Cycle Profit Wallet' }
+            ],
+            confirmText: 'Confirm & Claim ➔',
+            confirmClass: 'btn-mint',
+            onConfirm: async () => {
+              btn.disabled = true;
+              btn.textContent = 'Claiming...';
+              try {
+                const res = await fetch(`/api/tradein/claim/${pkgId}`, { method: 'POST', headers });
+                const data = await res.json();
+                if (!res.ok) {
+                  toast(data.error || 'Claim failed.');
+                  return;
+                }
+                toast(`🎉 Claimed ${peso(data.claimed_amount)} successfully! Credited to your Cycle Profit wallet.`, true);
+                load();
+              } catch (err) {
+                toast(err.message || 'Claiming error.');
+              } finally {
+                btn.disabled = false;
+                btn.textContent = `🎁 Claim Payout (${peso(claimAmt)})`;
+              }
+            }
+          });
         };
       });
 
@@ -1909,6 +2218,10 @@
       if (opts.placement_mobile) {
         document.getElementById('encodePlacementMobile').value = opts.placement_mobile;
       }
+      const parentIdInp = document.getElementById('encodePlacementParentId');
+      if (parentIdInp) {
+        parentIdInp.value = opts.placement_parent_id || '';
+      }
       if (opts.position === 'R') {
         if (btnEncR) btnEncR.click();
       } else {
@@ -2055,6 +2368,112 @@
       });
     }
 
+    // Tree Depth Controls
+    document.querySelectorAll('#treeDepthControls .depth-btn').forEach(btn => {
+      btn.onclick = () => {
+        document.querySelectorAll('#treeDepthControls .depth-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        currentTreeDepth = parseInt(btn.dataset.depth, 10) || 3;
+        fetchAndRenderTree(currentTreeUserId, currentTreeDepth);
+      };
+    });
+
+    // ==========================================
+    // EARNINGS HISTORY AUDIT VIEWER
+    // ==========================================
+    let currentEarningsCategory = 'all';
+
+    async function loadEarningsHistory(category = currentEarningsCategory) {
+      currentEarningsCategory = category;
+      const listEl = document.getElementById('earningsHistoryList');
+      if (!listEl) return;
+      listEl.innerHTML = `
+        <div style="padding:28px;text-align:center;color:var(--muted);font-size:12px;">
+          <div class="spinner" style="width:24px;height:24px;margin:0 auto 8px;border:3px solid rgba(15,122,69,0.2);border-top-color:var(--jade);border-radius:50%;animation:spin 0.8s linear infinite;"></div>
+          Loading earnings records...
+        </div>
+      `;
+
+      try {
+        const res = await fetch(`/api/user/earnings-history?category=${encodeURIComponent(category)}`, { headers });
+        if (!res.ok) {
+          const err = await res.json().catch(() => ({}));
+          listEl.innerHTML = `<p class="tiny center" style="color:#ef4444;padding:16px;">${esc(err.error || 'Failed to load earnings.')}</p>`;
+          return;
+        }
+        const data = await res.json();
+        const totals = data.totals || {};
+
+        // Update Summary Cards
+        const elTotal = document.getElementById('sumTotalEarnings');
+        const elDir = document.getElementById('sumDirectEarnings');
+        const elInd = document.getElementById('sumIndirectEarnings');
+        const elMat = document.getElementById('sumMatchingEarnings');
+        const elTR = document.getElementById('sumTradeinRefEarnings');
+        const elTC = document.getElementById('sumTradeinCycleEarnings');
+        if (elTotal) elTotal.textContent = peso(totals.all || 0);
+        if (elDir) elDir.textContent = peso(totals.referral || 0);
+        if (elInd) elInd.textContent = peso(totals.indirect || 0);
+        if (elMat) elMat.textContent = peso(totals.matching || 0);
+        if (elTR) elTR.textContent = peso(totals.tradein_referral || 0);
+        if (elTC) elTC.textContent = peso(totals.tradein_earnings || 0);
+
+        if (!data.records || data.records.length === 0) {
+          listEl.innerHTML = '<p class="tiny muted center" style="padding:24px;">No earnings records found for this category.</p>';
+          return;
+        }
+
+        const catBadges = {
+          referral: { label: 'Direct Ref', class: 'badge-referral', icon: '🎯' },
+          indirect: { label: 'Indirect Ref', class: 'badge-indirect', icon: '👥' },
+          matching: { label: 'Matching Pair', class: 'badge-matching', icon: '⚖' },
+          tradein_referral: { label: 'Trade-In Ref', class: 'badge-tradein-ref', icon: '🔄' },
+          tradein_earnings: { label: 'Trade-In Yield', class: 'badge-tradein-yield', icon: '📈' },
+        };
+
+        listEl.innerHTML = data.records.map(rec => {
+          const b = catBadges[rec.category] || { label: rec.category, class: 'badge-referral', icon: '💰' };
+          return `
+            <div style="background:#fff;border:1px solid rgba(15,122,69,0.12);border-radius:10px;padding:10px 12px;margin-bottom:8px;display:flex;justify-content:space-between;align-items:center;gap:10px;">
+              <div style="display:flex;flex-direction:column;gap:3px;">
+                <div style="display:flex;align-items:center;gap:6px;">
+                  <span class="earning-badge ${b.class}">${b.icon} ${esc(b.label)}</span>
+                  <span style="font-size:12px;font-weight:700;color:var(--text);">${esc(rec.description || 'Bonus credited')}</span>
+                </div>
+                <div class="tiny muted" style="display:flex;align-items:center;gap:6px;">
+                  <span>${new Date(rec.created_at).toLocaleString()}</span>
+                  ${rec.source_user_mobile ? `<span>· From: <strong>${esc(rec.source_user_mobile)}</strong></span>` : ''}
+                </div>
+              </div>
+              <div style="text-align:right;">
+                <span style="font-size:14px;font-weight:800;color:#0b4d2c;">+${peso(rec.amount)}</span>
+              </div>
+            </div>
+          `;
+        }).join('');
+
+      } catch (err) {
+        listEl.innerHTML = `<p class="tiny center" style="color:#ef4444;padding:16px;">Error: ${esc(err.message)}</p>`;
+      }
+    }
+
+    const btnOpenEarnings = document.getElementById('btnOpenEarningsHistory');
+    if (btnOpenEarnings) {
+      btnOpenEarnings.onclick = () => {
+        openModal('modalEarningsHistory');
+        loadEarningsHistory('all');
+      };
+    }
+
+    document.querySelectorAll('#earningsFilterBar .earnings-filter-btn').forEach(btn => {
+      btn.onclick = () => {
+        document.querySelectorAll('#earningsFilterBar .earnings-filter-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        const cat = btn.dataset.cat || 'all';
+        loadEarningsHistory(cat);
+      };
+    });
+
     // ==========================================
     // TRADE-IN RECEIPT UPLOAD & LIVE CALCULATOR
     // ==========================================
@@ -2161,6 +2580,7 @@
         const member_mobile = document.getElementById('encodeMemberMobile').value.trim();
         const code = document.getElementById('encodeActivationCode').value.trim();
         const placement_mobile = document.getElementById('encodePlacementMobile').value.trim();
+        const placement_parent_id = document.getElementById('encodePlacementParentId') ? document.getElementById('encodePlacementParentId').value.trim() : '';
         const position = inEncPos ? inEncPos.value : 'L';
         const legLabel = position === 'L' ? 'Left Leg ◀' : 'Right Leg ▶';
 
@@ -2171,7 +2591,7 @@
           details: [
             { label: 'Member Mobile', val: member_mobile, highlight: true },
             { label: 'Activation Code', val: code },
-            { label: 'Placement Upline', val: placement_mobile || 'Auto / Default' },
+            { label: 'Placement Upline', val: placement_mobile ? `${placement_mobile}${placement_parent_id ? ` (ID: #${placement_parent_id})` : ''}` : 'Auto / Direct Upline' },
             { label: 'Binary Leg', val: legLabel, highlight: true }
           ],
           confirmText: 'Encode Downline ➔',
@@ -2188,6 +2608,7 @@
                   member_mobile,
                   code,
                   placement_mobile: placement_mobile || undefined,
+                  placement_parent_id: placement_parent_id ? Number(placement_parent_id) : undefined,
                   position,
                 }),
               });

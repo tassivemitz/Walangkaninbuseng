@@ -10,6 +10,7 @@ function emptyStore() {
       tradein_packages: 1,
       withdrawals: 1,
       code_vault: 1,
+      earnings_history: 1,
     },
     users: [],
     wallets: [],
@@ -17,7 +18,8 @@ function emptyStore() {
     tradein_packages: [],
     withdrawals: [],
     code_vault: [],
-    settings: { weekly_payout_enabled: 0 },
+    earnings_history: [],
+    settings: { weekly_payout_enabled: 0, binary_cap: 6000 },
   };
 }
 
@@ -34,6 +36,8 @@ function load() {
   store = Object.assign(emptyStore(), parsed);
   store.nextId = Object.assign(emptyStore().nextId, parsed.nextId || {});
   store.settings = Object.assign(emptyStore().settings, parsed.settings || {});
+  if (!Array.isArray(store.earnings_history)) store.earnings_history = [];
+  if (!store.settings.binary_cap) store.settings.binary_cap = 6000;
 }
 
 function persist() {

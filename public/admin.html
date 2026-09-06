@@ -62,6 +62,11 @@
           <span>Withdrawals</span>
           <span class="admin-nav-badge" id="badgeNavWd">0</span>
         </button>
+
+        <button type="button" class="admin-nav-item" data-nav-target="viewEarningsHistory">
+          <span class="admin-nav-icon">📊</span>
+          <span>Earnings Audit</span>
+        </button>
       </div>
 
       <!-- Admin Referral Link Card in Sidebar -->
@@ -236,6 +241,26 @@
               <p class="wt-card-label">System · Trade-In Cycle Balance</p>
               <p class="wt-card-val" id="sysCycle">₱0.00</p>
             </div>
+          </div>
+
+          <!-- Global System Settings & Configuration Card -->
+          <div class="admin-card" style="margin-top:20px;grid-column:1/-1;">
+            <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;width:100%;">
+              <div>
+                <p class="kpi-label" style="font-size:11px;letter-spacing:0.05em;">PLATFORM CONFIGURATION &amp; SETTINGS</p>
+                <p style="margin:2px 0 0;font-size:13px;color:var(--text);font-weight:700;">Global Binary Matching Cap &amp; Payout Rules</p>
+              </div>
+              <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
+                <div style="display:flex;align-items:center;gap:6px;">
+                  <label for="inputAdminBinaryCap" style="font-size:11.5px;font-weight:700;color:#0b4d2c;">Binary Matching Cap (₱):</label>
+                  <input type="number" id="inputAdminBinaryCap" min="1000" step="500" class="in" style="width:110px;padding:6px 10px;font-size:13px;font-weight:700;text-align:right;" value="6000" />
+                  <button type="button" class="btn btn-mint btn-sm" id="btnSaveBinaryCap" style="padding:6px 12px;font-size:11.5px;">Save Cap</button>
+                </div>
+              </div>
+            </div>
+            <p class="tiny muted" style="margin:8px 0 0;">
+              💡 <strong>Binary Matching Cap:</strong> Direct (₱50) and Indirect (₱5) bonuses are <em>unlimited</em>. Only Matching / Pairing bonuses (₱50/pair) count toward this cap before an account requires renewal.
+            </p>
           </div>
         </section>
 
@@ -549,6 +574,50 @@
             </table>
           </div>
         </section>
+
+        <!-- =========================================================
+             VIEW 6: PLATFORM EARNINGS & COMMISSIONS AUDIT
+             ========================================================= -->
+        <section class="admin-view-panel" id="viewEarningsHistory">
+          <div class="view-header-bar">
+            <div>
+              <h2 class="view-title">Platform Earnings &amp; Commission Audit</h2>
+              <p class="view-sub">Comprehensive audit trail of Referral, Indirect, Matching, and Trade-In commissions paid out.</p>
+            </div>
+            <div style="text-align:right;">
+              <span class="pill open" style="font-size:12px;padding:6px 14px;font-weight:700;" id="adminTotalEarningsPaid">Total Paid: ₱0.00</span>
+            </div>
+          </div>
+
+          <div class="ctrl-tabs" id="adminEarningsFilterTabs" style="margin-bottom:14px;flex-wrap:wrap;">
+            <button class="ctrl-tab active" data-admin-earning="all">All Commissions</button>
+            <button class="ctrl-tab" data-admin-earning="referral">🎯 Direct Referral (₱50)</button>
+            <button class="ctrl-tab" data-admin-earning="indirect">👥 Indirect Referral (₱5)</button>
+            <button class="ctrl-tab" data-admin-earning="matching">⚖ Matching Pairs (₱50)</button>
+            <button class="ctrl-tab" data-admin-earning="tradein_referral">🔄 Trade-In Referral</button>
+            <button class="ctrl-tab" data-admin-earning="tradein_earnings">📈 Trade-In Yield</button>
+          </div>
+
+          <div class="admin-table-panel table-wrap">
+            <table class="admin-table" id="tableAdminEarnings">
+              <thead>
+                <tr>
+                  <th>#ID</th>
+                  <th>Recipient Member</th>
+                  <th>Bonus Category</th>
+                  <th>Amount</th>
+                  <th>Audit Description</th>
+                  <th>Credited Date</th>
+                </tr>
+              </thead>
+              <tbody id="adminEarningsTbody">
+                <tr>
+                  <td colspan="6" style="padding:20px;text-align:center" class="muted">Loading earnings audit records...</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
       </div>
     </div>
   <!-- Modal: Admin Member Genealogy Visualizer -->
@@ -566,6 +635,11 @@
         <div class="genealogy-toolbar">
           <div class="genealogy-breadcrumbs" id="adminGenealogyBreadcrumbs"></div>
           <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
+            <div class="tree-depth-controls" id="adminTreeDepthControls">
+              <button type="button" class="depth-btn active" data-depth="3">3L</button>
+              <button type="button" class="depth-btn" data-depth="4">4L</button>
+              <button type="button" class="depth-btn" data-depth="5">5L</button>
+            </div>
             <button type="button" class="btn btn-secondary btn-sm" id="btnAdminGenealogyUp" style="padding:5px 10px;font-size:11.5px;font-weight:700;">
               ⬆ Up 1 Level
             </button>
@@ -750,11 +824,12 @@
     // =========================================================
     // ADMIN MEMBER GENEALOGY SUBTREE VISUALIZER
     // =========================================================
-    let currentAdminTreeRootId = null;
+    let currentAdminTreeDepth = 3;
     let currentAdminTreeFocusId = null;
+    let currentAdminTreeRootId = null;
     let adminTreeAncestors = [];
 
-    async function fetchAndRenderAdminTree(targetUserId = null) {
+    async function fetchAndRenderAdminTree(targetUserId = null, depth = currentAdminTreeDepth) {
       const modal = document.getElementById('modalAdminGenealogy');
       const container = document.getElementById('adminGenealogyContainer');
       const breadcrumbsEl = document.getElementById('adminGenealogyBreadcrumbs');
@@ -771,7 +846,7 @@
       `;
 
       try {
-        const url = targetUserId ? `/api/tree?userId=${encodeURIComponent(targetUserId)}` : '/api/tree';
+        const url = (targetUserId ? `/api/tree?userId=${encodeURIComponent(targetUserId)}&` : '/api/tree?') + `depth=${depth}`;
         const data = await api(url);
         currentAdminTreeFocusId = data.tree ? data.tree.id : null;
         if (!currentAdminTreeRootId) currentAdminTreeRootId = currentAdminTreeFocusId;
@@ -792,15 +867,45 @@
         }
 
         const root = data.tree;
-        const renderMini = (node) => {
+
+        const renderL4 = (node) => {
           if (node) {
             return `
-              <div class="tree-grandchild-node ${node.status === 'active' ? 'active-slot' : 'inactive-slot'} clickable-adm-drill" data-adm-tree="${node.id}" style="cursor:pointer;" title="Click to view subtree">
-                <p class="grandchild-mob">${esc(node.mobile)}</p>
-                <div class="grandchild-stats">
-                  <span class="pill ${node.status === 'active' ? 'open' : 'closed'}" style="font-size:8px;padding:1px 4px;">${esc(node.status)}</span>
+              <div class="tree-grandchild-node ${node.status === 'active' ? 'active-slot' : 'inactive-slot'} clickable-adm-drill" data-adm-tree="${node.id}" style="cursor:pointer;min-width:65px;padding:2px 4px;" title="Click to view subtree">
+                <p class="grandchild-mob" style="font-size:8.5px;">${esc(node.mobile)}</p>
+                <div class="grandchild-stats" style="font-size:7px;">
                   <span>${node.left_count}L·${node.right_count}R</span>
                 </div>
+              </div>
+            `;
+          }
+          return `
+            <div class="tree-grandchild-node empty-slot" style="min-width:55px;padding:2px 4px;">
+              <span style="font-size:8px;color:var(--muted);">Empty</span>
+            </div>
+          `;
+        };
+
+        const renderMini = (node) => {
+          if (node) {
+            const hasL4 = depth >= 4;
+            const l4Row = hasL4 ? `
+              <div style="display:flex;gap:3px;justify-content:center;margin-top:4px;">
+                ${renderL4(node.left)}
+                ${renderL4(node.right)}
+              </div>
+            ` : '';
+
+            return `
+              <div style="display:flex;flex-direction:column;align-items:center;">
+                <div class="tree-grandchild-node ${node.status === 'active' ? 'active-slot' : 'inactive-slot'} clickable-adm-drill" data-adm-tree="${node.id}" style="cursor:pointer;" title="Click to view subtree">
+                  <p class="grandchild-mob">${esc(node.mobile)}</p>
+                  <div class="grandchild-stats">
+                    <span class="pill ${node.status === 'active' ? 'open' : 'closed'}" style="font-size:8px;padding:1px 4px;">${esc(node.status)}</span>
+                    <span>${node.left_count}L·${node.right_count}R</span>
+                  </div>
+                </div>
+                ${l4Row}
               </div>
             `;
           }
@@ -870,7 +975,7 @@
           el.onclick = (e) => {
             e.stopPropagation();
             const tid = el.dataset.admTree;
-            if (tid) fetchAndRenderAdminTree(tid);
+            if (tid) fetchAndRenderAdminTree(tid, currentAdminTreeDepth);
           };
         });
 
@@ -878,7 +983,7 @@
           breadcrumbsEl.querySelectorAll('.crumb-btn').forEach(btn => {
             btn.onclick = () => {
               const tid = btn.dataset.admTree;
-              if (tid) fetchAndRenderAdminTree(tid);
+              if (tid) fetchAndRenderAdminTree(tid, currentAdminTreeDepth);
             };
           });
         }
@@ -899,14 +1004,23 @@
     document.getElementById('btnAdminGenealogyUp')?.addEventListener('click', () => {
       if (adminTreeAncestors && adminTreeAncestors.length > 1) {
         const parentAnc = adminTreeAncestors[adminTreeAncestors.length - 2];
-        fetchAndRenderAdminTree(parentAnc.id);
+        fetchAndRenderAdminTree(parentAnc.id, currentAdminTreeDepth);
       } else {
-        fetchAndRenderAdminTree(currentAdminTreeRootId);
+        fetchAndRenderAdminTree(currentAdminTreeRootId, currentAdminTreeDepth);
       }
     });
 
     document.getElementById('btnAdminGenealogyRoot')?.addEventListener('click', () => {
-      fetchAndRenderAdminTree(currentAdminTreeRootId);
+      fetchAndRenderAdminTree(currentAdminTreeRootId, currentAdminTreeDepth);
+    });
+
+    document.querySelectorAll('#adminTreeDepthControls .depth-btn').forEach(btn => {
+      btn.onclick = () => {
+        document.querySelectorAll('#adminTreeDepthControls .depth-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        currentAdminTreeDepth = parseInt(btn.dataset.depth, 10) || 3;
+        fetchAndRenderAdminTree(currentAdminTreeFocusId, currentAdminTreeDepth);
+      };
     });
 
     // =========================================================
@@ -918,6 +1032,7 @@
       viewVault: 'CODE VAULT',
       viewTradein: 'TRADE-IN DEPOSIT',
       viewWithdrawals: 'WITHDRAWALS',
+      viewEarningsHistory: 'EARNINGS AUDIT',
     };
 
     const sidebarEl = document.getElementById('adminSidebar');
@@ -953,6 +1068,10 @@
       const tag = document.getElementById('currentViewTag');
       if (tag && viewTitles[targetId]) {
         tag.textContent = viewTitles[targetId];
+      }
+
+      if (targetId === 'viewEarningsHistory') {
+        loadAdminEarningsHistory('all');
       }
 
       if (window.innerWidth <= 900) {
@@ -1016,12 +1135,117 @@
         }
       }
 
+      // Binary Cap in Admin Settings
+      if (overview.binary_cap && document.getElementById('inputAdminBinaryCap')) {
+        document.getElementById('inputAdminBinaryCap').value = overview.binary_cap;
+      }
+
       // Wallet totals bar
       const w = overview.wallets || {};
       document.getElementById('sysBinaryRef').textContent = peso(w.binary_ref || 0);
       document.getElementById('sysTradeRef').textContent = peso(w.tradein_ref || 0);
       document.getElementById('sysCycle').textContent = peso(w.tradein_cycle || 0);
     }
+
+    // Save Binary Cap Setting
+    document.getElementById('btnSaveBinaryCap')?.addEventListener('click', () => {
+      const capInp = document.getElementById('inputAdminBinaryCap');
+      const val = Number(capInp.value) || 0;
+      if (val < 1000) {
+        toast('Minimum binary cap is ₱1,000.');
+        return;
+      }
+
+      showConfirmPopup({
+        title: 'Update Binary Matching Cap',
+        subtitle: 'Configure the maximum binary pairing earnings before accounts expire.',
+        icon: '⚖',
+        details: [
+          { label: 'New Binary Cap', val: peso(val), highlight: true },
+          { label: 'Affected Earnings', val: 'Matching / Pairing Bonuses only' },
+          { label: 'Direct / Indirect', val: 'Unrestricted / Unlimited' }
+        ],
+        confirmText: 'Save Binary Cap ➔',
+        confirmClass: 'btn-mint',
+        onConfirm: async () => {
+          try {
+            const res = await fetch('/api/admin/settings/binary-cap', {
+              method: 'POST',
+              headers,
+              body: JSON.stringify({ cap: val })
+            });
+            const data = await res.json();
+            if (!res.ok) { toast(data.error || 'Failed to update cap.'); return; }
+            toast(`✓ Binary matching cap updated to ${peso(data.binary_cap)}!`, true);
+            loadOverview();
+          } catch (err) {
+            toast(err.message || 'Error updating binary cap.');
+          }
+        }
+      });
+    });
+
+    // =========================================================
+    // ADMIN EARNINGS AUDIT
+    // =========================================================
+    let currentAdminEarningsCat = 'all';
+
+    async function loadAdminEarningsHistory(category = currentAdminEarningsCat) {
+      currentAdminEarningsCat = category;
+      const tbody = document.getElementById('adminEarningsTbody');
+      if (!tbody) return;
+      tbody.innerHTML = '<tr><td colspan="6" style="padding:24px;text-align:center;" class="muted"><div class="spinner" style="width:20px;height:20px;margin:0 auto 8px;border:2px solid rgba(15,122,69,0.2);border-top-color:var(--jade);border-radius:50%;animation:spin 0.8s linear infinite;"></div>Loading audit logs...</td></tr>';
+
+      try {
+        const res = await fetch(`/api/admin/earnings-history?category=${encodeURIComponent(category)}`, { headers });
+        if (!res.ok) {
+          const err = await res.json().catch(() => ({}));
+          tbody.innerHTML = `<tr><td colspan="6" style="padding:20px;text-align:center;color:#ef4444;">${esc(err.error || 'Failed to load earnings audit.')}</td></tr>`;
+          return;
+        }
+        const data = await res.json();
+        const totalPaidEl = document.getElementById('adminTotalEarningsPaid');
+        if (totalPaidEl) totalPaidEl.textContent = 'Total Paid: ' + peso(data.total_paid_out || 0);
+
+        if (!data.records || !data.records.length) {
+          tbody.innerHTML = '<tr><td colspan="6" style="padding:24px;text-align:center;" class="muted">No earnings records found for this category.</td></tr>';
+          return;
+        }
+
+        const catBadges = {
+          referral: { label: 'Direct Ref (₱50)', class: 'badge-referral', icon: '🎯' },
+          indirect: { label: 'Indirect Ref (₱5)', class: 'badge-indirect', icon: '👥' },
+          matching: { label: 'Matching Pair (₱50)', class: 'badge-matching', icon: '⚖' },
+          tradein_referral: { label: 'Trade-In Ref', class: 'badge-tradein-ref', icon: '🔄' },
+          tradein_earnings: { label: 'Trade-In Yield', class: 'badge-tradein-yield', icon: '📈' },
+        };
+
+        tbody.innerHTML = data.records.map(r => {
+          const b = catBadges[r.category] || { label: r.category, class: 'badge-referral', icon: '💰' };
+          return `
+            <tr>
+              <td><code>#${r.id}</code></td>
+              <td><strong>${esc(r.recipient_mobile || ('User #' + r.user_id))}</strong></td>
+              <td><span class="earning-badge ${b.class}">${b.icon} ${esc(b.label)}</span></td>
+              <td style="font-weight:700;color:#0b4d2c;">+${peso(r.amount)}</td>
+              <td>${esc(r.description || 'Bonus credited')}</td>
+              <td class="tiny muted">${new Date(r.created_at).toLocaleString()}</td>
+            </tr>
+          `;
+        }).join('');
+
+      } catch (err) {
+        tbody.innerHTML = `<tr><td colspan="6" style="padding:20px;text-align:center;color:#ef4444;">Error: ${esc(err.message)}</td></tr>`;
+      }
+    }
+
+    document.querySelectorAll('#adminEarningsFilterTabs .ctrl-tab').forEach(tab => {
+      tab.onclick = () => {
+        document.querySelectorAll('#adminEarningsFilterTabs .ctrl-tab').forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+        loadAdminEarningsHistory(tab.dataset.adminEarning || 'all');
+      };
+    });
 
     function renderUsers() {
       const query = document.getElementById('userSearch').value.trim().toLowerCase();

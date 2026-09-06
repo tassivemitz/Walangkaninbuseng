@@ -3,7 +3,8 @@
     "users": 14,
     "tradein_packages": 4,
     "withdrawals": 1,
-    "code_vault": 35
+    "code_vault": 35,
+    "earnings_history": 4
   },
   "users": [
     {
@@ -601,7 +602,9 @@
       "position": "R"
     }
   ],
+  "earnings_history": [],
   "settings": {
-    "weekly_payout_enabled": 1
+    "weekly_payout_enabled": 1,
+    "binary_cap": 6000
   }
 }
