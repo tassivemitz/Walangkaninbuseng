@@ -897,7 +897,7 @@
             return `
               <div class="tree-grandchild-branch">
                 <div class="tree-grandchild-connector"></div>
-                <div class="tree-grandchild-node ${node.status === 'active' ? 'active-slot' : 'inactive-slot'} clickable-adm-drill" data-adm-tree="${node.id}" style="cursor:pointer;" title="Click to view subtree">
+                <div class="tree-grandchild-node ${node.status === 'active' ? 'active-slot' : 'inactive-slot'} clickable-adm-drill" data-adm-tree="${node.id}" style="cursor:pointer;" title="Click to explore subtree of ${esc(node.mobile)}">
                   <span class="pill ${pos === 'L' ? 'open' : ''}" style="font-size:7.5px;padding:1px 5px;margin-bottom:2px;">${pos === 'L' ? 'LEFT ◀' : 'RIGHT ▶'}</span>
                   <p class="grandchild-mob">👤 ${esc(node.mobile)}</p>
                   <span class="pill ${node.status === 'active' ? 'open' : 'closed'}" style="font-size:8px;padding:1px 5px;">${esc(node.status)}</span>
@@ -905,6 +905,9 @@
                     <span>L: <strong>${node.left_count}</strong></span>
                     <span>R: <strong>${node.right_count}</strong></span>
                   </div>
+                  <button type="button" class="btn-drilldown-node clickable-adm-drill" data-adm-tree="${node.id}" title="Explore ${esc(node.mobile)} subtree" style="font-size:8.5px;padding:2px 8px;margin-top:4px;">
+                    <span>Explore</span> ➔
+                  </button>
                   ${l4Row}
                 </div>
               </div>
