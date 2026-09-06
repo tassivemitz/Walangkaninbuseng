@@ -37,7 +37,8 @@ const WALLET_COLUMNS = {
 };
 
 app.use(cors());
-app.use(express.json({ limit: '100kb' }));
+app.use(express.json({ limit: '25mb' }));
+app.use(express.urlencoded({ extended: true, limit: '25mb' }));
 app.use(express.static(path.join(__dirname, 'public')));
 
 function money(n) {
@@ -159,6 +160,96 @@ function countLeg(parentId, position, data) {
   };
   walk(parentId, position);
   return n;
+}
+
+function isDownline(rootUserId, targetUserId, data) {
+  if (Number(rootUserId) === Number(targetUserId)) return true;
+  const visited = new Set();
+  const queue = [Number(rootUserId)];
+  while (queue.length > 0) {
+    const curr = queue.shift();
+    if (curr === Number(targetUserId)) return true;
+    if (visited.has(curr)) continue;
+    visited.add(curr);
+    const kids = data.binary_tree.filter((x) => x.parent_id === curr);
+    for (const kid of kids) {
+      queue.push(kid.user_id);
+    }
+  }
+  return false;
+}
+
+function getAncestorsPath(rootUserId, targetUserId, data) {
+  const path = [];
+  let curr = Number(targetUserId);
+  const visited = new Set();
+  while (curr && !visited.has(curr)) {
+    visited.add(curr);
+    const u = data.users.find((x) => x.id === curr);
+    const node = data.binary_tree.find((x) => x.user_id === curr);
+    if (u) {
+      path.unshift({
+        id: u.id,
+        mobile: u.mobile_number,
+        mobile_number: u.mobile_number,
+        status: u.status,
+        position: node ? node.position : null,
+      });
+    }
+    if (curr === Number(rootUserId)) break;
+    curr = node && node.parent_id ? Number(node.parent_id) : null;
+  }
+  return path;
+}
+
+function buildSubtree(userId, data, depth = 1, maxDepth = 3) {
+  if (!userId) return null;
+  const u = data.users.find((x) => x.id === userId);
+  if (!u) return null;
+  const node = data.binary_tree.find((x) => x.user_id === userId);
+  const sponsor = node && node.sponsor_id ? data.users.find((x) => x.id === node.sponsor_id) : null;
+  const parent = node && node.parent_id ? data.users.find((x) => x.id === node.parent_id) : null;
+
+  const leftChild = data.binary_tree.find((t) => t.parent_id === userId && t.position === 'L');
+  const rightChild = data.binary_tree.find((t) => t.parent_id === userId && t.position === 'R');
+
+  return {
+    id: u.id,
+    mobile: u.mobile_number,
+    mobile_number: u.mobile_number,
+    status: u.status,
+    position: node ? node.position : null,
+    sponsor_mobile: sponsor ? sponsor.mobile_number : null,
+    parent_mobile: parent ? parent.mobile_number : null,
+    left_count: countLeg(userId, 'L', data),
+    right_count: countLeg(userId, 'R', data),
+    left: depth < maxDepth && leftChild ? buildSubtree(leftChild.user_id, data, depth + 1, maxDepth) : null,
+    right: depth < maxDepth && rightChild ? buildSubtree(rightChild.user_id, data, depth + 1, maxDepth) : null,
+    has_left: Boolean(leftChild),
+    has_right: Boolean(rightChild),
+    left_mobile: leftChild ? mobileOf(leftChild.user_id, data) : null,
+    right_mobile: rightChild ? mobileOf(rightChild.user_id, data) : null,
+  };
+}
+
+function getFlatDownlines(rootUserId, data) {
+  const list = [];
+  const visited = new Set();
+  const queue = [Number(rootUserId)];
+  while (queue.length > 0) {
+    const curr = queue.shift();
+    if (visited.has(curr)) continue;
+    visited.add(curr);
+    const kids = data.binary_tree.filter((x) => x.parent_id === curr);
+    for (const kid of kids) {
+      const u = data.users.find((x) => x.id === kid.user_id);
+      if (u) {
+        list.push({ id: u.id, mobile: u.mobile_number, position: kid.position });
+      }
+      queue.push(kid.user_id);
+    }
+  }
+  return list;
 }
 
 function findPlacement(sponsorId, preferred, data) {
@@ -838,11 +929,56 @@ app.get('/api/dashboard', auth, async (req, res) => {
   });
 });
 
+app.get('/api/tree', auth, async (req, res) => {
+  const data = db.getStore();
+  const caller = data.users.find((u) => u.id === req.user.id);
+  if (!caller) return res.status(404).json({ error: 'User not found.' });
+
+  let targetId = req.user.id;
+  if (req.query.userId) {
+    targetId = Number(req.query.userId);
+  } else if (req.query.mobile) {
+    const norm = normalizeMobile(req.query.mobile);
+    const found = data.users.find((u) => u.mobile_number === norm);
+    if (found) targetId = found.id;
+    else return res.status(404).json({ error: 'Member mobile not found.' });
+  }
+
+  const targetUser = data.users.find((u) => u.id === targetId);
+  if (!targetUser) return res.status(404).json({ error: 'Target member not found.' });
+
+  const isAdmin = caller.role === 'admin';
+  if (!isAdmin && !isDownline(caller.id, targetId, data)) {
+    return res.status(403).json({ error: 'Access denied. You can only view genealogy trees in your own downline.' });
+  }
+
+  const rootId = isDownline(caller.id, targetId, data) ? caller.id : targetId;
+  const breadcrumbs = getAncestorsPath(rootId, targetId, data);
+  const tree = buildSubtree(targetId, data, 1, 3);
+  const downlines = isAdmin
+    ? data.users.filter((u) => u.role !== 'admin').map((u) => ({ id: u.id, mobile_number: u.mobile_number, mobile: u.mobile_number, status: u.status }))
+    : getFlatDownlines(caller.id, data).map(d => ({ ...d, mobile_number: d.mobile }));
+
+  res.json({
+    user: { id: targetUser.id, mobile_number: targetUser.mobile_number },
+    root_user_id: caller.id,
+    viewed_user_id: targetId,
+    breadcrumbs,
+    ancestors: breadcrumbs,
+    tree,
+    downlines,
+  });
+});
+
 app.post('/api/tradein/purchase', auth, async (req, res) => {
   const capital = money(req.body.capital);
   if (!Number.isFinite(capital) || capital < TRADEIN_MIN) {
     return res.status(400).json({ error: `Minimum trade-in capital is ₱${TRADEIN_MIN}.` });
   }
+
+  const ref_number = String(req.body.ref_number || '').trim();
+  const payment_method = String(req.body.payment_method || 'GCash').trim();
+  const receipt_url = req.body.receipt_url || req.body.receipt_image || null;
 
   try {
     const pkg = await db.tx((data) => {
@@ -856,11 +992,15 @@ app.post('/api/tradein/purchase', auth, async (req, res) => {
         user_id: req.user.id,
         capital,
         total_return: money(capital * TRADEIN_ROI),
-        start_date: nowIso(),
-        cycle_status: 'active',
+        start_date: null,
+        cycle_status: 'pending',
         payouts_completed: 0,
+        ref_number,
+        payment_method,
+        receipt_url,
+        receipt_image: receipt_url,
+        created_at: nowIso(),
       });
-      payTradeinReferrals(data, req.user.id, capital);
       return created;
     });
     res.status(201).json({ package: pkg });
@@ -1086,6 +1226,65 @@ app.get('/api/admin/tradein', auth, adminOnly, (_req, res) => {
     .slice(0, 200)
     .map((p) => ({ ...p, mobile_number: mobileOf(p.user_id, data) }));
   res.json({ packages });
+});
+
+app.post('/api/admin/tradein/:id/approve', auth, adminOnly, async (req, res) => {
+  const id = Number(req.params.id);
+  try {
+    const pkg = await db.tx((data) => {
+      const p = data.tradein_packages.find((x) => x.id === id);
+      if (!p) {
+        const err = new Error('Trade-in package not found.');
+        err.status = 404;
+        throw err;
+      }
+      if (p.cycle_status !== 'pending') {
+        const err = new Error(`Package is already ${p.cycle_status}.`);
+        err.status = 400;
+        throw err;
+      }
+      p.cycle_status = 'active';
+      p.start_date = nowIso();
+      p.approved_at = nowIso();
+      payTradeinReferrals(data, p.user_id, p.capital);
+      return p;
+    });
+    res.json({ ok: true, package: pkg });
+  } catch (err) {
+    if (err.status) return res.status(err.status).json({ error: err.message });
+    console.error(err);
+    res.status(500).json({ error: 'Failed to approve trade-in package.' });
+  }
+});
+
+app.post('/api/admin/tradein/:id/reject', auth, adminOnly, async (req, res) => {
+  const id = Number(req.params.id);
+  const reason = String(req.body.reason || '').trim();
+  try {
+    const pkg = await db.tx((data) => {
+      const p = data.tradein_packages.find((x) => x.id === id);
+      if (!p) {
+        const err = new Error('Trade-in package not found.');
+        err.status = 404;
+        throw err;
+      }
+      if (p.cycle_status !== 'pending') {
+        const err = new Error(`Package is already ${p.cycle_status}.`);
+        err.status = 400;
+        throw err;
+      }
+      p.cycle_status = 'rejected';
+      p.rejected_at = nowIso();
+      p.reject_reason = reason || 'Payment could not be verified.';
+      p.rejection_reason = p.reject_reason;
+      return p;
+    });
+    res.json({ ok: true, package: pkg });
+  } catch (err) {
+    if (err.status) return res.status(err.status).json({ error: err.message });
+    console.error(err);
+    res.status(500).json({ error: 'Failed to reject trade-in package.' });
+  }
 });
 
 app.get('/api/admin/withdrawals', auth, adminOnly, (_req, res) => {
