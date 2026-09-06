@@ -1,27 +1,34 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Infinite Trading — Building Your Future, Beyond Limits</title>
-  <meta name="description" content="Infinite Trading — Join the Binary Program with a ₱300 entry, or invest in the Trade-In Program for 120% ROI in 12 days. Earn referral commissions on 4 levels." />
+  <meta name="description"
+    content="Infinite Trading — Join the Binary Program with a ₱300 entry, or invest in the Trade-In Program for 120% ROI in 12 days. Earn referral commissions on 4 levels." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Sora:wght@400;500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="/styles.css" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Sora:wght@300;400;500;600;700;800&display=swap"
+    rel="stylesheet" />
+  <link rel="stylesheet" href="/styles.css?v=20260903b" />
 </head>
+
 <body class="landing">
-  <!-- Animated background orbs -->
-  <div class="orbs">
-    <span></span>
-    <span></span>
-    <span></span>
+  <!-- Animated ambient background mesh orbs & kinetic canvas -->
+  <div class="orbs" aria-hidden="true">
+    <canvas id="kineticCanvas" class="kinetic-canvas"></canvas>
+    <span class="orb-1"></span>
+    <span class="orb-2"></span>
+    <span class="orb-3"></span>
   </div>
 
-  <!-- Cursor glow -->
+  <!-- Cursor glow effect -->
   <div class="cursor-glow" id="cursorGlow"></div>
 
-  <!-- Scrolling ticker -->
-  <div class="ticker">
+  <!-- Top Real-Time Highlight Bar -->
+  <aside class="ticker" aria-label="System Highlights">
     <div class="ticker-track" id="tickerTrack">
       <span>✦ Entry Fee ₱300</span>
       <span>✦ Binary Cap ₱3,000</span>
@@ -48,47 +55,884 @@
       <span>✦ L2 Ref 5% · L3 Ref 3% · L4 Ref 2%</span>
       <span>✦ Min Withdrawal ₱100</span>
     </div>
-  </div>
+  </aside>
 
-  <main class="wrap">
-    <section class="hero">
-      <div class="hero-logo reveal d1">
-        <img src="/images/site-logo.png" alt="Infinite Trading — Building Your Future, Beyond Limits." />
+  <!-- Sticky Glassmorphic Navbar -->
+  <header class="land-header" id="landHeader">
+    <div class="wrap land-nav-wrap">
+      <a href="#" class="land-brand" aria-label="Infinite Trading Home">
+        <img src="/images/site-logo.png" alt="Infinite Trading Logo" class="land-brand-logo" />
+      </a>
+
+      <nav class="land-nav-menu" id="landNavMenu" aria-label="Main Navigation">
+        <a href="#programs" class="nav-link">Programs</a>
+        <a href="#calculator" class="nav-link">ROI Calculator</a>
+        <a href="#binary-demo" class="nav-link">Tree Demo</a>
+        <a href="#how-it-works" class="nav-link">How It Works</a>
+        <a href="#gateways" class="nav-link">Gateways</a>
+        <a href="#faq" class="nav-link">FAQ</a>
+      </nav>
+
+      <div class="land-nav-actions">
+        <button class="btn btn-ghost btn-sm land-btn-plan" type="button" data-open-plan id="navViewPlan">
+          <span class="icon-spark">✦</span> Compensation Plan
+        </button>
+        <a href="/login.html" class="btn btn-ghost btn-sm" id="navLogin">Login</a>
+        <a href="/register.html" class="btn btn-sm btn-primary-glow" id="navRegister">Register</a>
+        <button class="mobile-toggle" id="mobileNavToggle" aria-label="Toggle Navigation Menu">
+          <span></span><span></span><span></span>
+        </button>
       </div>
-      <div>
-        <p class="kicker"><span class="pulse-dot"></span>Premier platform for financial growth</p>
-        <h1 class="reveal d2" style="font-size: clamp(30px, 4vw, 46px); margin: 8px 0 14px; line-height: 1.15;">Building Your Future,<br>Beyond Limits.</h1>
-        <p class="lede reveal d3">Bridging traditional and modern trading. Start with a ₱300 entry in the Binary Program or invest in the Trade-In Program for a <strong>120% return in 12 days</strong>.</p>
-        <div class="cta reveal d4">
-          <a class="btn" href="/register.html" id="ctaRegister">Register Now</a>
-          <a class="btn btn-ghost" href="/login.html" id="ctaLogin">Login</a>
-          <button class="btn btn-ghost" type="button" data-open-plan id="ctaViewPlan">View compensation plan</button>
+    </div>
+  </header>
+
+  <main>
+    <!-- HERO SECTION -->
+    <section class="wrap land-hero-section">
+      <div class="hero">
+        <!-- 3D Interactive Logo Display -->
+        <div class="hero-logo-wrapper reveal d1" id="heroLogoContainer">
+          <div class="hero-logo-card" id="hero3DCard">
+            <img src="/images/site-logo.png" alt="Infinite Trading Emblem" class="hero-main-img" />
+          </div>
         </div>
 
-        <div class="stats-band reveal d5">
-          <div class="stat"><span class="tiny">Entry</span><b>₱300</b></div>
-          <div class="stat"><span class="tiny">Binary cap</span><b>₱3,000</b></div>
-          <div class="stat"><span class="tiny">Trade-in min</span><b>₱1,000</b></div>
-          <div class="stat"><span class="tiny">ROI</span><b>120%</b></div>
+        <!-- Hero Content -->
+        <div class="hero-content">
+          <div class="kicker-pill reveal d1">
+            <span class="pulse-dot"></span>
+            <span>PREMIER PLATFORM FOR FINANCIAL ACCELERATION</span>
+          </div>
+
+          <h1 class="reveal d2 hero-title">
+            Building Your Future,<br>
+            <span class="gradient-text">Beyond Limits.</span>
+          </h1>
+
+          <p class="lede reveal d3">
+            Bridging traditional network matrix dynamics with automated trade-in yield. Start with a <strong>₱300
+              entry</strong> in the Binary Matrix or accelerate your capital with a <strong>120% ROI in 12
+              days</strong>.
+          </p>
+
+          <div class="cta reveal d4">
+            <a class="btn btn-primary-glow btn-lg" href="/register.html" id="ctaRegister">
+              <span>Create Account</span>
+              <span class="btn-arrow">➔</span>
+            </a>
+            <a class="btn btn-ghost btn-lg" href="#calculator" id="ctaCalcQuick">
+              <span>Try ROI Calculator</span>
+            </a>
+            <button class="btn btn-ghost btn-lg" type="button" data-open-plan id="ctaViewPlan">
+              <span>Compensation Plan</span>
+            </button>
+          </div>
+
+          <!-- Quick Stat Badges -->
+          <div class="stats-band reveal d5">
+            <div class="stat stat-interactive" data-tooltip="₱300 one-time code to activate binary">
+              <span class="tiny">Entry Fee</span>
+              <b class="kpi-counter" data-count="300" data-prefix="₱">₱300</b>
+              <span class="stat-sub">Instant Matrix</span>
+            </div>
+            <div class="stat stat-interactive" data-tooltip="Earn up to ₱3,000 gross before ₱300 renewal">
+              <span class="tiny">Binary Cap</span>
+              <b class="kpi-counter" data-count="3000" data-prefix="₱">₱3,000</b>
+              <span class="stat-sub">Max Gross/Cycle</span>
+            </div>
+            <div class="stat stat-interactive" data-tooltip="Minimum deposit for Trade-In yield">
+              <span class="tiny">Trade-in Min</span>
+              <b class="kpi-counter" data-count="1000" data-prefix="₱">₱1,000</b>
+              <span class="stat-sub">Passive Growth</span>
+            </div>
+            <div class="stat stat-interactive" data-tooltip="Total return over 12 days paid every 3 days">
+              <span class="tiny">Trade-in ROI</span>
+              <b class="kpi-counter" data-count="120" data-suffix="%">120%</b>
+              <span class="stat-sub">In 12 Days</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- LIVE PLATFORM STREAM BAR (Social Proof / Engagement) -->
+    <section class="live-activity-bar">
+      <div class="wrap live-stream-inner">
+        <div class="live-stream-badge">
+          <span class="live-indicator"></span>
+          <span>LIVE ACTIVITY</span>
+        </div>
+        <div class="live-stream-content" id="liveStreamText">
+          <span class="stream-icon">⚡</span>
+          <span class="stream-msg" id="streamMessage">0917***892 earned ₱50 pairing bonus in Binary Tree</span>
+          <span class="stream-time" id="streamTime">Just now</span>
+        </div>
+        <div class="live-stream-stats">
+          <span>Active Today: <strong class="kpi-counter" data-count="1480" data-suffix="+ Members">1,480+
+              Members</strong></span>
+          <span>•</span>
+          <span>Total Paid: <strong class="kpi-counter" data-count="1840000" data-prefix="₱"
+              data-suffix="+">₱1,840,000+</strong></span>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 1: DUAL GROWTH PROGRAMS -->
+    <section class="wrap section-pad" id="programs">
+      <div class="sec-header text-center reveal">
+        <p class="kicker">TWO POWERFUL WEALTH ENGINES</p>
+        <h2 class="sec-title">Choose Your Path to Profit</h2>
+        <p class="sec-lede">Whether you want to build a thriving network or earn passive capital yield every 3 days,
+          Infinite Trading provides automated earning engines for both.</p>
+      </div>
+
+      <div class="dual-track-grid">
+        <!-- Track 1: Binary Matrix -->
+        <article class="panel card track-card reveal d1">
+          <div class="track-header">
+            <div class="track-icon-wrap icon-binary">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="5" r="3" />
+                <circle cx="6" cy="19" r="3" />
+                <circle cx="18" cy="19" r="3" />
+                <path d="M12 8v4M6 16v-2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v2" />
+              </svg>
+            </div>
+            <div>
+              <span class="track-tag tag-jade">Active Networking</span>
+              <h3 class="track-title">Binary Matrix Accelerator</h3>
+            </div>
+          </div>
+
+          <p class="track-desc">
+            Activate with a single <strong>₱300 code</strong> and unlock binary pairing bonuses plus 4-level direct and
+            indirect referral income.
+          </p>
+
+          <div class="track-metrics">
+            <div class="metric-row">
+              <span class="metric-label">Entry Capital</span>
+              <span class="metric-val">₱300</span>
+            </div>
+            <div class="metric-row">
+              <span class="metric-label">Direct Referral</span>
+              <span class="metric-val text-green">+₱50 / referral</span>
+            </div>
+            <div class="metric-row">
+              <span class="metric-label">Indirect Bonus (L2–L4)</span>
+              <span class="metric-val">+₱5 per member</span>
+            </div>
+            <div class="metric-row">
+              <span class="metric-label">Pairing Match Bonus</span>
+              <span class="metric-val text-gold">+₱50 / pair</span>
+            </div>
+            <div class="metric-row">
+              <span class="metric-label">Daily Pairing Limit</span>
+              <span class="metric-val">10 Pairs (₱500/day)</span>
+            </div>
+            <div class="metric-row">
+              <span class="metric-label">Account Cap Limit</span>
+              <span class="metric-val">₱3,000 gross per code</span>
+            </div>
+          </div>
+
+          <div class="track-cta">
+            <a href="#binary-demo" class="btn btn-ghost w-100">Try Binary Simulator ➔</a>
+          </div>
+        </article>
+
+        <!-- Track 2: Trade-In Capital Yield -->
+        <article class="panel card track-card track-card-featured reveal d2">
+          <div class="featured-ribbon">POPULAR &amp; PASSIVE</div>
+          <div class="track-header">
+            <div class="track-icon-wrap icon-tradein">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
+              </svg>
+            </div>
+            <div>
+              <span class="track-tag tag-gold">Passive Investment</span>
+              <h3 class="track-title">Trade-In Capital Yield</h3>
+            </div>
+          </div>
+
+          <p class="track-desc">
+            Deposit capital into verified trade-in pools and collect automated payouts <strong>every 3 days</strong> for
+            a total of <strong>120% return in 12 days</strong>.
+          </p>
+
+          <div class="track-metrics">
+            <div class="metric-row">
+              <span class="metric-label">Minimum Investment</span>
+              <span class="metric-val">₱1,000</span>
+            </div>
+            <div class="metric-row">
+              <span class="metric-label">Total ROI</span>
+              <span class="metric-val text-gold font-bold">120% in 12 Days</span>
+            </div>
+            <div class="metric-row">
+              <span class="metric-label">Payout Schedule</span>
+              <span class="metric-val text-green">Every 3 Days (4 Cycles)</span>
+            </div>
+            <div class="metric-row">
+              <span class="metric-label">Example (₱1,000 pkg)</span>
+              <span class="metric-val">₱300 × 4 = ₱1,200 total</span>
+            </div>
+            <div class="metric-row">
+              <span class="metric-label">Level 1 Commission</span>
+              <span class="metric-val text-green">10% on Downline Capital</span>
+            </div>
+            <div class="metric-row">
+              <span class="metric-label">Levels 2 / 3 / 4</span>
+              <span class="metric-val">5% / 3% / 2%</span>
+            </div>
+          </div>
+
+          <div class="track-cta">
+            <a href="#calculator" class="btn btn-primary-glow w-100">Calculate Your Returns ➔</a>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- SECTION 2: INTERACTIVE MULTI-PROGRAM ROI & PROFIT CALCULATOR -->
+    <section class="wrap section-pad" id="calculator">
+      <div class="panel card calc-master-panel reveal">
+        <div class="calc-top-header">
+          <div>
+            <p class="kicker">INTERACTIVE SIMULATION</p>
+            <h2 class="sec-title" style="margin: 4px 0 8px;">Dynamic Earnings Calculator</h2>
+            <p class="sec-lede">Select your program, adjust the sliders, and see your exact payout projections in
+              real-time.</p>
+          </div>
+          <div class="calc-nav-tabs" role="tablist">
+            <button type="button" class="calc-tab-btn active" data-calc-tab="tradein">
+              <span class="calc-tab-icon">📈</span> Trade-In Passive Yield
+            </button>
+            <button type="button" class="calc-tab-btn" data-calc-tab="binary">
+              <span class="calc-tab-icon">🌳</span> Binary &amp; Referrals
+            </button>
+          </div>
+        </div>
+
+        <!-- TAB 1: TRADE-IN CALCULATOR -->
+        <div class="calc-pane active" id="calcPaneTradein">
+          <div class="calc-grid">
+            <div class="calc-inputs-col">
+              <div class="calc-control-group">
+                <div class="calc-label-row">
+                  <label for="tradeinSlider" class="calc-label">Your Capital Investment</label>
+                  <span class="calc-value-pill" id="tradeinCapitalDisplay">₱5,000</span>
+                </div>
+                <input type="range" id="tradeinSlider" min="1000" max="50000" step="500" value="5000"
+                  class="custom-range" />
+                <div class="calc-range-ticks">
+                  <span>₱1,000 (Min)</span>
+                  <span>₱25,000</span>
+                  <span>₱50,000 (Max)</span>
+                </div>
+              </div>
+
+              <!-- Quick Presets -->
+              <div class="calc-presets">
+                <span class="tiny-label">Quick amounts:</span>
+                <div class="preset-buttons">
+                  <button type="button" class="btn-preset" data-preset="1000">₱1,000</button>
+                  <button type="button" class="btn-preset" data-preset="3000">₱3,000</button>
+                  <button type="button" class="btn-preset active" data-preset="5000">₱5,000</button>
+                  <button type="button" class="btn-preset" data-preset="10000">₱10,000</button>
+                  <button type="button" class="btn-preset" data-preset="20000">₱20,000</button>
+                  <button type="button" class="btn-preset" data-preset="50000">₱50,000</button>
+                </div>
+              </div>
+
+              <!-- Downline Invites Slider -->
+              <div class="calc-control-group" style="margin-top: 24px;">
+                <div class="calc-label-row">
+                  <label for="directInvitesSlider" class="calc-label">Direct Referrals Capital (Optional)</label>
+                  <span class="calc-value-pill" id="directInvitesDisplay">₱10,000 Team Cap</span>
+                </div>
+                <input type="range" id="directInvitesSlider" min="0" max="100000" step="1000" value="10000"
+                  class="custom-range range-gold" />
+                <div class="calc-range-ticks">
+                  <span>₱0 (Solo)</span>
+                  <span>₱50,000</span>
+                  <span>₱100,000</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Trade-In Result Display -->
+            <div class="calc-outputs-col">
+              <div class="result-card-main">
+                <div class="result-hero-row">
+                  <div>
+                    <span class="result-tag">TOTAL RETURN (12 DAYS)</span>
+                    <div class="result-big-number" id="tradeinTotalReturn">₱6,000</div>
+                  </div>
+                  <div class="roi-badge-circle">
+                    <span class="roi-pct">+20%</span>
+                    <span class="roi-sub">NET PROFIT</span>
+                  </div>
+                </div>
+
+                <div class="result-breakdown-grid">
+                  <div class="res-item">
+                    <span class="res-lbl">Cycle Payout (Every 3 Days)</span>
+                    <b class="res-val text-green" id="tradeinCyclePayout">₱1,500</b>
+                    <span class="res-note">4 equal cycles</span>
+                  </div>
+                  <div class="res-item">
+                    <span class="res-lbl">Pure Net Profit</span>
+                    <b class="res-val text-gold" id="tradeinNetProfit">+₱1,000</b>
+                    <span class="res-note">Gain above principal</span>
+                  </div>
+                  <div class="res-item">
+                    <span class="res-lbl">Level 1 Commission (10%)</span>
+                    <b class="res-val" id="tradeinL1Bonus">₱1,000</b>
+                    <span class="res-note">From your direct team</span>
+                  </div>
+                  <div class="res-item">
+                    <span class="res-lbl">Combined Total Earnings</span>
+                    <b class="res-val text-green" id="tradeinGrandTotal">₱7,000</b>
+                    <span class="res-note">Yield + Referrals</span>
+                  </div>
+                </div>
+
+                <!-- 12-Day Visual Cycle Milestones -->
+                <div class="cycle-timeline">
+                  <div class="timeline-title">Automated Payout Timeline:</div>
+                  <div class="timeline-steps">
+                    <div class="t-step active">
+                      <div class="t-dot">1</div>
+                      <span class="t-day">Day 3</span>
+                      <span class="t-amt" id="tAmt1">₱1,500</span>
+                    </div>
+                    <div class="t-line"></div>
+                    <div class="t-step active">
+                      <div class="t-dot">2</div>
+                      <span class="t-day">Day 6</span>
+                      <span class="t-amt" id="tAmt2">₱1,500</span>
+                    </div>
+                    <div class="t-line"></div>
+                    <div class="t-step active">
+                      <div class="t-dot">3</div>
+                      <span class="t-day">Day 9</span>
+                      <span class="t-amt" id="tAmt3">₱1,500</span>
+                    </div>
+                    <div class="t-line"></div>
+                    <div class="t-step active t-final">
+                      <div class="t-dot">★</div>
+                      <span class="t-day">Day 12</span>
+                      <span class="t-amt" id="tAmt4">₱1,500</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="calc-action-bar">
+                  <a href="/register.html" class="btn btn-primary-glow w-100">Activate This Trade-In Package ➔</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- TAB 2: BINARY & REFERRALS CALCULATOR -->
+        <div class="calc-pane" id="calcPaneBinary">
+          <div class="calc-grid">
+            <div class="calc-inputs-col">
+              <!-- Direct Referrals -->
+              <div class="calc-control-group">
+                <div class="calc-label-row">
+                  <label for="binDirectSlider" class="calc-label">Direct Referrals (Level 1)</label>
+                  <span class="calc-value-pill" id="binDirectDisplay">6 Members</span>
+                </div>
+                <input type="range" id="binDirectSlider" min="0" max="40" step="1" value="6" class="custom-range" />
+                <div class="calc-range-ticks">
+                  <span>0 Members</span>
+                  <span>20 Members</span>
+                  <span>40 Members</span>
+                </div>
+              </div>
+
+              <!-- Indirect Team Members -->
+              <div class="calc-control-group" style="margin-top: 18px;">
+                <div class="calc-label-row">
+                  <label for="binIndirectSlider" class="calc-label">Indirect Team (Levels 2–4)</label>
+                  <span class="calc-value-pill" id="binIndirectDisplay">30 Members</span>
+                </div>
+                <input type="range" id="binIndirectSlider" min="0" max="200" step="5" value="30" class="custom-range" />
+                <div class="calc-range-ticks">
+                  <span>0 Members</span>
+                  <span>100 Members</span>
+                  <span>200 Members</span>
+                </div>
+              </div>
+
+              <!-- Daily Matches Pairs -->
+              <div class="calc-control-group" style="margin-top: 18px;">
+                <div class="calc-label-row">
+                  <label for="binPairSlider" class="calc-label">Daily Binary Pairs (Left/Right Match)</label>
+                  <span class="calc-value-pill" id="binPairDisplay">4 Pairs / Day</span>
+                </div>
+                <input type="range" id="binPairSlider" min="0" max="10" step="1" value="4"
+                  class="custom-range range-gold" />
+                <div class="calc-range-ticks">
+                  <span>0 Pairs</span>
+                  <span>5 Pairs</span>
+                  <span>10 Pairs (Max Cap)</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Binary Output Display -->
+            <div class="calc-outputs-col">
+              <div class="result-card-main">
+                <div class="result-hero-row">
+                  <div>
+                    <span class="result-tag">TOTAL PROJECTED BINARY INCOME</span>
+                    <div class="result-big-number" id="binTotalEarnings">₱1,850</div>
+                  </div>
+                  <div class="roi-badge-circle">
+                    <span class="roi-pct" id="binDailyRate">₱200</span>
+                    <span class="roi-sub">PER DAY</span>
+                  </div>
+                </div>
+
+                <div class="result-breakdown-grid">
+                  <div class="res-item">
+                    <span class="res-lbl">Direct Referral Income</span>
+                    <b class="res-val text-green" id="binDirectIncome">₱300</b>
+                    <span class="res-note">₱50 per direct</span>
+                  </div>
+                  <div class="res-item">
+                    <span class="res-lbl">Indirect Referral Income</span>
+                    <b class="res-val text-green" id="binIndirectIncome">₱150</b>
+                    <span class="res-note">₱5 per indirect (L2–L4)</span>
+                  </div>
+                  <div class="res-item">
+                    <span class="res-lbl">Pairing Matches (7 Days)</span>
+                    <b class="res-val text-gold" id="binPairIncome">₱1,400</b>
+                    <span class="res-note">₱50 × 4 pairs × 7 days</span>
+                  </div>
+                  <div class="res-item">
+                    <span class="res-lbl">Account Cap Progress</span>
+                    <b class="res-val" id="binCapProgress">61.6% (₱1,850 / ₱3,000)</b>
+                    <span class="res-note">Renews at ₱3,000</span>
+                  </div>
+                </div>
+
+                <!-- Cap Progress Meter -->
+                <div class="cap-meter-wrap">
+                  <div class="cap-meter-label">
+                    <span>₱3,000 Gross Cap Meter:</span>
+                    <span id="capMeterText">₱1,850 / ₱3,000</span>
+                  </div>
+                  <div class="cap-meter-track">
+                    <div class="cap-meter-fill" id="capMeterFill" style="width: 61.6%;"></div>
+                  </div>
+                </div>
+
+                <div class="calc-action-bar">
+                  <a href="/register.html" class="btn btn-primary-glow w-100">Start Binary Matrix with ₱300 ➔</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 3: INTERACTIVE BINARY TREE MATCHING SIMULATOR -->
+    <section class="wrap section-pad" id="binary-demo">
+      <div class="sec-header text-center reveal">
+        <p class="kicker">HOW THE PAIRING BONUS WORKS</p>
+        <h2 class="sec-title">Interactive Binary Tree Simulator</h2>
+        <p class="sec-lede">Experience how 1 Left + 1 Right automatically pairs into a <strong>₱50 bonus</strong>. Click
+          the buttons to add members to your left and right branches!</p>
+      </div>
+
+      <div class="panel card tree-demo-card reveal">
+        <div class="tree-controls-bar">
+          <div class="tree-stat-pill pill-left">
+            <span class="tree-pill-label">Left Team</span>
+            <b class="tree-pill-val" id="treeLeftCount">0</b>
+          </div>
+          <div class="tree-stat-pill pill-right">
+            <span class="tree-pill-label">Right Team</span>
+            <b class="tree-pill-val" id="treeRightCount">0</b>
+          </div>
+          <div class="tree-stat-pill pill-gold">
+            <span class="tree-pill-label">Pairs Matched</span>
+            <b class="tree-pill-val" id="treePairCount">0</b>
+          </div>
+          <div class="tree-stat-pill pill-earnings">
+            <span class="tree-pill-label">Simulated Earnings</span>
+            <b class="tree-pill-val text-green" id="treeEarnings">₱0</b>
+          </div>
+        </div>
+
+        <!-- Visual Animated Tree Container -->
+        <div class="tree-visual-container">
+          <!-- Root Node (You) -->
+          <div class="tree-root-row">
+            <div class="tree-node node-you">
+              <div class="node-avatar">👤</div>
+              <div class="node-title">YOU</div>
+              <div class="node-sub">₱300 Active</div>
+            </div>
+          </div>
+
+          <!-- Tree Branch Connectors -->
+          <div class="tree-branch-lines">
+            <div class="line-left"></div>
+            <div class="line-stem"></div>
+            <div class="line-right"></div>
+          </div>
+
+          <!-- Level 1 Nodes & Dynamic Queue -->
+          <div class="tree-children-row">
+            <!-- Left Side Node -->
+            <div class="tree-branch-col left-col">
+              <div class="tree-node node-child node-left" id="nodeLeftBox">
+                <div class="node-avatar">⬅️</div>
+                <div class="node-title">LEFT TEAM</div>
+                <div class="node-sub" id="leftQueueText">0 Waiting</div>
+              </div>
+              <div class="tree-btn-wrap">
+                <button type="button" class="btn btn-sm btn-ghost" id="btnAddLeft">
+                  <span>+ Add Left (₱300)</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Center Match Animation Zone -->
+            <div class="tree-center-match-zone">
+              <div class="pair-match-burst" id="pairBurst">
+                <span class="burst-icon">⚡</span>
+                <span class="burst-text">PAIR MATCHED!</span>
+                <span class="burst-val">+₱50</span>
+              </div>
+            </div>
+
+            <!-- Right Side Node -->
+            <div class="tree-branch-col right-col">
+              <div class="tree-node node-child node-right" id="nodeRightBox">
+                <div class="node-avatar">➡️</div>
+                <div class="node-title">RIGHT TEAM</div>
+                <div class="node-sub" id="rightQueueText">0 Waiting</div>
+              </div>
+              <div class="tree-btn-wrap">
+                <button type="button" class="btn btn-sm btn-ghost" id="btnAddRight">
+                  <span>+ Add Right (₱300)</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tree Simulator Extra Actions -->
+        <div class="tree-footer-actions">
+          <button type="button" class="btn btn-preset" id="btnAutoSimulate">
+            <span>✨ Auto-Match 5 Pairs</span>
+          </button>
+          <button type="button" class="btn btn-preset" id="btnResetTree">
+            <span>🔄 Reset Tree</span>
+          </button>
+          <span class="tree-info-text">
+            💡 No flash out! Carry-over left/right balances persist indefinitely until matched. Max 10 pairs/day.
+          </span>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 4: 3-STEP JOURNEY -->
+    <section class="wrap section-pad" id="how-it-works">
+      <div class="sec-header text-center reveal">
+        <p class="kicker">FAST &amp; STREAMLINED ONBOARDING</p>
+        <h2 class="sec-title">Start Earning in 3 Simple Steps</h2>
+        <p class="sec-lede">Join thousands of verified members building wealth across the Philippines.</p>
+      </div>
+
+      <div class="steps-journey-grid">
+        <article class="panel card step-journey-card reveal d1">
+          <div class="step-card-num">01</div>
+          <div class="step-card-icon">📱</div>
+          <h3>Quick Registration</h3>
+          <p>Create your account using your mobile number and your sponsor's sponsor mobile. Activate with your
+            <strong>₱300 entry code</strong>.
+          </p>
+          <span class="step-pill">Instant Access</span>
+        </article>
+
+        <article class="panel card step-journey-card reveal d2">
+          <div class="step-card-num">02</div>
+          <div class="step-card-icon">🚀</div>
+          <h3>Choose Growth Engine</h3>
+          <p>Build your Left &amp; Right binary tree for <strong>₱50 pairing matches</strong>, or deposit capital into
+            <strong>Trade-In (120% in 12 days)</strong>.
+          </p>
+          <span class="step-pill">Automated System</span>
+        </article>
+
+        <article class="panel card step-journey-card reveal d3">
+          <div class="step-card-num">03</div>
+          <div class="step-card-icon">💳</div>
+          <h3>Multi-Wallet Cashout</h3>
+          <p>Collect payouts in your 3 dedicated wallets and withdraw seamlessly to <strong>GCash, Maya, GoTyme,
+              MariBank, or UnionBank</strong>.</p>
+          <span class="step-pill">Min ₱100 Cashout</span>
+        </article>
+      </div>
+    </section>
+
+    <!-- SECTION 5: SUPPORTED PAYMENT GATEWAYS -->
+    <section class="wrap section-pad" id="gateways">
+      <div class="sec-header text-center reveal">
+        <p class="kicker">TRUSTED PAYOUT CHANNELS</p>
+        <h2 class="sec-title">Supported Payment &amp; Cashout Methods</h2>
+        <p class="sec-lede">Direct integration with the Philippines' leading e-wallets and banks for fast, transparent
+          withdrawals.</p>
+      </div>
+
+      <div class="gateways-grid reveal">
+        <div class="gateway-card">
+          <img src="/images/GCash.png" alt="GCash" class="gw-logo" />
+          <span class="gw-name">GCash</span>
+          <span class="gw-badge">Instant E-Wallet</span>
+        </div>
+        <div class="gateway-card">
+          <img src="/images/Maya.png" alt="Maya" class="gw-logo" />
+          <span class="gw-name">Maya</span>
+          <span class="gw-badge">Digital Bank</span>
+        </div>
+        <div class="gateway-card">
+          <img src="/images/Gotyme.png" alt="GoTyme Bank" class="gw-logo" />
+          <span class="gw-name">GoTyme Bank</span>
+          <span class="gw-badge">Fast Settlement</span>
+        </div>
+        <div class="gateway-card">
+          <img src="/images/Maribank.png" alt="MariBank" class="gw-logo" />
+          <span class="gw-name">MariBank</span>
+          <span class="gw-badge">Zero Hassle</span>
+        </div>
+        <div class="gateway-card">
+          <img src="/images/UnionBank.png" alt="UnionBank" class="gw-logo" />
+          <span class="gw-name">UnionBank</span>
+          <span class="gw-badge">Commercial Bank</span>
+        </div>
+      </div>
+
+      <div class="panel card fee-tier-panel reveal">
+        <div class="fee-tier-grid">
+          <div class="fee-col">
+            <span class="fee-range">₱100 – ₱1,000</span>
+            <b class="fee-pct text-gold">12% Fee</b>
+            <span class="fee-sub">Standard Processing</span>
+          </div>
+          <div class="fee-col">
+            <span class="fee-range">₱1,001 – ₱5,000</span>
+            <b class="fee-pct text-green">10% Fee</b>
+            <span class="fee-sub">Growth Tier</span>
+          </div>
+          <div class="fee-col">
+            <span class="fee-range">₱5,001 &amp; Above</span>
+            <b class="fee-pct text-green font-bold">8% Fee</b>
+            <span class="fee-sub">VIP Lowest Fee</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 6: SEARCHABLE FAQ ACCORDION -->
+    <section class="wrap section-pad" id="faq">
+      <div class="sec-header text-center reveal">
+        <p class="kicker">FREQUENTLY ASKED QUESTIONS</p>
+        <h2 class="sec-title">Clear Answers to Everything</h2>
+        <p class="sec-lede">Have questions about registration, pairing cycles, or payouts? Find quick answers below.</p>
+      </div>
+
+      <div class="faq-wrapper reveal">
+        <!-- Search bar for FAQs -->
+        <div class="faq-search-box">
+          <span class="faq-search-icon">🔍</span>
+          <input type="text" id="faqSearchInput"
+            placeholder="Search questions (e.g. ROI, binary cap, withdrawal, codes)..." aria-label="Search FAQ" />
+        </div>
+
+        <div class="faq-accordion" id="faqAccordion">
+          <!-- Item 1 -->
+          <div class="faq-item" data-keywords="entry code binary activation register 300">
+            <button type="button" class="faq-question">
+              <span>What is the ₱300 entry fee and how do I activate my account?</span>
+              <span class="faq-toggle-icon">+</span>
+            </button>
+            <div class="faq-answer">
+              <p>The ₱300 entry fee is a one-time activation code required during registration. It instantly opens your
+                binary network position and qualifies you for direct referral bonuses (₱50), indirect bonuses (₱5 for
+                L2–L4), and binary pairing matches (₱50/pair).</p>
+            </div>
+          </div>
+
+          <!-- Item 2 -->
+          <div class="faq-item" data-keywords="trade in tradein roi 120 12 days payout cycle 3 days">
+            <button type="button" class="faq-question">
+              <span>How does the Trade-In Program and the 120% ROI work?</span>
+              <span class="faq-toggle-icon">+</span>
+            </button>
+            <div class="faq-answer">
+              <p>The Trade-In Program is an automated passive growth pool. You invest a minimum of ₱1,000 to receive a
+                total return of 120% (including original capital) over 12 days. Payouts are credited to your Trade-In
+                Cycle wallet every 3 days (4 equal cycles of 30% each).</p>
+            </div>
+          </div>
+
+          <!-- Item 3 -->
+          <div class="faq-item" data-keywords="binary cap 3000 limit renewal code expire">
+            <button type="button" class="faq-question">
+              <span>What is the ₱3,000 Binary Cap and how do renewals work?</span>
+              <span class="faq-toggle-icon">+</span>
+            </button>
+            <div class="faq-answer">
+              <p>To ensure system sustainability, every active binary account has a gross earning cap of ₱3,000. Once
+                your account reaches ₱3,000 in total binary matching and referral earnings, the account expires and can
+                be seamlessly reactivated with a fresh ₱300 renewal code to continue receiving matches.</p>
+            </div>
+          </div>
+
+          <!-- Item 4 -->
+          <div class="faq-item" data-keywords="pairing bonus match 50 10 pairs daily limit flash out">
+            <button type="button" class="faq-question">
+              <span>Is there a daily pairing limit or flash-out?</span>
+              <span class="faq-toggle-icon">+</span>
+            </button>
+            <div class="faq-answer">
+              <p>You can earn a maximum of 10 pairs per day (₱500/day max). There is <strong>no 5th-pair
+                  deduction</strong> and <strong>no flash-out</strong>. Any leftover points on your strong leg carry
+                over automatically to the next day!</p>
+            </div>
+          </div>
+
+          <!-- Item 5 -->
+          <div class="faq-item" data-keywords="wallets 3 wallet binary referral trade in cycle yield">
+            <button type="button" class="faq-question">
+              <span>How does the 3-wallet system work?</span>
+              <span class="faq-toggle-icon">+</span>
+            </button>
+            <div class="faq-answer">
+              <p>Infinite Trading separates your earnings for 100% transparency:<br>
+                • <strong>Wallet 1 (Binary &amp; Referral):</strong> Direct bonuses (₱50), indirect (₱5), and pairing
+                bonuses (₱50).<br>
+                • <strong>Wallet 2 (Trade-In Referral):</strong> Commissions from downline Trade-In capital
+                (10%/5%/3%/2%).<br>
+                • <strong>Wallet 3 (Trade-In Cycle Yield):</strong> Every 3-day passive payout from your active Trade-In
+                investments.</p>
+            </div>
+          </div>
+
+          <!-- Item 6 -->
+          <div class="faq-item" data-keywords="withdrawal fee minimum 100 gcash maya bank schedule">
+            <button type="button" class="faq-question">
+              <span>What are the withdrawal minimums and processing fees?</span>
+              <span class="faq-toggle-icon">+</span>
+            </button>
+            <div class="faq-answer">
+              <p>The minimum withdrawal is only ₱100 per request. Processing fees are tiered to reward larger
+                withdrawals: 12% for ₱100–₱1,000; 10% for ₱1,001–₱5,000; and only 8% for ₱5,001 and above. Payouts can
+                be sent to GCash, Maya, GoTyme, MariBank, or UnionBank.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- BOTTOM CTA BANNER -->
+    <section class="wrap section-pad">
+      <div class="panel card cta-banner-card reveal">
+        <div class="cta-banner-content text-center">
+          <p class="kicker">READY TO TAKE CONTROL OF YOUR INCOME?</p>
+          <h2 class="display" style="font-size: clamp(28px, 4vw, 42px); margin: 8px 0 16px;">
+            Join Infinite Trading Today.
+          </h2>
+          <p class="lede" style="margin: 0 auto 28px; max-width: 580px;">
+            Get started in under 2 minutes. Secure your position in the binary matrix or start your first 12-day
+            Trade-In investment cycle.
+          </p>
+          <div class="cta justify-center">
+            <a href="/register.html" class="btn btn-primary-glow btn-lg">
+              <span>Create Account Now</span>
+              <span class="btn-arrow">➔</span>
+            </a>
+            <button class="btn btn-ghost btn-lg" type="button" data-open-plan>
+              <span>View Full Compensation Plan</span>
+            </button>
+          </div>
         </div>
       </div>
     </section>
   </main>
 
-  <footer class="land-foot">
-    <span>© 2024 Infinite Trading · All rights reserved</span>
+  <!-- Comprehensive Footer -->
+  <footer class="site-foot">
+    <div class="wrap foot-grid">
+      <div>
+        <a href="#" class="land-brand">
+          <img src="/images/site-logo.png" alt="Infinite Trading" style="max-height: 48px; width: auto;" />
+        </a>
+        <p style="margin-top: 12px; max-width: 320px;">
+          Building Your Future, Beyond Limits. Next-generation hybrid platform combining binary network marketing and
+          automated capital yield.
+        </p>
+      </div>
+      <div>
+        <h4>Quick Navigation</h4>
+        <a href="#programs">Programs Overview</a>
+        <a href="#calculator">ROI Calculator</a>
+        <a href="#binary-demo">Tree Simulator</a>
+        <a href="#how-it-works">How It Works</a>
+        <a href="#faq">FAQ</a>
+      </div>
+      <div>
+        <h4>Programs</h4>
+        <a href="#" data-open-plan>Binary Matrix Plan</a>
+        <a href="#" data-open-plan>Trade-In 120% Yield</a>
+        <a href="#" data-open-plan>3-Wallet System</a>
+        <a href="#" data-open-plan>Referral Commissions</a>
+      </div>
+      <div>
+        <h4>Member Access</h4>
+        <a href="/login.html">Member Login</a>
+        <a href="/register.html">Create New Account</a>
+        <a href="/admin.html">Admin Portal</a>
+      </div>
+    </div>
+    <div class="copy">
+      <span>© 2024–2026 Infinite Trading · All rights reserved</span>
+      <span>Empowering financial freedom with automated transparency</span>
+    </div>
   </footer>
 
-  <!-- Compensation Plan Modal -->
+  <!-- Floating Quick Action Button -->
+  <aside class="floating-shortcuts">
+    <a href="#calculator" class="floating-shortcut-btn" title="Calculate Your ROI">
+      <span class="f-icon">⚡</span>
+      <span class="f-text">ROI Calc</span>
+    </a>
+    <button type="button" class="floating-top-btn" id="btnBackToTop" title="Back to Top" aria-label="Back to top">
+      ▲
+    </button>
+  </aside>
+
+  <!-- Compensation Plan Modal (Preserved & Enhanced) -->
   <div class="plan-modal" id="planModal" hidden>
     <div class="plan-modal-backdrop" data-close-plan></div>
     <div class="plan-modal-sheet" role="dialog" aria-modal="true" aria-labelledby="planTitle">
       <header class="plan-modal-head">
         <div>
-          <p class="kicker">Programs</p>
-          <h2 id="planTitle">Compensation plan</h2>
+          <p class="kicker">Complete Details</p>
+          <h2 id="planTitle">Compensation Plan</h2>
         </div>
-        <button class="plan-close" type="button" data-close-plan aria-label="Close">×</button>
+        <button class="plan-close" type="button" data-close-plan aria-label="Close modal">×</button>
       </header>
 
       <div class="plan-tabs" role="tablist">
@@ -103,20 +947,20 @@
         <section class="plan-pane on" id="tab-highlights">
           <div class="hl">
             <article class="panel card">
-              <h3>Low capital</h3>
-              <p>Only a ₱300 entry fee required to start an account.</p>
+              <h3>Low Capital</h3>
+              <p>Only a ₱300 entry fee required to start an account and participate in binary matching.</p>
             </article>
             <article class="panel card">
               <h3>Fast ROI</h3>
               <p>120% total return in the Trade-In Program within 12 days (payouts every 3 days).</p>
             </article>
             <article class="panel card">
-              <h3>3-wallet system</h3>
+              <h3>3-Wallet System</h3>
               <p>Separate management of binary, referral, and trade-in yield earnings.</p>
             </article>
             <article class="panel card">
-              <h3>Instant sign-up</h3>
-              <p>Register using only your mobile number and password — binary earnings start immediately.</p>
+              <h3>Instant Sign-up</h3>
+              <p>Register using your mobile number, password, and sponsor code — earnings begin immediately.</p>
             </article>
           </div>
           <div class="stats-band">
@@ -135,8 +979,10 @@
               <li><strong>Direct referral:</strong> ₱50 for every direct referral you bring in</li>
               <li><strong>Indirect referral:</strong> ₱5 from Level 2, Level 3, and Level 4 downlines</li>
               <li><strong>Pairing / matching:</strong> ₱50 per pair (1 Left + 1 Right in your binary tree)</li>
-              <li><strong>Daily pairing limit:</strong> Maximum 10 pairs per day (₱500 / day max). No 5th-pair deduction and no flash out.</li>
-              <li><strong>Binary income cap:</strong> Maximum ₱3,000 gross per account. At ₱3,000 the account expires and needs a ₱300 renewal code to reopen matching.</li>
+              <li><strong>Daily pairing limit:</strong> Maximum 10 pairs per day (₱500 / day max). No 5th-pair deduction
+                and no flash out.</li>
+              <li><strong>Binary income cap:</strong> Maximum ₱3,000 gross per account. At ₱3,000 the account expires
+                and needs a ₱300 renewal code to reopen matching.</li>
             </ul>
           </div>
         </section>
@@ -147,8 +993,10 @@
             <ul>
               <li><strong>Total return:</strong> 120% ROI (includes original capital) over 12 days</li>
               <li><strong>Minimum capital:</strong> ₱1,000 (yields ₱1,200 total in 12 days)</li>
-              <li><strong>Payout schedule:</strong> Every 3 days — ₱300 per cycle on a ₱1,000 package, across 4 cycles</li>
-              <li><strong>Expired account restriction:</strong> Account must be renewed (₱300 code) before accessing trade-in</li>
+              <li><strong>Payout schedule:</strong> Every 3 days — ₱300 per cycle on a ₱1,000 package, across 4 cycles
+              </li>
+              <li><strong>Expired account restriction:</strong> Account must be renewed (₱300 code) before accessing
+                trade-in</li>
               <li><strong>Downline commission</strong> (based on downline capital invested):
                 <ul>
                   <li>Level 1 (Direct): 10%</li>
@@ -162,22 +1010,22 @@
         </section>
 
         <section class="plan-pane" id="tab-wallets">
-          <h3>Earn in three wallets. Cash out by range.</h3>
+          <h3>Earn in Three Dedicated Wallets</h3>
           <div class="detail-grid">
             <article class="panel card">
-              <h3>Wallet 1 · Binary &amp; referral</h3>
+              <h3>Wallet 1 · Binary &amp; Referral</h3>
               <p>Direct ₱50, indirect ₱5 (L2–L4), and pairing ₱50 per match all flow into this wallet.</p>
             </article>
             <article class="panel card">
-              <h3>Wallet 2 · Trade-in referral</h3>
+              <h3>Wallet 2 · Trade-in Referral</h3>
               <p>Trade-in commissions on downline capital at Levels 1–4 (10/5/3/2%).</p>
             </article>
             <article class="panel card">
-              <h3>Wallet 3 · Trade-in cycle yield</h3>
+              <h3>Wallet 3 · Trade-in Cycle Yield</h3>
               <p>Every 3-day payout from your Trade-In investment — ₱300 per cycle on a ₱1,000 package.</p>
             </article>
             <article class="panel card">
-              <h3>Rules &amp; withdrawal fees</h3>
+              <h3>Rules &amp; Withdrawal Fees</h3>
               <p>Minimum ₱100 per request per wallet. Processing fee by amount:<br>
                 ₱100–₱1,000 = <strong>12%</strong><br>
                 ₱1,001–₱5,000 = <strong>10%</strong><br>
@@ -188,7 +1036,7 @@
         </section>
 
         <section class="plan-pane" id="tab-steps">
-          <h3>3 easy steps</h3>
+          <h3>3 Easy Steps</h3>
           <div class="steps">
             <article class="panel card">
               <p class="step-n">Step 01</p>
@@ -197,8 +1045,9 @@
             </article>
             <article class="panel card">
               <p class="step-n">Step 02</p>
-              <h3>Activate &amp; earn</h3>
-              <p>Receive referral and pairing bonuses immediately. Invest in Trade-In (min ₱1,000) for passive yield.</p>
+              <h3>Activate &amp; Earn</h3>
+              <p>Receive referral and pairing bonuses immediately. Invest in Trade-In (min ₱1,000) for passive yield.
+              </p>
             </article>
             <article class="panel card">
               <p class="step-n">Step 03</p>
@@ -211,41 +1060,617 @@
     </div>
   </div>
 
+  <!-- Interactive Client-side Controller -->
   <script>
-    // Cursor glow
+    // 1. Mouse Glow Tracking
     const glow = document.getElementById('cursorGlow');
-    document.addEventListener('mousemove', (e) => {
-      glow.style.left = e.clientX + 'px';
-      glow.style.top = e.clientY + 'px';
-      glow.classList.add('on');
-    });
-    document.addEventListener('mouseleave', () => glow.classList.remove('on'));
+    if (glow) {
+      document.addEventListener('mousemove', (e) => {
+        glow.style.left = e.clientX + 'px';
+        glow.style.top = e.clientY + 'px';
+        glow.classList.add('on');
+      });
+      document.addEventListener('mouseleave', () => glow.classList.remove('on'));
+    }
 
-    // Plan modal
+    // 2. 3D Continuous Rotation & Interactive Tilt on Hero Logo
+    const heroCard = document.getElementById('hero3DCard');
+    const heroLogoContainer = document.getElementById('heroLogoContainer');
+    if (heroCard && heroLogoContainer) {
+      heroLogoContainer.addEventListener('mouseenter', () => {
+        heroCard.classList.add('interacting');
+      });
+      heroLogoContainer.addEventListener('mousemove', (e) => {
+        const rect = heroLogoContainer.getBoundingClientRect();
+        const x = e.clientX - rect.left - rect.width / 2;
+        const y = e.clientY - rect.top - rect.height / 2;
+        const rotateX = -(y / (rect.height / 2)) * 14;
+        const rotateY = (x / (rect.width / 2)) * 14;
+        heroCard.style.transform = `perspective(1200px) rotateX(${rotateX.toFixed(2)}deg) rotateY(${rotateY.toFixed(2)}deg) scale3d(1.03, 1.03, 1.03)`;
+      });
+      heroLogoContainer.addEventListener('mouseleave', () => {
+        heroCard.style.transform = '';
+        heroCard.classList.remove('interacting');
+      });
+    }
+
+    // 3. Sticky Navbar & Back-to-Top Behavior
+    const header = document.getElementById('landHeader');
+    const btnBackToTop = document.getElementById('btnBackToTop');
+    window.addEventListener('scroll', () => {
+      const scrollY = window.scrollY;
+      if (scrollY > 50) {
+        header?.classList.add('scrolled');
+      } else {
+        header?.classList.remove('scrolled');
+      }
+      if (scrollY > 400) {
+        btnBackToTop?.classList.add('show');
+      } else {
+        btnBackToTop?.classList.remove('show');
+      }
+    });
+
+    btnBackToTop?.addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    // Mobile nav toggle
+    const mobileToggle = document.getElementById('mobileNavToggle');
+    const navMenu = document.getElementById('landNavMenu');
+    mobileToggle?.addEventListener('click', () => {
+      navMenu?.classList.toggle('open');
+      mobileToggle.classList.toggle('active');
+    });
+
+    // Close mobile nav on link click
+    document.querySelectorAll('.nav-link').forEach((link) => {
+      link.addEventListener('click', () => {
+        navMenu?.classList.remove('open');
+        mobileToggle?.classList.remove('active');
+      });
+    });
+
+    // 4. Live Platform Activity Stream Rotator
+    const liveStreamMessages = [
+      { text: '0917***892 earned ₱50 pairing bonus in Binary Tree', time: 'Just now' },
+      { text: '0928***104 activated ₱5,000 Trade-In Package (120% ROI)', time: '1 min ago' },
+      { text: '0908***331 received Cycle #2 Payout ₱900 to GCash', time: '2 mins ago' },
+      { text: '0939***901 earned ₱50 direct referral commission', time: '3 mins ago' },
+      { text: '0995***412 successfully withdrew ₱3,500 to Maya', time: '4 mins ago' },
+      { text: '0945***780 completed 4 pairs (+₱200 pairing bonus)', time: '5 mins ago' },
+      { text: '0918***650 activated new Binary Account with Sponsor code', time: '6 mins ago' }
+    ];
+    let streamIndex = 0;
+    const streamMessageEl = document.getElementById('streamMessage');
+    const streamTimeEl = document.getElementById('streamTime');
+
+    setInterval(() => {
+      if (!streamMessageEl) return;
+      streamIndex = (streamIndex + 1) % liveStreamMessages.length;
+      streamMessageEl.style.opacity = '0';
+      setTimeout(() => {
+        streamMessageEl.textContent = liveStreamMessages[streamIndex].text;
+        if (streamTimeEl) streamTimeEl.textContent = liveStreamMessages[streamIndex].time;
+        streamMessageEl.style.opacity = '1';
+      }, 300);
+    }, 4500);
+
+    // 5. Interactive ROI & Profit Calculator
+    const calcTabs = document.querySelectorAll('.calc-tab-btn');
+    const calcPanes = document.querySelectorAll('.calc-pane');
+
+    calcTabs.forEach((tab) => {
+      tab.addEventListener('click', () => {
+        calcTabs.forEach((t) => t.classList.remove('active'));
+        calcPanes.forEach((p) => p.classList.remove('active'));
+        tab.classList.add('active');
+        const target = tab.dataset.calcTab;
+        if (target === 'tradein') document.getElementById('calcPaneTradein')?.classList.add('active');
+        if (target === 'binary') document.getElementById('calcPaneBinary')?.classList.add('active');
+      });
+    });
+
+    // Trade-in Calculator logic
+    const tradeinSlider = document.getElementById('tradeinSlider');
+    const directInvitesSlider = document.getElementById('directInvitesSlider');
+    const tradeinCapitalDisplay = document.getElementById('tradeinCapitalDisplay');
+    const directInvitesDisplay = document.getElementById('directInvitesDisplay');
+    const tradeinTotalReturn = document.getElementById('tradeinTotalReturn');
+    const tradeinCyclePayout = document.getElementById('tradeinCyclePayout');
+    const tradeinNetProfit = document.getElementById('tradeinNetProfit');
+    const tradeinL1Bonus = document.getElementById('tradeinL1Bonus');
+    const tradeinGrandTotal = document.getElementById('tradeinGrandTotal');
+    const tAmt1 = document.getElementById('tAmt1');
+    const tAmt2 = document.getElementById('tAmt2');
+    const tAmt3 = document.getElementById('tAmt3');
+    const tAmt4 = document.getElementById('tAmt4');
+
+    function fmtMoney(num) {
+      return '₱' + Number(num).toLocaleString('en-US');
+    }
+
+    function updateTradeInCalc() {
+      const capital = Number(tradeinSlider.value || 5000);
+      const teamCap = Number(directInvitesSlider.value || 0);
+
+      const cycleAmt = capital * 0.30;
+      const totalReturn = capital * 1.20;
+      const netProfit = capital * 0.20;
+      const l1Bonus = teamCap * 0.10;
+      const grandTotal = totalReturn + l1Bonus;
+
+      tradeinCapitalDisplay.textContent = fmtMoney(capital);
+      directInvitesDisplay.textContent = fmtMoney(teamCap) + ' Team Cap';
+
+      tradeinTotalReturn.textContent = fmtMoney(totalReturn);
+      tradeinCyclePayout.textContent = fmtMoney(cycleAmt);
+      tradeinNetProfit.textContent = '+' + fmtMoney(netProfit);
+      tradeinL1Bonus.textContent = fmtMoney(l1Bonus);
+      tradeinGrandTotal.textContent = fmtMoney(grandTotal);
+
+      if (tAmt1) tAmt1.textContent = fmtMoney(cycleAmt);
+      if (tAmt2) tAmt2.textContent = fmtMoney(cycleAmt);
+      if (tAmt3) tAmt3.textContent = fmtMoney(cycleAmt);
+      if (tAmt4) tAmt4.textContent = fmtMoney(cycleAmt);
+    }
+
+    tradeinSlider?.addEventListener('input', updateTradeInCalc);
+    directInvitesSlider?.addEventListener('input', updateTradeInCalc);
+
+    // Preset buttons for trade-in
+    document.querySelectorAll('.btn-preset[data-preset]').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.btn-preset[data-preset]').forEach((b) => b.classList.remove('active'));
+        btn.classList.add('active');
+        if (tradeinSlider) {
+          tradeinSlider.value = btn.dataset.preset;
+          updateTradeInCalc();
+        }
+      });
+    });
+
+    // Binary Calculator logic
+    const binDirectSlider = document.getElementById('binDirectSlider');
+    const binIndirectSlider = document.getElementById('binIndirectSlider');
+    const binPairSlider = document.getElementById('binPairSlider');
+    const binDirectDisplay = document.getElementById('binDirectDisplay');
+    const binIndirectDisplay = document.getElementById('binIndirectDisplay');
+    const binPairDisplay = document.getElementById('binPairDisplay');
+
+    const binTotalEarnings = document.getElementById('binTotalEarnings');
+    const binDailyRate = document.getElementById('binDailyRate');
+    const binDirectIncome = document.getElementById('binDirectIncome');
+    const binIndirectIncome = document.getElementById('binIndirectIncome');
+    const binPairIncome = document.getElementById('binPairIncome');
+    const binCapProgress = document.getElementById('binCapProgress');
+    const capMeterText = document.getElementById('capMeterText');
+    const capMeterFill = document.getElementById('capMeterFill');
+
+    function updateBinaryCalc() {
+      const directs = Number(binDirectSlider?.value || 6);
+      const indirects = Number(binIndirectSlider?.value || 30);
+      const dailyPairs = Number(binPairSlider?.value || 4);
+
+      const directInc = directs * 50;
+      const indirectInc = indirects * 5;
+      const pair7Days = dailyPairs * 50 * 7;
+      const total = directInc + indirectInc + pair7Days;
+      const daily = dailyPairs * 50;
+
+      if (binDirectDisplay) binDirectDisplay.textContent = `${directs} Members`;
+      if (binIndirectDisplay) binIndirectDisplay.textContent = `${indirects} Members`;
+      if (binPairDisplay) binPairDisplay.textContent = `${dailyPairs} Pairs / Day`;
+
+      if (binDirectIncome) binDirectIncome.textContent = fmtMoney(directInc);
+      if (binIndirectIncome) binIndirectIncome.textContent = fmtMoney(indirectInc);
+      if (binPairIncome) binPairIncome.textContent = fmtMoney(pair7Days);
+      if (binTotalEarnings) binTotalEarnings.textContent = fmtMoney(total);
+      if (binDailyRate) binDailyRate.textContent = fmtMoney(daily);
+
+      const capPct = Math.min(100, Math.round((total / 3000) * 100 * 10) / 10);
+      if (binCapProgress) binCapProgress.textContent = `${capPct}% (${fmtMoney(total)} / ₱3,000)`;
+      if (capMeterText) capMeterText.textContent = `${fmtMoney(total)} / ₱3,000`;
+      if (capMeterFill) capMeterFill.style.width = `${capPct}%`;
+    }
+
+    binDirectSlider?.addEventListener('input', updateBinaryCalc);
+    binIndirectSlider?.addEventListener('input', updateBinaryCalc);
+    binPairSlider?.addEventListener('input', updateBinaryCalc);
+
+    // Initial calculation runs
+    updateTradeInCalc();
+    updateBinaryCalc();
+
+    // 6. Interactive Binary Tree Simulator
+    let treeLeft = 0;
+    let treeRight = 0;
+    let treePairs = 0;
+    let treeBalance = 0;
+
+    const treeLeftCount = document.getElementById('treeLeftCount');
+    const treeRightCount = document.getElementById('treeRightCount');
+    const treePairCount = document.getElementById('treePairCount');
+    const treeEarnings = document.getElementById('treeEarnings');
+    const leftQueueText = document.getElementById('leftQueueText');
+    const rightQueueText = document.getElementById('rightQueueText');
+    const pairBurst = document.getElementById('pairBurst');
+    const nodeLeftBox = document.getElementById('nodeLeftBox');
+    const nodeRightBox = document.getElementById('nodeRightBox');
+
+    function triggerPairCelebration() {
+      if (!pairBurst) return;
+      pairBurst.classList.add('pop');
+      setTimeout(() => {
+        pairBurst.classList.remove('pop');
+      }, 1200);
+    }
+
+    function refreshTreeUI() {
+      if (treeLeftCount) treeLeftCount.textContent = treeLeft;
+      if (treeRightCount) treeRightCount.textContent = treeRight;
+      if (treePairCount) treePairCount.textContent = treePairs;
+      if (treeEarnings) treeEarnings.textContent = fmtMoney(treeBalance);
+      if (leftQueueText) leftQueueText.textContent = `${treeLeft} Waiting`;
+      if (rightQueueText) rightQueueText.textContent = `${treeRight} Waiting`;
+    }
+
+    function checkTreeMatch() {
+      if (treeLeft >= 1 && treeRight >= 1) {
+        treeLeft -= 1;
+        treeRight -= 1;
+        treePairs += 1;
+        treeBalance += 50;
+        triggerPairCelebration();
+        refreshTreeUI();
+      }
+    }
+
+    document.getElementById('btnAddLeft')?.addEventListener('click', () => {
+      treeLeft += 1;
+      nodeLeftBox?.classList.add('node-pulse');
+      setTimeout(() => nodeLeftBox?.classList.remove('node-pulse'), 300);
+      refreshTreeUI();
+      setTimeout(checkTreeMatch, 300);
+    });
+
+    document.getElementById('btnAddRight')?.addEventListener('click', () => {
+      treeRight += 1;
+      nodeRightBox?.classList.add('node-pulse');
+      setTimeout(() => nodeRightBox?.classList.remove('node-pulse'), 300);
+      refreshTreeUI();
+      setTimeout(checkTreeMatch, 300);
+    });
+
+    document.getElementById('btnAutoSimulate')?.addEventListener('click', () => {
+      let simulated = 0;
+      const interval = setInterval(() => {
+        if (simulated >= 5) {
+          clearInterval(interval);
+          return;
+        }
+        treeLeft += 1;
+        treeRight += 1;
+        refreshTreeUI();
+        setTimeout(checkTreeMatch, 150);
+        simulated += 1;
+      }, 350);
+    });
+
+    document.getElementById('btnResetTree')?.addEventListener('click', () => {
+      treeLeft = 0;
+      treeRight = 0;
+      treePairs = 0;
+      treeBalance = 0;
+      refreshTreeUI();
+    });
+
+    // 7. Interactive FAQ Accordion & Instant Search
+    const faqItems = document.querySelectorAll('.faq-item');
+    faqItems.forEach((item) => {
+      const q = item.querySelector('.faq-question');
+      q?.addEventListener('click', () => {
+        const isOpen = item.classList.contains('active');
+        faqItems.forEach((fi) => fi.classList.remove('active'));
+        if (!isOpen) item.classList.add('active');
+      });
+    });
+
+    const faqSearchInput = document.getElementById('faqSearchInput');
+    faqSearchInput?.addEventListener('input', (e) => {
+      const query = e.target.value.toLowerCase().trim();
+      faqItems.forEach((item) => {
+        const text = item.textContent.toLowerCase();
+        const keywords = item.dataset.keywords || '';
+        if (!query || text.includes(query) || keywords.includes(query)) {
+          item.style.display = 'block';
+        } else {
+          item.style.display = 'none';
+        }
+      });
+    });
+
+    // 8. Compensation Plan Modal
     const modal = document.getElementById('planModal');
-    const openPlan = () => { modal.hidden = false; document.body.classList.add('modal-open'); };
-    const closePlan = () => { modal.hidden = true; document.body.classList.remove('modal-open'); };
+    const openPlan = () => { if (modal) { modal.hidden = false; document.body.classList.add('modal-open'); } };
+    const closePlan = () => { if (modal) { modal.hidden = true; document.body.classList.remove('modal-open'); } };
 
     document.querySelectorAll('[data-open-plan]').forEach((el) => el.addEventListener('click', openPlan));
     document.querySelectorAll('[data-close-plan]').forEach((el) => el.addEventListener('click', closePlan));
-    document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !modal.hidden) closePlan(); });
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && modal && !modal.hidden) closePlan(); });
 
     document.querySelectorAll('.plan-tab').forEach((tab) => {
       tab.addEventListener('click', () => {
         document.querySelectorAll('.plan-tab').forEach((t) => t.classList.remove('on'));
         document.querySelectorAll('.plan-pane').forEach((p) => p.classList.remove('on'));
         tab.classList.add('on');
-        document.getElementById('tab-' + tab.dataset.tab).classList.add('on');
+        const pane = document.getElementById('tab-' + tab.dataset.tab);
+        if (pane) pane.classList.add('on');
       });
     });
 
-    // Scroll-reveal for hero cards
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach((e) => { if (e.isIntersecting) e.target.classList.add('in'); });
-    }, { threshold: 0.15 });
-    document.querySelectorAll('.landing .card').forEach((c) => observer.observe(c));
+    /* ==========================================================================
+       MODERN FINTECH MICRO-INTERACTIONS & VISUAL ANIMATION ENGINE
+       ========================================================================== */
 
-    // If already logged in, redirect
+    // FEATURE 1: 3D INTERACTIVE CARD TILT & DYNAMIC LIGHT SHEEN (VANILLA JS + CSS VARIABLES)
+    function initCardTilt() {
+      const tiltTargets = document.querySelectorAll('.card, .stat, .track-card, .step-journey-card, .gateway-card');
+      const isTouch = window.matchMedia('(pointer: coarse)').matches;
+      if (isTouch) return; // Prevent interference on touch devices
+
+      tiltTargets.forEach((card) => {
+        let rafId = null;
+
+        card.addEventListener('mousemove', (e) => {
+          if (rafId) cancelAnimationFrame(rafId);
+          rafId = requestAnimationFrame(() => {
+            const rect = card.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            const centerX = rect.width / 2;
+            const centerY = rect.height / 2;
+
+            // Maximum subtle tilt angle
+            const maxTilt = 8.5;
+            const rotateX = -((y - centerY) / centerY) * maxTilt;
+            const rotateY = ((x - centerX) / centerX) * maxTilt;
+
+            card.style.setProperty('--card-rx', `${rotateX.toFixed(2)}deg`);
+            card.style.setProperty('--card-ry', `${rotateY.toFixed(2)}deg`);
+            card.style.setProperty('--card-scale', '1.02');
+            card.style.setProperty('--mouse-x', `${x.toFixed(1)}px`);
+            card.style.setProperty('--mouse-y', `${y.toFixed(1)}px`);
+            card.style.setProperty('--sheen-opacity', '1');
+          });
+        });
+
+        card.addEventListener('mouseleave', () => {
+          if (rafId) cancelAnimationFrame(rafId);
+          card.style.setProperty('--card-rx', '0deg');
+          card.style.setProperty('--card-ry', '0deg');
+          card.style.setProperty('--card-scale', '1');
+          card.style.setProperty('--sheen-opacity', '0');
+          card.style.setProperty('--mouse-x', '-500px');
+          card.style.setProperty('--mouse-y', '-500px');
+        });
+      });
+    }
+
+    // FEATURE 2: SCROLL-TRIGGERED SPRING REVEAL ANIMATIONS (INTERSECTION OBSERVER)
+    function initScrollReveals() {
+      const revealItems = document.querySelectorAll('.reveal, .card:not(.reveal)');
+
+      // Auto-assign staggered delays to card grids if not already manually styled
+      const staggeredContainers = document.querySelectorAll('.grid3, .stats-band, .dual-track-grid, .steps-journey-grid, .gateways-grid');
+      staggeredContainers.forEach((container) => {
+        const children = Array.from(container.children);
+        children.forEach((child, index) => {
+          if (!child.style.transitionDelay && !child.classList.contains('d1') && !child.classList.contains('d2') && !child.classList.contains('d3')) {
+            child.style.transitionDelay = `${(index * 0.08).toFixed(2)}s`;
+          }
+        });
+      });
+
+      const revealObserver = new IntersectionObserver((entries, obs) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('in');
+            obs.unobserve(entry.target);
+          }
+        });
+      }, {
+        threshold: 0.12,
+        rootMargin: '0px 0px -30px 0px'
+      });
+
+      revealItems.forEach((el) => {
+        revealObserver.observe(el);
+      });
+    }
+
+    // FEATURE 3: ANIMATED KPI COUNTER EFFECT
+    function initKpiCounters() {
+      const counters = document.querySelectorAll('[data-count]');
+      if (!counters.length) return;
+
+      const counterObserver = new IntersectionObserver((entries, obs) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            animateCounter(entry.target);
+            obs.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.15 });
+
+      counters.forEach((el) => counterObserver.observe(el));
+
+      function animateCounter(el) {
+        const target = parseFloat(el.getAttribute('data-count')) || 0;
+        const prefix = el.getAttribute('data-prefix') || '';
+        const suffix = el.getAttribute('data-suffix') || '';
+        const duration = parseInt(el.getAttribute('data-duration'), 10) || 1600;
+        const decimals = parseInt(el.getAttribute('data-decimals'), 10) || 0;
+        let startTime = null;
+
+        function updateCount(timestamp) {
+          if (!startTime) startTime = timestamp;
+          const elapsed = timestamp - startTime;
+          const progress = Math.min(elapsed / duration, 1);
+          // Smooth cubic-out easing curve
+          const easeOutCubic = 1 - Math.pow(1 - progress, 3);
+          const currentVal = easeOutCubic * target;
+
+          const formatted = currentVal.toLocaleString('en-US', {
+            minimumFractionDigits: decimals,
+            maximumFractionDigits: decimals
+          });
+          el.textContent = `${prefix}${formatted}${suffix}`;
+
+          if (progress < 1) {
+            requestAnimationFrame(updateCount);
+          } else {
+            const finalFormatted = target.toLocaleString('en-US', {
+              minimumFractionDigits: decimals,
+              maximumFractionDigits: decimals
+            });
+            el.textContent = `${prefix}${finalFormatted}${suffix}`;
+          }
+        }
+
+        requestAnimationFrame(updateCount);
+      }
+    }
+
+    // FEATURE 4: HERO DYNAMIC KINETIC CANVAS BACKGROUND
+    function initKineticCanvas() {
+      const canvas = document.getElementById('kineticCanvas');
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+      if (!ctx) return;
+
+      let width = 0;
+      let height = 0;
+      let dpr = 1;
+      let particles = [];
+      let animId = null;
+      const mousePos = { x: -1000, y: -1000 };
+
+      function resize() {
+        dpr = Math.min(window.devicePixelRatio || 1, 2);
+        width = canvas.parentElement ? canvas.parentElement.clientWidth : window.innerWidth;
+        height = canvas.parentElement ? canvas.parentElement.clientHeight : window.innerHeight;
+
+        canvas.width = width * dpr;
+        canvas.height = height * dpr;
+        ctx.scale(dpr, dpr);
+        initParticles();
+      }
+
+      function initParticles() {
+        particles = [];
+        const count = width < 768 ? 22 : Math.min(Math.floor(width / 34), 50);
+        const palette = [
+          'rgba(15, 122, 69, ',   // Jade
+          'rgba(34, 197, 94, ',   // Mint
+          'rgba(232, 148, 58, '   // Gold
+        ];
+
+        for (let i = 0; i < count; i++) {
+          particles.push({
+            x: Math.random() * width,
+            y: Math.random() * height,
+            vx: (Math.random() - 0.5) * 0.52,
+            vy: (Math.random() - 0.5) * 0.52,
+            radius: Math.random() * 2 + 1.2,
+            baseAlpha: Math.random() * 0.35 + 0.2,
+            colorBase: palette[Math.floor(Math.random() * palette.length)],
+            pulseSpeed: Math.random() * 0.02 + 0.01,
+            pulsePhase: Math.random() * Math.PI * 2
+          });
+        }
+      }
+
+      function render() {
+        ctx.clearRect(0, 0, width, height);
+
+        for (let i = 0; i < particles.length; i++) {
+          const p = particles[i];
+          p.x += p.vx;
+          p.y += p.vy;
+
+          if (p.x < 0 || p.x > width) p.vx *= -1;
+          if (p.y < 0 || p.y > height) p.vy *= -1;
+
+          // Gentle mouse deflection within 130px
+          const dxMouse = mousePos.x - p.x;
+          const dyMouse = mousePos.y - p.y;
+          const distMouse = Math.hypot(dxMouse, dyMouse);
+          if (distMouse < 130 && distMouse > 0) {
+            const force = (130 - distMouse) / 130;
+            p.x -= (dxMouse / distMouse) * force * 1.4;
+            p.y -= (dyMouse / distMouse) * force * 1.4;
+          }
+
+          p.pulsePhase += p.pulseSpeed;
+          const alpha = p.baseAlpha + Math.sin(p.pulsePhase) * 0.1;
+
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+          ctx.fillStyle = `${p.colorBase}${Math.max(0.08, alpha)})`;
+          ctx.fill();
+
+          for (let j = i + 1; j < particles.length; j++) {
+            const p2 = particles[j];
+            const dx = p.x - p2.x;
+            const dy = p.y - p2.y;
+            const dist = Math.hypot(dx, dy);
+            const maxDist = 120;
+
+            if (dist < maxDist) {
+              const lineAlpha = (1 - dist / maxDist) * 0.16;
+              ctx.beginPath();
+              ctx.moveTo(p.x, p.y);
+              ctx.lineTo(p2.x, p2.y);
+              ctx.strokeStyle = `rgba(15, 122, 69, ${lineAlpha})`;
+              ctx.lineWidth = 1;
+              ctx.stroke();
+            }
+          }
+        }
+
+        animId = requestAnimationFrame(render);
+      }
+
+      window.addEventListener('resize', resize);
+      window.addEventListener('mousemove', (e) => {
+        mousePos.x = e.clientX;
+        mousePos.y = e.clientY;
+      });
+      window.addEventListener('mouseleave', () => {
+        mousePos.x = -1000;
+        mousePos.y = -1000;
+      });
+
+      document.addEventListener('visibilitychange', () => {
+        if (document.hidden) {
+          if (animId) cancelAnimationFrame(animId);
+        } else {
+          animId = requestAnimationFrame(render);
+        }
+      });
+
+      resize();
+      animId = requestAnimationFrame(render);
+    }
+
+    // Launch Micro-Interactions
+    initCardTilt();
+    initScrollReveals();
+    initKpiCounters();
+    initKineticCanvas();
+
+    // 10. Check if already logged in -> redirect
     const token = localStorage.getItem('it_token');
     if (token) {
       fetch('/api/me', { headers: { Authorization: 'Bearer ' + token } })
@@ -253,8 +1678,9 @@
         .then((d) => {
           if (d.user) location.href = d.user.role === 'admin' ? '/admin.html' : '/dashboard.html';
         })
-        .catch(() => {});
+        .catch(() => { });
     }
   </script>
 </body>
+
 </html>

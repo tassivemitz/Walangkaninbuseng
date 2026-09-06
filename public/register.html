@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Register · Infinite Trading</title>
+  <title>Create Account · Infinite Trading</title>
   <meta name="description"
     content="Create your Infinite Trading account. Enter your mobile number, password, and sponsor's mobile number to get started." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -14,128 +14,432 @@
   <link rel="stylesheet" href="/styles.css" />
 </head>
 
-<body>
+<body class="auth-page-body">
+  <!-- Interactive Ambient Mouse Glow Element -->
+  <div class="auth-ambient-glow" id="ambientGlow"></div>
+
   <div class="auth-shell">
+    <!-- Left: Brand Artwork & Live Highlights -->
     <aside class="auth-art">
-      <a class="auth-logo" href="/">
-        <img src="/images/site-logo.png" alt="Infinite Trading" />
+      <a class="auth-logo-interactive" href="/" title="Infinite Trading Home">
+        <img src="/images/site-logo.png" alt="Infinite Trading" style="max-width:320px;width:100%;height:auto;display:block;" />
       </a>
-      <div>
-        <p class="kicker">Join the network</p>
-        <p class="muted">Binary earnings cap at ₱3,000. Earn referral bonuses, pairing income, and Trade-In yield.</p>
+      <div class="auth-art-copy">
+        <span class="pill open" style="margin-bottom:8px;font-size:11px;letter-spacing:0.12em;font-weight:700;">● INSTANT REGISTRATION</span>
+        <h2 style="font-size:36px;margin:8px 0 10px;line-height:1.2;">Join the network today.</h2>
+        <p class="muted" style="font-size:14px;max-width:38ch;margin:0 auto;line-height:1.6;">
+          Binary earnings cap at ₱3,000. Earn referral bonuses, pair matching income, and 12-day Trade-In profit cycles.
+        </p>
       </div>
-      <div class="stats-band"
-        style="grid-template-columns: repeat(3, 1fr); margin: 0; padding: 0; gap: 10px; width: 100%; max-width: 380px;">
-        <div class="stat" style="text-align: center;"><span class="tiny">Entry</span><b>₱300</b></div>
-        <div class="stat" style="text-align: center;"><span class="tiny">Cap</span><b>₱3,000</b></div>
-        <div class="stat" style="text-align: center;"><span class="tiny">Trade-In</span><b>120%</b></div>
+
+      <!-- 3 Key Stats Highlight Band -->
+      <div class="stats-band" style="grid-template-columns: repeat(3, 1fr); margin: 0; padding: 0; gap: 10px; width: 100%; max-width: 390px;">
+        <div class="stat" style="text-align: center; padding: 14px 10px; background:rgba(255,255,255,0.85); backdrop-filter:blur(8px);">
+          <span class="tiny muted" style="font-weight:700;">ENTRY</span>
+          <b style="font-size:22px;color:var(--jade);">₱300</b>
+        </div>
+        <div class="stat" style="text-align: center; padding: 14px 10px; background:rgba(255,255,255,0.85); backdrop-filter:blur(8px);">
+          <span class="tiny muted" style="font-weight:700;">CAP</span>
+          <b style="font-size:22px;color:var(--gold);">₱3,000</b>
+        </div>
+        <div class="stat" style="text-align: center; padding: 14px 10px; background:rgba(255,255,255,0.85); backdrop-filter:blur(8px);">
+          <span class="tiny muted" style="font-weight:700;">TRADE-IN</span>
+          <b style="font-size:22px;color:#0b4d2c;">120%</b>
+        </div>
       </div>
     </aside>
-    <section class="auth-form">
-      <form id="form" class="panel form" autocomplete="off">
-        <a class="form-logo" href="/"><img src="/images/site-logo.png" alt="Infinite Trading" /></a>
-        <h1>Create account</h1>
-        <p class="muted">Takes less than a minute.</p>
-        <p id="error" class="err"></p>
 
-        <label class="field">Mobile number
-          <input id="mobile_input" type="text" inputmode="numeric" autocomplete="off" autocorrect="off"
-            autocapitalize="off" spellcheck="false" required placeholder="09XXXXXXXXX" />
-        </label>
+    <!-- Right: Interactive Glassmorphism Registration Card -->
+    <section class="auth-form-wrap">
+      <div class="auth-card" id="authCard">
+        <!-- Interactive Button Redirection Tab -->
+        <div class="auth-switcher">
+          <a href="/login.html" class="auth-switcher-btn" id="btnNavSignIn">Sign In</a>
+          <a href="/register.html" class="auth-switcher-btn active" id="btnNavCreateAccount">Create Account</a>
+        </div>
 
-        <label class="field">Password
-          <input id="password_input" type="text" class="pwd-masked" minlength="6" autocomplete="off" autocorrect="off"
-            autocapitalize="off" spellcheck="false" required placeholder="••••••••" />
-        </label>
-
-        <label class="field">Sponsor Mobile (Optional / Referral)
-          <input id="sponsor_input" type="text" autocomplete="off" autocorrect="off"
-            autocapitalize="off" spellcheck="false" placeholder="09XXXXXXXXX (or leave blank)" />
-        </label>
-
-        <p id="sponsorNotice" class="sponsor-notice"></p>
-
-        <div style="background:#f8fdf9;border:1px solid rgba(15,122,69,0.2);padding:10px 12px;border-radius:10px;margin-top:6px;">
-          <p class="tiny" style="margin:0;color:var(--jade);line-height:1.4;">
-            <strong>✨ Free Instant Registration:</strong> Create your account now. Enter your ₱300 activation code on your dashboard to unlock the binary tree and trading yields.
+        <div style="margin-bottom:18px;">
+          <h1 style="font-size:28px;margin:0 0 6px;color:var(--text);">Create account</h1>
+          <p class="muted" style="font-size:13px;margin:0;">
+            Takes less than a minute. Free instant registration.
           </p>
         </div>
 
-        <button class="btn" id="submitBtn" style="width:100%;margin-top:14px">Create Free Account</button>
-        <p class="center">Already in? <a href="/login.html">Sign in</a></p>
-      </form>
+        <p id="error" class="err" style="margin-bottom:14px;"></p>
+
+        <form id="form" autocomplete="off">
+          <!-- Invisible dummy inputs to absorb aggressive browser autofill -->
+          <div style="position:absolute;left:-9999px;top:-9999px;width:0;height:0;opacity:0;pointer-events:none;overflow:hidden;" aria-hidden="true">
+            <input type="text" name="fake_username_trap" tabindex="-1" autocomplete="off" />
+            <input type="password" name="fake_password_trap" tabindex="-1" autocomplete="new-password" />
+          </div>
+
+          <!-- Field 1: Mobile Number -->
+          <div class="auth-field-group">
+            <label class="auth-field-label" for="mobile_input">
+              <span>PHILIPPINE MOBILE NUMBER *</span>
+              <span class="auth-field-status" id="mobileStatusCheck">✓ 11 Digits</span>
+            </label>
+            <div class="auth-field-inner">
+              <span class="auth-field-icon">📱</span>
+              <input
+                id="mobile_input"
+                name="reg_mobile_num"
+                class="auth-input"
+                type="text"
+                inputmode="numeric"
+                autocomplete="chrome-off"
+                autocorrect="off"
+                autocapitalize="off"
+                spellcheck="false"
+                required
+                placeholder="09XXXXXXXXX"
+                maxlength="11"
+                readonly
+                onfocus="this.removeAttribute('readonly')"
+              />
+            </div>
+            <span class="tiny muted" id="mobileHelper" style="display:block;margin-top:4px;font-size:11px;">
+              Enter your active 11-digit mobile number starting with 09.
+            </span>
+          </div>
+
+          <!-- Field 2: Password with Strength Meter -->
+          <div class="auth-field-group">
+            <div class="auth-field-label">
+              <label for="password_input">PASSWORD (MIN 6 CHARS) *</label>
+              <span id="capsNotice" class="tiny" style="color:var(--gold);display:none;font-weight:700;">⚠ CapsLock is ON</span>
+            </div>
+            <div class="auth-field-inner">
+              <span class="auth-field-icon">🔒</span>
+              <input
+                id="password_input"
+                name="reg_secret_code"
+                class="auth-input"
+                type="password"
+                minlength="6"
+                autocomplete="new-password"
+                autocorrect="off"
+                autocapitalize="off"
+                spellcheck="false"
+                required
+                placeholder="Choose a secure password"
+                style="padding-right:42px;"
+                readonly
+                onfocus="this.removeAttribute('readonly')"
+              />
+              <button type="button" class="auth-toggle-pwd" id="btnTogglePwd" title="Show/Hide Password" aria-label="Toggle password visibility">
+                👁
+              </button>
+            </div>
+            <!-- Dynamic Password Strength Bar -->
+            <div class="pwd-strength-wrap">
+              <div class="pwd-strength-bar">
+                <div class="pwd-strength-seg" id="strSeg1"></div>
+                <div class="pwd-strength-seg" id="strSeg2"></div>
+                <div class="pwd-strength-seg" id="strSeg3"></div>
+                <div class="pwd-strength-seg" id="strSeg4"></div>
+              </div>
+              <div class="pwd-strength-text">
+                <span id="pwdStrengthLabel">Password strength</span>
+                <span id="pwdStrengthScore" style="font-weight:700;"></span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Field 3: Sponsor Mobile -->
+          <div class="auth-field-group">
+            <label class="auth-field-label" for="sponsor_input">
+              <span>SPONSOR MOBILE (REFERRAL)</span>
+              <span class="auth-field-status show" id="sponsorStatusBadge" style="color:var(--jade);font-size:11px;">Default: System</span>
+            </label>
+            <div class="auth-field-inner">
+              <span class="auth-field-icon">🤝</span>
+              <input
+                id="sponsor_input"
+                name="reg_sponsor_code"
+                class="auth-input"
+                type="text"
+                autocomplete="chrome-off"
+                autocorrect="off"
+                autocapitalize="off"
+                spellcheck="false"
+                placeholder="09XXXXXXXXX (or leave blank for Admin)"
+                maxlength="11"
+                readonly
+                onfocus="this.removeAttribute('readonly')"
+              />
+            </div>
+          </div>
+
+          <!-- Submit Button -->
+          <button class="auth-submit-btn" id="submitBtn" style="margin-top:20px;">
+            <span id="submitBtnText">Create Free Account</span>
+            <span id="submitArrow" style="font-size:16px;">➔</span>
+          </button>
+        </form>
+      </div>
     </section>
   </div>
+
   <script>
+    // 1. Interactive Ambient Mouse Glow
+    const glowEl = document.getElementById('ambientGlow');
+    if (glowEl) {
+      let mouseX = window.innerWidth / 2;
+      let mouseY = window.innerHeight / 2;
+      let curX = mouseX;
+      let curY = mouseY;
+
+      window.addEventListener('mousemove', (e) => {
+        mouseX = e.clientX;
+        mouseY = e.clientY;
+      });
+
+      function animateGlow() {
+        curX += (mouseX - curX) * 0.12;
+        curY += (mouseY - curY) * 0.12;
+        glowEl.style.left = curX + 'px';
+        glowEl.style.top = curY + 'px';
+        requestAnimationFrame(animateGlow);
+      }
+      animateGlow();
+    }
+
+    // 2. Elements & Autofill Handlers
     const params = new URLSearchParams(location.search);
     const mobInput = document.getElementById('mobile_input');
     const pwdInput = document.getElementById('password_input');
     const spInput = document.getElementById('sponsor_input');
-    const sponsorNotice = document.getElementById('sponsorNotice');
+    const mobStatus = document.getElementById('mobileStatusCheck');
+    const mobHelper = document.getElementById('mobileHelper');
+    const spBadge = document.getElementById('sponsorStatusBadge');
+    const capsNotice = document.getElementById('capsNotice');
+    const btnToggle = document.getElementById('btnTogglePwd');
+    const cardEl = document.getElementById('authCard');
+    const submitBtn = document.getElementById('submitBtn');
+    const submitText = document.getElementById('submitBtnText');
+    const submitArrow = document.getElementById('submitArrow');
+    const errEl = document.getElementById('error');
 
-    // Auto-capture sponsor from referral link
+    // Password strength elements
+    const seg1 = document.getElementById('strSeg1');
+    const seg2 = document.getElementById('strSeg2');
+    const seg3 = document.getElementById('strSeg3');
+    const seg4 = document.getElementById('strSeg4');
+    const strLabel = document.getElementById('pwdStrengthScore');
+
+    // Check URL referral parameter
     const urlSponsor = params.get('sponsor');
     if (urlSponsor) {
       spInput.value = urlSponsor;
-      sponsorNotice.textContent = '✓ Referred by ' + urlSponsor;
-      sponsorNotice.classList.add('show');
+      spBadge.textContent = '✓ Referred by ' + urlSponsor;
+      spBadge.style.color = 'var(--jade)';
     }
 
-    // Autofill wipe
-    let userTouched = false;
-    ['input', 'keydown', 'paste', 'focus'].forEach(ev => {
-      mobInput.addEventListener(ev, () => { userTouched = true; });
-      pwdInput.addEventListener(ev, () => { userTouched = true; });
-      spInput.addEventListener(ev, () => { userTouched = true; });
+    let userHasTyped = false;
+    mobInput.addEventListener('keydown', () => { userHasTyped = true; });
+    pwdInput.addEventListener('keydown', () => { userHasTyped = true; });
+    spInput.addEventListener('keydown', () => { userHasTyped = true; });
+    mobInput.addEventListener('paste', () => { userHasTyped = true; });
+    pwdInput.addEventListener('paste', () => { userHasTyped = true; });
+    spInput.addEventListener('paste', () => { userHasTyped = true; });
+
+    // Remove readonly attribute when user focuses to allow immediate typing
+    [mobInput, pwdInput, spInput].forEach(inp => {
+      inp.addEventListener('focus', function () {
+        this.removeAttribute('readonly');
+      });
     });
 
     const wipeAutofill = () => {
-      if (!userTouched) {
-        if (mobInput.value.includes('@') || (mobInput.value && !userTouched)) {
+      if (!userHasTyped) {
+        if (mobInput.value || pwdInput.value) {
           mobInput.value = '';
           pwdInput.value = '';
           if (!urlSponsor) spInput.value = '';
+          mobInput.classList.remove('is-valid');
+          mobStatus.classList.remove('show');
         }
       }
     };
 
-    window.addEventListener('pageshow', () => { mobInput.value = ''; pwdInput.value = ''; if (!urlSponsor) spInput.value = ''; });
+    window.addEventListener('pageshow', () => {
+      userHasTyped = false;
+      mobInput.value = '';
+      pwdInput.value = '';
+      if (!urlSponsor) spInput.value = '';
+    });
     window.addEventListener('DOMContentLoaded', wipeAutofill);
-    window.addEventListener('load', wipeAutofill);
-    const interval = setInterval(wipeAutofill, 40);
-    setTimeout(() => clearInterval(interval), 3000);
+    window.addEventListener('load', () => {
+      wipeAutofill();
+      setTimeout(wipeAutofill, 60);
+      setTimeout(wipeAutofill, 200);
+      setTimeout(wipeAutofill, 500);
+    });
 
+    // 3. Live Mobile Validation
+    mobInput.addEventListener('input', () => {
+      const digits = mobInput.value.replace(/\D/g, '');
+      mobInput.value = digits;
+      if (digits.length === 11 && digits.startsWith('09')) {
+        mobInput.classList.add('is-valid');
+        mobStatus.classList.add('show');
+        mobStatus.textContent = '✓ Valid PH Mobile';
+        mobHelper.textContent = 'Looks good! 11-digit PH mobile verified.';
+        mobHelper.style.color = 'var(--jade)';
+      } else if (digits.length > 0) {
+        mobInput.classList.remove('is-valid');
+        mobStatus.classList.add('show');
+        mobStatus.textContent = digits.length + '/11 digits';
+        mobStatus.style.color = 'var(--muted)';
+        mobHelper.textContent = digits.startsWith('09') ? `Need ${11 - digits.length} more digits` : 'Should start with 09';
+        mobHelper.style.color = 'var(--muted)';
+      } else {
+        mobInput.classList.remove('is-valid');
+        mobStatus.classList.remove('show');
+        mobHelper.textContent = 'Enter your active 11-digit mobile number starting with 09.';
+        mobHelper.style.color = 'var(--muted)';
+      }
+    });
+
+    // 4. Interactive Password Strength Analyzer
+    pwdInput.addEventListener('input', () => {
+      const val = pwdInput.value;
+      let score = 0;
+      if (val.length >= 6) score += 1;
+      if (val.length >= 8) score += 1;
+      if (/[0-9]/.test(val) && /[a-zA-Z]/.test(val)) score += 1;
+      if (/[^a-zA-Z0-9]/.test(val)) score += 1;
+
+      // Reset segments
+      [seg1, seg2, seg3, seg4].forEach(s => { s.style.background = 'transparent'; });
+
+      if (val.length === 0) {
+        strLabel.textContent = '';
+      } else if (val.length < 6) {
+        seg1.style.background = 'var(--danger)';
+        strLabel.textContent = 'Too short (min 6)';
+        strLabel.style.color = 'var(--danger)';
+      } else if (score <= 1) {
+        seg1.style.background = '#e8943a';
+        strLabel.textContent = 'Weak';
+        strLabel.style.color = '#e8943a';
+      } else if (score === 2) {
+        seg1.style.background = '#eab308';
+        seg2.style.background = '#eab308';
+        strLabel.textContent = 'Fair';
+        strLabel.style.color = '#ca8a04';
+      } else if (score === 3) {
+        seg1.style.background = 'var(--mint)';
+        seg2.style.background = 'var(--mint)';
+        seg3.style.background = 'var(--mint)';
+        strLabel.textContent = 'Good';
+        strLabel.style.color = 'var(--jade)';
+      } else {
+        seg1.style.background = 'var(--jade)';
+        seg2.style.background = 'var(--jade)';
+        seg3.style.background = 'var(--jade)';
+        seg4.style.background = 'var(--jade)';
+        strLabel.textContent = 'Strong ✓';
+        strLabel.style.color = 'var(--jade)';
+      }
+    });
+
+    // 5. Show/Hide Password Toggle
+    btnToggle.addEventListener('click', () => {
+      const isPwd = pwdInput.type === 'password';
+      pwdInput.type = isPwd ? 'text' : 'password';
+      btnToggle.textContent = isPwd ? '🙈' : '👁';
+      btnToggle.title = isPwd ? 'Hide Password' : 'Show Password';
+      pwdInput.focus();
+    });
+
+    // 6. CapsLock Detection
+    pwdInput.addEventListener('keyup', (e) => {
+      if (e.getModifierState && e.getModifierState('CapsLock')) {
+        capsNotice.style.display = 'inline-block';
+      } else {
+        capsNotice.style.display = 'none';
+      }
+    });
+
+    // 7. Sponsor Input Live Detection
+    spInput.addEventListener('input', () => {
+      const spVal = spInput.value.trim().replace(/\D/g, '');
+      spInput.value = spVal;
+      if (spVal.length === 11 && spVal.startsWith('09')) {
+        spBadge.textContent = '✓ Sponsor: ' + spVal;
+        spBadge.style.color = 'var(--jade)';
+      } else if (spVal.length > 0) {
+        spBadge.textContent = spVal.length + '/11 digits';
+        spBadge.style.color = 'var(--muted)';
+      } else {
+        spBadge.textContent = 'Default: System Root';
+        spBadge.style.color = 'var(--muted)';
+      }
+    });
+
+    // 8. Form Submission with Interactive Loading & Shake
     document.getElementById('form').addEventListener('submit', async (e) => {
       e.preventDefault();
-      const errEl = document.getElementById('error');
       errEl.classList.remove('show');
+      cardEl.classList.remove('shake');
+
       const mobileVal = mobInput.value.trim();
       const pwdVal = pwdInput.value;
       const sponsorVal = spInput.value.trim();
 
-      const submitBtn = document.getElementById('submitBtn');
-      submitBtn.disabled = true;
-      submitBtn.textContent = 'Creating account…';
-
-      const res = await fetch('/api/auth/register', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          mobile_number: mobileVal,
-          password: pwdVal,
-          sponsor_mobile: sponsorVal || undefined,
-        }),
-      });
-      const data = await res.json();
-      if (!res.ok) {
-        errEl.textContent = data.error || 'Registration failed.';
+      if (mobileVal.length < 10) {
+        errEl.textContent = 'Please enter a valid Philippine mobile number.';
         errEl.classList.add('show');
-        submitBtn.disabled = false;
-        submitBtn.textContent = 'Create Free Account';
+        cardEl.classList.add('shake');
+        setTimeout(() => cardEl.classList.remove('shake'), 500);
         return;
       }
-      localStorage.setItem('it_token', data.token);
-      location.href = '/dashboard.html';
+
+      submitBtn.disabled = true;
+      submitText.textContent = 'Creating account…';
+      submitArrow.textContent = '⏳';
+
+      try {
+        const res = await fetch('/api/auth/register', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            mobile_number: mobileVal,
+            password: pwdVal,
+            sponsor_mobile: sponsorVal || undefined,
+          }),
+        });
+        const data = await res.json();
+
+        if (!res.ok) {
+          errEl.textContent = data.error || 'Registration failed. Please try again.';
+          errEl.classList.add('show');
+          cardEl.classList.add('shake');
+          setTimeout(() => cardEl.classList.remove('shake'), 500);
+          submitBtn.disabled = false;
+          submitText.textContent = 'Create Free Account';
+          submitArrow.textContent = '➔';
+          return;
+        }
+
+        submitText.textContent = 'Account Created! Opening Desk...';
+        submitArrow.textContent = '✓';
+        submitBtn.style.background = 'linear-gradient(135deg, #10b981 0%, #059669 100%)';
+
+        localStorage.setItem('it_token', data.token);
+        setTimeout(() => {
+          location.href = '/dashboard.html';
+        }, 400);
+      } catch (err) {
+        errEl.textContent = 'Connection failed. Please check your connection.';
+        errEl.classList.add('show');
+        submitBtn.disabled = false;
+        submitText.textContent = 'Create Free Account';
+        submitArrow.textContent = '➔';
+      }
     });
   </script>
 </body>
