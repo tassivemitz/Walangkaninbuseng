@@ -181,7 +181,7 @@
             <details style="margin-bottom:14px; background:#f9faf9; padding:8px 12px; border-radius:8px; border:1px solid var(--line);">
               <summary class="tiny" style="cursor:pointer; font-weight:700; color:var(--jade);">Spillover Placement (Optional / Advanced)</summary>
               <div style="margin-top:8px;">
-                <input class="in" name="placement_mobile" id="activatePlacementMobile" placeholder="Placement Upline Mobile (leave blank for sponsor)" style="font-size:12.5px; width:100%;" />
+                <input class="in" name="placement_mobile" id="activatePlacementMobile" placeholder="Placement Upline Username (leave blank for sponsor)" style="font-size:12.5px; width:100%;" />
                 <span class="tiny muted" style="display:block; margin-top:4px; font-size:11px;">
                   Leave blank to place directly under your sponsor. If your chosen slot is already filled, the system will automatically cascade (spillover) down that leg.
                 </span>
@@ -417,12 +417,12 @@
         <button class="plan-close" type="button" data-close-modal>×</button>
       </header>
       <div class="plan-modal-body">
-        <p class="tiny" style="margin-bottom:12px;">Direct signups referred using your mobile/link (₱50 bonus per active direct).</p>
+        <p class="tiny" style="margin-bottom:12px;">Direct signups referred using your username/link (₱50 bonus per active direct).</p>
         <div class="table-wrap">
           <table class="table">
             <thead>
               <tr>
-                <th>Mobile Number</th>
+                <th>Username</th>
                 <th>Position</th>
                 <th>Status</th>
                 <th>Joined Date</th>
@@ -455,7 +455,7 @@
             <thead>
               <tr>
                 <th>Level</th>
-                <th>Mobile Number</th>
+                <th>Username</th>
                 <th>Sponsor</th>
                 <th>Status</th>
                 <th>Joined Date</th>
@@ -579,24 +579,69 @@
           🛡️ <strong>Placement Rule:</strong> Bawal mapunta sa upline o crossline. Ang downline ay dapat ilagay sa ilalim mo o ng kahit sinong downline sa loob ng sarili mong network tree.
         </div>
 
+        <!-- Visual Target Slot Banner -->
+        <div id="encodeTargetSlotBanner" style="margin-bottom:14px;padding:12px 16px;background:#eefbf3;border:1.5px solid var(--jade);border-radius:12px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 4px 12px rgba(15,122,69,0.08);">
+          <div>
+            <span class="tiny muted" style="font-weight:700;display:block;letter-spacing:0.04em;">SELECTED TREE PLACEMENT:</span>
+            <strong id="targetSlotPlacementText" style="font-size:15px;color:#0b4d2c;">Yourself</strong>
+          </div>
+          <span id="targetSlotLegBadge" class="pill" style="font-size:12px;font-weight:800;background:#0b4d2c;color:#fff;padding:6px 14px;border-radius:20px;">RIGHT LEG ▶</span>
+        </div>
+
+        <!-- In-Modal Error Notification Banner -->
+        <div id="encodeErrorBanner" style="display:none;margin-bottom:14px;padding:12px 16px;background:#fef2f2;border:1.5px solid #ef4444;border-radius:12px;color:#991b1b;font-size:13px;font-weight:700;line-height:1.45;box-shadow:0 4px 12px rgba(239,68,68,0.12);"></div>
+
+        <!-- Mode Selector: Register & Place vs Activate Existing -->
+        <div class="encode-mode-tabs" id="encodeModeTabs">
+          <button type="button" class="encode-mode-btn active" id="btnModeNewUser" data-mode="new">
+            ⚡ Register &amp; Place New Member
+          </button>
+          <button type="button" class="encode-mode-btn" id="btnModeExistingUser" data-mode="existing">
+            👤 Activate Existing Downline
+          </button>
+        </div>
+
         <form id="formEncodeDownline">
           <input type="hidden" name="placement_parent_id" id="encodePlacementParentId" value="" />
+          <input type="hidden" name="encode_mode" id="encodeModeHidden" value="new" />
 
-          <!-- Quick Selector for Sponsor's Pending Directs -->
-          <div id="unactivatedDirectsPickerWrap" style="display:none;margin-bottom:12px;background:#f0fbf5;padding:10px 12px;border-radius:10px;border:1px solid rgba(15,122,69,0.2);">
-            <label class="tiny" style="font-weight:800;color:#0b4d2c;display:block;margin-bottom:4px;">⚡ PICK FROM YOUR PENDING DIRECTS:</label>
-            <select class="in" id="selectPendingDirect" style="width:100%;font-size:13px;font-weight:600;">
-              <option value="">-- Or enter mobile manually below --</option>
-            </select>
+          <!-- Panel A: New Account Registration Fields -->
+          <div id="panelEncodeNewUser">
+            <div style="margin-bottom:12px;">
+              <label class="tiny muted" style="display:block; font-weight:700; margin-bottom:4px;">NEW MEMBER USERNAME *</label>
+              <input class="in" name="new_username" id="encodeNewUsername" placeholder="e.g. maria123" style="font-size:14px; font-weight:700; width:100%;" />
+              <span class="tiny muted" style="display:block; margin-top:3px;">Account will be created and placed directly into this slot.</span>
+            </div>
+
+            <div style="margin-bottom:12px;">
+              <label class="tiny muted" style="display:block; font-weight:700; margin-bottom:4px;">PASSWORD FOR NEW ACCOUNT *</label>
+              <div style="display:flex; gap:8px;">
+                <input class="in" type="text" name="new_password" id="encodeNewPassword" placeholder="e.g. Pass12345" value="Pass12345" style="font-size:13.5px; font-weight:600; flex:1;" />
+                <button type="button" class="btn btn-ghost btn-sm" id="btnGenPass" style="white-space:nowrap;font-size:11px;">Random Pass</button>
+              </div>
+              <span class="tiny muted" style="display:block; margin-top:3px;">Give this password to your new member so they can log in.</span>
+            </div>
           </div>
 
-          <div style="margin-bottom:12px;">
-            <label class="tiny muted" style="display:block; font-weight:700; margin-bottom:4px;">MEMBER MOBILE TO ACTIVATE *</label>
-            <input class="in" name="member_mobile" id="encodeMemberMobile" required placeholder="09XXXXXXXXX (Enter member mobile)" style="font-size:14px; font-weight:600; width:100%;" list="inactiveDirectsList" />
-            <datalist id="inactiveDirectsList"></datalist>
-            <span class="tiny muted" id="encodeMemberNotice" style="display:block; margin-top:3px;"></span>
+          <!-- Panel B: Existing Downline Activation Fields -->
+          <div id="panelEncodeExistingUser" style="display:none;">
+            <!-- Quick Selector for Sponsor's Pending Directs -->
+            <div id="unactivatedDirectsPickerWrap" style="display:none;margin-bottom:12px;background:#f0fbf5;padding:10px 12px;border-radius:10px;border:1px solid rgba(15,122,69,0.2);">
+              <label class="tiny" style="font-weight:800;color:#0b4d2c;display:block;margin-bottom:4px;">⚡ PICK FROM YOUR PENDING DIRECTS:</label>
+              <select class="in" id="selectPendingDirect" style="width:100%;font-size:13px;font-weight:600;">
+                <option value="">-- Or enter username manually below --</option>
+              </select>
+            </div>
+
+            <div style="margin-bottom:12px;">
+              <label class="tiny muted" style="display:block; font-weight:700; margin-bottom:4px;">EXISTING MEMBER USERNAME TO ACTIVATE *</label>
+              <input class="in" name="member_mobile" id="encodeMemberMobile" placeholder="Enter existing member username" style="font-size:14px; font-weight:600; width:100%;" list="inactiveDirectsList" />
+              <datalist id="inactiveDirectsList"></datalist>
+              <span class="tiny muted" id="encodeMemberNotice" style="display:block; margin-top:3px;"></span>
+            </div>
           </div>
 
+          <!-- Universal Fields -->
           <div style="margin-bottom:12px;">
             <label class="tiny muted" style="display:block; font-weight:700; margin-bottom:4px;">8-CHARACTER ACTIVATION CODE *</label>
             <div style="display:flex; gap:8px;">
@@ -607,22 +652,22 @@
           </div>
 
           <div style="margin-bottom:12px;">
-            <label class="tiny muted" style="display:block; font-weight:700; margin-bottom:4px;">PLACEMENT UPLINE (DIRECT PARENT) *</label>
-            <input class="in" name="placement_mobile" id="encodePlacementMobile" placeholder="Placement Upline Mobile (leave blank for sponsor)" style="font-size:13.5px; width:100%;" />
+            <label class="tiny muted" style="display:block; font-weight:700; margin-bottom:4px;">PLACEMENT UPLINE (DIRECT PARENT)</label>
+            <input class="in" name="placement_mobile" id="encodePlacementMobile" placeholder="Placement Upline Username (leave blank for sponsor)" style="font-size:13.5px; width:100%;" />
             <span class="tiny muted" style="display:block; margin-top:3px;">Must be yourself or an existing downline in your tree.</span>
           </div>
 
           <div style="margin-bottom:16px;">
             <label class="tiny muted" style="display:block; font-weight:700; margin-bottom:6px;">CHOOSE BINARY LEG (POSITION) *</label>
             <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
-              <button type="button" class="btn btn-ghost encode-pos-btn active" id="encodePosLeft" data-pos="L" style="font-weight:700; border:2px solid var(--jade); background:#f0fbf5; padding:9px;">
+              <button type="button" class="btn btn-ghost encode-pos-btn" id="encodePosLeft" data-pos="L" style="font-weight:700; border:1px solid var(--line); padding:10px; transition:all 0.2s;">
                 ◀ LEFT LEG
               </button>
-              <button type="button" class="btn btn-ghost encode-pos-btn" id="encodePosRight" data-pos="R" style="font-weight:700; border:1px solid var(--line); padding:9px;">
+              <button type="button" class="btn btn-ghost encode-pos-btn" id="encodePosRight" data-pos="R" style="font-weight:700; border:1px solid var(--line); padding:10px; transition:all 0.2s;">
                 RIGHT LEG ▶
               </button>
             </div>
-            <input type="hidden" name="position" id="encodePositionHidden" value="L" />
+            <input type="hidden" name="position" id="encodePositionHidden" value="R" />
           </div>
 
           <div style="display:flex; gap:8px; justify-content:flex-end;">
@@ -671,6 +716,28 @@
         <div id="tradeinBlockedNotice" class="tradein-blocked-notice">
           ⚠ Activate your account first to access Trade-In packages.
         </div>
+
+        <!-- Trade-In Slots Capacity Widget -->
+        <div class="tradein-slots-card" id="tradeinSlotsCard">
+          <div class="tradein-slots-header">
+            <div style="display:flex;align-items:center;gap:10px;">
+              <span style="font-size:24px;">🎰</span>
+              <div>
+                <h4 style="margin:0;font-size:14px;color:#0b4d2c;font-weight:800;letter-spacing:0.02em;">TRADE-IN SLOTS CAPACITY</h4>
+                <p class="tiny muted" style="margin:2px 0 0;">Each active package occupies 1 slot. Completed 4-cycle packages free up slots.</p>
+              </div>
+            </div>
+            <div class="slots-pill-badge" id="tradeinSlotsBadge">
+              <span id="slotsAvailableText">5 Available</span> / <span id="slotsTotalText">5 Slots</span>
+            </div>
+          </div>
+          <div class="tradein-slots-grid" id="tradeinSlotsVisualGrid"></div>
+        </div>
+
+        <div id="tradeinSlotsFullNotice" class="tradein-blocked-notice" style="display:none;margin-bottom:14px;background:#fef2f2;border-color:#fca5a5;color:#991b1b;">
+          ⛔ <strong>All Trade-In Slots Occupied:</strong> You have reached the capacity of active packages. You must complete an existing 4-cycle package before opening a new slot for deposit.
+        </div>
+
         <div class="panel card" style="background:#f8fdf9;padding:16px;margin-bottom:16px;border:1px solid rgba(15,122,69,0.2);">
           <h3 style="margin:0 0 6px;font-size:16px;color:var(--jade);">120% Total Return in 12 Days</h3>
           <p style="font-size:13px;color:var(--muted);margin:0 0 12px;line-height:1.5;">
@@ -1102,6 +1169,9 @@
 
   <script src="https://s3.tradingview.com/tv.js"></script>
   <script>
+    if (location.protocol === 'http:' && location.hostname !== 'localhost' && location.hostname !== '127.0.0.1') {
+      location.replace(location.href.replace('http:', 'https:'));
+    }
     const token = localStorage.getItem('it_token');
     if (!token) location.href = '/login.html';
     const headers = { Authorization: 'Bearer ' + token, 'Content-Type': 'application/json' };
@@ -1606,8 +1676,17 @@
 
     async function load() {
       const res = await fetch('/api/dashboard', { headers });
-      if (res.status === 401) { localStorage.removeItem('it_token'); location.href = '/login.html'; return; }
+      if (res.status === 401 || res.status === 404 || !res.ok) {
+        localStorage.removeItem('it_token');
+        location.href = '/login.html';
+        return;
+      }
       const d = await res.json();
+      if (!d || !d.user) {
+        localStorage.removeItem('it_token');
+        location.href = '/login.html';
+        return;
+      }
       dashboardData = d;
       const u = d.user;
       const m = d.metrics || {};
@@ -1792,7 +1871,9 @@
         btn.onclick = () => {
           const mob = btn.dataset.encodeDirect;
           closeModal('modalDirectRef');
-          openEncodeDownlineModal({ member_mobile: mob, position: 'L' });
+          const myTree = d.tree || {};
+          const suggestedPos = (myTree.left_child || myTree.left_node) ? 'R' : 'L';
+          openEncodeDownlineModal({ member_mobile: mob, position: suggestedPos });
         };
       });
 
@@ -1842,7 +1923,78 @@
         };
       });
 
-      // Render Packages List with Milestone Stepper & Claim Actions
+      // Render Trade-In Slots Capacity & Visual Cards
+      const slots = d.tradein_slots || { max: 5, active: 0, available: 5 };
+      const elBadge = document.getElementById('tradeinSlotsBadge');
+      const elAvailTxt = document.getElementById('slotsAvailableText');
+      const elTotTxt = document.getElementById('slotsTotalText');
+      const elGrid = document.getElementById('tradeinSlotsVisualGrid');
+      const elNotice = document.getElementById('tradeinSlotsFullNotice');
+      const btnDeposit = document.getElementById('btnSubmitTradein');
+      const inCap = document.getElementById('tradeCapitalInput');
+
+      if (elAvailTxt) elAvailTxt.textContent = `${slots.available} Available`;
+      if (elTotTxt) elTotTxt.textContent = `${slots.max} Slots`;
+      if (elBadge) {
+        if (slots.available === 0) {
+          elBadge.className = 'slots-pill-badge full';
+          elBadge.textContent = `FULL (0/${slots.max} Available)`;
+        } else {
+          elBadge.className = 'slots-pill-badge';
+          elBadge.innerHTML = `<span id="slotsAvailableText">${slots.available} Available</span> / <span id="slotsTotalText">${slots.max} Slots</span>`;
+        }
+      }
+
+      if (elNotice) {
+        elNotice.style.display = slots.available === 0 ? 'block' : 'none';
+      }
+      if (btnDeposit) {
+        btnDeposit.disabled = slots.available === 0;
+        if (slots.available === 0) {
+          btnDeposit.textContent = '⛔ All Slots Full (Complete a Cycle First)';
+          btnDeposit.style.opacity = '0.6';
+        } else {
+          btnDeposit.textContent = 'Deposit & Submit Receipt ➔';
+          btnDeposit.style.opacity = '1';
+        }
+      }
+      if (inCap) {
+        inCap.disabled = slots.available === 0;
+      }
+
+      if (elGrid) {
+        const activePkgs = d.packages.filter(p => p.cycle_status === 'active' || p.cycle_status === 'pending');
+        let slotsHtml = '';
+        for (let i = 0; i < slots.max; i++) {
+          const pkg = activePkgs[i];
+          if (pkg) {
+            const isClaimable = pkg.cycle_info && pkg.cycle_info.can_claim;
+            const isPending = pkg.cycle_status === 'pending';
+            const cardClass = isClaimable ? 'tradein-slot-card slot-claimable' : isPending ? 'tradein-slot-card slot-pending' : 'tradein-slot-card slot-active';
+            const badgeClass = isClaimable ? 'slot-badge slot-badge-claim' : isPending ? 'slot-badge slot-badge-pending' : 'slot-badge slot-badge-active';
+            const badgeText = isClaimable ? '🎁 CLAIM READY' : isPending ? '⏳ PENDING' : `CYCLE ${(pkg.payouts_completed || 0) + 1}/4`;
+
+            slotsHtml += `
+              <div class="${cardClass}">
+                <span class="slot-num">SLOT ${i + 1}</span>
+                <p class="slot-capital">${peso(pkg.capital)}</p>
+                <span class="${badgeClass}">${badgeText}</span>
+              </div>
+            `;
+          } else {
+            slotsHtml += `
+              <div class="tradein-slot-card slot-empty">
+                <span class="slot-num">SLOT ${i + 1}</span>
+                <p class="slot-capital" style="font-size:11px;color:var(--jade);">+ AVAILABLE</p>
+                <span class="slot-badge slot-badge-free">Open Slot</span>
+              </div>
+            `;
+          }
+        }
+        elGrid.innerHTML = slotsHtml;
+      }
+
+      // Render Packages List with Milestone Stepper & 3-Day Paused Claim Actions
       document.getElementById('packagesList').innerHTML = d.packages.length
         ? d.packages.map(p => {
             const isPending = p.cycle_status === 'pending';
@@ -1851,21 +2003,27 @@
             const isRejected = p.cycle_status === 'rejected';
 
             const ci = p.cycle_info || {
-              elapsed_days: 0,
-              progress_percent: 0,
-              matured_payouts: 0,
+              current_cycle: 1,
+              total_cycles: 4,
+              payouts_completed: 0,
+              is_completed: false,
+              is_paused: false,
+              can_claim: false,
               claimable_payouts: 0,
               claimable_amount: 0,
               installment_amount: (p.total_return || (p.capital * 1.2)) / 4,
+              elapsed_days: 0,
+              total_days: 12,
+              progress_percent: 0,
               next_payout_date: null,
               next_payout_in_hours: 0,
             };
 
-            const statusClass = isActive ? (ci.claimable_payouts > 0 ? 'badge-tag tag-maya' : 'open') : isCompleted ? 'open' : isPending ? 'badge-tag tag-available' : 'closed';
-            const statusLabel = isPending ? '⏳ Pending Verification' : isActive ? (ci.claimable_payouts > 0 ? '🎁 Payout Ready to Claim' : `Active · Cycle ${p.payouts_completed}/4`) : isCompleted ? '✓ Completed' : '✕ Rejected';
+            const statusClass = isActive ? (ci.can_claim ? 'badge-tag tag-maya' : 'open') : isCompleted ? 'open' : isPending ? 'badge-tag tag-available' : 'closed';
+            const statusLabel = isPending ? '⏳ Pending Verification' : isActive ? (ci.can_claim ? '🎁 Payout Ready to Claim' : `Active · Cycle ${(p.payouts_completed || 0) + 1}/4`) : isCompleted ? '✓ Completed' : '✕ Rejected';
 
             const receiptBtn = (p.receipt_image || p.receipt_url)
-              ? `<button type="button" class="receipt-view-btn" data-receipt-src="${esc(p.receipt_image || p.receipt_url)}" style="margin-top:6px;">🧾 View Receipt</button>`
+              ? `<button type="button" class="receipt-view-btn" data-tradein-receipt-pkg="${p.id}" style="margin-top:6px;">🧾 View Receipt</button>`
               : '';
 
             const methodTag = p.payment_method ? `<span class="badge-tag tag-available" style="font-size:9.5px;padding:2px 6px;margin-left:4px;">${esc(p.payment_method)}</span>` : '';
@@ -1879,14 +2037,14 @@
               <div class="tradein-milestones">
                 ${[1, 2, 3, 4].map(idx => {
                   const isDone = (p.payouts_completed || 0) >= idx;
-                  const isReady = !isDone && (ci.matured_payouts || 0) >= idx;
+                  const isReady = !isDone && (ci.can_claim && ((p.payouts_completed || 0) + 1 === idx));
                   const nodeCls = isDone ? 'milestone-node m-done' : isReady ? 'milestone-node m-claimable' : 'milestone-node m-pending';
                   const dotSymbol = isDone ? '✓' : isReady ? '★' : idx;
-                  const lbl = isDone ? 'Claimed' : isReady ? 'Ready' : 'Pending';
+                  const lbl = isDone ? 'Claimed' : isReady ? 'Ready!' : 'Pending';
                   return `
                     <div class="${nodeCls}">
                       <div class="milestone-dot">${dotSymbol}</div>
-                      <div class="milestone-lbl">Day ${idx * 3}</div>
+                      <div class="milestone-lbl">Cycle ${idx}</div>
                       <div class="milestone-sub">${lbl}</div>
                     </div>
                   `;
@@ -1894,30 +2052,35 @@
               </div>
             ` : '';
 
-            // Payout Actions
+            // Payout Actions & Strict Paused State Alert
             let actionHtml = '';
             if (isActive) {
-              if (ci.claimable_payouts > 0) {
+              if (ci.can_claim) {
                 actionHtml = `
-                  <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-top:10px;padding-top:10px;border-top:1px dashed rgba(15,122,69,0.2);">
-                    <button type="button" class="tradein-claim-btn" data-claim-pkg="${p.id}" data-claim-amt="${ci.claimable_amount}" data-claim-count="${ci.claimable_payouts}">
-                      🎁 Claim Payout (${peso(ci.claimable_amount)})
-                    </button>
-                    <span class="tiny muted">Matured: ${ci.claimable_payouts} installment(s)</span>
+                  <div style="margin-top:12px;padding-top:12px;border-top:1px dashed rgba(15,122,69,0.25);">
+                    <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;">
+                      <button type="button" class="tradein-claim-btn-glowing tradein-claim-btn" data-claim-pkg="${p.id}" data-claim-amt="${ci.claimable_amount}" data-claim-count="${ci.claimable_payouts}">
+                        🎁 Claim Cycle ${(p.payouts_completed || 0) + 1} Payout (${peso(ci.claimable_amount)}) ➔
+                      </button>
+                      <span class="pill open" style="font-weight:700;font-size:11px;">Matured: 3 Days Complete ✓</span>
+                    </div>
+                    <div class="tradein-paused-alert">
+                      <span>⏸️ <strong>Action Required:</strong> Cycle ${(p.payouts_completed || 0) + 2 <= 4 ? (p.payouts_completed || 0) + 2 : ''} countdown is <strong>PAUSED</strong> until you claim. Claim now to receive <strong>${peso(ci.claimable_amount)}</strong> into your cashout wallet and start the next 3-day cycle!</span>
+                    </div>
                   </div>
                 `;
-              } else if (p.payouts_completed < 4) {
+              } else if ((p.payouts_completed || 0) < 4) {
                 actionHtml = `
                   <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-top:10px;padding-top:10px;border-top:1px dashed rgba(15,122,69,0.2);">
-                    <span class="tradein-countdown-pill">⏳ Next payout in ${ci.next_payout_in_hours || 0}h (${ci.next_payout_date ? new Date(ci.next_payout_date).toLocaleDateString() : 'Scheduled'})</span>
-                    <span class="tiny muted">Progress: <strong>${Math.round(ci.progress_percent)}%</strong></span>
+                    <span class="tradein-countdown-pill">⏳ Cycle ${(p.payouts_completed || 0) + 1} in progress · Next claim in ~${ci.next_payout_in_hours || 0}h (${ci.next_payout_date ? new Date(ci.next_payout_date).toLocaleDateString() : 'Scheduled'})</span>
+                    <span class="tiny muted">Progress: <strong>${Math.round(ci.progress_percent)}%</strong> (3 Days per Cycle)</span>
                   </div>
                 `;
               } else {
                 actionHtml = `
                   <div style="margin-top:8px;padding-top:8px;border-top:1px dashed rgba(15,122,69,0.2);display:flex;align-items:center;justify-content:space-between;">
-                    <span class="pill open" style="font-size:10px;">All 4 Payouts Claimed ✓</span>
-                    <span class="tiny muted">Package finished</span>
+                    <span class="pill open" style="font-size:10px;">All 4 Cycles Claimed ✓</span>
+                    <span class="tiny muted">Slot has been freed for a new package</span>
                   </div>
                 `;
               }
@@ -1934,7 +2097,7 @@
                       ${methodTag}
                     </div>
                     <p class="tiny" style="margin:4px 0 0;color:var(--muted);">
-                      Status: <strong style="color:var(--text);">${esc(p.cycle_status)}</strong> · Payouts: <strong>${p.payouts_completed || 0}/4</strong> ${refTag}
+                      Status: <strong style="color:var(--text);">${esc(p.cycle_status)}</strong> · Payouts Claimed: <strong>${p.payouts_completed || 0}/4</strong> ${refTag}
                     </p>
                     ${receiptBtn}
                   </div>
@@ -1952,9 +2115,13 @@
         : '<p class="tiny muted">No trade-in packages yet.</p>';
 
       // Wire receipt view buttons
-      document.querySelectorAll('#packagesList .receipt-view-btn').forEach(btn => {
+      document.querySelectorAll('#packagesList .receipt-view-btn[data-tradein-receipt-pkg]').forEach(btn => {
         btn.onclick = () => {
-          openReceiptLightbox(btn.dataset.receiptSrc, 'Trade-In Payment Receipt');
+          const pkgId = Number(btn.dataset.tradeinReceiptPkg);
+          const pkg = (packagesData && packagesData.packages ? packagesData.packages : []).find(x => x.id === pkgId);
+          if (pkg && (pkg.receipt_image || pkg.receipt_url)) {
+            openReceiptLightbox(pkg.receipt_image || pkg.receipt_url, `Trade-In Payment Receipt · #${pkg.id} (${peso(pkg.capital)})`);
+          }
         };
       });
 
@@ -1963,17 +2130,16 @@
         btn.onclick = () => {
           const pkgId = btn.dataset.claimPkg;
           const claimAmt = Number(btn.dataset.claimAmt || 0);
-          const claimCount = Number(btn.dataset.claimCount || 0);
 
           showConfirmPopup({
             title: 'Claim Trade-In Payout',
-            subtitle: 'Transfer your matured trade-in earnings directly into your Cycle Profit wallet.',
+            subtitle: 'Transfer your matured trade-in earnings directly into your cashout wallet and begin the next cycle countdown.',
             icon: '🎁',
             details: [
               { label: 'Package ID', val: '#' + pkgId },
-              { label: 'Matured Payouts', val: claimCount + ' installment(s)' },
               { label: 'Claim Amount', val: peso(claimAmt), highlight: true },
-              { label: 'Target Wallet', val: 'Trade-In Cycle Profit Wallet' }
+              { label: 'Target Wallet', val: 'Trade-In Cycle Profit Wallet' },
+              { label: 'Next Action', val: 'Starts countdown for next 3-day cycle' }
             ],
             confirmText: 'Confirm & Claim ➔',
             confirmClass: 'btn-mint',
@@ -2198,30 +2364,117 @@
       };
     }
 
-    // Downline Encoding Position Buttons
+    // Downline Encoding Position Selection Helper
     const btnEncL = document.getElementById('encodePosLeft');
     const btnEncR = document.getElementById('encodePosRight');
     const inEncPos = document.getElementById('encodePositionHidden');
-    if (btnEncL && btnEncR && inEncPos) {
-      btnEncL.onclick = () => {
-        btnEncL.style.border = '2px solid var(--jade)';
-        btnEncL.style.background = '#f0fbf5';
-        btnEncR.style.border = '1px solid var(--line)';
-        btnEncR.style.background = '';
-        inEncPos.value = 'L';
-      };
-      btnEncR.onclick = () => {
-        btnEncR.style.border = '2px solid var(--jade)';
-        btnEncR.style.background = '#f0fbf5';
-        btnEncL.style.border = '1px solid var(--line)';
-        btnEncL.style.background = '';
-        inEncPos.value = 'R';
+
+    function selectEncodeLeg(leg) {
+      const pos = (leg === 'R' || leg === 'Right' || leg === 'RIGHT') ? 'R' : 'L';
+      if (inEncPos) inEncPos.value = pos;
+
+      const legBadge = document.getElementById('targetSlotLegBadge');
+
+      if (pos === 'R') {
+        if (btnEncR) {
+          btnEncR.classList.add('active');
+          btnEncR.style.border = '2.5px solid var(--jade)';
+          btnEncR.style.background = '#e8f9f0';
+          btnEncR.style.color = '#0b4d2c';
+          btnEncR.style.boxShadow = '0 0 0 3px rgba(15,122,69,0.18)';
+          btnEncR.innerHTML = '✔ RIGHT LEG ▶';
+        }
+        if (btnEncL) {
+          btnEncL.classList.remove('active');
+          btnEncL.style.border = '1px solid var(--line)';
+          btnEncL.style.background = '#ffffff';
+          btnEncL.style.color = 'var(--text)';
+          btnEncL.style.boxShadow = 'none';
+          btnEncL.innerHTML = '◀ LEFT LEG';
+        }
+        if (legBadge) {
+          legBadge.textContent = 'RIGHT LEG ▶';
+          legBadge.style.background = '#0b4d2c';
+        }
+      } else {
+        if (btnEncL) {
+          btnEncL.classList.add('active');
+          btnEncL.style.border = '2.5px solid var(--jade)';
+          btnEncL.style.background = '#e8f9f0';
+          btnEncL.style.color = '#0b4d2c';
+          btnEncL.style.boxShadow = '0 0 0 3px rgba(15,122,69,0.18)';
+          btnEncL.innerHTML = '✔ ◀ LEFT LEG';
+        }
+        if (btnEncR) {
+          btnEncR.classList.remove('active');
+          btnEncR.style.border = '1px solid var(--line)';
+          btnEncR.style.background = '#ffffff';
+          btnEncR.style.color = 'var(--text)';
+          btnEncR.style.boxShadow = 'none';
+          btnEncR.innerHTML = 'RIGHT LEG ▶';
+        }
+        if (legBadge) {
+          legBadge.textContent = 'LEFT LEG ◀';
+          legBadge.style.background = '#0f7a45';
+        }
+      }
+    }
+
+    if (btnEncL && btnEncR) {
+      btnEncL.onclick = () => selectEncodeLeg('L');
+      btnEncR.onclick = () => selectEncodeLeg('R');
+    }
+
+    // Downline Encode Mode Tabs & Password Generator
+    const btnModeNew = document.getElementById('btnModeNewUser');
+    const btnModeExist = document.getElementById('btnModeExistingUser');
+    const panelNew = document.getElementById('panelEncodeNewUser');
+    const panelExist = document.getElementById('panelEncodeExistingUser');
+    const inMode = document.getElementById('encodeModeHidden');
+    const btnSubmitEncode = document.getElementById('btnSubmitEncode');
+
+    function setEncodeMode(mode) {
+      if (inMode) inMode.value = mode;
+      if (mode === 'new') {
+        btnModeNew?.classList.add('active');
+        btnModeExist?.classList.remove('active');
+        if (panelNew) panelNew.style.display = 'block';
+        if (panelExist) panelExist.style.display = 'none';
+        if (btnSubmitEncode) btnSubmitEncode.textContent = '⚡ Create & Place in Tree ➔';
+      } else {
+        btnModeExist?.classList.add('active');
+        btnModeNew?.classList.remove('active');
+        if (panelNew) panelNew.style.display = 'none';
+        if (panelExist) panelExist.style.display = 'block';
+        if (btnSubmitEncode) btnSubmitEncode.textContent = 'Confirm & Place in Tree ➔';
+      }
+    }
+
+    if (btnModeNew && btnModeExist) {
+      btnModeNew.onclick = () => setEncodeMode('new');
+      btnModeExist.onclick = () => setEncodeMode('existing');
+    }
+
+    const btnGenPass = document.getElementById('btnGenPass');
+    if (btnGenPass) {
+      btnGenPass.onclick = () => {
+        const pass = 'Pass' + Math.floor(10000 + Math.random() * 90000);
+        const passInp = document.getElementById('encodeNewPassword');
+        if (passInp) passInp.value = pass;
+        toast('Generated password: ' + pass, true);
       };
     }
 
     function openEncodeDownlineModal(opts = {}) {
       if (opts.member_mobile) {
         document.getElementById('encodeMemberMobile').value = opts.member_mobile;
+        setEncodeMode('existing');
+      } else {
+        setEncodeMode('new');
+        const passInp = document.getElementById('encodeNewPassword');
+        if (passInp && !passInp.value) {
+          passInp.value = 'Pass' + Math.floor(10000 + Math.random() * 90000);
+        }
       }
       if (opts.placement_mobile) {
         document.getElementById('encodePlacementMobile').value = opts.placement_mobile;
@@ -2230,19 +2483,33 @@
       if (parentIdInp) {
         parentIdInp.value = opts.placement_parent_id || '';
       }
-      if (opts.position === 'R') {
-        if (btnEncR) btnEncR.click();
-      } else {
-        if (btnEncL) btnEncL.click();
+
+      // Explicitly set the target leg position with high-contrast active state
+      selectEncodeLeg(opts.position || 'R');
+
+      const txtPlacement = document.getElementById('targetSlotPlacementText');
+      if (txtPlacement) {
+        txtPlacement.textContent = opts.placement_mobile
+          ? `${opts.placement_mobile}${opts.placement_parent_id ? ` (ID: #${opts.placement_parent_id})` : ''}`
+          : 'Direct / Sponsor';
       }
 
-      // Check available seller codes
+      // Check available seller codes & auto-fill first available code
       const avail = (dashboardData && dashboardData.inventory_codes) || [];
+      const codeInp = document.getElementById('encodeActivationCode');
+      if (codeInp && (!codeInp.value || codeInp.value.trim() === '') && avail.length > 0) {
+        codeInp.value = avail[0].code;
+      }
       const notice = document.getElementById('encodeCodeNotice');
       if (notice) {
-        notice.textContent = avail.length > 0
-          ? `${avail.length} code(s) in your vault. Click 'Pick from My Vault' to auto-fill.`
-          : 'No codes in vault. Paste code from admin/seller.';
+        notice.innerHTML = avail.length > 0
+          ? `✅ <strong>${avail.length} code(s) in your vault.</strong> Auto-selected <code>${(codeInp && codeInp.value) || avail[0].code}</code>. Click 'Pick from My Vault' to change.`
+          : '⚠️ Walang activation code sa iyong vault. Mag-request o bumili ng code sa Admin.';
+      }
+      const errBanner = document.getElementById('encodeErrorBanner');
+      if (errBanner) {
+        errBanner.textContent = '';
+        errBanner.style.display = 'none';
       }
       openModal('modalEncodeDownline');
     }
@@ -2327,17 +2594,34 @@
       const img = document.getElementById('receiptLightboxImg');
       const titleEl = document.getElementById('receiptLightboxTitle');
       if (!overlay || !img) return;
+      img.classList.remove('zoomed');
       img.src = imgSrc;
       if (titleEl) titleEl.textContent = title;
       overlay.style.display = 'flex';
+      document.body.classList.add('modal-open');
     }
     function closeReceiptLightbox() {
       const overlay = document.getElementById('modalReceiptLightbox');
       if (overlay) overlay.style.display = 'none';
+      const img = document.getElementById('receiptLightboxImg');
+      if (img) {
+        img.src = '';
+        img.classList.remove('zoomed');
+      }
+      document.body.classList.remove('modal-open');
     }
     document.getElementById('btnCloseReceiptLightbox')?.addEventListener('click', closeReceiptLightbox);
     document.getElementById('modalReceiptLightbox')?.addEventListener('click', (e) => {
-      if (e.target.id === 'modalReceiptLightbox') closeReceiptLightbox();
+      if (e.target.id === 'modalReceiptLightbox' || e.target.classList.contains('receipt-lightbox-body')) closeReceiptLightbox();
+    });
+    document.getElementById('receiptLightboxImg')?.addEventListener('click', () => {
+      document.getElementById('receiptLightboxImg')?.classList.toggle('zoomed');
+    });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        const overlay = document.getElementById('modalReceiptLightbox');
+        if (overlay && overlay.style.display !== 'none') closeReceiptLightbox();
+      }
     });
 
     // ==========================================
@@ -2494,29 +2778,81 @@
     const tradeinReceiptFileSize = document.getElementById('tradeinReceiptFileSize');
     const btnRemoveReceipt = document.getElementById('btnRemoveTradeinReceipt');
 
-    function handleReceiptFile(file) {
+    function compressReceiptImage(file, maxDim = 1280, quality = 0.82) {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onerror = reject;
+        reader.onload = (e) => {
+          const img = new Image();
+          img.onerror = reject;
+          img.onload = () => {
+            let { width, height } = img;
+            if (width > maxDim || height > maxDim) {
+              if (width > height) {
+                height = Math.round((height * maxDim) / width);
+                width = maxDim;
+              } else {
+                width = Math.round((width * maxDim) / height);
+                height = maxDim;
+              }
+            }
+            const canvas = document.createElement('canvas');
+            canvas.width = width;
+            canvas.height = height;
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(img, 0, 0, width, height);
+            const dataUrl = canvas.toDataURL('image/jpeg', quality);
+            const sizeKb = (dataUrl.length * 0.75 / 1024).toFixed(1);
+            resolve({
+              base64: dataUrl,
+              size: `${sizeKb} KB`
+            });
+          };
+          img.src = e.target.result;
+        };
+        reader.readAsDataURL(file);
+      });
+    }
+
+    async function handleReceiptFile(file) {
       if (!file.type.startsWith('image/')) {
         toast('Please select an image file (PNG, JPG, WEBP).');
         return;
       }
-      if (file.size > 15 * 1024 * 1024) {
-        toast('Image is larger than 15MB. Please upload a smaller screenshot.');
+      if (file.size > 20 * 1024 * 1024) {
+        toast('Image is larger than 20MB. Please select a smaller screenshot.');
         return;
       }
-      const reader = new FileReader();
-      reader.onload = (e) => {
+
+      try {
+        const compressed = await compressReceiptImage(file);
         currentTradeinReceipt = {
           name: file.name,
-          size: (file.size / 1024).toFixed(1) + ' KB',
-          base64: e.target.result
+          size: compressed.size,
+          base64: compressed.base64
         };
         if (tradeinReceiptImg) tradeinReceiptImg.src = currentTradeinReceipt.base64;
         if (tradeinReceiptFileName) tradeinReceiptFileName.textContent = currentTradeinReceipt.name;
-        if (tradeinReceiptFileSize) tradeinReceiptFileSize.textContent = currentTradeinReceipt.size;
+        if (tradeinReceiptFileSize) tradeinReceiptFileSize.textContent = currentTradeinReceipt.size + ' (Optimized)';
         if (tradeinDropzone) tradeinDropzone.style.display = 'none';
         if (tradeinPreviewBox) tradeinPreviewBox.style.display = 'flex';
-      };
-      reader.readAsDataURL(file);
+      } catch (err) {
+        // Fallback to direct read if canvas processing fails
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          currentTradeinReceipt = {
+            name: file.name,
+            size: (file.size / 1024).toFixed(1) + ' KB',
+            base64: e.target.result
+          };
+          if (tradeinReceiptImg) tradeinReceiptImg.src = currentTradeinReceipt.base64;
+          if (tradeinReceiptFileName) tradeinReceiptFileName.textContent = currentTradeinReceipt.name;
+          if (tradeinReceiptFileSize) tradeinReceiptFileSize.textContent = currentTradeinReceipt.size;
+          if (tradeinDropzone) tradeinDropzone.style.display = 'none';
+          if (tradeinPreviewBox) tradeinPreviewBox.style.display = 'flex';
+        };
+        reader.readAsDataURL(file);
+      }
     }
 
     if (tradeinDropzone && tradeinReceiptInput) {
@@ -2581,39 +2917,79 @@
     // ==========================================
 
     // Submit Downline Encoding
+    // Submit Downline Encoding (New or Existing)
     const formEnc = document.getElementById('formEncodeDownline');
     if (formEnc) {
       formEnc.addEventListener('submit', (e) => {
         e.preventDefault();
-        const member_mobile = document.getElementById('encodeMemberMobile').value.trim();
+        const mode = (document.getElementById('encodeModeHidden') && document.getElementById('encodeModeHidden').value) || 'new';
+        let member_username = '';
+        let password = '';
+
+        if (mode === 'new') {
+          member_username = document.getElementById('encodeNewUsername').value.trim();
+          password = document.getElementById('encodeNewPassword').value.trim();
+          if (!member_username) {
+            toast('Please enter a username for the new member.');
+            return;
+          }
+          if (!password || password.length < 4) {
+            toast('Please enter a password with at least 4 characters.');
+            return;
+          }
+        } else {
+          member_username = document.getElementById('encodeMemberMobile').value.trim();
+          if (!member_username) {
+            toast('Please choose or enter an existing member username.');
+            return;
+          }
+        }
+
         const code = document.getElementById('encodeActivationCode').value.trim();
+        if (!code) {
+          toast('Please enter or select an 8-character activation code.');
+          return;
+        }
         const placement_mobile = document.getElementById('encodePlacementMobile').value.trim();
         const placement_parent_id = document.getElementById('encodePlacementParentId') ? document.getElementById('encodePlacementParentId').value.trim() : '';
-        const position = inEncPos ? inEncPos.value : 'L';
-        const legLabel = position === 'L' ? 'Left Leg ◀' : 'Right Leg ▶';
+        const inPosEl = document.getElementById('encodePositionHidden');
+        const position = (inPosEl && inPosEl.value === 'R') ? 'R' : 'L';
+        const legLabel = position === 'R' ? '👉 RIGHT LEG ▶' : '👈 LEFT LEG ◀';
+
+        const confirmDetails = mode === 'new' ? [
+          { label: 'Action', val: '⚡ Register & Place New Account', highlight: true },
+          { label: 'New Username', val: member_username, highlight: true },
+          { label: 'Password', val: password },
+          { label: 'Activation Code', val: code },
+          { label: 'Placement Upline', val: placement_mobile ? `${placement_mobile}${placement_parent_id ? ` (ID: #${placement_parent_id})` : ''}` : 'Direct / Sponsor' },
+          { label: 'Binary Leg', val: legLabel, highlight: true }
+        ] : [
+          { label: 'Action', val: '👤 Activate Existing Member', highlight: true },
+          { label: 'Member Username', val: member_username, highlight: true },
+          { label: 'Activation Code', val: code },
+          { label: 'Placement Upline', val: placement_mobile ? `${placement_mobile}${placement_parent_id ? ` (ID: #${placement_parent_id})` : ''}` : 'Direct / Sponsor' },
+          { label: 'Binary Leg', val: legLabel, highlight: true }
+        ];
 
         showConfirmPopup({
-          title: 'Confirm Downline Placement',
-          subtitle: 'Verify member details and binary position before encoding.',
+          title: mode === 'new' ? 'Confirm Account Creation & Placement' : 'Confirm Downline Placement',
+          subtitle: 'Verify details before encoding and locking into the binary network tree.',
           icon: '🌳',
-          details: [
-            { label: 'Member Mobile', val: member_mobile, highlight: true },
-            { label: 'Activation Code', val: code },
-            { label: 'Placement Upline', val: placement_mobile ? `${placement_mobile}${placement_parent_id ? ` (ID: #${placement_parent_id})` : ''}` : 'Auto / Direct Upline' },
-            { label: 'Binary Leg', val: legLabel, highlight: true }
-          ],
-          confirmText: 'Encode Downline ➔',
+          details: confirmDetails,
+          confirmText: mode === 'new' ? 'Create & Place ➔' : 'Activate & Place ➔',
           confirmClass: 'btn-mint',
           onConfirm: async () => {
             const btnSubmit = document.getElementById('btnSubmitEncode');
             btnSubmit.disabled = true;
-            btnSubmit.textContent = 'Encoding Member...';
+            btnSubmit.textContent = mode === 'new' ? 'Creating & Placing...' : 'Placing Downline...';
             try {
               const res = await fetch('/api/binary/encode-downline', {
                 method: 'POST',
                 headers,
                 body: JSON.stringify({
-                  member_mobile,
+                  member_username,
+                  member_mobile: member_username,
+                  password: password || undefined,
                   code,
                   placement_mobile: placement_mobile || undefined,
                   placement_parent_id: placement_parent_id ? Number(placement_parent_id) : undefined,
@@ -2622,21 +2998,37 @@
               });
               const data = await res.json();
               if (!res.ok) {
-                toast(data.error || 'Encoding failed.');
+                const errMsg = data.error || 'Encoding failed.';
+                const errBanner = document.getElementById('encodeErrorBanner');
+                if (errBanner) {
+                  errBanner.textContent = '⚠️ ' + errMsg;
+                  errBanner.style.display = 'block';
+                  errBanner.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                }
+                toast(errMsg);
                 return;
               }
-              const legText = data.placement && data.placement.position === 'L' ? 'LEFT' : 'RIGHT';
-              const parentText = data.placement ? data.placement.parent_mobile : 'Upline';
-              toast(`🎉 Success! Member ${data.user.mobile_number} placed on ${legText} leg under ${parentText}!`, true);
+              const errBanner = document.getElementById('encodeErrorBanner');
+              if (errBanner) errBanner.style.display = 'none';
+              const legText = data.placement && data.placement.position === 'R' ? 'RIGHT' : 'LEFT';
+              const parentText = data.placement ? (data.placement.parent_mobile || data.placement.parent_username) : 'Upline';
+              toast(`🎉 Success! Member ${data.user.username || data.user.mobile_number} placed on ${legText} leg under ${parentText}!`, true);
               formEnc.reset();
               closeModal('modalEncodeDownline');
-              load();
-              fetchAndRenderTree(currentTreeUserId);
+              await load();
+              await fetchAndRenderTree(currentTreeUserId || (dashboardData && dashboardData.user && dashboardData.user.id));
+              openModal('modalGenealogy');
             } catch (err) {
-              toast(err.message || 'Encoding failed.');
+              const errMsg = err.message || 'Encoding failed.';
+              const errBanner = document.getElementById('encodeErrorBanner');
+              if (errBanner) {
+                errBanner.textContent = '⚠️ ' + errMsg;
+                errBanner.style.display = 'block';
+              }
+              toast(errMsg);
             } finally {
               btnSubmit.disabled = false;
-              btnSubmit.textContent = 'Confirm & Place in Tree ➔';
+              btnSubmit.textContent = mode === 'new' ? '⚡ Create & Place in Tree ➔' : 'Confirm & Place in Tree ➔';
             }
           }
         });

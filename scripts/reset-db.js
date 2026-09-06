@@ -84,6 +84,7 @@ async function runReset() {
     users: [
       {
         id: 1,
+        username: adminMobile,
         mobile_number: adminMobile,
         password: adminPasswordHash,
         role: 'admin',
@@ -119,6 +120,7 @@ async function runReset() {
     settings: {
       weekly_payout_enabled: 0,
       binary_cap: 6000,
+      max_tradein_slots: 5,
     },
   };
 

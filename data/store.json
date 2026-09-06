@@ -9,12 +9,13 @@
   "users": [
     {
       "id": 1,
+      "username": "Toshi",
       "mobile_number": "Toshi",
-      "password": "$2a$10$PcxxiAa4PRjecXImuCAkgOskrIvbmS7UwoaNGnwSLrt7XORZRt8SS",
+      "password": "$2a$10$Ce32BA5aD4vMFCFKIr8QrOM/lAaPERMPXCOA.bQuLtsq3/av6FZTS",
       "role": "admin",
       "status": "active",
       "total_binary_earnings": 0,
-      "created_at": "2026-09-06T04:40:42.671Z"
+      "created_at": "2026-09-06T10:47:39.268Z"
     }
   ],
   "wallets": [
@@ -42,53 +43,54 @@
   "code_vault": [
     {
       "id": 1,
-      "code": "X28B356U",
+      "code": "5FMMLQPN",
       "status": "available",
       "assigned_to": null,
       "used_by": null,
-      "created_at": "2026-09-06T04:40:42.671Z",
+      "created_at": "2026-09-06T10:47:39.268Z",
       "used_at": null
     },
     {
       "id": 2,
-      "code": "VKY4X27K",
+      "code": "PTBHC59L",
       "status": "available",
       "assigned_to": null,
       "used_by": null,
-      "created_at": "2026-09-06T04:40:42.671Z",
+      "created_at": "2026-09-06T10:47:39.268Z",
       "used_at": null
     },
     {
       "id": 3,
-      "code": "JJVNDNZJ",
+      "code": "ASJQ3G4G",
       "status": "available",
       "assigned_to": null,
       "used_by": null,
-      "created_at": "2026-09-06T04:40:42.671Z",
+      "created_at": "2026-09-06T10:47:39.268Z",
       "used_at": null
     },
     {
       "id": 4,
-      "code": "ZZY3ULCH",
+      "code": "RWL5J7JD",
       "status": "available",
       "assigned_to": null,
       "used_by": null,
-      "created_at": "2026-09-06T04:40:42.671Z",
+      "created_at": "2026-09-06T10:47:39.268Z",
       "used_at": null
     },
     {
       "id": 5,
-      "code": "2ZVHMRYQ",
+      "code": "KNQWEKTT",
       "status": "available",
       "assigned_to": null,
       "used_by": null,
-      "created_at": "2026-09-06T04:40:42.671Z",
+      "created_at": "2026-09-06T10:47:39.268Z",
       "used_at": null
     }
   ],
   "earnings_history": [],
   "settings": {
     "weekly_payout_enabled": 0,
-    "binary_cap": 6000
+    "binary_cap": 6000,
+    "max_tradein_slots": 5
   }
 }

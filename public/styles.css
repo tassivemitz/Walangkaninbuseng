@@ -1552,13 +1552,30 @@ input:-webkit-autofill:active {
 
 .banner {
   display: none;
-  margin: 18px 0 0;
-  padding: 12px 14px;
-  border-radius: 14px;
-  border: 1px solid rgba(143, 212, 200, .3);
-  background: rgba(143, 212, 200, .08);
-  color: var(--jade);
-  font-size: 13px;
+  position: fixed;
+  top: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 200000;
+  min-width: 320px;
+  max-width: min(92vw, 540px);
+  padding: 14px 22px;
+  border-radius: 16px;
+  border: 1.5px solid #ef4444;
+  background: #ffffff;
+  color: #991b1b;
+  font-size: 13.5px;
+  font-weight: 700;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.28), 0 4px 12px rgba(239, 68, 68, 0.2);
+  text-align: center;
+  pointer-events: auto;
+  backdrop-filter: blur(12px);
+  animation: bannerToastIn 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes bannerToastIn {
+  from { opacity: 0; transform: translate(-50%, -20px) scale(0.96); }
+  to { opacity: 1; transform: translate(-50%, 0) scale(1); }
 }
 
 .banner.show {
@@ -1566,9 +1583,10 @@ input:-webkit-autofill:active {
 }
 
 .banner.ok {
-  border-color: rgba(155, 231, 196, .3);
-  background: rgba(155, 231, 196, .08);
-  color: var(--ok);
+  border-color: #10b981;
+  background: #f0fdf4;
+  color: #065f46;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.25), 0 4px 12px rgba(16, 185, 129, 0.25);
 }
 
 .pill {
@@ -7432,26 +7450,27 @@ body.modal-open {
 }
 
 .receipt-lightbox-card {
-  background: rgba(20, 30, 24, 0.95);
-  border: 1px solid rgba(15, 122, 69, 0.4);
+  background: rgba(20, 30, 24, 0.97);
+  border: 1px solid rgba(15, 122, 69, 0.45);
   border-radius: 20px;
-  max-width: 620px;
+  max-width: 680px;
   width: 100%;
-  max-height: 90vh;
+  max-height: 92vh;
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.7);
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.85);
   animation: confirmZoomIn 0.25s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .receipt-lightbox-head {
-  padding: 14px 20px;
+  padding: 12px 20px;
   display: flex;
   justify-content: space-between;
   align-items: center;
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   color: #ffffff;
+  background: rgba(10, 20, 15, 0.9);
 }
 
 .receipt-lightbox-body {
@@ -7461,14 +7480,33 @@ body.modal-open {
   justify-content: center;
   overflow: auto;
   background: #09120c;
+  min-height: 240px;
+  max-height: 72vh;
+  position: relative;
 }
 
 .receipt-lightbox-img {
   max-width: 100%;
-  max-height: 70vh;
+  max-height: 68vh;
   object-fit: contain;
   border-radius: 10px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+  cursor: zoom-in;
+  transition: transform 0.25s ease, max-height 0.25s ease;
+  user-select: none;
+}
+
+.receipt-lightbox-img.zoomed {
+  max-height: none;
+  max-width: none;
+  transform: scale(1.6);
+  cursor: zoom-out;
+}
+
+.receipt-lightbox-footer {
+  padding: 12px 20px;
+  background: rgba(10, 20, 15, 0.95);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 /* ==========================================================================
@@ -7790,4 +7828,213 @@ body.modal-open {
   font-weight: 600;
   color: var(--muted);
   margin-top: 2px;
+}
+
+/* ==========================================================================
+   TRADE-IN SLOTS CAPACITY & 3-DAY PAUSED CLAIM SYSTEM STYLES
+   ========================================================================== */
+
+.tradein-slots-card {
+  background: linear-gradient(135deg, rgba(240, 253, 244, 0.95), rgba(255, 255, 255, 0.98));
+  border: 1.5px solid rgba(16, 185, 129, 0.35);
+  border-radius: 14px;
+  padding: 14px 16px;
+  margin-bottom: 16px;
+  box-shadow: 0 4px 18px rgba(15, 122, 69, 0.07);
+}
+
+.tradein-slots-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.slots-pill-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 12px;
+  background: #0f7a45;
+  color: #ffffff;
+  border-radius: 99px;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.03em;
+  box-shadow: 0 2px 8px rgba(15, 122, 69, 0.25);
+}
+
+.slots-pill-badge.full {
+  background: #dc2626;
+  box-shadow: 0 2px 8px rgba(220, 38, 38, 0.25);
+}
+
+.tradein-slots-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(105px, 1fr));
+  gap: 8px;
+}
+
+.tradein-slot-card {
+  border-radius: 10px;
+  padding: 8px 10px;
+  text-align: center;
+  transition: all 0.2s ease;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 72px;
+}
+
+.tradein-slot-card.slot-active {
+  background: #ffffff;
+  border: 1.5px solid rgba(15, 122, 69, 0.4);
+  box-shadow: 0 2px 8px rgba(15, 122, 69, 0.08);
+}
+
+.tradein-slot-card.slot-pending {
+  background: #fffdf5;
+  border: 1.5px dashed #f59e0b;
+}
+
+.tradein-slot-card.slot-claimable {
+  background: #f0fdf4;
+  border: 2px solid #10b981;
+  box-shadow: 0 0 12px rgba(16, 185, 129, 0.35);
+  animation: pulse-border 1.8s infinite;
+}
+
+.tradein-slot-card.slot-empty {
+  background: rgba(255, 255, 255, 0.5);
+  border: 1.5px dashed rgba(15, 122, 69, 0.25);
+  color: var(--muted);
+}
+
+.tradein-slot-card .slot-num {
+  font-size: 10px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #0b4d2c;
+  margin-bottom: 2px;
+}
+
+.tradein-slot-card.slot-empty .slot-num {
+  color: var(--muted);
+}
+
+.tradein-slot-card .slot-capital {
+  font-size: 12.5px;
+  font-weight: 800;
+  color: #0b4d2c;
+  margin: 0;
+}
+
+.tradein-slot-card .slot-badge {
+  display: inline-block;
+  font-size: 9px;
+  font-weight: 700;
+  padding: 1px 6px;
+  border-radius: 6px;
+  margin-top: 3px;
+}
+
+.slot-badge-active {
+  background: rgba(15, 122, 69, 0.12);
+  color: #0f7a45;
+}
+
+.slot-badge-pending {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.slot-badge-claim {
+  background: #10b981;
+  color: #ffffff;
+  font-weight: 800;
+}
+
+.slot-badge-free {
+  background: #f3f4f6;
+  color: #6b7280;
+}
+
+@keyframes pulse-border {
+  0% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.5); }
+  70% { box-shadow: 0 0 0 8px rgba(16, 185, 129, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+}
+
+.tradein-claim-btn-glowing {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: linear-gradient(135deg, #10b981, #059669);
+  color: #ffffff !important;
+  border: none;
+  border-radius: 10px;
+  padding: 10px 18px;
+  font-size: 13.5px;
+  font-weight: 800;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(16, 185, 129, 0.4);
+  transition: all 0.2s ease;
+  animation: pulse-btn 2s infinite;
+}
+
+.tradein-claim-btn-glowing:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(16, 185, 129, 0.5);
+}
+
+@keyframes pulse-btn {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.02); }
+  100% { transform: scale(1); }
+}
+
+.tradein-paused-alert {
+  background: #fef2f2;
+  border: 1.5px solid #fecaca;
+  border-radius: 10px;
+  padding: 9px 12px;
+  font-size: 11.5px;
+  color: #991b1b;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 8px;
+  line-height: 1.4;
+}
+
+.encode-mode-tabs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+
+.encode-mode-btn {
+  padding: 9px 12px;
+  border: 1.5px solid var(--line);
+  background: #f9fafb;
+  border-radius: 10px;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--muted);
+  cursor: pointer;
+  text-align: center;
+  transition: all 0.2s;
+}
+
+.encode-mode-btn.active {
+  border-color: var(--jade);
+  background: #f0fbf5;
+  color: #0b4d2c;
+  box-shadow: 0 2px 8px rgba(15, 122, 69, 0.12);
 }

@@ -19,7 +19,7 @@ function emptyStore() {
     withdrawals: [],
     code_vault: [],
     earnings_history: [],
-    settings: { weekly_payout_enabled: 0, binary_cap: 6000 },
+    settings: { weekly_payout_enabled: 0, binary_cap: 6000, max_tradein_slots: 5 },
   };
 }
 
@@ -38,6 +38,7 @@ function load() {
   store.settings = Object.assign(emptyStore().settings, parsed.settings || {});
   if (!Array.isArray(store.earnings_history)) store.earnings_history = [];
   if (!store.settings.binary_cap) store.settings.binary_cap = 6000;
+  if (!store.settings.max_tradein_slots) store.settings.max_tradein_slots = 5;
 }
 
 function persist() {

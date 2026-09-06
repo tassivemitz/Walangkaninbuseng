@@ -74,33 +74,33 @@
             <input type="password" name="fake_password_trap" tabindex="-1" autocomplete="new-password" />
           </div>
 
-          <!-- Field 1: Mobile Number -->
+          <!-- Field 1: Username -->
           <div class="auth-field-group">
             <label class="auth-field-label" for="mobile_input">
-              <span>PHILIPPINE MOBILE NUMBER *</span>
-              <span class="auth-field-status" id="mobileStatusCheck">✓ 11 Digits</span>
+              <span>USERNAME *</span>
+              <span class="auth-field-status" id="mobileStatusCheck">✓ Min 3 Chars</span>
             </label>
             <div class="auth-field-inner">
-              <span class="auth-field-icon">📱</span>
+              <span class="auth-field-icon">👤</span>
               <input
                 id="mobile_input"
-                name="reg_mobile_num"
+                name="reg_username"
                 class="auth-input"
                 type="text"
-                inputmode="numeric"
                 autocomplete="chrome-off"
                 autocorrect="off"
                 autocapitalize="off"
                 spellcheck="false"
                 required
-                placeholder="09XXXXXXXXX"
-                maxlength="11"
+                placeholder="Choose a username (e.g. johndoe)"
+                minlength="3"
+                maxlength="25"
                 readonly
                 onfocus="this.removeAttribute('readonly')"
               />
             </div>
             <span class="tiny muted" id="mobileHelper" style="display:block;margin-top:4px;font-size:11px;">
-              Enter your active 11-digit mobile number starting with 09.
+              Enter a unique username (at least 3 characters).
             </span>
           </div>
 
@@ -147,10 +147,10 @@
             </div>
           </div>
 
-          <!-- Field 3: Sponsor Mobile -->
+          <!-- Field 3: Sponsor Username -->
           <div class="auth-field-group">
             <label class="auth-field-label" for="sponsor_input">
-              <span>SPONSOR MOBILE (REFERRAL)</span>
+              <span>SPONSOR USERNAME (OPTIONAL)</span>
               <span class="auth-field-status show" id="sponsorStatusBadge" style="color:var(--jade);font-size:11px;">Default: System</span>
             </label>
             <div class="auth-field-inner">
@@ -164,8 +164,7 @@
                 autocorrect="off"
                 autocapitalize="off"
                 spellcheck="false"
-                placeholder="09XXXXXXXXX (or leave blank for Admin)"
-                maxlength="11"
+                placeholder="Enter sponsor username (or leave blank for Admin)"
                 readonly
                 onfocus="this.removeAttribute('readonly')"
               />
@@ -278,27 +277,27 @@
       setTimeout(wipeAutofill, 500);
     });
 
-    // 3. Live Mobile Validation
+    // 3. Live Username Validation
     mobInput.addEventListener('input', () => {
-      const digits = mobInput.value.replace(/\D/g, '');
-      mobInput.value = digits;
-      if (digits.length === 11 && digits.startsWith('09')) {
+      const val = mobInput.value.trim();
+      const isValid = /^[a-zA-Z0-9_\-.@ ]{3,25}$/.test(val);
+      if (isValid) {
         mobInput.classList.add('is-valid');
         mobStatus.classList.add('show');
-        mobStatus.textContent = '✓ Valid PH Mobile';
-        mobHelper.textContent = 'Looks good! 11-digit PH mobile verified.';
+        mobStatus.textContent = '✓ Valid Username';
+        mobHelper.textContent = 'Looks good! Valid username format.';
         mobHelper.style.color = 'var(--jade)';
-      } else if (digits.length > 0) {
+      } else if (val.length > 0) {
         mobInput.classList.remove('is-valid');
         mobStatus.classList.add('show');
-        mobStatus.textContent = digits.length + '/11 digits';
+        mobStatus.textContent = val.length + ' chars';
         mobStatus.style.color = 'var(--muted)';
-        mobHelper.textContent = digits.startsWith('09') ? `Need ${11 - digits.length} more digits` : 'Should start with 09';
+        mobHelper.textContent = val.length < 3 ? `Need at least 3 characters (${3 - val.length} more)` : 'Use letters, numbers, or underscores only';
         mobHelper.style.color = 'var(--muted)';
       } else {
         mobInput.classList.remove('is-valid');
         mobStatus.classList.remove('show');
-        mobHelper.textContent = 'Enter your active 11-digit mobile number starting with 09.';
+        mobHelper.textContent = 'Enter a unique username (at least 3 characters).';
         mobHelper.style.color = 'var(--muted)';
       }
     });
@@ -366,13 +365,12 @@
 
     // 7. Sponsor Input Live Detection
     spInput.addEventListener('input', () => {
-      const spVal = spInput.value.trim().replace(/\D/g, '');
-      spInput.value = spVal;
-      if (spVal.length === 11 && spVal.startsWith('09')) {
+      const spVal = spInput.value.trim();
+      if (spVal.length >= 3) {
         spBadge.textContent = '✓ Sponsor: ' + spVal;
         spBadge.style.color = 'var(--jade)';
       } else if (spVal.length > 0) {
-        spBadge.textContent = spVal.length + '/11 digits';
+        spBadge.textContent = 'Typing sponsor...';
         spBadge.style.color = 'var(--muted)';
       } else {
         spBadge.textContent = 'Default: System Root';
@@ -386,12 +384,12 @@
       errEl.classList.remove('show');
       cardEl.classList.remove('shake');
 
-      const mobileVal = mobInput.value.trim();
+      const userVal = mobInput.value.trim();
       const pwdVal = pwdInput.value;
       const sponsorVal = spInput.value.trim();
 
-      if (mobileVal.length < 10) {
-        errEl.textContent = 'Please enter a valid Philippine mobile number.';
+      if (userVal.length < 3) {
+        errEl.textContent = 'Please enter a valid username (at least 3 characters).';
         errEl.classList.add('show');
         cardEl.classList.add('shake');
         setTimeout(() => cardEl.classList.remove('shake'), 500);
@@ -407,8 +405,10 @@
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
-            mobile_number: mobileVal,
+            username: userVal,
+            mobile_number: userVal,
             password: pwdVal,
+            sponsor_username: sponsorVal || undefined,
             sponsor_mobile: sponsorVal || undefined,
           }),
         });
