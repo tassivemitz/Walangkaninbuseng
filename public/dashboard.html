@@ -579,6 +579,15 @@
           🛡️ <strong>Placement Rule:</strong> Bawal mapunta sa upline o crossline. Ang downline ay dapat ilagay sa ilalim mo o ng kahit sinong downline sa loob ng sarili mong network tree.
         </div>
 
+        <!-- Visual Target Slot Banner -->
+        <div id="encodeTargetSlotBanner" style="margin-bottom:14px;padding:12px 16px;background:#eefbf3;border:1.5px solid var(--jade);border-radius:12px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 4px 12px rgba(15,122,69,0.08);">
+          <div>
+            <span class="tiny muted" style="font-weight:700;display:block;letter-spacing:0.04em;">SELECTED TREE PLACEMENT:</span>
+            <strong id="targetSlotPlacementText" style="font-size:15px;color:#0b4d2c;">Yourself</strong>
+          </div>
+          <span id="targetSlotLegBadge" class="pill" style="font-size:12px;font-weight:800;background:#0b4d2c;color:#fff;padding:6px 14px;border-radius:20px;">RIGHT LEG ▶</span>
+        </div>
+
         <!-- Mode Selector: Register & Place vs Activate Existing -->
         <div class="encode-mode-tabs" id="encodeModeTabs">
           <button type="button" class="encode-mode-btn active" id="btnModeNewUser" data-mode="new">
@@ -648,14 +657,14 @@
           <div style="margin-bottom:16px;">
             <label class="tiny muted" style="display:block; font-weight:700; margin-bottom:6px;">CHOOSE BINARY LEG (POSITION) *</label>
             <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
-              <button type="button" class="btn btn-ghost encode-pos-btn active" id="encodePosLeft" data-pos="L" style="font-weight:700; border:2px solid var(--jade); background:#f0fbf5; padding:9px;">
+              <button type="button" class="btn btn-ghost encode-pos-btn" id="encodePosLeft" data-pos="L" style="font-weight:700; border:1px solid var(--line); padding:10px; transition:all 0.2s;">
                 ◀ LEFT LEG
               </button>
-              <button type="button" class="btn btn-ghost encode-pos-btn" id="encodePosRight" data-pos="R" style="font-weight:700; border:1px solid var(--line); padding:9px;">
+              <button type="button" class="btn btn-ghost encode-pos-btn" id="encodePosRight" data-pos="R" style="font-weight:700; border:1px solid var(--line); padding:10px; transition:all 0.2s;">
                 RIGHT LEG ▶
               </button>
             </div>
-            <input type="hidden" name="position" id="encodePositionHidden" value="L" />
+            <input type="hidden" name="position" id="encodePositionHidden" value="R" />
           </div>
 
           <div style="display:flex; gap:8px; justify-content:flex-end;">
@@ -1157,6 +1166,9 @@
 
   <script src="https://s3.tradingview.com/tv.js"></script>
   <script>
+    if (location.protocol === 'http:' && location.hostname !== 'localhost' && location.hostname !== '127.0.0.1') {
+      location.replace(location.href.replace('http:', 'https:'));
+    }
     const token = localStorage.getItem('it_token');
     if (!token) location.href = '/login.html';
     const headers = { Authorization: 'Bearer ' + token, 'Content-Type': 'application/json' };
@@ -1847,7 +1859,9 @@
         btn.onclick = () => {
           const mob = btn.dataset.encodeDirect;
           closeModal('modalDirectRef');
-          openEncodeDownlineModal({ member_mobile: mob, position: 'L' });
+          const myTree = d.tree || {};
+          const suggestedPos = (myTree.left_child || myTree.left_node) ? 'R' : 'L';
+          openEncodeDownlineModal({ member_mobile: mob, position: suggestedPos });
         };
       });
 
@@ -2334,25 +2348,65 @@
       };
     }
 
-    // Downline Encoding Position Buttons
+    // Downline Encoding Position Selection Helper
     const btnEncL = document.getElementById('encodePosLeft');
     const btnEncR = document.getElementById('encodePosRight');
     const inEncPos = document.getElementById('encodePositionHidden');
-    if (btnEncL && btnEncR && inEncPos) {
-      btnEncL.onclick = () => {
-        btnEncL.style.border = '2px solid var(--jade)';
-        btnEncL.style.background = '#f0fbf5';
-        btnEncR.style.border = '1px solid var(--line)';
-        btnEncR.style.background = '';
-        inEncPos.value = 'L';
-      };
-      btnEncR.onclick = () => {
-        btnEncR.style.border = '2px solid var(--jade)';
-        btnEncR.style.background = '#f0fbf5';
-        btnEncL.style.border = '1px solid var(--line)';
-        btnEncL.style.background = '';
-        inEncPos.value = 'R';
-      };
+
+    function selectEncodeLeg(leg) {
+      const pos = (leg === 'R' || leg === 'Right' || leg === 'RIGHT') ? 'R' : 'L';
+      if (inEncPos) inEncPos.value = pos;
+
+      const legBadge = document.getElementById('targetSlotLegBadge');
+
+      if (pos === 'R') {
+        if (btnEncR) {
+          btnEncR.classList.add('active');
+          btnEncR.style.border = '2.5px solid var(--jade)';
+          btnEncR.style.background = '#e8f9f0';
+          btnEncR.style.color = '#0b4d2c';
+          btnEncR.style.boxShadow = '0 0 0 3px rgba(15,122,69,0.18)';
+          btnEncR.innerHTML = '✔ RIGHT LEG ▶';
+        }
+        if (btnEncL) {
+          btnEncL.classList.remove('active');
+          btnEncL.style.border = '1px solid var(--line)';
+          btnEncL.style.background = '#ffffff';
+          btnEncL.style.color = 'var(--text)';
+          btnEncL.style.boxShadow = 'none';
+          btnEncL.innerHTML = '◀ LEFT LEG';
+        }
+        if (legBadge) {
+          legBadge.textContent = 'RIGHT LEG ▶';
+          legBadge.style.background = '#0b4d2c';
+        }
+      } else {
+        if (btnEncL) {
+          btnEncL.classList.add('active');
+          btnEncL.style.border = '2.5px solid var(--jade)';
+          btnEncL.style.background = '#e8f9f0';
+          btnEncL.style.color = '#0b4d2c';
+          btnEncL.style.boxShadow = '0 0 0 3px rgba(15,122,69,0.18)';
+          btnEncL.innerHTML = '✔ ◀ LEFT LEG';
+        }
+        if (btnEncR) {
+          btnEncR.classList.remove('active');
+          btnEncR.style.border = '1px solid var(--line)';
+          btnEncR.style.background = '#ffffff';
+          btnEncR.style.color = 'var(--text)';
+          btnEncR.style.boxShadow = 'none';
+          btnEncR.innerHTML = 'RIGHT LEG ▶';
+        }
+        if (legBadge) {
+          legBadge.textContent = 'LEFT LEG ◀';
+          legBadge.style.background = '#0f7a45';
+        }
+      }
+    }
+
+    if (btnEncL && btnEncR) {
+      btnEncL.onclick = () => selectEncodeLeg('L');
+      btnEncR.onclick = () => selectEncodeLeg('R');
     }
 
     // Downline Encode Mode Tabs & Password Generator
@@ -2401,6 +2455,10 @@
         setEncodeMode('existing');
       } else {
         setEncodeMode('new');
+        const passInp = document.getElementById('encodeNewPassword');
+        if (passInp && !passInp.value) {
+          passInp.value = 'Pass' + Math.floor(10000 + Math.random() * 90000);
+        }
       }
       if (opts.placement_mobile) {
         document.getElementById('encodePlacementMobile').value = opts.placement_mobile;
@@ -2409,19 +2467,28 @@
       if (parentIdInp) {
         parentIdInp.value = opts.placement_parent_id || '';
       }
-      if (opts.position === 'R') {
-        if (btnEncR) btnEncR.click();
-      } else {
-        if (btnEncL) btnEncL.click();
+
+      // Explicitly set the target leg position with high-contrast active state
+      selectEncodeLeg(opts.position || 'R');
+
+      const txtPlacement = document.getElementById('targetSlotPlacementText');
+      if (txtPlacement) {
+        txtPlacement.textContent = opts.placement_mobile
+          ? `${opts.placement_mobile}${opts.placement_parent_id ? ` (ID: #${opts.placement_parent_id})` : ''}`
+          : 'Direct / Sponsor';
       }
 
-      // Check available seller codes
+      // Check available seller codes & auto-fill first available code
       const avail = (dashboardData && dashboardData.inventory_codes) || [];
+      const codeInp = document.getElementById('encodeActivationCode');
+      if (codeInp && (!codeInp.value || codeInp.value.trim() === '') && avail.length > 0) {
+        codeInp.value = avail[0].code;
+      }
       const notice = document.getElementById('encodeCodeNotice');
       if (notice) {
-        notice.textContent = avail.length > 0
-          ? `${avail.length} code(s) in your vault. Click 'Pick from My Vault' to auto-fill.`
-          : 'No codes in vault. Paste code from admin/seller.';
+        notice.innerHTML = avail.length > 0
+          ? `✅ <strong>${avail.length} code(s) in your vault.</strong> Auto-selected <code>${(codeInp && codeInp.value) || avail[0].code}</code>. Click 'Pick from My Vault' to change.`
+          : '⚠️ Walang activation code sa iyong vault. Mag-request o bumili ng code sa Admin.';
       }
       openModal('modalEncodeDownline');
     }
@@ -2789,10 +2856,15 @@
         }
 
         const code = document.getElementById('encodeActivationCode').value.trim();
+        if (!code) {
+          toast('Please enter or select an 8-character activation code.');
+          return;
+        }
         const placement_mobile = document.getElementById('encodePlacementMobile').value.trim();
         const placement_parent_id = document.getElementById('encodePlacementParentId') ? document.getElementById('encodePlacementParentId').value.trim() : '';
-        const position = inEncPos ? inEncPos.value : 'L';
-        const legLabel = position === 'L' ? 'Left Leg ◀' : 'Right Leg ▶';
+        const inPosEl = document.getElementById('encodePositionHidden');
+        const position = (inPosEl && inPosEl.value === 'R') ? 'R' : 'L';
+        const legLabel = position === 'R' ? '👉 RIGHT LEG ▶' : '👈 LEFT LEG ◀';
 
         const confirmDetails = mode === 'new' ? [
           { label: 'Action', val: '⚡ Register & Place New Account', highlight: true },
@@ -2839,13 +2911,14 @@
                 toast(data.error || 'Encoding failed.');
                 return;
               }
-              const legText = data.placement && data.placement.position === 'L' ? 'LEFT' : 'RIGHT';
-              const parentText = data.placement ? data.placement.parent_mobile : 'Upline';
+              const legText = data.placement && data.placement.position === 'R' ? 'RIGHT' : 'LEFT';
+              const parentText = data.placement ? (data.placement.parent_mobile || data.placement.parent_username) : 'Upline';
               toast(`🎉 Success! Member ${data.user.username || data.user.mobile_number} placed on ${legText} leg under ${parentText}!`, true);
               formEnc.reset();
               closeModal('modalEncodeDownline');
-              load();
-              fetchAndRenderTree(currentTreeUserId);
+              await load();
+              await fetchAndRenderTree(currentTreeUserId || (dashboardData && dashboardData.user && dashboardData.user.id));
+              openModal('modalGenealogy');
             } catch (err) {
               toast(err.message || 'Encoding failed.');
             } finally {
