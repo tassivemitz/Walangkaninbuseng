@@ -1676,8 +1676,17 @@
 
     async function load() {
       const res = await fetch('/api/dashboard', { headers });
-      if (res.status === 401) { localStorage.removeItem('it_token'); location.href = '/login.html'; return; }
+      if (res.status === 401 || res.status === 404 || !res.ok) {
+        localStorage.removeItem('it_token');
+        location.href = '/login.html';
+        return;
+      }
       const d = await res.json();
+      if (!d || !d.user) {
+        localStorage.removeItem('it_token');
+        location.href = '/login.html';
+        return;
+      }
       dashboardData = d;
       const u = d.user;
       const m = d.metrics || {};

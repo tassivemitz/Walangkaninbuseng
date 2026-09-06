@@ -79,6 +79,11 @@ function auth(req, res, next) {
   if (!token) return res.status(401).json({ error: 'Sign in required.' });
   try {
     req.user = jwt.verify(token, JWT_SECRET);
+    const store = db.getStore();
+    const exists = store && store.users && store.users.some((u) => u.id === req.user.id && u.status !== 'banned');
+    if (!exists) {
+      return res.status(401).json({ error: 'Session expired or user not found. Sign in again.' });
+    }
     return next();
   } catch {
     return res.status(401).json({ error: 'Session expired. Sign in again.' });
