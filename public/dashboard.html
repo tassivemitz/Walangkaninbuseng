@@ -2011,7 +2011,7 @@
             const statusLabel = isPending ? '⏳ Pending Verification' : isActive ? (ci.can_claim ? '🎁 Payout Ready to Claim' : `Active · Cycle ${(p.payouts_completed || 0) + 1}/4`) : isCompleted ? '✓ Completed' : '✕ Rejected';
 
             const receiptBtn = (p.receipt_image || p.receipt_url)
-              ? `<button type="button" class="receipt-view-btn" data-receipt-src="${esc(p.receipt_image || p.receipt_url)}" style="margin-top:6px;">🧾 View Receipt</button>`
+              ? `<button type="button" class="receipt-view-btn" data-tradein-receipt-pkg="${p.id}" style="margin-top:6px;">🧾 View Receipt</button>`
               : '';
 
             const methodTag = p.payment_method ? `<span class="badge-tag tag-available" style="font-size:9.5px;padding:2px 6px;margin-left:4px;">${esc(p.payment_method)}</span>` : '';
@@ -2103,9 +2103,13 @@
         : '<p class="tiny muted">No trade-in packages yet.</p>';
 
       // Wire receipt view buttons
-      document.querySelectorAll('#packagesList .receipt-view-btn').forEach(btn => {
+      document.querySelectorAll('#packagesList .receipt-view-btn[data-tradein-receipt-pkg]').forEach(btn => {
         btn.onclick = () => {
-          openReceiptLightbox(btn.dataset.receiptSrc, 'Trade-In Payment Receipt');
+          const pkgId = Number(btn.dataset.tradeinReceiptPkg);
+          const pkg = (packagesData && packagesData.packages ? packagesData.packages : []).find(x => x.id === pkgId);
+          if (pkg && (pkg.receipt_image || pkg.receipt_url)) {
+            openReceiptLightbox(pkg.receipt_image || pkg.receipt_url, `Trade-In Payment Receipt · #${pkg.id} (${peso(pkg.capital)})`);
+          }
         };
       });
 
@@ -2573,17 +2577,34 @@
       const img = document.getElementById('receiptLightboxImg');
       const titleEl = document.getElementById('receiptLightboxTitle');
       if (!overlay || !img) return;
+      img.classList.remove('zoomed');
       img.src = imgSrc;
       if (titleEl) titleEl.textContent = title;
       overlay.style.display = 'flex';
+      document.body.classList.add('modal-open');
     }
     function closeReceiptLightbox() {
       const overlay = document.getElementById('modalReceiptLightbox');
       if (overlay) overlay.style.display = 'none';
+      const img = document.getElementById('receiptLightboxImg');
+      if (img) {
+        img.src = '';
+        img.classList.remove('zoomed');
+      }
+      document.body.classList.remove('modal-open');
     }
     document.getElementById('btnCloseReceiptLightbox')?.addEventListener('click', closeReceiptLightbox);
     document.getElementById('modalReceiptLightbox')?.addEventListener('click', (e) => {
-      if (e.target.id === 'modalReceiptLightbox') closeReceiptLightbox();
+      if (e.target.id === 'modalReceiptLightbox' || e.target.classList.contains('receipt-lightbox-body')) closeReceiptLightbox();
+    });
+    document.getElementById('receiptLightboxImg')?.addEventListener('click', () => {
+      document.getElementById('receiptLightboxImg')?.classList.toggle('zoomed');
+    });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        const overlay = document.getElementById('modalReceiptLightbox');
+        if (overlay && overlay.style.display !== 'none') closeReceiptLightbox();
+      }
     });
 
     // ==========================================
@@ -2740,29 +2761,81 @@
     const tradeinReceiptFileSize = document.getElementById('tradeinReceiptFileSize');
     const btnRemoveReceipt = document.getElementById('btnRemoveTradeinReceipt');
 
-    function handleReceiptFile(file) {
+    function compressReceiptImage(file, maxDim = 1280, quality = 0.82) {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onerror = reject;
+        reader.onload = (e) => {
+          const img = new Image();
+          img.onerror = reject;
+          img.onload = () => {
+            let { width, height } = img;
+            if (width > maxDim || height > maxDim) {
+              if (width > height) {
+                height = Math.round((height * maxDim) / width);
+                width = maxDim;
+              } else {
+                width = Math.round((width * maxDim) / height);
+                height = maxDim;
+              }
+            }
+            const canvas = document.createElement('canvas');
+            canvas.width = width;
+            canvas.height = height;
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(img, 0, 0, width, height);
+            const dataUrl = canvas.toDataURL('image/jpeg', quality);
+            const sizeKb = (dataUrl.length * 0.75 / 1024).toFixed(1);
+            resolve({
+              base64: dataUrl,
+              size: `${sizeKb} KB`
+            });
+          };
+          img.src = e.target.result;
+        };
+        reader.readAsDataURL(file);
+      });
+    }
+
+    async function handleReceiptFile(file) {
       if (!file.type.startsWith('image/')) {
         toast('Please select an image file (PNG, JPG, WEBP).');
         return;
       }
-      if (file.size > 15 * 1024 * 1024) {
-        toast('Image is larger than 15MB. Please upload a smaller screenshot.');
+      if (file.size > 20 * 1024 * 1024) {
+        toast('Image is larger than 20MB. Please select a smaller screenshot.');
         return;
       }
-      const reader = new FileReader();
-      reader.onload = (e) => {
+
+      try {
+        const compressed = await compressReceiptImage(file);
         currentTradeinReceipt = {
           name: file.name,
-          size: (file.size / 1024).toFixed(1) + ' KB',
-          base64: e.target.result
+          size: compressed.size,
+          base64: compressed.base64
         };
         if (tradeinReceiptImg) tradeinReceiptImg.src = currentTradeinReceipt.base64;
         if (tradeinReceiptFileName) tradeinReceiptFileName.textContent = currentTradeinReceipt.name;
-        if (tradeinReceiptFileSize) tradeinReceiptFileSize.textContent = currentTradeinReceipt.size;
+        if (tradeinReceiptFileSize) tradeinReceiptFileSize.textContent = currentTradeinReceipt.size + ' (Optimized)';
         if (tradeinDropzone) tradeinDropzone.style.display = 'none';
         if (tradeinPreviewBox) tradeinPreviewBox.style.display = 'flex';
-      };
-      reader.readAsDataURL(file);
+      } catch (err) {
+        // Fallback to direct read if canvas processing fails
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          currentTradeinReceipt = {
+            name: file.name,
+            size: (file.size / 1024).toFixed(1) + ' KB',
+            base64: e.target.result
+          };
+          if (tradeinReceiptImg) tradeinReceiptImg.src = currentTradeinReceipt.base64;
+          if (tradeinReceiptFileName) tradeinReceiptFileName.textContent = currentTradeinReceipt.name;
+          if (tradeinReceiptFileSize) tradeinReceiptFileSize.textContent = currentTradeinReceipt.size;
+          if (tradeinDropzone) tradeinDropzone.style.display = 'none';
+          if (tradeinPreviewBox) tradeinPreviewBox.style.display = 'flex';
+        };
+        reader.readAsDataURL(file);
+      }
     }
 
     if (tradeinDropzone && tradeinReceiptInput) {

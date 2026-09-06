@@ -1309,7 +1309,7 @@ app.post('/api/tradein/purchase', auth, async (req, res) => {
 
   const ref_number = String(req.body.ref_number || '').trim();
   const payment_method = String(req.body.payment_method || 'GCash').trim();
-  const receipt_url = req.body.receipt_url || req.body.receipt_image || null;
+  const receipt_url = req.body.receipt_url || req.body.receipt_image || req.body.receipt || req.body.proof_image || req.body.receiptSrc || null;
 
   try {
     const pkg = await db.tx((data) => {
@@ -1742,6 +1742,25 @@ app.get('/api/admin/tradein', auth, adminOnly, (_req, res) => {
       cycle_info: getPackageCycleInfo(p),
     }));
   res.json({ packages });
+});
+
+app.get('/api/admin/tradein/:id/receipt', auth, adminOnly, (req, res) => {
+  const id = Number(req.params.id);
+  const data = db.getStore();
+  const pkg = data.tradein_packages.find((p) => p.id === id);
+  if (!pkg) return res.status(404).json({ error: 'Trade-in package not found.' });
+  const receipt_image = pkg.receipt_image || pkg.receipt_url || null;
+  res.json({
+    id: pkg.id,
+    user_id: pkg.user_id,
+    mobile_number: mobileOf(pkg.user_id, data),
+    capital: pkg.capital,
+    payment_method: pkg.payment_method,
+    ref_number: pkg.ref_number,
+    receipt_image,
+    receipt_url: receipt_image,
+    has_receipt: Boolean(receipt_image)
+  });
 });
 
 app.post('/api/admin/tradein/:id/approve', auth, adminOnly, async (req, res) => {

@@ -683,15 +683,20 @@
   <div class="receipt-lightbox-overlay" id="modalReceiptLightbox" style="display:none;">
     <div class="receipt-lightbox-card">
       <div class="receipt-lightbox-head">
-        <div style="display:flex;align-items:center;gap:8px;">
-          <span>🧾</span>
-          <strong id="receiptLightboxTitle" style="font-size:14px;">Receipt Inspection</strong>
+        <div style="display:flex;align-items:center;gap:8px;min-width:0;flex:1;">
+          <span style="font-size:18px;">🧾</span>
+          <strong id="receiptLightboxTitle" style="font-size:13.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">Receipt Inspection</strong>
         </div>
-        <button type="button" class="plan-close" id="btnCloseReceiptLightbox" style="background:none;border:none;color:#fff;font-size:22px;cursor:pointer;">×</button>
+        <div style="display:flex;align-items:center;gap:6px;">
+          <button type="button" class="btn btn-ghost btn-sm" id="btnZoomToggleReceipt" style="padding:4px 8px;font-size:11px;color:#a7f3d0;border:1px solid rgba(167,243,208,0.3);">🔍 Zoom</button>
+          <button type="button" class="btn btn-ghost btn-sm" id="btnFullSizeReceipt" style="padding:4px 8px;font-size:11px;color:#a7f3d0;border:1px solid rgba(167,243,208,0.3);">↗ Full Screen</button>
+          <button type="button" class="plan-close" id="btnCloseReceiptLightbox" style="background:none;border:none;color:#fff;font-size:22px;cursor:pointer;line-height:1;" aria-label="Close">×</button>
+        </div>
       </div>
-      <div class="receipt-lightbox-body">
+      <div class="receipt-lightbox-body" id="receiptLightboxBody">
         <img src="" id="receiptLightboxImg" class="receipt-lightbox-img" alt="Payment Receipt" />
       </div>
+      <div class="receipt-lightbox-footer" id="receiptLightboxQuickActions" style="display:none;"></div>
     </div>
   </div>
 
@@ -803,22 +808,99 @@
       if (typeof cb === 'function') cb();
     });
 
-    function openReceiptLightbox(imgSrc, title = 'Receipt Inspection') {
+    let currentLightboxPkg = null;
+    function openReceiptLightbox(imgSrc, title = 'Receipt Inspection', pkg = null) {
       const overlay = document.getElementById('modalReceiptLightbox');
       const img = document.getElementById('receiptLightboxImg');
       const titleEl = document.getElementById('receiptLightboxTitle');
+      const footerEl = document.getElementById('receiptLightboxQuickActions');
       if (!overlay || !img) return;
+
+      currentLightboxPkg = pkg;
+      img.classList.remove('zoomed');
       img.src = imgSrc;
       if (titleEl) titleEl.textContent = title;
+
+      if (footerEl) {
+        if (pkg && pkg.cycle_status === 'pending') {
+          footerEl.innerHTML = `
+            <div style="display:flex;align-items:center;justify-content:space-between;width:100%;gap:12px;flex-wrap:wrap;">
+              <div style="font-size:12px;color:rgba(255,255,255,0.75);">
+                Pending: <strong>#${pkg.id}</strong> · Member: <strong>${esc(pkg.mobile_number)}</strong> · Capital: <strong style="color:#34d399;">${peso(pkg.capital)}</strong>
+              </div>
+              <div style="display:flex;gap:8px;">
+                <button type="button" class="btn btn-mint btn-sm" id="btnQuickApproveReceipt" style="padding:5px 12px;font-size:11.5px;font-weight:700;">✓ Approve</button>
+                <button type="button" class="btn btn-secondary btn-sm" id="btnQuickRejectReceipt" style="padding:5px 10px;font-size:11.5px;background:rgba(239,68,68,0.15);color:#fca5a5;border-color:rgba(239,68,68,0.3);">✕ Reject</button>
+              </div>
+            </div>
+          `;
+          footerEl.style.display = 'block';
+
+          document.getElementById('btnQuickApproveReceipt')?.addEventListener('click', () => {
+            closeReceiptLightbox();
+            const btnApprove = document.querySelector(`button[data-tradein-approve="${pkg.id}"]`);
+            if (btnApprove) btnApprove.click();
+          });
+
+          document.getElementById('btnQuickRejectReceipt')?.addEventListener('click', () => {
+            closeReceiptLightbox();
+            const btnReject = document.querySelector(`button[data-tradein-reject="${pkg.id}"]`);
+            if (btnReject) btnReject.click();
+          });
+        } else {
+          footerEl.style.display = 'none';
+          footerEl.innerHTML = '';
+        }
+      }
+
       overlay.style.display = 'flex';
+      document.body.classList.add('modal-open');
     }
+
     function closeReceiptLightbox() {
       const overlay = document.getElementById('modalReceiptLightbox');
       if (overlay) overlay.style.display = 'none';
+      const img = document.getElementById('receiptLightboxImg');
+      if (img) {
+        img.src = '';
+        img.classList.remove('zoomed');
+      }
+      currentLightboxPkg = null;
+      document.body.classList.remove('modal-open');
     }
+
     document.getElementById('btnCloseReceiptLightbox')?.addEventListener('click', closeReceiptLightbox);
     document.getElementById('modalReceiptLightbox')?.addEventListener('click', (e) => {
-      if (e.target.id === 'modalReceiptLightbox') closeReceiptLightbox();
+      if (e.target.id === 'modalReceiptLightbox' || e.target.id === 'receiptLightboxBody') closeReceiptLightbox();
+    });
+
+    document.getElementById('btnZoomToggleReceipt')?.addEventListener('click', () => {
+      const img = document.getElementById('receiptLightboxImg');
+      if (img) img.classList.toggle('zoomed');
+    });
+
+    document.getElementById('receiptLightboxImg')?.addEventListener('click', () => {
+      const img = document.getElementById('receiptLightboxImg');
+      if (img) img.classList.toggle('zoomed');
+    });
+
+    document.getElementById('btnFullSizeReceipt')?.addEventListener('click', () => {
+      const img = document.getElementById('receiptLightboxImg');
+      if (img && img.src) {
+        const w = window.open();
+        if (w) {
+          w.document.write(`<title>Receipt Inspection</title><body style="margin:0;background:#050505;display:flex;align-items:center;justify-content:center;min-height:100vh;"><img src="${img.src}" style="max-width:100%;max-height:100vh;object-fit:contain;" /></body>`);
+        }
+      }
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        const overlay = document.getElementById('modalReceiptLightbox');
+        if (overlay && overlay.style.display !== 'none') {
+          closeReceiptLightbox();
+        }
+      }
     });
 
     // =========================================================
@@ -1569,8 +1651,9 @@
         const refTag = p.ref_number ? `<code style="font-size:11px;font-weight:700;color:#0b4d2c;display:block;margin-top:2px;">${esc(p.ref_number)}</code>` : '';
         const methodCol = `<div>${methodBadge}${refTag}</div>`;
 
-        const receiptBtn = (p.receipt_image || p.receipt_url)
-          ? `<button type="button" class="receipt-view-btn" data-tradein-receipt="${esc(p.receipt_image || p.receipt_url)}" data-pkg-info="#${p.id} · ${esc(p.mobile_number)} (₱${Number(p.capital).toLocaleString()})">🧾 View Receipt</button>`
+        const hasReceipt = Boolean(p.receipt_image || p.receipt_url);
+        const receiptBtn = hasReceipt
+          ? `<button type="button" class="receipt-view-btn" data-tradein-pkg-id="${p.id}" title="Click to view uploaded receipt screenshot">🧾 View Receipt</button>`
           : '<span class="muted tiny">No receipt</span>';
 
         const actions = isPending
@@ -1592,19 +1675,52 @@
         </tr>`;
       }).join('');
 
-      // Wire receipt inspection
-      document.querySelectorAll('button[data-tradein-receipt]').forEach(btn => {
-        btn.onclick = () => {
-          openReceiptLightbox(btn.dataset.tradeinReceipt, 'Trade-In Payment Receipt · ' + btn.dataset.pkgInfo);
+      // Wire receipt inspection via in-memory lookup + endpoint fallback
+      document.querySelectorAll('button[data-tradein-pkg-id]').forEach(btn => {
+        btn.onclick = async (e) => {
+          e.stopPropagation();
+          const pkgId = Number(btn.dataset.tradeinPkgId);
+          const pkg = globalTradein.find(x => x.id === pkgId);
+          if (!pkg) return;
+
+          let src = pkg.receipt_image || pkg.receipt_url;
+          if (!src) {
+            try {
+              btn.textContent = 'Loading...';
+              const res = await api(`/api/admin/tradein/${pkgId}/receipt`);
+              if (res && (res.receipt_image || res.receipt_url)) {
+                src = res.receipt_image || res.receipt_url;
+                pkg.receipt_image = src;
+                pkg.receipt_url = src;
+              }
+            } catch (err) {
+              console.error(err);
+            } finally {
+              btn.textContent = '🧾 View Receipt';
+            }
+          }
+
+          if (!src) {
+            flash(`No uploaded receipt screenshot found for package #${pkgId}.`);
+            return;
+          }
+
+          openReceiptLightbox(src, `Trade-In Payment Receipt · #${pkg.id} · ${esc(pkg.mobile_number)} (${peso(pkg.capital)})`, pkg);
         };
       });
 
       // Wire Approve with Confirmation
       document.querySelectorAll('button[data-tradein-approve]').forEach(btn => {
         btn.onclick = () => {
-          const id = btn.dataset.tradeinApprove;
+          const id = Number(btn.dataset.tradeinApprove);
           const userMob = btn.dataset.pkgUser;
           const capital = Number(btn.dataset.pkgCap);
+          const pkg = globalTradein.find(x => x.id === id);
+          const hasRec = pkg && (pkg.receipt_image || pkg.receipt_url);
+
+          const receiptHtml = hasRec
+            ? `<button type="button" class="receipt-view-btn" id="btnViewReceiptInConfirm" style="padding:3px 10px;font-size:11.5px;font-weight:700;">🧾 Inspect Receipt Proof</button>`
+            : '<span class="muted tiny">No receipt uploaded</span>';
 
           showAdminConfirm({
             title: 'Approve Trade-In Deposit',
@@ -1612,10 +1728,11 @@
             icon: '✅',
             details: [
               { label: 'Package ID', val: '#' + id },
-              { label: 'Member Mobile', val: userMob, highlight: true },
+              { label: 'Member Username', val: userMob, highlight: true },
               { label: 'Capital Deposited', val: peso(capital), highlight: true },
               { label: 'Total Return (120%)', val: peso(capital * 1.2) },
-              { label: 'Sponsor Bonus (5%)', val: peso(capital * 0.05) }
+              { label: 'Sponsor Bonus (5%)', val: peso(capital * 0.05) },
+              { label: 'Receipt Proof', html: receiptHtml }
             ],
             confirmText: 'Approve & Activate Cycle ➔',
             confirmClass: 'btn-mint',
@@ -1629,6 +1746,15 @@
               }
             }
           });
+
+          // Wire inspect button inside confirm popup
+          const btnInspectInModal = document.getElementById('btnViewReceiptInConfirm');
+          if (btnInspectInModal && hasRec) {
+            btnInspectInModal.onclick = (e) => {
+              e.stopPropagation();
+              openReceiptLightbox(pkg.receipt_image || pkg.receipt_url, `Trade-In Payment Receipt · #${pkg.id} · ${esc(userMob)} (${peso(capital)})`, pkg);
+            };
+          }
         };
       });
 
