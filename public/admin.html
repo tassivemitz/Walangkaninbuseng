@@ -130,30 +130,6 @@
         </div>
       </header>
 
-      <!-- Mobile Quick Nav Pill Bar (1-Tap Tab Switching on Mobile) -->
-      <nav class="admin-mobile-subnav" id="adminMobileSubnav">
-        <button type="button" class="admin-mob-tab active" data-nav-target="viewHome">
-          <span>🏠 Home</span>
-        </button>
-        <button type="button" class="admin-mob-tab" data-nav-target="viewTradein">
-          <span>📈 Trade-In</span>
-          <span class="badge-tag tag-expired" id="mobBadgeTradein" style="font-size:9px;padding:1px 5px;display:none;">0</span>
-        </button>
-        <button type="button" class="admin-mob-tab" data-nav-target="viewWithdrawals">
-          <span>💳 Cashout</span>
-          <span class="badge-tag tag-rejected" id="mobBadgeWd" style="font-size:9px;padding:1px 5px;display:none;">0</span>
-        </button>
-        <button type="button" class="admin-mob-tab" data-nav-target="viewMembers">
-          <span>👥 Members</span>
-        </button>
-        <button type="button" class="admin-mob-tab" data-nav-target="viewVault">
-          <span>🔒 Vault</span>
-        </button>
-        <button type="button" class="admin-mob-tab" data-nav-target="viewEarningsHistory">
-          <span>📊 Audit</span>
-        </button>
-      </nav>
-
       <!-- Scrollable Inner Content -->
       <div class="admin-content-inner">
         <div id="msg" class="banner"></div>
@@ -1241,10 +1217,6 @@
         btn.classList.toggle('active', btn.dataset.navTarget === targetId);
       });
 
-      document.querySelectorAll('.admin-mob-tab').forEach(tab => {
-        tab.classList.toggle('active', tab.dataset.navTarget === targetId);
-      });
-
       document.querySelectorAll('.admin-view-panel').forEach(panel => {
         panel.classList.toggle('active', panel.id === targetId);
       });
@@ -1264,12 +1236,6 @@
     }
 
     document.querySelectorAll('.admin-nav-item[data-nav-target]').forEach(btn => {
-      btn.addEventListener('click', () => {
-        switchAdminView(btn.dataset.navTarget);
-      });
-    });
-
-    document.querySelectorAll('.admin-mob-tab[data-nav-target]').forEach(btn => {
       btn.addEventListener('click', () => {
         switchAdminView(btn.dataset.navTarget);
       });
@@ -1369,17 +1335,6 @@
         bTradein.textContent = pTradeinCount;
         bTradein.style.background = pTradeinCount > 0 ? '#fee2e2' : '';
         bTradein.style.color = pTradeinCount > 0 ? '#b91c1c' : '';
-      }
-      const mobBadgeTradein = document.getElementById('mobBadgeTradein');
-      if (mobBadgeTradein) {
-        mobBadgeTradein.textContent = pTradeinCount;
-        mobBadgeTradein.style.display = pTradeinCount > 0 ? 'inline-block' : 'none';
-      }
-      const mobBadgeWd = document.getElementById('mobBadgeWd');
-      if (mobBadgeWd) {
-        const pWd = overview.pending_withdrawals || 0;
-        mobBadgeWd.textContent = pWd;
-        mobBadgeWd.style.display = pWd > 0 ? 'inline-block' : 'none';
       }
 
       // Binary Cap in Admin Settings
