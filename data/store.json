@@ -1,7 +1,7 @@
 {
   "nextId": {
     "users": 2,
-    "tradein_packages": 1,
+    "tradein_packages": 2,
     "withdrawals": 1,
     "code_vault": 6,
     "earnings_history": 1
@@ -11,11 +11,17 @@
       "id": 1,
       "username": "Toshi",
       "mobile_number": "Toshi",
-      "password": "$2a$10$Ce32BA5aD4vMFCFKIr8QrOM/lAaPERMPXCOA.bQuLtsq3/av6FZTS",
+      "password": "$2a$10$gVcxAMkkKI9Nhw653Z3uA.7QN17aAezoAd1A1ckWhIEgryuNOqT16",
       "role": "admin",
       "status": "active",
       "total_binary_earnings": 0,
-      "created_at": "2026-09-06T10:47:39.268Z"
+      "created_at": "2026-09-06T10:47:39.268Z",
+      "payout_account": {
+        "method": "GCash",
+        "account_name": "Admin Toshi",
+        "account_number": "09171234567",
+        "updated_at": "2026-09-08T12:01:27.590Z"
+      }
     }
   ],
   "wallets": [
@@ -38,7 +44,24 @@
       "last_pair_date": null
     }
   ],
-  "tradein_packages": [],
+  "tradein_packages": [
+    {
+      "id": 1,
+      "user_id": 1,
+      "capital": 1000,
+      "total_return": 1200,
+      "start_date": "2026-09-08T12:00:32.393Z",
+      "cycle_start_date": "2026-09-08T12:00:32.393Z",
+      "cycle_status": "active",
+      "payouts_completed": 0,
+      "ref_number": "TESTREF999",
+      "payment_method": "GCash",
+      "receipt_url": null,
+      "receipt_image": null,
+      "created_at": "2026-09-08T12:00:31.819Z",
+      "approved_at": "2026-09-08T12:00:32.393Z"
+    }
+  ],
   "withdrawals": [],
   "code_vault": [
     {
@@ -89,7 +112,7 @@
   ],
   "earnings_history": [],
   "settings": {
-    "weekly_payout_enabled": 0,
+    "weekly_payout_enabled": 1,
     "binary_cap": 6000,
     "max_tradein_slots": 5
   }

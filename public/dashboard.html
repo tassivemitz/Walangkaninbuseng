@@ -147,49 +147,39 @@
       <div class="dash-content-inner">
         <p id="banner" class="banner"></p>
 
-        <!-- Inactive Account Activation Box -->
-        <div id="activationBox" class="panel card activation-panel" style="display:none; margin-bottom: 20px; border: 2px solid var(--jade); background: #ffffff;">
-          <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:12px;">
-            <div>
-              <span class="pill closed" style="margin-bottom:6px">● Account Pending Activation</span>
-              <h2 style="margin:6px 0; font-size:24px; color:var(--jade);">Activate Your Account</h2>
-              <p style="font-size:13px; color:var(--muted); margin:0 0 14px; max-width:62ch;">
-                Enter your ₱300 Activation Code from your sponsor or code seller. Choose your binary placement leg (Left or Right) to enter the network tree, start matching pairs, and unlock trade-in earnings.
-              </p>
-            </div>
-          </div>
-          <form id="activateForm" style="max-width:520px; margin-top:0;">
-            <div style="margin-bottom:12px;">
-              <label class="tiny muted" style="display:block; font-weight:700; margin-bottom:4px;">8-CHARACTER ACTIVATION CODE *</label>
-              <input class="in" name="code" id="activateCodeInput" required placeholder="8-CHAR CODE (e.g. K9X2M4N7)" style="text-transform:uppercase; font-family:ui-monospace, monospace; font-weight:700; letter-spacing:0.08em; width:100%;" maxlength="12" />
-            </div>
-
-            <div style="margin-bottom:14px;">
-              <label class="tiny muted" style="display:block; font-weight:700; margin-bottom:6px;">SELECT BINARY POSITION (PLACEMENT LEG) *</label>
-              <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
-                <button type="button" class="btn btn-ghost self-pos-btn active" id="btnSelfPosLeft" data-pos="L" style="font-weight:700; border:2px solid var(--jade); background:#f0fbf5; padding:9px;">
-                  ◀ LEFT LEG
-                </button>
-                <button type="button" class="btn btn-ghost self-pos-btn" id="btnSelfPosRight" data-pos="R" style="font-weight:700; border:1px solid var(--line); padding:9px;">
-                  RIGHT LEG ▶
-                </button>
+        <!-- Inactive Account Pending Notice (Upline Activation Required) -->
+        <div id="activationBox" class="panel card activation-panel" style="display:none; margin-bottom: 20px; border: 2px solid #f59e0b; background: #ffffff; border-radius:16px; padding:22px;">
+          <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:14px;">
+            <div style="max-width:680px;">
+              <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">
+                <span class="pill closed" style="background:#fef3c7;color:#b45309;border-color:#fde68a;">● Account Pending Activation</span>
+                <span style="font-size:12px;font-weight:700;color:#0b4d2c;background:#e8f9f0;padding:2px 8px;border-radius:6px;">Upline Activation Only</span>
               </div>
-              <input type="hidden" name="position" id="activatePositionInput" value="L" />
-              <span class="tiny muted" style="display:block; margin-top:4px;">Codes are universal: any code can be placed on the Left or Right leg.</span>
-            </div>
+              <h2 style="margin:4px 0 8px; font-size:22px; color:#0b4d2c; font-family:'Fraunces', serif;">Awaiting Placement &amp; Activation by Upline</h2>
+              <p style="font-size:13.5px; color:var(--text); margin:0 0 14px; line-height:1.55;">
+                Welcome to Infinite Trading! Your account registration is complete. Under system rules, <strong>only your direct sponsor or upline can place and activate your account</strong> into the binary genealogy tree.
+              </p>
+              
+              <div style="background:#f8faf8; border:1px solid rgba(15,122,69,0.2); border-radius:12px; padding:14px 16px; margin-bottom:14px;">
+                <div style="display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:10px;">
+                  <div>
+                    <span class="tiny muted" style="text-transform:uppercase; font-weight:700; font-size:10.5px; letter-spacing:0.04em;">Your Direct Sponsor</span>
+                    <p style="margin:2px 0 0; font-size:16px; font-weight:800; color:#0f7a45;" id="pendingSponsorDisplay">Loading...</p>
+                  </div>
+                  <div style="font-size:12px; color:var(--muted); text-align:right;">
+                    <span>Status: </span><strong style="color:#d97706;">Pending Tree Placement</strong>
+                  </div>
+                </div>
+              </div>
 
-            <details style="margin-bottom:14px; background:#f9faf9; padding:8px 12px; border-radius:8px; border:1px solid var(--line);">
-              <summary class="tiny" style="cursor:pointer; font-weight:700; color:var(--jade);">Spillover Placement (Optional / Advanced)</summary>
-              <div style="margin-top:8px;">
-                <input class="in" name="placement_mobile" id="activatePlacementMobile" placeholder="Placement Upline Username (leave blank for sponsor)" style="font-size:12.5px; width:100%;" />
-                <span class="tiny muted" style="display:block; margin-top:4px; font-size:11px;">
-                  Leave blank to place directly under your sponsor. If your chosen slot is already filled, the system will automatically cascade (spillover) down that leg.
+              <div style="display:flex; align-items:center; gap:10px; padding:10px 14px; background:#fffbeb; border-radius:10px; border:1px solid #fef3c7;">
+                <span style="font-size:18px;">💡</span>
+                <span class="tiny" style="color:#92400e; line-height:1.4;">
+                  Please coordinate with your sponsor/upline to activate your slot with a ₱300 code via their genealogy tree. Once activated, your binary pairing and trade-in features will unlock automatically.
                 </span>
               </div>
-            </details>
-
-            <button class="btn btn-mint btn-sm" style="padding:10px 24px; font-weight:700; font-size:13.5px; width:100%;">Activate Account ➔</button>
-          </form>
+            </div>
+          </div>
         </div>
 
         <!-- Binary Cap Expiration Renewal Box -->
@@ -247,15 +237,15 @@
             </div>
           </div>
 
-          <!-- 2. BINARY -->
+          <!-- 2. DIRECT EARNINGS -->
           <div class="m-card-std m-card-binary">
             <div class="m-card-top">
-              <span class="m-label">BINARY</span>
-              <span class="m-badge-icon" style="color:var(--jade);">⇄</span>
+              <span class="m-label">DIRECT EARNINGS</span>
+              <span class="m-badge-icon" style="color:var(--jade);">👥</span>
             </div>
             <div class="m-card-center">
               <p class="m-val" id="mBinary">₱0.00</p>
-              <span class="m-sub">Direct &amp; Matching Wallet</span>
+              <span class="m-sub" id="mBinarySub">0 direct invites (₱50 ea)</span>
             </div>
             <div class="m-card-bottom-line line-emerald"></div>
           </div>
@@ -348,7 +338,7 @@
         <div class="binary-cap-card floating-card">
           <div class="cap-header-row">
             <div class="cap-left-side">
-              <span class="cap-main-label">BINARY EARNINGS CAP (₱3,000 MAX)</span>
+              <span class="cap-main-label" id="capMainLabel">BINARY EARNINGS CAP (₱6,000 MAX)</span>
               <span class="cap-val-display" id="capLabel">₱0.00 / ₱3,000.00</span>
             </div>
             <div class="cap-right-side">
@@ -1732,6 +1722,9 @@
           wdNotice.classList.add('show');
         }
         if (wdFieldset) wdFieldset.disabled = true;
+
+        const spDisplay = document.getElementById('pendingSponsorDisplay');
+        if (spDisplay) spDisplay.textContent = u.sponsor_name || 'Admin / Direct Sponsor';
       } else if (isExpired) {
         document.getElementById('refCard').style.opacity = '';
         document.getElementById('refCard').style.pointerEvents = '';
@@ -1757,7 +1750,10 @@
       }
 
       // 7 METRICS CARDS
-      document.getElementById('mBinary').textContent       = peso(m.binary || u.binary_ref_balance);
+      document.getElementById('mBinary').textContent       = peso(m.direct_earnings !== undefined ? m.direct_earnings : ((d.directs ? d.directs.length : 0) * 50));
+      const mSub = document.getElementById('mBinarySub');
+      if (mSub) mSub.textContent = (m.direct_count !== undefined ? m.direct_count : (d.directs ? d.directs.length : 0)) + ' direct invites (₱50 ea)';
+
       document.getElementById('mPPT').textContent          = peso(m.ppt_earnings);
       document.getElementById('mPPTSub').textContent       = (m.ppt_pairs || 0) + ' / 10 pairs today';
 
@@ -1792,6 +1788,8 @@
       // Binary Cap Progress Bar (Matching Bonus Cap)
       const cap    = d.binary_cap || (d.constants && d.constants.binaryCap) || 6000;
       const earned = Number(u.total_binary_earnings || 0);
+      const capMainLabel = document.getElementById('capMainLabel');
+      if (capMainLabel) capMainLabel.textContent = `BINARY EARNINGS CAP (₱${Number(cap).toLocaleString()} MAX)`;
       document.getElementById('capLabel').textContent = peso(earned) + ' / ' + peso(cap);
       setTimeout(() => {
         document.getElementById('capBar').style.width = Math.min(100, (earned / cap) * 100) + '%';
@@ -3035,43 +3033,10 @@
       });
     }
 
-    // Activate Account (Self-Activation)
-    document.getElementById('activateForm').addEventListener('submit', (e) => {
+    // Activate Account (Self-Activation disabled: guarded)
+    document.getElementById('activateForm')?.addEventListener('submit', (e) => {
       e.preventDefault();
-      const code = document.getElementById('activateCodeInput').value.trim();
-      const position = inSelfPos ? inSelfPos.value : 'L';
-      const placement_mobile = document.getElementById('activatePlacementMobile').value.trim();
-      const legLabel = position === 'L' ? 'Left Leg ◀' : 'Right Leg ▶';
-
-      showConfirmPopup({
-        title: 'Confirm Account Activation',
-        subtitle: 'This will use your ₱300 activation code and lock your binary tree slot.',
-        icon: '⚡',
-        details: [
-          { label: 'Activation Code', val: code, highlight: true },
-          { label: 'Selected Leg', val: legLabel },
-          { label: 'Placement Upline', val: placement_mobile || 'Auto-spillover' }
-        ],
-        confirmText: 'Activate Account ➔',
-        confirmClass: 'btn-mint',
-        onConfirm: async () => {
-          const res = await fetch('/api/account/activate', {
-            method: 'POST',
-            headers,
-            body: JSON.stringify({
-              code,
-              position,
-              placement_mobile: placement_mobile || undefined,
-            }),
-          });
-          const data = await res.json();
-          if (!res.ok) { toast(data.error || 'Activation failed.'); return; }
-          const legText = data.placement && data.placement.position === 'L' ? 'LEFT' : 'RIGHT';
-          toast(`🎉 Account activated successfully on ${legText} leg! Welcome to the tree.`, true);
-          document.getElementById('activateForm').reset();
-          load();
-        }
-      });
+      toast('Self-activation is disabled. Please contact your upline/sponsor to encode and activate your account.');
     });
 
     // Renew Account
