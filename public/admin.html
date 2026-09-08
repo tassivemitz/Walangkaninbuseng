@@ -381,6 +381,9 @@
               </tbody>
             </table>
           </div>
+
+          <!-- Mobile Touch-Friendly Card View (Screens <= 768px) -->
+          <div class="admin-mobile-cards-list" id="userMobileCards"></div>
         </section>
 
         <!-- =========================================================
@@ -504,6 +507,9 @@
               </tbody>
             </table>
           </div>
+
+          <!-- Mobile Touch-Friendly Card View (Screens <= 768px) -->
+          <div class="admin-mobile-cards-list" id="codeMobileCards"></div>
         </section>
 
         <!-- =========================================================
@@ -696,6 +702,9 @@
               </tbody>
             </table>
           </div>
+
+          <!-- Mobile Touch-Friendly Card View (Screens <= 768px) -->
+          <div class="admin-mobile-cards-list" id="adminEarningsMobileCards"></div>
         </section>
       </div>
     </div>
@@ -1436,14 +1445,17 @@
     async function loadAdminEarningsHistory(category = currentAdminEarningsCat) {
       currentAdminEarningsCat = category;
       const tbody = document.getElementById('adminEarningsTbody');
+      const mobCards = document.getElementById('adminEarningsMobileCards');
       if (!tbody) return;
       tbody.innerHTML = '<tr><td colspan="6" style="padding:24px;text-align:center;" class="muted"><div class="spinner" style="width:20px;height:20px;margin:0 auto 8px;border:2px solid rgba(15,122,69,0.2);border-top-color:var(--jade);border-radius:50%;animation:spin 0.8s linear infinite;"></div>Loading audit logs...</td></tr>';
+      if (mobCards) mobCards.innerHTML = '<div style="padding:24px;text-align:center;" class="muted">Loading audit logs...</div>';
 
       try {
         const res = await fetch(`/api/admin/earnings-history?category=${encodeURIComponent(category)}`, { headers });
         if (!res.ok) {
           const err = await res.json().catch(() => ({}));
           tbody.innerHTML = `<tr><td colspan="6" style="padding:20px;text-align:center;color:#ef4444;">${esc(err.error || 'Failed to load earnings audit.')}</td></tr>`;
+          if (mobCards) mobCards.innerHTML = `<div style="padding:20px;text-align:center;color:#ef4444;">${esc(err.error || 'Failed to load earnings audit.')}</div>`;
           return;
         }
         const data = await res.json();
@@ -1452,6 +1464,7 @@
 
         if (!data.records || !data.records.length) {
           tbody.innerHTML = '<tr><td colspan="6" style="padding:24px;text-align:center;" class="muted">No earnings records found for this category.</td></tr>';
+          if (mobCards) mobCards.innerHTML = '<div style="padding:24px;text-align:center;" class="muted">No earnings records found for this category.</div>';
           return;
         }
 
@@ -1477,8 +1490,40 @@
           `;
         }).join('');
 
+        if (mobCards) {
+          mobCards.innerHTML = data.records.map(r => {
+            const b = catBadges[r.category] || { label: r.category, class: 'badge-referral', icon: '💰' };
+            return `
+              <div class="admin-mob-card">
+                <div class="admin-mob-card-head">
+                  <div style="display:flex;align-items:center;gap:6px;">
+                    <strong style="font-size:13px;color:#0b4d2c;">#${r.id}</strong>
+                    <span class="earning-badge ${b.class}" style="font-size:10.5px;">${b.icon} ${esc(b.label)}</span>
+                  </div>
+                  <span class="tiny muted">${new Date(r.created_at).toLocaleDateString()}</span>
+                </div>
+                <div class="admin-mob-card-grid">
+                  <div class="admin-mob-card-field">
+                    <span class="admin-mob-card-label">Recipient Member</span>
+                    <span class="admin-mob-card-val"><strong>${esc(r.recipient_mobile || ('User #' + r.user_id))}</strong></span>
+                  </div>
+                  <div class="admin-mob-card-field">
+                    <span class="admin-mob-card-label">Bonus Credited</span>
+                    <span class="admin-mob-card-val" style="font-weight:800;color:#0f7a45;font-size:14px;">+${peso(r.amount)}</span>
+                  </div>
+                  <div class="admin-mob-card-field full">
+                    <span class="admin-mob-card-label">Audit Description</span>
+                    <span class="admin-mob-card-val" style="font-size:12px;color:var(--muted);">${esc(r.description || 'Bonus credited')}</span>
+                  </div>
+                </div>
+              </div>
+            `;
+          }).join('');
+        }
+
       } catch (err) {
         tbody.innerHTML = `<tr><td colspan="6" style="padding:20px;text-align:center;color:#ef4444;">Error: ${esc(err.message)}</td></tr>`;
+        if (mobCards) mobCards.innerHTML = `<div style="padding:20px;text-align:center;color:#ef4444;">Error: ${esc(err.message)}</div>`;
       }
     }
 
@@ -1511,8 +1556,11 @@
       dl.innerHTML = globalUsers.map(u => '<option value="' + esc(u.mobile_number) + '">ID #' + u.id + ' (' + esc(u.status) + ')</option>').join('');
 
       const tbody = document.getElementById('userTableBody');
+      const mobCards = document.getElementById('userMobileCards');
+
       if (!list.length) {
         tbody.innerHTML = '<tr><td colspan="11" style="padding:20px;text-align:center" class="muted">No members found.</td></tr>';
+        if (mobCards) mobCards.innerHTML = '<div style="padding:20px;text-align:center" class="muted">No members found matching filter.</div>';
         return;
       }
 
@@ -1550,6 +1598,73 @@
           '<td style="text-align:right">' + treeBtn + deleteBtn + '</td>' +
           '</tr>';
       }).join('');
+
+      if (mobCards) {
+        mobCards.innerHTML = list.map((u) => {
+          const statusBadge = u.status === 'active'
+            ? '<span class="badge-tag tag-active">Active</span>'
+            : u.status === 'inactive'
+              ? '<span class="badge-tag tag-pending">Inactive</span>'
+              : u.status === 'expired'
+                ? '<span class="badge-tag tag-expired">Expired</span>'
+                : '<span class="badge-tag tag-rejected">' + esc(u.status) + '</span>';
+
+          const roleBadge = u.role === 'admin' ? ' <span class="badge-tag" style="background:#0b4d2c;color:#fff;font-size:9.5px;padding:1px 5px;">Admin</span>' : '';
+          const sponsorText = u.sponsor_mobile ? esc(u.sponsor_mobile) : '—';
+          const treeBtn = '<button type="button" data-tree-user-id="' + u.id + '" class="btn btn-ghost btn-sm" style="flex:1;padding:6px 10px;font-size:11px;">🌳 Tree</button>';
+          const deleteBtn = u.role === 'admin'
+            ? '<span class="tiny muted" style="padding:6px;">Protected</span>'
+            : '<button data-del-id="' + u.id + '" data-del-mobile="' + esc(u.mobile_number) + '" class="btn-admin-del" style="flex:1;padding:6px 10px;font-size:11px;">Delete</button>' +
+            (u.status === 'banned'
+              ? '<button data-ban-id="' + u.id + '" data-ban-mobile="' + esc(u.mobile_number) + '" data-ban-current="banned" class="btn-admin-unban" style="flex:1;padding:6px 10px;font-size:11px;">Unban</button>'
+              : '<button data-ban-id="' + u.id + '" data-ban-mobile="' + esc(u.mobile_number) + '" data-ban-current="active" class="btn-admin-ban" style="flex:1;padding:6px 10px;font-size:11px;">Ban</button>'
+            );
+
+          return `
+            <div class="admin-mob-card">
+              <div class="admin-mob-card-head">
+                <div style="display:flex;align-items:center;gap:6px;">
+                  <strong style="font-size:13.5px;color:#0b4d2c;">#${u.id}</strong>
+                  <strong style="font-size:13.5px;">${esc(u.mobile_number)}</strong>
+                  ${roleBadge}
+                  ${statusBadge}
+                </div>
+                <span class="tiny muted">${fmtDate(u.created_at)}</span>
+              </div>
+              <div class="admin-mob-card-grid">
+                <div class="admin-mob-card-field">
+                  <span class="admin-mob-card-label">Sponsor</span>
+                  <span class="admin-mob-card-val">${sponsorText}</span>
+                </div>
+                <div class="admin-mob-card-field">
+                  <span class="admin-mob-card-label">Direct Referrals</span>
+                  <span class="admin-mob-card-val"><strong>${u.directs || 0}</strong></span>
+                </div>
+                <div class="admin-mob-card-field">
+                  <span class="admin-mob-card-label">Binary Earned</span>
+                  <span class="admin-mob-card-val" style="color:#0f7a45;font-weight:700;">${peso(u.total_binary_earnings)}</span>
+                </div>
+                <div class="admin-mob-card-field">
+                  <span class="admin-mob-card-label">Binary Ref Bal</span>
+                  <span class="admin-mob-card-val">${peso(u.binary_ref_balance)}</span>
+                </div>
+                <div class="admin-mob-card-field">
+                  <span class="admin-mob-card-label">Trade-In Ref Bal</span>
+                  <span class="admin-mob-card-val">${peso(u.tradein_ref_balance)}</span>
+                </div>
+                <div class="admin-mob-card-field">
+                  <span class="admin-mob-card-label">Cycle Yield Bal</span>
+                  <span class="admin-mob-card-val">${peso(u.tradein_cycle_balance)}</span>
+                </div>
+              </div>
+              <div class="admin-mob-card-actions">
+                ${treeBtn}
+                ${deleteBtn}
+              </div>
+            </div>
+          `;
+        }).join('');
+      }
 
       document.querySelectorAll('button[data-tree-user-id]').forEach((btn) => {
         btn.onclick = () => {
@@ -1637,8 +1752,11 @@
       }
 
       const tbody = document.getElementById('codeTableBody');
+      const mobCards = document.getElementById('codeMobileCards');
+
       if (!list.length) {
         tbody.innerHTML = '<tr><td colspan="9" style="padding:24px;text-align:center" class="muted">No activation codes found matching this filter.</td></tr>';
+        if (mobCards) mobCards.innerHTML = '<div style="padding:24px;text-align:center" class="muted">No activation codes found matching this filter.</div>';
         return;
       }
 
@@ -1688,6 +1806,71 @@
           '<td style="text-align:right">' + actionHtml + '</td>' +
           '</tr>';
       }).join('');
+
+      if (mobCards) {
+        mobCards.innerHTML = list.map((c) => {
+          const badge = c.status === 'available'
+            ? '<span class="badge-tag tag-available">Available</span>'
+            : c.status === 'assigned'
+              ? '<span class="badge-tag tag-assigned">Assigned to Seller</span>'
+              : '<span class="badge-tag tag-used">Used / Active</span>';
+
+          const assignedMobile = c.assigned_mobile ? '<strong style="color:#0b4d2c;">' + esc(c.assigned_mobile) + '</strong>' : '<span class="muted">—</span>';
+          const usedMobile = c.used_mobile ? '<strong style="color:#0f7a45;">' + esc(c.used_mobile) + '</strong>' : '<span class="muted">—</span>';
+
+          let placementHtml = '<span class="muted">—</span>';
+          if (c.status === 'used') {
+            if (c.placement_parent_mobile) {
+              const legBadge = c.position === 'L'
+                ? '<span class="badge-tag tag-available" style="font-size:9px;padding:1px 5px;">◀ LEFT</span>'
+                : '<span class="badge-tag tag-assigned" style="font-size:9px;padding:1px 5px;">RIGHT ▶</span>';
+              placementHtml = `<div style="display:flex;align-items:center;gap:4px;"><span>Under <strong>${esc(c.placement_parent_mobile)}</strong></span>${legBadge}</div>`;
+            } else if (c.position) {
+              placementHtml = c.position === 'L' ? '<span class="badge-tag tag-available" style="font-size:9.5px;">LEFT Leg</span>' : '<span class="badge-tag tag-assigned" style="font-size:9.5px;">RIGHT Leg</span>';
+            }
+          }
+
+          const copyBtn = '<button type="button" class="btn-admin-copy" data-copy-code="' + esc(c.code) + '" style="padding:4px 10px;font-size:11px;">📋 Copy</button>';
+          const actionHtml = c.status !== 'used'
+            ? '<button type="button" class="btn-admin-action btn-admin-reject" data-revoke-code="' + c.id + '" data-code-str="' + esc(c.code) + '" style="padding:6px 12px;font-size:11px;">Revoke Code</button>'
+            : '<span class="tiny" style="color:var(--jade);font-weight:700;">✓ Encoded in Tree</span>';
+
+          return `
+            <div class="admin-mob-card">
+              <div class="admin-mob-card-head">
+                <div style="display:flex;align-items:center;gap:6px;">
+                  <strong style="font-size:13px;color:#0b4d2c;">#${c.id}</strong>
+                  ${badge}
+                </div>
+                <span class="tiny muted">${fmtDate(c.created_at)}</span>
+              </div>
+              <div style="display:flex;align-items:center;justify-content:space-between;background:rgba(15,122,69,0.06);border:1px solid rgba(15,122,69,0.18);border-radius:10px;padding:8px 12px;">
+                <code style="font-weight:800;font-size:15px;color:#0b4d2c;letter-spacing:0.06em;">${esc(c.code)}</code>
+                ${copyBtn}
+              </div>
+              <div class="admin-mob-card-grid">
+                <div class="admin-mob-card-field">
+                  <span class="admin-mob-card-label">Assigned Seller</span>
+                  <span class="admin-mob-card-val">${assignedMobile}</span>
+                </div>
+                <div class="admin-mob-card-field">
+                  <span class="admin-mob-card-label">Used By Member</span>
+                  <span class="admin-mob-card-val">${usedMobile}</span>
+                </div>
+                <div class="admin-mob-card-field full">
+                  <span class="admin-mob-card-label">Genealogy Placement</span>
+                  <span class="admin-mob-card-val">${placementHtml}</span>
+                </div>
+              </div>
+              ${c.status !== 'used' ? `
+                <div class="admin-mob-card-actions">
+                  ${actionHtml}
+                </div>
+              ` : ''}
+            </div>
+          `;
+        }).join('');
+      }
 
       // Wire copy buttons
       document.querySelectorAll('button[data-copy-code]').forEach((btn) => {
