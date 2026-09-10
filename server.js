@@ -163,7 +163,7 @@ function publicUser(userId, data = db.getStore()) {
     sponsor_id: t.sponsor_id || null,
     sponsor_name: sponsorName,
     position: t.position || null,
-    pairs_today: t.pairs_today || 0,
+    pairs_today: (t.last_pair_date && String(t.last_pair_date).slice(0, 10) === new Date().toISOString().slice(0, 10)) ? (t.pairs_today || 0) : 0,
     last_pair_date: t.last_pair_date || null,
     payout_account: u.payout_account || null,
   };
@@ -312,11 +312,11 @@ function getBinaryCap(data) {
 function logEarning(data, { userId, category, amount, sourceUserId = null, description = '', refId = null }) {
   if (!Array.isArray(data.earnings_history)) data.earnings_history = [];
   const amt = money(amount);
-  if (amt <= 0) return null;
+  if (amt <= 0 && category !== 'safety_net') return null;
   const sourceUser = sourceUserId ? data.users.find((u) => u.id === sourceUserId) : null;
   return db.insert('earnings_history', {
     user_id: userId,
-    category, // 'referral', 'indirect', 'matching', 'tradein_referral', 'tradein_earnings'
+    category, // 'referral', 'indirect', 'matching', 'safety_net', 'tradein_referral', 'tradein_earnings'
     amount: amt,
     source_user_id: sourceUserId,
     source_mobile: sourceUser ? sourceUser.mobile_number : null,
@@ -400,6 +400,12 @@ function resetPairsIfNeeded(node) {
   const today = new Date().toISOString().slice(0, 10);
   const last = node.last_pair_date ? String(node.last_pair_date).slice(0, 10) : null;
   if (last !== today) {
+    // Safety Net Flush Out: Flush any residual overlapping pairs from previous day(s)
+    const excessPairs = Math.min(node.leftover_left || 0, node.leftover_right || 0);
+    if (excessPairs > 0) {
+      node.leftover_left = Math.max(0, (node.leftover_left || 0) - excessPairs);
+      node.leftover_right = Math.max(0, (node.leftover_right || 0) - excessPairs);
+    }
     node.pairs_today = 0;
     node.last_pair_date = today;
   }
@@ -417,7 +423,22 @@ function processPairing(data, parentId, incomingPosition, newUserId = null) {
     else node.leftover_right += 1;
 
     while (node.leftover_left > 0 && node.leftover_right > 0) {
-      if (node.pairs_today >= MAX_PAIRS_PER_DAY) break;
+      // Daily Pairing Safety Net Cap (Default: 10 pairs/day)
+      if (node.pairs_today >= MAX_PAIRS_PER_DAY) {
+        // Daily cap reached: Flush out matching pairs with zero bonus
+        node.leftover_left -= 1;
+        node.leftover_right -= 1;
+        node.last_pair_date = new Date().toISOString().slice(0, 10);
+        logEarning(data, {
+          userId: node.user_id,
+          category: 'safety_net',
+          amount: 0,
+          sourceUserId: newUserId,
+          description: `Daily Safety Net Flush Out (Max ${MAX_PAIRS_PER_DAY} pairs/day)`,
+        });
+        continue;
+      }
+
       const credited = creditMatchingBonus(data, node.user_id, PAIR_BONUS, newUserId, null);
       if (credited <= 0) break;
       node.leftover_left -= 1;
