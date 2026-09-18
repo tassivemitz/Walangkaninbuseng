@@ -13,6 +13,12 @@
     href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Sora:wght@300;400;500;600;700;800&display=swap"
     rel="stylesheet" />
   <link rel="stylesheet" href="/styles.css?v=20260914glass" />
+  <link rel="manifest" href="/manifest.json" />
+  <meta name="theme-color" content="#0f7a45" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Infinite Trading" />
+  <link rel="apple-touch-icon" href="/images/site-logo.png" />
 </head>
 
 <body class="landing">
@@ -76,6 +82,14 @@
       <div class="land-nav-actions">
         <button class="btn btn-ghost btn-sm land-btn-plan" type="button" data-open-plan id="navViewPlan">
           <span class="icon-spark">✦</span> Compensation Plan
+        </button>
+        <button class="btn btn-sm btn-pwa-install" type="button" id="navInstallApp" style="display: none;" title="Install Infinite Trading App">
+          <svg class="icon-install" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 4px; vertical-align: -2px;">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+            <polyline points="7 10 12 15 17 10"/>
+            <line x1="12" y1="15" x2="12" y2="3"/>
+          </svg>
+          <span>Install App</span>
         </button>
         <a href="/login.html" class="btn btn-ghost btn-sm" id="navLogin">Login</a>
         <a href="/register.html" class="btn btn-sm btn-primary-glow" id="navRegister">Register</a>
@@ -1680,7 +1694,88 @@
         })
         .catch(() => { });
     }
+
+    // 11. PWA Service Worker & Install App Prompt Logic
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js').catch((err) => {
+          console.warn('PWA ServiceWorker error:', err);
+        });
+      });
+    }
+
+    let deferredPrompt = null;
+    const btnInstallApp = document.getElementById('navInstallApp');
+    const pwaIosModal = document.getElementById('pwaIosModal');
+    const pwaIosClose = document.getElementById('pwaIosClose');
+
+    const isIos = () => {
+      const ua = window.navigator.userAgent.toLowerCase();
+      return /iphone|ipad|ipod/.test(ua);
+    };
+    const isStandalone = () => {
+      return ('standalone' in window.navigator && window.navigator.standalone) ||
+        window.matchMedia('(display-mode: standalone)').matches;
+    };
+
+    if (!isStandalone()) {
+      if (btnInstallApp) {
+        btnInstallApp.style.display = 'inline-flex';
+      }
+    }
+
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      deferredPrompt = e;
+      if (btnInstallApp && !isStandalone()) {
+        btnInstallApp.style.display = 'inline-flex';
+      }
+    });
+
+    btnInstallApp?.addEventListener('click', async () => {
+      if (deferredPrompt) {
+        deferredPrompt.prompt();
+        const choice = await deferredPrompt.userChoice;
+        if (choice && choice.outcome === 'accepted') {
+          btnInstallApp.style.display = 'none';
+        }
+        deferredPrompt = null;
+      } else if (isIos() && !isStandalone()) {
+        pwaIosModal?.classList.add('show');
+      } else {
+        alert('To install this app on your device, tap your browser menu (⋮) and select "Install App" or "Add to Home screen".');
+      }
+    });
+
+    pwaIosClose?.addEventListener('click', () => {
+      pwaIosModal?.classList.remove('show');
+    });
+
+    window.addEventListener('appinstalled', () => {
+      if (btnInstallApp) btnInstallApp.style.display = 'none';
+      if (pwaIosModal) pwaIosModal.classList.remove('show');
+    });
   </script>
+
+  <!-- iOS PWA Install Instruction Bottom Sheet -->
+  <div class="pwa-ios-modal" id="pwaIosModal" aria-hidden="true">
+    <div class="pwa-ios-header">
+      <div class="pwa-ios-title">
+        <img src="/images/site-logo.png" alt="Logo" style="height: 24px; width: auto;" />
+        <span>Install Infinite App</span>
+      </div>
+      <button type="button" class="pwa-ios-close" id="pwaIosClose" aria-label="Close modal">✕</button>
+    </div>
+    <div class="pwa-ios-body">
+      To install Infinite Trading on your iPhone / iPad:
+      <div class="pwa-ios-step">
+        <span>1. Tap the Share icon <strong>(⎋ / ⎙)</strong> at the bottom of Safari.</span>
+      </div>
+      <div class="pwa-ios-step">
+        <span>2. Scroll down & tap <strong>"Add to Home Screen" (+)</strong>.</span>
+      </div>
+    </div>
+  </div>
 </body>
 
 </html>
