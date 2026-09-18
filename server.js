@@ -146,6 +146,8 @@ function publicUser(userId, data = db.getStore()) {
   const w = data.wallets.find((x) => x.user_id === userId) || emptyWallet(userId);
   const t = data.binary_tree.find((x) => x.user_id === userId) || {};
   const identifier = u.username || u.mobile_number;
+  const sponsorUser = t.sponsor_id ? data.users.find((x) => x.id === t.sponsor_id) : null;
+  const sponsorName = sponsorUser ? (sponsorUser.username || sponsorUser.mobile_number) : 'Admin';
   return {
     id: u.id,
     username: identifier,
@@ -159,8 +161,9 @@ function publicUser(userId, data = db.getStore()) {
     tradein_cycle_balance: w.tradein_cycle_balance,
     parent_id: t.parent_id || null,
     sponsor_id: t.sponsor_id || null,
+    sponsor_name: sponsorName,
     position: t.position || null,
-    pairs_today: t.pairs_today || 0,
+    pairs_today: (t.last_pair_date && String(t.last_pair_date).slice(0, 10) === new Date().toISOString().slice(0, 10)) ? (t.pairs_today || 0) : 0,
     last_pair_date: t.last_pair_date || null,
     payout_account: u.payout_account || null,
   };
@@ -309,11 +312,11 @@ function getBinaryCap(data) {
 function logEarning(data, { userId, category, amount, sourceUserId = null, description = '', refId = null }) {
   if (!Array.isArray(data.earnings_history)) data.earnings_history = [];
   const amt = money(amount);
-  if (amt <= 0) return null;
+  if (amt <= 0 && category !== 'safety_net') return null;
   const sourceUser = sourceUserId ? data.users.find((u) => u.id === sourceUserId) : null;
   return db.insert('earnings_history', {
     user_id: userId,
-    category, // 'referral', 'indirect', 'matching', 'tradein_referral', 'tradein_earnings'
+    category, // 'referral', 'indirect', 'matching', 'safety_net', 'tradein_referral', 'tradein_earnings'
     amount: amt,
     source_user_id: sourceUserId,
     source_mobile: sourceUser ? sourceUser.mobile_number : null,
@@ -397,6 +400,12 @@ function resetPairsIfNeeded(node) {
   const today = new Date().toISOString().slice(0, 10);
   const last = node.last_pair_date ? String(node.last_pair_date).slice(0, 10) : null;
   if (last !== today) {
+    // Safety Net Flush Out: Flush any residual overlapping pairs from previous day(s)
+    const excessPairs = Math.min(node.leftover_left || 0, node.leftover_right || 0);
+    if (excessPairs > 0) {
+      node.leftover_left = Math.max(0, (node.leftover_left || 0) - excessPairs);
+      node.leftover_right = Math.max(0, (node.leftover_right || 0) - excessPairs);
+    }
     node.pairs_today = 0;
     node.last_pair_date = today;
   }
@@ -414,7 +423,22 @@ function processPairing(data, parentId, incomingPosition, newUserId = null) {
     else node.leftover_right += 1;
 
     while (node.leftover_left > 0 && node.leftover_right > 0) {
-      if (node.pairs_today >= MAX_PAIRS_PER_DAY) break;
+      // Daily Pairing Safety Net Cap (Default: 10 pairs/day)
+      if (node.pairs_today >= MAX_PAIRS_PER_DAY) {
+        // Daily cap reached: Flush out matching pairs with zero bonus
+        node.leftover_left -= 1;
+        node.leftover_right -= 1;
+        node.last_pair_date = new Date().toISOString().slice(0, 10);
+        logEarning(data, {
+          userId: node.user_id,
+          category: 'safety_net',
+          amount: 0,
+          sourceUserId: newUserId,
+          description: `Daily Safety Net Flush Out (Max ${MAX_PAIRS_PER_DAY} pairs/day)`,
+        });
+        continue;
+      }
+
       const credited = creditMatchingBonus(data, node.user_id, PAIR_BONUS, newUserId, null);
       if (credited <= 0) break;
       node.leftover_left -= 1;
@@ -639,9 +663,10 @@ app.get('/api/health', (_req, res) => {
 });
 
 app.get('/api/config', (_req, res) => {
+  const data = db.getStore();
   res.json({
     entryFee: ENTRY_FEE,
-    binaryCap: BINARY_CAP,
+    binaryCap: getBinaryCap(data),
     directBonus: DIRECT_BONUS,
     indirectBonus: INDIRECT_BONUS,
     pairBonus: PAIR_BONUS,
@@ -745,113 +770,10 @@ app.post('/api/auth/login', async (req, res) => {
 });
 
 app.post('/api/account/activate', auth, async (req, res) => {
-  const code = normalizeCode(req.body.code);
-  const rawPos = String(req.body.position || '').trim().toUpperCase();
-  const preferredPos = rawPos.startsWith('R') ? 'R' : rawPos.startsWith('L') ? 'L' : null;
-  const placementMobile = req.body.placement_mobile ? normalizeMobile(req.body.placement_mobile) : null;
-
-  if (!code || code.length < 6) {
-    return res.status(400).json({ error: 'Please enter a valid 8-character activation code.' });
-  }
-
-  try {
-    const result = await db.tx((data) => {
-      const u = data.users.find((x) => x.id === req.user.id);
-      if (!u) {
-        const err = new Error('Account not found.');
-        err.status = 404;
-        throw err;
-      }
-      if (u.status === 'active') {
-        const err = new Error('Account is already activated.');
-        err.status = 400;
-        throw err;
-      }
-      if (u.status === 'banned') {
-        const err = new Error('This account is banned.');
-        err.status = 403;
-        throw err;
-      }
-
-      // Check code vault - universal & random codes
-      const vault = data.code_vault.find((c) => normalizeCode(c.code) === code && c.status !== 'used');
-      if (!vault) {
-        const err = new Error('Activation code is invalid or already used.');
-        err.status = 400;
-        throw err;
-      }
-
-      // Determine sponsor
-      let treeNode = data.binary_tree.find((t) => t.user_id === u.id);
-      let sponsorId = treeNode && treeNode.sponsor_id ? treeNode.sponsor_id : null;
-      if (!sponsorId) {
-        const admin = data.users.filter((x) => x.role === 'admin').sort((a, b) => a.id - b.id)[0];
-        sponsorId = admin ? admin.id : 1;
-      }
-
-      if (!treeNode) {
-        treeNode = emptyTree(u.id, null, sponsorId, null);
-        data.binary_tree.push(treeNode);
-      }
-
-      // Placement root: either designated upline parent or fallback to sponsor
-      let startNodeId = sponsorId;
-      if (placementMobile) {
-        const pUser = data.users.find((x) => ((x.username && x.username.toLowerCase() === placementMobile.toLowerCase()) || (x.mobile_number && x.mobile_number.toLowerCase() === placementMobile.toLowerCase())) && x.status === 'active');
-        if (!pUser || !data.binary_tree.some((t) => t.user_id === pUser.id)) {
-          const err = new Error(`Placement upline ${placementMobile} is not an active binary node.`);
-          err.status = 400;
-          throw err;
-        }
-        const isSelf = pUser.id === sponsorId;
-        const isSubDownline = isDownline(sponsorId, pUser.id, data);
-        if (!isSelf && !isSubDownline && u.role !== 'admin') {
-          const err = new Error('Crossline or upline placement is strictly prohibited. You can only place downlines under your sponsor or within your sponsor downline tree.');
-          err.status = 400;
-          throw err;
-        }
-        startNodeId = pUser.id;
-      }
-
-      // Binary placement with deliberate positioning & spillover cascading
-      const place = assignPlacement(startNodeId, preferredPos, data);
-      treeNode.parent_id = place.parentId;
-      treeNode.position = place.position;
-      treeNode.sponsor_id = sponsorId;
-
-      // Mark code as used with full audit data for anti-fraud tracking
-      vault.status = 'used';
-      vault.used_by = u.id;
-      if (!vault.assigned_to) {
-        vault.assigned_to = u.id;
-      }
-      vault.used_at = nowIso();
-      vault.placement_parent_id = place.parentId;
-      vault.position = place.position;
-
-      // Activate user account
-      u.status = 'active';
-
-      // Trigger Direct (₱50), Indirect (₱5), and Pairing Bonuses (₱50/pair)
-      paySponsorBinary(data, sponsorId, u.id);
-      processPairing(data, place.parentId, place.position, u.id);
-
-      return {
-        user: publicUser(u.id, data),
-        placement: {
-          parent_id: place.parentId,
-          parent_mobile: mobileOf(place.parentId, data),
-          position: place.position,
-        },
-      };
-    });
-
-    res.json({ ok: true, user: result.user, placement: result.placement });
-  } catch (err) {
-    if (err.status) return res.status(err.status).json({ error: err.message });
-    console.error(err);
-    res.status(500).json({ error: 'Account activation failed.' });
-  }
+  // Self-activation is disabled: only upline/sponsor can activate and place accounts via genealogy tree (+ Encode Slot)
+  return res.status(403).json({
+    error: 'Self-activation is disabled. Please contact your upline or direct sponsor to place and activate your account into the genealogy tree.',
+  });
 });
 
 // Sponsor / Encoder Downline Placement Endpoint
@@ -1170,6 +1092,13 @@ app.get('/api/dashboard', auth, async (req, res) => {
     cycle_info: getPackageCycleInfo(p),
   }));
 
+  // Direct referral earnings calculation
+  const directEarningRecords = Array.isArray(data.earnings_history)
+    ? data.earnings_history.filter((e) => e.user_id === req.user.id && e.category === 'referral')
+    : [];
+  const directEarningsTotal = directEarningRecords.length > 0
+    ? directEarningRecords.reduce((sum, e) => sum + Number(e.amount || 0), 0)
+    : (directs ? directs.length * DIRECT_BONUS : 0);
   const activeBinaryCap = getBinaryCap(data);
   user.binary_cap = activeBinaryCap;
 
@@ -1193,6 +1122,8 @@ app.get('/api/dashboard', auth, async (req, res) => {
     },
     metrics: {
       binary: Number(user.binary_ref_balance) || 0,
+      direct_earnings: money(directEarningsTotal),
+      direct_count: directs ? directs.length : 0,
       ppt_pairs: user.pairs_today || 0,
       ppt_earnings: (user.pairs_today || 0) * PAIR_BONUS,
       in_ppt_count: indirects.length,
@@ -1660,17 +1591,38 @@ app.post('/api/withdraw/tradein-cycle', auth, (req, res) => requestWithdrawal(re
 app.get('/api/admin/overview', auth, adminOnly, async (_req, res) => {
   await processTradeinYields().catch(() => { });
   const data = db.getStore();
+
+  const approvedWds = data.withdrawals.filter((w) => w.status === 'approved');
+  const pendingWds = data.withdrawals.filter((w) => w.status === 'pending');
+  const total_cashout = money(approvedWds.reduce((s, w) => s + Number(w.net_amount || w.amount || 0), 0));
+  const total_cashout_gross = money(approvedWds.reduce((s, w) => s + Number(w.amount || 0), 0));
+  const total_cashout_count = approvedWds.length;
+
+  const pending_cashout = money(pendingWds.reduce((s, w) => s + Number(w.net_amount || w.amount || 0), 0));
+  const pending_cashout_gross = money(pendingWds.reduce((s, w) => s + Number(w.amount || 0), 0));
+  const pending_cashout_count = pendingWds.length;
+  const pending_tradeins = data.tradein_packages.filter((p) => p.cycle_status === 'pending').length;
+
   res.json({
     users: data.users.length,
     active: data.users.filter((u) => u.status === 'active').length,
     available_codes: data.code_vault.filter((c) => c.status === 'available').length,
-    pending_withdrawals: data.withdrawals.filter((w) => w.status === 'pending').length,
+    pending_withdrawals: pendingWds.length,
+    pending_tradeins,
+    total_cashout,
+    total_cashout_gross,
+    total_cashout_count,
+    pending_cashout,
+    pending_cashout_gross,
+    pending_cashout_count,
     kpis: {
       tradein_deposit: money(data.tradein_packages.reduce((s, p) => s + Number(p.capital), 0)),
       tradein_ref: money(data.wallets.reduce((s, w) => s + Number(w.tradein_ref_balance), 0)),
       total_code: data.code_vault.length,
       total_code_buy: data.code_vault.filter((c) => c.status === 'used' || c.assigned_to).length,
       total_binary: money(data.users.reduce((s, u) => s + Number(u.total_binary_earnings || 0), 0)),
+      total_cashout,
+      pending_cashout,
     },
     wallets: {
       binary_ref: data.wallets.reduce((s, w) => s + Number(w.binary_ref_balance), 0),

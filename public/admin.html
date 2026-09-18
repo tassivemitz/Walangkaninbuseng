@@ -13,6 +13,13 @@
 </head>
 
 <body class="admin-terminal-body">
+  <!-- Animated ambient background mesh orbs -->
+  <div class="orbs" aria-hidden="true">
+    <span class="orb-1"></span>
+    <span class="orb-2"></span>
+    <span class="orb-3"></span>
+  </div>
+
   <!-- Mobile Drawer Backdrop Overlay -->
   <div class="dash-sidebar-backdrop" id="adminSidebarBackdrop"></div>
 
@@ -211,7 +218,7 @@
               <div>
                 <p class="kpi-label">TOTAL CODE BUY</p>
                 <p class="kpi-val" id="kpiTotalCodeBuy">0</p>
-                <p class="kpi-sub">Assigned & activated codes</p>
+                <p class="kpi-sub">Assigned &amp; activated codes</p>
               </div>
               <div class="kpi-icon">🏷️</div>
             </div>
@@ -224,6 +231,35 @@
                 <p class="kpi-sub">Network match earnings</p>
               </div>
               <div class="kpi-icon">📈</div>
+            </div>
+          </div>
+
+          <!-- Row 3: Cashout Monitoring Cards (Added per user request) -->
+          <div class="kpi-row-2" style="margin-top:14px;">
+            <!-- 6. TOTAL CASHOUT -->
+            <div class="admin-card mint" style="border:1.5px solid rgba(15,122,69,0.35);cursor:pointer;" id="cardKpiTotalCashout" title="Click to view approved cashouts">
+              <div>
+                <div style="display:flex;align-items:center;gap:6px;margin-bottom:3px;">
+                  <p class="kpi-label" style="color:#0f7a45;margin:0;">TOTAL CASHOUT (RELEASED)</p>
+                  <span class="badge-tag tag-approved" style="font-size:9.5px;padding:1px 6px;">Net Disbursed</span>
+                </div>
+                <p class="kpi-val" id="kpiTotalCashout" style="color:#0f7a45;">₱0.00</p>
+                <p class="kpi-sub" id="kpiTotalCashoutSub">0 Completed releases</p>
+              </div>
+              <div class="kpi-icon" style="background:#e8f9f0;color:#0f7a45;font-size:24px;">💸</div>
+            </div>
+
+            <!-- 7. PENDING CASHOUT -->
+            <div class="admin-card gold" style="border:1.5px solid #f59e0b;background:linear-gradient(180deg, #fffdf8 0%, #ffffff 100%);cursor:pointer;" id="cardKpiPendingCashout" title="Click to review pending cashouts">
+              <div>
+                <div style="display:flex;align-items:center;gap:6px;margin-bottom:3px;">
+                  <p class="kpi-label" style="color:#b45309;margin:0;">PENDING CASHOUT (AWAITING RELEASE)</p>
+                  <span class="badge-tag tag-expired" id="badgeKpiPendingWd" style="font-size:9.5px;padding:1px 6px;">0 Pending</span>
+                </div>
+                <p class="kpi-val" id="kpiPendingCashout" style="color:#d97706;">₱0.00</p>
+                <p class="kpi-sub" id="kpiPendingCashoutSub">0 Pending review</p>
+              </div>
+              <div class="kpi-icon" style="background:#fef3c7;color:#d97706;font-size:24px;">⏳</div>
             </div>
           </div>
 
@@ -240,6 +276,26 @@
             <div class="wt-card">
               <p class="wt-card-label">System · Trade-In Cycle Balance</p>
               <p class="wt-card-val" id="sysCycle">₱0.00</p>
+            </div>
+          </div>
+
+          <!-- Admin Home: Quick Pending Approvals Action Center -->
+          <div class="admin-card" style="margin-top:20px;grid-column:1/-1;">
+            <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:14px;border-bottom:1px solid rgba(15,122,69,0.12);padding-bottom:10px;">
+              <div>
+                <div style="display:flex;align-items:center;gap:8px;">
+                  <span style="font-size:20px;">⚡</span>
+                  <h3 style="margin:0;font-size:16px;font-weight:800;color:#0b4d2c;font-family:'Fraunces', serif;">Pending Approvals Quick Center</h3>
+                </div>
+                <p class="tiny muted" style="margin:3px 0 0;">Immediate action queue for pending Trade-in deposits &amp; Cashout disbursements (Mobile &amp; Desktop)</p>
+              </div>
+              <div style="display:flex;gap:8px;align-items:center;">
+                <button type="button" class="btn btn-ghost btn-sm" id="btnQuickGoTradein" style="font-size:11.5px;font-weight:700;">Trade-In Tab ➔</button>
+                <button type="button" class="btn btn-ghost btn-sm" id="btnQuickGoWd" style="font-size:11.5px;font-weight:700;">Cashout Tab ➔</button>
+              </div>
+            </div>
+            <div id="homePendingQueue" style="display:flex;flex-direction:column;gap:10px;">
+              <div style="padding:20px;text-align:center;" class="muted tiny">Loading pending queue...</div>
             </div>
           </div>
 
@@ -308,6 +364,9 @@
               </tbody>
             </table>
           </div>
+
+          <!-- Mobile Touch-Friendly Card View (Screens <= 768px) -->
+          <div class="admin-mobile-cards-list" id="userMobileCards"></div>
         </section>
 
         <!-- =========================================================
@@ -431,6 +490,9 @@
               </tbody>
             </table>
           </div>
+
+          <!-- Mobile Touch-Friendly Card View (Screens <= 768px) -->
+          <div class="admin-mobile-cards-list" id="codeMobileCards"></div>
         </section>
 
         <!-- =========================================================
@@ -488,6 +550,9 @@
               </tbody>
             </table>
           </div>
+
+          <!-- Mobile Touch-Friendly Card View (Screens <= 768px) -->
+          <div class="admin-mobile-cards-list" id="tradeinMobileCards"></div>
         </section>
 
         <!-- =========================================================
@@ -558,8 +623,8 @@
                   <th>Member</th>
                   <th>Payout / Wallet Type</th>
                   <th>Bound Payout Account (Destination)</th>
-                  <th>Gross Amount</th>
-                  <th>Fee / Net Payout</th>
+                  <th>Gross Requested</th>
+                  <th>Amount to Release (Net Payout)</th>
                   <th>Status</th>
                   <th>Request Date</th>
                   <th style="text-align:right">Actions</th>
@@ -573,6 +638,9 @@
               </tbody>
             </table>
           </div>
+
+          <!-- Mobile Touch-Friendly Card View (Screens <= 768px) -->
+          <div class="admin-mobile-cards-list" id="wdMobileCards"></div>
         </section>
 
         <!-- =========================================================
@@ -617,6 +685,9 @@
               </tbody>
             </table>
           </div>
+
+          <!-- Mobile Touch-Friendly Card View (Screens <= 768px) -->
+          <div class="admin-mobile-cards-list" id="adminEarningsMobileCards"></div>
         </section>
       </div>
     </div>
@@ -807,6 +878,8 @@
       closeAdminConfirm();
       if (typeof cb === 'function') cb();
     });
+    window.showAdminConfirm = showAdminConfirm;
+    window.showConfirmPopup = showAdminConfirm;
 
     let currentLightboxPkg = null;
     function openReceiptLightbox(imgSrc, title = 'Receipt Inspection', pkg = null) {
@@ -1175,6 +1248,26 @@
       });
     });
 
+    document.getElementById('cardKpiTotalCashout')?.addEventListener('click', () => {
+      switchAdminView('viewWithdrawals');
+      document.querySelector('[data-wdfilter="approved"]')?.click();
+    });
+
+    document.getElementById('cardKpiPendingCashout')?.addEventListener('click', () => {
+      switchAdminView('viewWithdrawals');
+      document.querySelector('[data-wdfilter="pending"]')?.click();
+    });
+
+    document.getElementById('btnQuickGoTradein')?.addEventListener('click', () => {
+      switchAdminView('viewTradein');
+      document.querySelector('[data-tradeinfilter="pending"]')?.click();
+    });
+
+    document.getElementById('btnQuickGoWd')?.addEventListener('click', () => {
+      switchAdminView('viewWithdrawals');
+      document.querySelector('[data-wdfilter="pending"]')?.click();
+    });
+
     function generateRandomCode() {
       const chars = '23456789ABCDEFGHJKLMNPQRSTUVWXYZ';
       let result = '';
@@ -1208,7 +1301,24 @@
       document.getElementById('kpiTotalBinary').textContent = peso(kpis.total_binary);
       document.getElementById('lastUpdatedText').textContent = 'Synced ' + new Date().toLocaleTimeString();
 
-      // Sidebar Badges
+      // Total Cashout & Pending Cashout monitoring KPIs
+      const elTotalCashout = document.getElementById('kpiTotalCashout');
+      if (elTotalCashout) elTotalCashout.textContent = peso(overview.total_cashout || 0);
+      const elTotalCashoutSub = document.getElementById('kpiTotalCashoutSub');
+      if (elTotalCashoutSub) elTotalCashoutSub.textContent = `${overview.total_cashout_count || 0} Releases (Gross: ${peso(overview.total_cashout_gross || 0)})`;
+
+      const elPendingCashout = document.getElementById('kpiPendingCashout');
+      if (elPendingCashout) elPendingCashout.textContent = peso(overview.pending_cashout || 0);
+      const elPendingCashoutSub = document.getElementById('kpiPendingCashoutSub');
+      if (elPendingCashoutSub) elPendingCashoutSub.textContent = `${overview.pending_cashout_count || overview.pending_withdrawals || 0} Pending (Gross: ${peso(overview.pending_cashout_gross || 0)})`;
+      const badgeKpiPendingWd = document.getElementById('badgeKpiPendingWd');
+      if (badgeKpiPendingWd) {
+        const count = overview.pending_cashout_count || overview.pending_withdrawals || 0;
+        badgeKpiPendingWd.textContent = count > 0 ? `${count} Action Needed` : '0 Pending';
+        badgeKpiPendingWd.className = count > 0 ? 'badge-tag tag-expired' : 'badge-tag tag-available';
+      }
+
+      // Sidebar & Mobile Badges for Codes & Cashout
       const bCodes = document.getElementById('badgeNavCodes');
       if (bCodes) bCodes.textContent = overview.available_codes || 0;
 
@@ -1225,9 +1335,20 @@
         }
       }
 
+      // Sidebar & Mobile Badges for Trade-In
+      const bTradein = document.getElementById('badgeNavTradein');
+      const pTradeinCount = overview.pending_tradeins || 0;
+      if (bTradein) {
+        bTradein.textContent = pTradeinCount;
+        bTradein.style.background = pTradeinCount > 0 ? '#fee2e2' : '';
+        bTradein.style.color = pTradeinCount > 0 ? '#b91c1c' : '';
+      }
+
       // Binary Cap in Admin Settings
       if (overview.binary_cap && document.getElementById('inputAdminBinaryCap')) {
-        document.getElementById('inputAdminBinaryCap').value = overview.binary_cap;
+        if (document.activeElement !== document.getElementById('inputAdminBinaryCap')) {
+          document.getElementById('inputAdminBinaryCap').value = overview.binary_cap;
+        }
       }
 
       // Wallet totals bar
@@ -1235,6 +1356,9 @@
       document.getElementById('sysBinaryRef').textContent = peso(w.binary_ref || 0);
       document.getElementById('sysTradeRef').textContent = peso(w.tradein_ref || 0);
       document.getElementById('sysCycle').textContent = peso(w.tradein_cycle || 0);
+
+      // Render Home Pending Action Center Queue
+      renderHomePendingQueue();
     }
 
     // Save Binary Cap Setting
@@ -1246,7 +1370,7 @@
         return;
       }
 
-      showConfirmPopup({
+      showAdminConfirm({
         title: 'Update Binary Matching Cap',
         subtitle: 'Configure the maximum binary pairing earnings before accounts expire.',
         icon: '⚖',
@@ -1267,7 +1391,7 @@
             const data = await res.json();
             if (!res.ok) { toast(data.error || 'Failed to update cap.'); return; }
             toast(`✓ Binary matching cap updated to ${peso(data.binary_cap)}!`, true);
-            loadOverview();
+            refreshAll();
           } catch (err) {
             toast(err.message || 'Error updating binary cap.');
           }
@@ -1283,14 +1407,17 @@
     async function loadAdminEarningsHistory(category = currentAdminEarningsCat) {
       currentAdminEarningsCat = category;
       const tbody = document.getElementById('adminEarningsTbody');
+      const mobCards = document.getElementById('adminEarningsMobileCards');
       if (!tbody) return;
       tbody.innerHTML = '<tr><td colspan="6" style="padding:24px;text-align:center;" class="muted"><div class="spinner" style="width:20px;height:20px;margin:0 auto 8px;border:2px solid rgba(15,122,69,0.2);border-top-color:var(--jade);border-radius:50%;animation:spin 0.8s linear infinite;"></div>Loading audit logs...</td></tr>';
+      if (mobCards) mobCards.innerHTML = '<div style="padding:24px;text-align:center;" class="muted">Loading audit logs...</div>';
 
       try {
         const res = await fetch(`/api/admin/earnings-history?category=${encodeURIComponent(category)}`, { headers });
         if (!res.ok) {
           const err = await res.json().catch(() => ({}));
           tbody.innerHTML = `<tr><td colspan="6" style="padding:20px;text-align:center;color:#ef4444;">${esc(err.error || 'Failed to load earnings audit.')}</td></tr>`;
+          if (mobCards) mobCards.innerHTML = `<div style="padding:20px;text-align:center;color:#ef4444;">${esc(err.error || 'Failed to load earnings audit.')}</div>`;
           return;
         }
         const data = await res.json();
@@ -1299,6 +1426,7 @@
 
         if (!data.records || !data.records.length) {
           tbody.innerHTML = '<tr><td colspan="6" style="padding:24px;text-align:center;" class="muted">No earnings records found for this category.</td></tr>';
+          if (mobCards) mobCards.innerHTML = '<div style="padding:24px;text-align:center;" class="muted">No earnings records found for this category.</div>';
           return;
         }
 
@@ -1306,6 +1434,7 @@
           referral: { label: 'Direct Ref (₱50)', class: 'badge-referral', icon: '🎯' },
           indirect: { label: 'Indirect Ref (₱5)', class: 'badge-indirect', icon: '👥' },
           matching: { label: 'Matching Pair (₱50)', class: 'badge-matching', icon: '⚖' },
+          safety_net: { label: 'Safety Net (₱0)', class: 'badge-indirect', icon: '🛡' },
           tradein_referral: { label: 'Trade-In Ref', class: 'badge-tradein-ref', icon: '🔄' },
           tradein_earnings: { label: 'Trade-In Yield', class: 'badge-tradein-yield', icon: '📈' },
         };
@@ -1324,8 +1453,40 @@
           `;
         }).join('');
 
+        if (mobCards) {
+          mobCards.innerHTML = data.records.map(r => {
+            const b = catBadges[r.category] || { label: r.category, class: 'badge-referral', icon: '💰' };
+            return `
+              <div class="admin-mob-card">
+                <div class="admin-mob-card-head">
+                  <div style="display:flex;align-items:center;gap:6px;">
+                    <strong style="font-size:13px;color:#0b4d2c;">#${r.id}</strong>
+                    <span class="earning-badge ${b.class}" style="font-size:10.5px;">${b.icon} ${esc(b.label)}</span>
+                  </div>
+                  <span class="tiny muted">${new Date(r.created_at).toLocaleDateString()}</span>
+                </div>
+                <div class="admin-mob-card-grid">
+                  <div class="admin-mob-card-field">
+                    <span class="admin-mob-card-label">Recipient Member</span>
+                    <span class="admin-mob-card-val"><strong>${esc(r.recipient_mobile || ('User #' + r.user_id))}</strong></span>
+                  </div>
+                  <div class="admin-mob-card-field">
+                    <span class="admin-mob-card-label">Bonus Credited</span>
+                    <span class="admin-mob-card-val" style="font-weight:800;color:#0f7a45;font-size:14px;">+${peso(r.amount)}</span>
+                  </div>
+                  <div class="admin-mob-card-field full">
+                    <span class="admin-mob-card-label">Audit Description</span>
+                    <span class="admin-mob-card-val" style="font-size:12px;color:var(--muted);">${esc(r.description || 'Bonus credited')}</span>
+                  </div>
+                </div>
+              </div>
+            `;
+          }).join('');
+        }
+
       } catch (err) {
         tbody.innerHTML = `<tr><td colspan="6" style="padding:20px;text-align:center;color:#ef4444;">Error: ${esc(err.message)}</td></tr>`;
+        if (mobCards) mobCards.innerHTML = `<div style="padding:20px;text-align:center;color:#ef4444;">Error: ${esc(err.message)}</div>`;
       }
     }
 
@@ -1358,8 +1519,11 @@
       dl.innerHTML = globalUsers.map(u => '<option value="' + esc(u.mobile_number) + '">ID #' + u.id + ' (' + esc(u.status) + ')</option>').join('');
 
       const tbody = document.getElementById('userTableBody');
+      const mobCards = document.getElementById('userMobileCards');
+
       if (!list.length) {
         tbody.innerHTML = '<tr><td colspan="11" style="padding:20px;text-align:center" class="muted">No members found.</td></tr>';
+        if (mobCards) mobCards.innerHTML = '<div style="padding:20px;text-align:center" class="muted">No members found matching filter.</div>';
         return;
       }
 
@@ -1397,6 +1561,73 @@
           '<td style="text-align:right">' + treeBtn + deleteBtn + '</td>' +
           '</tr>';
       }).join('');
+
+      if (mobCards) {
+        mobCards.innerHTML = list.map((u) => {
+          const statusBadge = u.status === 'active'
+            ? '<span class="badge-tag tag-active">Active</span>'
+            : u.status === 'inactive'
+              ? '<span class="badge-tag tag-pending">Inactive</span>'
+              : u.status === 'expired'
+                ? '<span class="badge-tag tag-expired">Expired</span>'
+                : '<span class="badge-tag tag-rejected">' + esc(u.status) + '</span>';
+
+          const roleBadge = u.role === 'admin' ? ' <span class="badge-tag" style="background:#0b4d2c;color:#fff;font-size:9.5px;padding:1px 5px;">Admin</span>' : '';
+          const sponsorText = u.sponsor_mobile ? esc(u.sponsor_mobile) : '—';
+          const treeBtn = '<button type="button" data-tree-user-id="' + u.id + '" class="btn btn-ghost btn-sm" style="flex:1;padding:6px 10px;font-size:11px;">🌳 Tree</button>';
+          const deleteBtn = u.role === 'admin'
+            ? '<span class="tiny muted" style="padding:6px;">Protected</span>'
+            : '<button data-del-id="' + u.id + '" data-del-mobile="' + esc(u.mobile_number) + '" class="btn-admin-del" style="flex:1;padding:6px 10px;font-size:11px;">Delete</button>' +
+            (u.status === 'banned'
+              ? '<button data-ban-id="' + u.id + '" data-ban-mobile="' + esc(u.mobile_number) + '" data-ban-current="banned" class="btn-admin-unban" style="flex:1;padding:6px 10px;font-size:11px;">Unban</button>'
+              : '<button data-ban-id="' + u.id + '" data-ban-mobile="' + esc(u.mobile_number) + '" data-ban-current="active" class="btn-admin-ban" style="flex:1;padding:6px 10px;font-size:11px;">Ban</button>'
+            );
+
+          return `
+            <div class="admin-mob-card">
+              <div class="admin-mob-card-head">
+                <div style="display:flex;align-items:center;gap:6px;">
+                  <strong style="font-size:13.5px;color:#0b4d2c;">#${u.id}</strong>
+                  <strong style="font-size:13.5px;">${esc(u.mobile_number)}</strong>
+                  ${roleBadge}
+                  ${statusBadge}
+                </div>
+                <span class="tiny muted">${fmtDate(u.created_at)}</span>
+              </div>
+              <div class="admin-mob-card-grid">
+                <div class="admin-mob-card-field">
+                  <span class="admin-mob-card-label">Sponsor</span>
+                  <span class="admin-mob-card-val">${sponsorText}</span>
+                </div>
+                <div class="admin-mob-card-field">
+                  <span class="admin-mob-card-label">Direct Referrals</span>
+                  <span class="admin-mob-card-val"><strong>${u.directs || 0}</strong></span>
+                </div>
+                <div class="admin-mob-card-field">
+                  <span class="admin-mob-card-label">Binary Earned</span>
+                  <span class="admin-mob-card-val" style="color:#0f7a45;font-weight:700;">${peso(u.total_binary_earnings)}</span>
+                </div>
+                <div class="admin-mob-card-field">
+                  <span class="admin-mob-card-label">Binary Ref Bal</span>
+                  <span class="admin-mob-card-val">${peso(u.binary_ref_balance)}</span>
+                </div>
+                <div class="admin-mob-card-field">
+                  <span class="admin-mob-card-label">Trade-In Ref Bal</span>
+                  <span class="admin-mob-card-val">${peso(u.tradein_ref_balance)}</span>
+                </div>
+                <div class="admin-mob-card-field">
+                  <span class="admin-mob-card-label">Cycle Yield Bal</span>
+                  <span class="admin-mob-card-val">${peso(u.tradein_cycle_balance)}</span>
+                </div>
+              </div>
+              <div class="admin-mob-card-actions">
+                ${treeBtn}
+                ${deleteBtn}
+              </div>
+            </div>
+          `;
+        }).join('');
+      }
 
       document.querySelectorAll('button[data-tree-user-id]').forEach((btn) => {
         btn.onclick = () => {
@@ -1484,8 +1715,11 @@
       }
 
       const tbody = document.getElementById('codeTableBody');
+      const mobCards = document.getElementById('codeMobileCards');
+
       if (!list.length) {
         tbody.innerHTML = '<tr><td colspan="9" style="padding:24px;text-align:center" class="muted">No activation codes found matching this filter.</td></tr>';
+        if (mobCards) mobCards.innerHTML = '<div style="padding:24px;text-align:center" class="muted">No activation codes found matching this filter.</div>';
         return;
       }
 
@@ -1535,6 +1769,71 @@
           '<td style="text-align:right">' + actionHtml + '</td>' +
           '</tr>';
       }).join('');
+
+      if (mobCards) {
+        mobCards.innerHTML = list.map((c) => {
+          const badge = c.status === 'available'
+            ? '<span class="badge-tag tag-available">Available</span>'
+            : c.status === 'assigned'
+              ? '<span class="badge-tag tag-assigned">Assigned to Seller</span>'
+              : '<span class="badge-tag tag-used">Used / Active</span>';
+
+          const assignedMobile = c.assigned_mobile ? '<strong style="color:#0b4d2c;">' + esc(c.assigned_mobile) + '</strong>' : '<span class="muted">—</span>';
+          const usedMobile = c.used_mobile ? '<strong style="color:#0f7a45;">' + esc(c.used_mobile) + '</strong>' : '<span class="muted">—</span>';
+
+          let placementHtml = '<span class="muted">—</span>';
+          if (c.status === 'used') {
+            if (c.placement_parent_mobile) {
+              const legBadge = c.position === 'L'
+                ? '<span class="badge-tag tag-available" style="font-size:9px;padding:1px 5px;">◀ LEFT</span>'
+                : '<span class="badge-tag tag-assigned" style="font-size:9px;padding:1px 5px;">RIGHT ▶</span>';
+              placementHtml = `<div style="display:flex;align-items:center;gap:4px;"><span>Under <strong>${esc(c.placement_parent_mobile)}</strong></span>${legBadge}</div>`;
+            } else if (c.position) {
+              placementHtml = c.position === 'L' ? '<span class="badge-tag tag-available" style="font-size:9.5px;">LEFT Leg</span>' : '<span class="badge-tag tag-assigned" style="font-size:9.5px;">RIGHT Leg</span>';
+            }
+          }
+
+          const copyBtn = '<button type="button" class="btn-admin-copy" data-copy-code="' + esc(c.code) + '" style="padding:4px 10px;font-size:11px;">📋 Copy</button>';
+          const actionHtml = c.status !== 'used'
+            ? '<button type="button" class="btn-admin-action btn-admin-reject" data-revoke-code="' + c.id + '" data-code-str="' + esc(c.code) + '" style="padding:6px 12px;font-size:11px;">Revoke Code</button>'
+            : '<span class="tiny" style="color:var(--jade);font-weight:700;">✓ Encoded in Tree</span>';
+
+          return `
+            <div class="admin-mob-card">
+              <div class="admin-mob-card-head">
+                <div style="display:flex;align-items:center;gap:6px;">
+                  <strong style="font-size:13px;color:#0b4d2c;">#${c.id}</strong>
+                  ${badge}
+                </div>
+                <span class="tiny muted">${fmtDate(c.created_at)}</span>
+              </div>
+              <div style="display:flex;align-items:center;justify-content:space-between;background:rgba(15,122,69,0.06);border:1px solid rgba(15,122,69,0.18);border-radius:10px;padding:8px 12px;">
+                <code style="font-weight:800;font-size:15px;color:#0b4d2c;letter-spacing:0.06em;">${esc(c.code)}</code>
+                ${copyBtn}
+              </div>
+              <div class="admin-mob-card-grid">
+                <div class="admin-mob-card-field">
+                  <span class="admin-mob-card-label">Assigned Seller</span>
+                  <span class="admin-mob-card-val">${assignedMobile}</span>
+                </div>
+                <div class="admin-mob-card-field">
+                  <span class="admin-mob-card-label">Used By Member</span>
+                  <span class="admin-mob-card-val">${usedMobile}</span>
+                </div>
+                <div class="admin-mob-card-field full">
+                  <span class="admin-mob-card-label">Genealogy Placement</span>
+                  <span class="admin-mob-card-val">${placementHtml}</span>
+                </div>
+              </div>
+              ${c.status !== 'used' ? `
+                <div class="admin-mob-card-actions">
+                  ${actionHtml}
+                </div>
+              ` : ''}
+            </div>
+          `;
+        }).join('');
+      }
 
       // Wire copy buttons
       document.querySelectorAll('button[data-copy-code]').forEach((btn) => {
@@ -1590,6 +1889,7 @@
 
     function renderTradein() {
       const tbody = document.getElementById('tradeinTableBody');
+      const mobCards = document.getElementById('tradeinMobileCards');
       const activeCount = globalTradein.filter(p => p.cycle_status === 'active').length;
       const pendingCount = globalTradein.filter(p => p.cycle_status === 'pending').length;
 
@@ -1628,6 +1928,7 @@
 
       if (!list.length) {
         tbody.innerHTML = '<tr><td colspan="10" style="padding:24px;text-align:center" class="muted">No trade-in packages found matching this filter.</td></tr>';
+        if (mobCards) mobCards.innerHTML = '<div style="padding:24px;text-align:center;" class="muted">No trade-in packages found matching this filter.</div>';
         return;
       }
 
@@ -1674,6 +1975,78 @@
           <td style="text-align:right;">${actions}</td>
         </tr>`;
       }).join('');
+
+      // Mobile Touch-Friendly Cards View (<= 768px)
+      if (mobCards) {
+        mobCards.innerHTML = list.map((p) => {
+          const isPending = p.cycle_status === 'pending';
+          const isActive = p.cycle_status === 'active';
+          const isCompleted = p.cycle_status === 'completed';
+
+          const badge = isPending
+            ? '<span class="badge-tag tag-expired">Pending Verification</span>'
+            : isActive
+              ? '<span class="badge-tag tag-active">Active</span>'
+              : isCompleted
+                ? '<span class="badge-tag tag-approved">Completed</span>'
+                : '<span class="badge-tag tag-rejected">Rejected</span>';
+
+          const payouts = (p.payouts_completed || 0) + ' / 4 payouts';
+
+          const methodBadge = p.payment_method ? `<span class="badge-tag tag-available" style="font-size:9.5px;padding:2px 6px;">${esc(p.payment_method)}</span>` : '<span class="muted">—</span>';
+          const refTag = p.ref_number ? `<code style="font-size:11px;font-weight:700;color:#0b4d2c;display:inline-block;margin-left:4px;">${esc(p.ref_number)}</code>` : '';
+          const methodCol = `<span>${methodBadge}${refTag}</span>`;
+
+          const hasReceipt = Boolean(p.receipt_image || p.receipt_url);
+          const receiptBtn = hasReceipt
+            ? `<button type="button" class="receipt-view-btn" data-tradein-pkg-id="${p.id}" style="padding:4px 10px;font-size:11.5px;font-weight:700;">🧾 View Receipt</button>`
+            : '<span class="muted tiny">No receipt</span>';
+
+          return `
+            <div class="admin-mob-card ${isPending ? 'pending' : ''}">
+              <div class="admin-mob-card-head">
+                <div style="display:flex;align-items:center;gap:6px;">
+                  <strong style="font-size:13.5px;color:#0b4d2c;">#${p.id}</strong>
+                  ${badge}
+                </div>
+                <span class="tiny muted">${fmtDate(p.created_at || p.start_date)}</span>
+              </div>
+              <div class="admin-mob-card-grid">
+                <div class="admin-mob-card-field">
+                  <span class="admin-mob-card-label">Member</span>
+                  <span class="admin-mob-card-val"><strong>${esc(p.mobile_number)}</strong></span>
+                </div>
+                <div class="admin-mob-card-field">
+                  <span class="admin-mob-card-label">Capital</span>
+                  <span class="admin-mob-card-val" style="font-weight:700;color:#0b4d2c;">${peso(p.capital)}</span>
+                </div>
+                <div class="admin-mob-card-field">
+                  <span class="admin-mob-card-label">Total Return</span>
+                  <span class="admin-mob-card-val" style="color:#0f7a45;font-weight:700;">${peso(p.total_return)}</span>
+                </div>
+                <div class="admin-mob-card-field">
+                  <span class="admin-mob-card-label">Progress</span>
+                  <span class="admin-mob-card-val">${payouts}</span>
+                </div>
+                <div class="admin-mob-card-field full">
+                  <span class="admin-mob-card-label">Payment Channel</span>
+                  <span class="admin-mob-card-val" style="display:flex;align-items:center;gap:6px;">${methodCol}</span>
+                </div>
+                <div class="admin-mob-card-field full">
+                  <span class="admin-mob-card-label">Proof of Deposit</span>
+                  <span class="admin-mob-card-val">${receiptBtn}</span>
+                </div>
+              </div>
+              ${isPending ? `
+                <div class="admin-mob-card-actions">
+                  <button type="button" class="btn-admin-action btn-admin-approve" data-tradein-approve="${p.id}" data-pkg-user="${esc(p.mobile_number)}" data-pkg-cap="${p.capital}">✓ Approve Deposit</button>
+                  <button type="button" class="btn-admin-action btn-admin-reject" data-tradein-reject="${p.id}" data-pkg-user="${esc(p.mobile_number)}">✕ Reject</button>
+                </div>
+              ` : ''}
+            </div>
+          `;
+        }).join('');
+      }
 
       // Wire receipt inspection via in-memory lookup + endpoint fallback
       document.querySelectorAll('button[data-tradein-pkg-id]').forEach(btn => {
@@ -1792,6 +2165,258 @@
       });
     }
 
+    function renderHomePendingQueue() {
+      const container = document.getElementById('homePendingQueue');
+      if (!container) return;
+
+      const pendingTradein = globalTradein.filter(p => p.cycle_status === 'pending');
+      const pendingWd = globalWithdrawals.filter(w => w.status === 'pending');
+      const totalPending = pendingTradein.length + pendingWd.length;
+
+      if (totalPending === 0) {
+        container.innerHTML = `
+          <div style="padding:22px;text-align:center;background:#f9fcf9;border:1px dashed rgba(15,122,69,0.2);border-radius:12px;">
+            <span style="font-size:24px;display:block;margin-bottom:6px;">🎉</span>
+            <strong style="color:#0b4d2c;font-size:13.5px;">All Caught Up!</strong>
+            <p class="tiny muted" style="margin:4px 0 0;">No pending trade-in deposits or cashout releases requiring verification.</p>
+          </div>
+        `;
+        return;
+      }
+
+      let html = '';
+
+      // 1. Pending Trade-In Deposits
+      pendingTradein.forEach(p => {
+        const hasReceipt = Boolean(p.receipt_image || p.receipt_url);
+        const receiptBtn = hasReceipt
+          ? `<button type="button" class="receipt-view-btn" data-tradein-pkg-id="${p.id}" style="padding:4px 10px;font-size:11.5px;font-weight:700;">🧾 View Receipt</button>`
+          : '<span class="muted tiny">No receipt</span>';
+
+        html += `
+          <div class="home-pending-card">
+            <div style="display:flex;align-items:flex-start;gap:10px;flex:1;">
+              <span style="font-size:22px;line-height:1;margin-top:2px;">📥</span>
+              <div style="flex:1;">
+                <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-bottom:3px;">
+                  <span class="badge-tag tag-expired" style="font-size:10px;font-weight:700;">Trade-In Deposit</span>
+                  <strong style="font-size:13px;color:#0b4d2c;">#${p.id} · ${esc(p.mobile_number)}</strong>
+                  <span class="tiny muted">• ${fmtDate(p.created_at || p.start_date)}</span>
+                </div>
+                <div style="display:flex;gap:14px;align-items:center;flex-wrap:wrap;font-size:12px;margin-top:4px;">
+                  <span>Capital: <strong style="color:#0b4d2c;">${peso(p.capital)}</strong></span>
+                  <span>120% Return: <strong style="color:#0f7a45;">${peso(p.total_return)}</strong></span>
+                  <span>Method: <code style="font-weight:700;color:#0b4d2c;">${esc(p.payment_method || '—')}</code></span>
+                  <span>Proof: ${receiptBtn}</span>
+                </div>
+              </div>
+            </div>
+            <div style="display:flex;gap:6px;align-items:center;margin-top:8px;justify-content:flex-end;">
+              <button type="button" class="btn-admin-action btn-admin-approve" data-tradein-approve="${p.id}" data-pkg-user="${esc(p.mobile_number)}" data-pkg-cap="${p.capital}" style="padding:6px 14px;font-size:12px;">✓ Approve</button>
+              <button type="button" class="btn-admin-action btn-admin-reject" data-tradein-reject="${p.id}" data-pkg-user="${esc(p.mobile_number)}" style="padding:6px 12px;font-size:12px;">✕ Reject</button>
+            </div>
+          </div>
+        `;
+      });
+
+      // 2. Pending Cashout Releases
+      pendingWd.forEach(w => {
+        const iconImg = getPayoutImg(w.payout_method, 22);
+        const accNum = w.account_number && w.account_number !== '—' ? esc(w.account_number) : '';
+        const copyBtn = accNum
+          ? `<button type="button" class="btn-admin-copy" data-copy-acc="${accNum}" style="padding:2px 8px;font-size:11px;">📋 Copy</button>`
+          : '';
+
+        const walletBadge = w.wallet_type === 'binary_ref'
+          ? '<span class="badge-tag tag-cat-binary" style="font-size:9.5px;">Binary</span>'
+          : w.wallet_type === 'tradein_ref'
+            ? '<span class="badge-tag tag-cat-traderef" style="font-size:9.5px;">Trade-In Ref</span>'
+            : '<span class="badge-tag tag-cat-cycle" style="font-size:9.5px;">Cycle</span>';
+
+        html += `
+          <div class="home-pending-card">
+            <div style="display:flex;align-items:flex-start;gap:10px;flex:1;">
+              <span style="font-size:22px;line-height:1;margin-top:2px;">💸</span>
+              <div style="flex:1;">
+                <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-bottom:3px;">
+                  <span class="badge-tag tag-pending" style="font-size:10px;font-weight:700;">Cashout Release</span>
+                  ${walletBadge}
+                  <strong style="font-size:13px;color:#0b4d2c;">#${w.id} · ${esc(w.mobile_number)}</strong>
+                  <span class="tiny muted">• ${fmtDate(w.created_at)}</span>
+                </div>
+                <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;font-size:12px;margin-top:4px;">
+                  <div style="display:inline-flex;align-items:center;gap:4px;">
+                    ${iconImg}
+                    <strong style="color:#0b4d2c;">${esc(w.account_name || '—')}</strong>
+                    ${accNum ? `<code style="font-weight:700;color:#0f7a45;background:rgba(15,122,69,0.06);padding:2px 6px;border-radius:4px;">${accNum}</code>${copyBtn}` : ''}
+                  </div>
+                  <div class="amount-release-box" style="display:inline-flex;align-items:center;gap:6px;padding:4px 10px;margin:0;">
+                    <span style="font-size:11px;color:#065f46;font-weight:700;">RELEASE:</span>
+                    <span class="amount-release-val" style="font-size:15px;">${peso(w.net_amount)}</span>
+                    <span class="amount-release-less" style="margin:0;font-size:10.5px;">(Gross ${peso(w.amount)} - ${peso(w.fee)} tax)</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div style="display:flex;gap:6px;align-items:center;margin-top:8px;justify-content:flex-end;">
+              <button type="button" data-wd-id="${w.id}" data-wd-act="approve" class="btn-admin-action btn-admin-approve" style="padding:6px 14px;font-size:12px;">✓ Approve</button>
+              <button type="button" data-wd-id="${w.id}" data-wd-act="reject" class="btn-admin-action btn-admin-reject" style="padding:6px 12px;font-size:12px;">✕ Reject</button>
+            </div>
+          </div>
+        `;
+      });
+
+      container.innerHTML = html;
+
+      // Re-attach listeners for buttons inside homePendingQueue
+      container.querySelectorAll('button[data-tradein-pkg-id]').forEach(btn => {
+        btn.onclick = (e) => {
+          e.stopPropagation();
+          const pkgId = Number(btn.dataset.tradeinPkgId);
+          const pkg = globalTradein.find(x => x.id === pkgId);
+          if (pkg && (pkg.receipt_image || pkg.receipt_url)) {
+            openReceiptLightbox(pkg.receipt_image || pkg.receipt_url, `Trade-In Payment Receipt · #${pkg.id} · ${esc(pkg.mobile_number)} (${peso(pkg.capital)})`, pkg);
+          }
+        };
+      });
+
+      container.querySelectorAll('button[data-tradein-approve]').forEach(btn => {
+        btn.onclick = () => {
+          const id = Number(btn.dataset.tradeinApprove);
+          const userMob = btn.dataset.pkgUser;
+          const capital = Number(btn.dataset.pkgCap);
+          const pkg = globalTradein.find(x => x.id === id);
+          const hasRec = pkg && (pkg.receipt_image || pkg.receipt_url);
+
+          const receiptHtml = hasRec
+            ? `<button type="button" class="receipt-view-btn" id="btnViewReceiptInConfirmHome" style="padding:3px 10px;font-size:11.5px;font-weight:700;">🧾 Inspect Receipt Proof</button>`
+            : '<span class="muted tiny">No receipt uploaded</span>';
+
+          showAdminConfirm({
+            title: 'Approve Trade-In Deposit',
+            subtitle: 'Activate the 12-day investment cycle and disburse referral bonuses.',
+            icon: '✅',
+            details: [
+              { label: 'Package ID', val: '#' + id },
+              { label: 'Member Username', val: userMob, highlight: true },
+              { label: 'Capital Deposited', val: peso(capital), highlight: true },
+              { label: 'Total Return (120%)', val: peso(capital * 1.2) },
+              { label: 'Sponsor Bonus (5%)', val: peso(capital * 0.05) },
+              { label: 'Receipt Proof', html: receiptHtml }
+            ],
+            confirmText: 'Approve & Activate Cycle ➔',
+            confirmClass: 'btn-mint',
+            onConfirm: async () => {
+              try {
+                await api(`/api/admin/tradein/${id}/approve`, { method: 'POST', body: '{}' });
+                flash(`✓ Trade-In package #${id} for ${userMob} approved and activated!`, true);
+                refreshAll();
+              } catch (err) {
+                flash(err.message);
+              }
+            }
+          });
+
+          const btnInspectInModal = document.getElementById('btnViewReceiptInConfirmHome');
+          if (btnInspectInModal && hasRec) {
+            btnInspectInModal.onclick = (e) => {
+              e.stopPropagation();
+              openReceiptLightbox(pkg.receipt_image || pkg.receipt_url, `Trade-In Payment Receipt · #${pkg.id} · ${esc(userMob)} (${peso(capital)})`, pkg);
+            };
+          }
+        };
+      });
+
+      container.querySelectorAll('button[data-tradein-reject]').forEach(btn => {
+        btn.onclick = () => {
+          const id = btn.dataset.tradeinReject;
+          const userMob = btn.dataset.pkgUser;
+
+          showAdminConfirm({
+            title: 'Reject Trade-In Deposit',
+            subtitle: 'Mark this trade-in deposit as rejected.',
+            icon: '✕',
+            summary: `Reject deposit request <strong>#${id}</strong> for member <strong>${esc(userMob)}</strong>?`,
+            details: [
+              { label: 'Package ID', val: '#' + id },
+              { label: 'Member Mobile', val: userMob }
+            ],
+            confirmText: 'Reject Deposit',
+            confirmClass: 'btn-danger',
+            onConfirm: async () => {
+              try {
+                await api(`/api/admin/tradein/${id}/reject`, {
+                  method: 'POST',
+                  body: JSON.stringify({ reason: 'Invalid proof of payment or rejected by admin.' }),
+                });
+                flash(`Trade-In package #${id} marked as rejected.`, true);
+                refreshAll();
+              } catch (err) {
+                flash(err.message);
+              }
+            }
+          });
+        };
+      });
+
+      container.querySelectorAll('button[data-copy-acc]').forEach((btn) => {
+        btn.onclick = (e) => {
+          e.stopPropagation();
+          const txt = btn.dataset.copyAcc;
+          navigator.clipboard.writeText(txt).then(() => {
+            const orig = btn.innerHTML;
+            btn.innerHTML = '✓ Copied!';
+            setTimeout(() => { btn.innerHTML = orig; }, 2000);
+          }).catch(() => { prompt('Copy Account Number:', txt); });
+        };
+      });
+
+      container.querySelectorAll('button[data-wd-id]').forEach((btn) => {
+        btn.onclick = () => {
+          const id = btn.dataset.wdId;
+          const act = btn.dataset.wdAct;
+          const req = globalWithdrawals.find(x => String(x.id) === String(id)) || {};
+          const isApprove = act === 'approve';
+
+          const releasePill = `
+            <div style="background:#ecfdf5;border:1.5px solid #059669;border-radius:8px;padding:6px 12px;display:inline-block;">
+              <span style="font-size:15px;font-weight:800;color:#047857;">${peso(req.net_amount || 0)}</span>
+              <span style="font-size:11px;color:#065f46;font-weight:700;display:block;">(Already less tax/fee of ${peso(req.fee || 0)})</span>
+            </div>
+          `;
+
+          showAdminConfirm({
+            title: isApprove ? 'Approve Cashout & Release Funds' : 'Reject Cashout Request',
+            subtitle: isApprove ? 'Confirm release of net payout to destination account.' : 'Reject cashout and refund balance to member.',
+            icon: isApprove ? '💸' : '✕',
+            details: [
+              { label: 'Request ID', val: '#' + id },
+              { label: 'Member', val: req.mobile_number || '—' },
+              { label: 'Wallet Type', val: (req.wallet_type || '—').toUpperCase() },
+              { label: 'Payout Method', val: req.payout_method || '—' },
+              { label: 'Account Name', val: req.account_name || '—' },
+              { label: 'Account Number', val: req.account_number || '—' },
+              { label: 'Gross Requested', val: peso(req.amount || 0) },
+              { label: 'Processing Fee (Tax)', val: '-' + peso(req.fee || 0) },
+              { label: 'AMOUNT TO RELEASE (NET)', html: releasePill, highlight: true }
+            ],
+            confirmText: isApprove ? 'Confirm Approval & Release ➔' : 'Confirm Rejection',
+            confirmClass: isApprove ? 'btn-mint' : 'btn-danger',
+            onConfirm: async () => {
+              try {
+                await api('/api/admin/withdrawals/' + id + '/review', {
+                  method: 'POST',
+                  body: JSON.stringify({ action: act }),
+                });
+                flash('Withdrawal #' + id + ' ' + act + 'd successfully.', true);
+                refreshAll();
+              } catch (e) { flash(e.message); }
+            }
+          });
+        };
+      });
+    }
+
     function getPayoutImg(method, size = 22) {
       const m = String(method || '').toLowerCase();
       let file = 'GCash.png';
@@ -1879,8 +2504,11 @@
       }
 
       const tbody = document.getElementById('wdTableBody');
+      const mobCards = document.getElementById('wdMobileCards');
+
       if (!list.length) {
         tbody.innerHTML = '<tr><td colspan="9" style="padding:24px;text-align:center" class="muted">No withdrawal requests found matching this filter.</td></tr>';
+        if (mobCards) mobCards.innerHTML = '<div style="padding:24px;text-align:center;" class="muted">No withdrawal requests found matching this filter.</div>';
         return;
       }
 
@@ -1928,9 +2556,16 @@
           '</div>';
 
         const actions = w.status === 'pending'
-          ? '<button data-wd-id="' + w.id + '" data-wd-act="approve" class="btn-admin-action btn-admin-approve" style="margin-right:6px">Approve</button>' +
-          '<button data-wd-id="' + w.id + '" data-wd-act="reject" class="btn-admin-action btn-admin-reject">Reject</button>'
-          : '<span class="tiny muted">Reviewed</span>';
+          ? '<button data-wd-id="' + w.id + '" data-wd-act="approve" class="btn-admin-action btn-admin-approve" style="margin-right:6px">✓ Approve</button>' +
+          '<button data-wd-id="' + w.id + '" data-wd-act="reject" class="btn-admin-action btn-admin-reject">✕ Reject</button>'
+          : '<span class="tiny muted">' + esc(w.status) + '</span>';
+
+        const releaseBox = `
+          <div class="amount-release-box" style="margin:0;padding:6px 10px;">
+            <span class="amount-release-val" style="font-size:15px;">${peso(w.net_amount)}</span>
+            <span class="amount-release-less">✓ Less Tax (${peso(w.fee)} fee)</span>
+          </div>
+        `;
 
         return '<tr>' +
           '<td><strong>#' + w.id + '</strong></td>' +
@@ -1938,14 +2573,101 @@
           '<td>' + walletBadge + '</td>' +
           '<td>' + payoutDetails + '</td>' +
           '<td style="font-weight:600">' + peso(w.amount) + '</td>' +
-          '<td><span class="tiny muted">' + peso(w.fee) + '</span> / <strong style="color:#0f7a45;font-size:13.5px;">' + peso(w.net_amount) + '</strong></td>' +
+          '<td>' + releaseBox + '</td>' +
           '<td>' + badge + '</td>' +
           '<td class="tiny muted">' + fmtDate(w.created_at) + '</td>' +
           '<td style="text-align:right">' + actions + '</td>' +
           '</tr>';
       }).join('');
 
-      // Copy account number event listeners
+      // Mobile Touch-Friendly Cards View (<= 768px)
+      if (mobCards) {
+        mobCards.innerHTML = list.map((w) => {
+          const isPending = w.status === 'pending';
+          const badge = isPending
+            ? '<span class="badge-tag tag-pending">Pending</span>'
+            : w.status === 'approved'
+              ? '<span class="badge-tag tag-approved">Approved</span>'
+              : '<span class="badge-tag tag-rejected">Rejected</span>';
+
+          const walletBadge = w.wallet_type === 'binary_ref'
+            ? '<span class="badge-tag tag-cat-binary">⇄ Binary</span>'
+            : w.wallet_type === 'tradein_ref'
+              ? '<span class="badge-tag tag-cat-traderef">💛 Trade-In Ref</span>'
+              : '<span class="badge-tag tag-cat-cycle">📈 Cycle</span>';
+
+          const mKey = String(w.payout_method || '').toLowerCase();
+          let methodTagClass = 'badge-tag tag-gcash';
+          if (mKey.includes('maya')) methodTagClass = 'badge-tag tag-maya';
+          else if (mKey.includes('gotyme')) methodTagClass = 'badge-tag tag-gotyme';
+          else if (mKey.includes('maribank')) methodTagClass = 'badge-tag tag-maribank';
+          else if (mKey.includes('ub') || mKey.includes('unionbank')) methodTagClass = 'badge-tag tag-ub';
+
+          const iconImg = getPayoutImg(w.payout_method, 24);
+          const methodBadge = w.payout_method && w.payout_method !== '—'
+            ? '<span class="' + methodTagClass + '" style="font-size:10px;padding:2px 7px;">' + esc(w.payout_method) + '</span>'
+            : '<span class="badge-tag tag-rejected" style="font-size:9.5px;">Unbound</span>';
+
+          const accName = w.account_name && w.account_name !== '—' ? esc(w.account_name) : '—';
+          const accNum = w.account_number && w.account_number !== '—' ? esc(w.account_number) : '';
+          const copyBtn = accNum
+            ? '<button type="button" class="btn-admin-copy" data-copy-acc="' + esc(accNum) + '" style="padding:2px 8px;font-size:11px;">📋 Copy</button>'
+            : '';
+
+          return `
+            <div class="admin-mob-card ${isPending ? 'pending' : ''}">
+              <div class="admin-mob-card-head">
+                <div style="display:flex;align-items:center;gap:6px;">
+                  <strong style="font-size:13.5px;color:#0b4d2c;">#${w.id}</strong>
+                  ${walletBadge}
+                  ${badge}
+                </div>
+                <span class="tiny muted">${fmtDate(w.created_at)}</span>
+              </div>
+              <div class="admin-mob-card-grid">
+                <div class="admin-mob-card-field">
+                  <span class="admin-mob-card-label">Member</span>
+                  <span class="admin-mob-card-val"><strong>${esc(w.mobile_number)}</strong></span>
+                </div>
+                <div class="admin-mob-card-field">
+                  <span class="admin-mob-card-label">Gross Requested</span>
+                  <span class="admin-mob-card-val" style="font-weight:600;">${peso(w.amount)}</span>
+                </div>
+                <div class="admin-mob-card-field full">
+                  <span class="admin-mob-card-label">Payout Account Destination</span>
+                  <div class="admin-mob-card-val" style="display:flex;align-items:center;gap:8px;margin-top:2px;">
+                    ${iconImg}
+                    <div style="flex:1;">
+                      <div style="display:flex;align-items:center;gap:6px;">
+                        ${methodBadge}
+                        <strong style="font-size:12.5px;color:#0b4d2c;">${accName}</strong>
+                      </div>
+                      ${accNum ? `<div style="display:flex;align-items:center;gap:6px;margin-top:2px;"><code style="font-weight:700;font-size:12px;color:#0f7a45;background:rgba(15,122,69,0.06);padding:2px 6px;border-radius:4px;">${accNum}</code>${copyBtn}</div>` : ''}
+                    </div>
+                  </div>
+                </div>
+                <div class="admin-mob-card-field full">
+                  <div class="amount-release-box">
+                    <div style="display:flex;justify-content:space-between;align-items:baseline;">
+                      <span style="font-size:11px;font-weight:700;color:#065f46;text-transform:uppercase;letter-spacing:0.04em;">Amount to Release (Net)</span>
+                      <span class="amount-release-val">${peso(w.net_amount)}</span>
+                    </div>
+                    <span class="amount-release-less">✓ Already less ${peso(w.fee)} processing fee / tax</span>
+                  </div>
+                </div>
+              </div>
+              ${isPending ? `
+                <div class="admin-mob-card-actions">
+                  <button type="button" data-wd-id="${w.id}" data-wd-act="approve" class="btn-admin-action btn-admin-approve">✓ Approve Cashout</button>
+                  <button type="button" data-wd-id="${w.id}" data-wd-act="reject" class="btn-admin-action btn-admin-reject">✕ Reject</button>
+                </div>
+              ` : ''}
+            </div>
+          `;
+        }).join('');
+      }
+
+      // Copy account number event listeners (desktop, mobile & action center)
       document.querySelectorAll('button[data-copy-acc]').forEach((btn) => {
         btn.onclick = (e) => {
           e.stopPropagation();
@@ -1966,23 +2688,37 @@
         };
       });
 
-      // Review actions
+      // Review actions (desktop & mobile)
       document.querySelectorAll('button[data-wd-id]').forEach((btn) => {
         btn.onclick = () => {
           const id = btn.dataset.wdId;
           const act = btn.dataset.wdAct;
+          const req = globalWithdrawals.find(x => String(x.id) === String(id)) || {};
           const isApprove = act === 'approve';
 
+          const releasePill = `
+            <div style="background:#ecfdf5;border:1.5px solid #059669;border-radius:8px;padding:6px 12px;display:inline-block;">
+              <span style="font-size:15px;font-weight:800;color:#047857;">${peso(req.net_amount || 0)}</span>
+              <span style="font-size:11px;color:#065f46;font-weight:700;display:block;">(Already less tax/fee of ${peso(req.fee || 0)})</span>
+            </div>
+          `;
+
           showAdminConfirm({
-            title: isApprove ? 'Approve Cashout' : 'Reject Cashout',
-            subtitle: isApprove ? 'Mark cashout as approved and release funds.' : 'Reject cashout and refund balance to member.',
+            title: isApprove ? 'Approve Cashout & Release Funds' : 'Reject Cashout Request',
+            subtitle: isApprove ? 'Confirm release of net payout to the destination account.' : 'Reject cashout and refund balance to member.',
             icon: isApprove ? '💸' : '✕',
-            summary: `Are you sure you want to <strong>${act.toUpperCase()}</strong> withdrawal request <strong>#${id}</strong>?`,
             details: [
               { label: 'Request ID', val: '#' + id },
-              { label: 'Decision', val: isApprove ? 'APPROVE' : 'REJECT', highlight: true }
+              { label: 'Member', val: req.mobile_number || '—' },
+              { label: 'Wallet Type', val: (req.wallet_type || '—').toUpperCase() },
+              { label: 'Payout Method', val: req.payout_method || '—' },
+              { label: 'Account Name', val: req.account_name || '—' },
+              { label: 'Account Number', val: req.account_number || '—' },
+              { label: 'Gross Requested', val: peso(req.amount || 0) },
+              { label: 'Processing Fee (Tax)', val: '-' + peso(req.fee || 0) },
+              { label: 'AMOUNT TO RELEASE (NET)', html: releasePill, highlight: true }
             ],
-            confirmText: isApprove ? 'Confirm Approval ➔' : 'Confirm Rejection',
+            confirmText: isApprove ? 'Confirm Approval & Release ➔' : 'Confirm Rejection',
             confirmClass: isApprove ? 'btn-mint' : 'btn-danger',
             onConfirm: async () => {
               try {
