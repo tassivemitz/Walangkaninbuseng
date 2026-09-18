@@ -5,6 +5,7 @@ const ASSETS_TO_CACHE = [
   '/index.html',
   '/styles.css',
   '/images/site-logo.png',
+  '/images/app-icon.jpg',
   '/images/GCash.png',
   '/images/Gotyme.png',
   '/images/Maribank.png',

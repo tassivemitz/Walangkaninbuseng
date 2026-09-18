@@ -10,9 +10,15 @@
   "orientation": "portrait-primary",
   "icons": [
     {
-      "src": "/images/site-logo.png",
+      "src": "/images/app-icon.jpg",
       "sizes": "192x192 512x512",
-      "type": "image/png",
+      "type": "image/jpeg",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/images/app%20icon.jpg",
+      "sizes": "192x192 512x512",
+      "type": "image/jpeg",
       "purpose": "any maskable"
     }
   ]
