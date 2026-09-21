@@ -80,6 +80,12 @@
           <span class="admin-nav-icon">📊</span>
           <span>Earnings Audit</span>
         </button>
+
+        <button type="button" class="admin-nav-item" data-nav-target="viewMop">
+          <span class="admin-nav-icon">📲</span>
+          <span>Official MOP</span>
+          <span class="admin-nav-badge" id="badgeNavMop">0</span>
+        </button>
       </div>
 
       <!-- Admin Referral Link Card in Sidebar -->
@@ -323,6 +329,15 @@
             <p class="tiny muted" style="margin:8px 0 0;">
               💡 <strong>Binary Matching Cap:</strong> Direct (₱50) and Indirect (₱5) bonuses are <em>unlimited</em>. Only Matching / Pairing bonuses (₱50/pair) count toward this cap before an account requires renewal.
             </p>
+            <div style="margin-top:14px;padding-top:12px;border-top:1px dashed rgba(15,122,69,0.2);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;">
+              <div>
+                <p style="margin:0;font-size:12.5px;font-weight:700;color:#0b4d2c;">Official Mode of Payment (MOP)</p>
+                <p class="tiny muted" style="margin:2px 0 0;" id="homeMopSummary">Loading payment channels...</p>
+              </div>
+              <button type="button" class="btn btn-ghost btn-sm" id="btnGoOfficialMop" style="font-size:11.5px;font-weight:700;">
+                📲 Manage Official MOP ➔
+              </button>
+            </div>
           </div>
         </section>
 
@@ -695,8 +710,135 @@
           <!-- Mobile Touch-Friendly Card View (Screens <= 768px) -->
           <div class="admin-mobile-cards-list" id="adminEarningsMobileCards"></div>
         </section>
+
+        <!-- =========================================================
+             VIEW 7: OFFICIAL MODE OF PAYMENT (MOP)
+             ========================================================= -->
+        <section class="admin-view-panel" id="viewMop">
+          <div class="admin-sec-head">
+            <div>
+              <h2 class="admin-sec-title">OFFICIAL MODE OF PAYMENT (MOP)</h2>
+              <p class="admin-sec-sub">TREASURY QR CODES · ACCOUNT DETAILS · MEMBER DEPOSIT CHANNELS</p>
+            </div>
+            <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
+              <span class="tiny muted" id="mopSummaryCount">0 Payment Channels</span>
+              <button id="btnOpenAddMopModal" class="btn btn-mint btn-sm" style="font-weight:700;">＋ Add Payment Method</button>
+            </div>
+          </div>
+
+          <!-- MOP Filter & Notification Bar -->
+          <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;margin-bottom:16px;">
+            <div class="ctrl-tabs" id="mopFilterTabs">
+              <button class="ctrl-tab active" data-mopfilter="all">All Channels (<span id="countMopAll">0</span>)</button>
+              <button class="ctrl-tab" data-mopfilter="active">Active (<span id="countMopActive">0</span>)</button>
+              <button class="ctrl-tab" data-mopfilter="inactive">Disabled (<span id="countMopInactive">0</span>)</button>
+            </div>
+            <div style="font-size:12px;color:var(--muted);">
+              💡 <em>Active channels and uploaded QR codes appear on members' Trade-In deposit screens.</em>
+            </div>
+          </div>
+
+          <!-- MOP Cards Grid -->
+          <div id="mopCardsGrid" style="display:grid;grid-template-columns:repeat(auto-fill, minmax(320px, 1fr));gap:16px;">
+            <div style="padding:28px;text-align:center;color:var(--muted);grid-column:1/-1;">
+              Loading payment channels...
+            </div>
+          </div>
+        </section>
       </div>
     </div>
+
+  <!-- Modal: Add / Edit Official Mode of Payment (MOP) -->
+  <div class="plan-modal" id="modalEditMop" hidden>
+    <div class="plan-modal-backdrop" id="closeMopBackdrop"></div>
+    <div class="plan-modal-sheet" style="max-width:580px;">
+      <header class="plan-modal-head">
+        <div>
+          <p class="kicker">Treasury Channel</p>
+          <h2 id="modalMopTitle">Add Mode of Payment</h2>
+        </div>
+        <button class="plan-close" type="button" id="btnCloseMopModal">×</button>
+      </header>
+      <div class="plan-modal-body">
+        <form id="formMop" style="margin-top:0;">
+          <input type="hidden" id="mopIdInput" value="" />
+
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;">
+            <div>
+              <label class="tiny muted" style="display:block;font-weight:700;margin-bottom:4px;">PAYMENT PROVIDER / METHOD *</label>
+              <select class="in" id="mopMethodSelect" style="width:100%;font-size:13px;font-weight:600;">
+                <option value="GCash">GCash</option>
+                <option value="Maya">Maya</option>
+                <option value="GoTyme">GoTyme Bank</option>
+                <option value="MariBank">MariBank</option>
+                <option value="UnionBank">UnionBank (UB)</option>
+                <option value="BDO">BDO Unibank</option>
+                <option value="BPI">BPI</option>
+                <option value="SeaBank">SeaBank</option>
+                <option value="Other">Other Bank / E-Wallet</option>
+              </select>
+            </div>
+            <div id="mopCustomMethodWrap" style="display:none;">
+              <label class="tiny muted" style="display:block;font-weight:700;margin-bottom:4px;">CUSTOM METHOD NAME *</label>
+              <input class="in" id="mopCustomMethodInput" placeholder="e.g. RCBC / Coins.ph" style="width:100%;font-size:13px;font-weight:600;" />
+            </div>
+          </div>
+
+          <div style="margin-bottom:12px;">
+            <label class="tiny muted" style="display:block;font-weight:700;margin-bottom:4px;">ACCOUNT NAME *</label>
+            <input class="in" id="mopAccountNameInput" placeholder="e.g. Infinite Trading Treasury / Maria Santos" required style="width:100%;font-size:13.5px;font-weight:700;" />
+          </div>
+
+          <div style="margin-bottom:12px;">
+            <label class="tiny muted" style="display:block;font-weight:700;margin-bottom:4px;">ACCOUNT / MOBILE NUMBER *</label>
+            <input class="in" id="mopAccountNumberInput" placeholder="e.g. 0917 123 4567 or 1092 8472 9182" required style="width:100%;font-size:14px;font-weight:700;letter-spacing:0.04em;" />
+          </div>
+
+          <!-- QR Code Upload Dropzone -->
+          <div style="margin-bottom:12px;">
+            <label class="tiny muted" style="display:block;font-weight:700;margin-bottom:4px;">OFFICIAL QR CODE IMAGE (CLICK OR DRAG TO UPLOAD)</label>
+            <div class="receipt-dropzone" id="mopQrDropzone" style="margin:4px 0 8px;">
+              <input type="file" id="mopQrInput" accept="image/*" style="display:none;" />
+              <span class="receipt-drop-icon">📲</span>
+              <p class="receipt-drop-title">Tap here to choose QR Code screenshot</p>
+              <p class="receipt-drop-hint">PNG, JPG, JPEG, WEBP (Auto-compressed)</p>
+            </div>
+            <!-- Preview Box -->
+            <div id="mopQrPreviewBox" class="receipt-preview-box" style="display:none;">
+              <img src="" id="mopQrPreviewImg" class="receipt-preview-img" alt="QR Preview" style="width:68px;height:68px;object-fit:contain;background:#fff;border-radius:8px;border:1px solid #ddd;cursor:pointer;" title="Click to zoom in lightbox" />
+              <div style="flex:1;min-width:0;">
+                <p id="mopQrFileName" style="font-size:12px;font-weight:700;margin:0;color:#0b4d2c;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">QR_Code.png</p>
+                <p id="mopQrFileSize" class="tiny muted" style="margin:2px 0 0;">Attached</p>
+              </div>
+              <button type="button" class="btn btn-ghost btn-sm" id="btnRemoveMopQr" style="color:#ef4444;font-size:11px;">✕ Remove</button>
+            </div>
+          </div>
+
+          <div style="margin-bottom:14px;">
+            <label class="tiny muted" style="display:block;font-weight:700;margin-bottom:4px;">PAYMENT INSTRUCTIONS / NOTES</label>
+            <textarea class="in" id="mopInstructionsInput" rows="2" placeholder="e.g. Scan the QR code or send payment to this number. Make sure the reference number is clear in your screenshot." style="width:100%;font-size:12.5px;resize:vertical;"></textarea>
+          </div>
+
+          <div style="display:flex;gap:16px;margin-bottom:16px;padding:10px 14px;background:#f8faf8;border-radius:10px;border:1px solid rgba(15,122,69,0.15);">
+            <label style="display:flex;align-items:center;gap:6px;font-size:12.5px;font-weight:700;cursor:pointer;">
+              <input type="checkbox" id="mopIsActiveCheck" checked style="width:16px;height:16px;accent-color:var(--jade);" />
+              <span>Active Channel (Visible to Members)</span>
+            </label>
+            <label style="display:flex;align-items:center;gap:6px;font-size:12.5px;font-weight:700;cursor:pointer;">
+              <input type="checkbox" id="mopIsPrimaryCheck" style="width:16px;height:16px;accent-color:var(--jade);" />
+              <span>Default / Primary Channel</span>
+            </label>
+          </div>
+
+          <div style="display:flex;justify-content:flex-end;gap:8px;">
+            <button type="button" class="btn btn-secondary btn-sm" id="btnCancelMop">Cancel</button>
+            <button type="submit" class="btn btn-mint btn-sm" id="btnSaveMop">Save Mode of Payment ➔</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
   <!-- Modal: Admin Member Genealogy Visualizer -->
   <div class="plan-modal" id="modalAdminGenealogy" hidden>
     <div class="plan-modal-backdrop" id="closeAdminGenealogyBackdrop"></div>
@@ -1202,6 +1344,7 @@
       viewTradein: 'TRADE-IN DEPOSIT',
       viewWithdrawals: 'WITHDRAWALS',
       viewEarningsHistory: 'EARNINGS AUDIT',
+      viewMop: 'OFFICIAL MOP CHANNELS',
     };
 
     const sidebarEl = document.getElementById('adminSidebar');
@@ -1243,6 +1386,10 @@
         loadAdminEarningsHistory('all');
       }
 
+      if (targetId === 'viewMop') {
+        fetchAndRenderAdminMops();
+      }
+
       if (window.innerWidth <= 900) {
         closeMobileDrawer();
       }
@@ -1252,6 +1399,10 @@
       btn.addEventListener('click', () => {
         switchAdminView(btn.dataset.navTarget);
       });
+    });
+
+    document.getElementById('btnGoOfficialMop')?.addEventListener('click', () => {
+      switchAdminView('viewMop');
     });
 
     document.getElementById('cardKpiTotalCashout')?.addEventListener('click', () => {
@@ -1496,12 +1647,490 @@
       }
     }
 
-    document.querySelectorAll('#adminEarningsFilterTabs .ctrl-tab').forEach(tab => {
+    // =========================================================
+    // OFFICIAL MODE OF PAYMENT (MOP) MANAGEMENT
+    // =========================================================
+    let globalMops = [];
+    let mopFilterMode = 'all';
+    let currentMopQrData = null;
+    let mopQrRemoved = false;
+
+    function compressMopImage(file, maxDim = 1200, quality = 0.85) {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onerror = reject;
+        reader.onload = (e) => {
+          const img = new Image();
+          img.onerror = reject;
+          img.onload = () => {
+            let { width, height } = img;
+            if (width > maxDim || height > maxDim) {
+              if (width > height) {
+                height = Math.round((height * maxDim) / width);
+                width = maxDim;
+              } else {
+                width = Math.round((width * maxDim) / height);
+                height = maxDim;
+              }
+            }
+            const canvas = document.createElement('canvas');
+            canvas.width = width;
+            canvas.height = height;
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(img, 0, 0, width, height);
+            resolve(canvas.toDataURL('image/jpeg', quality));
+          };
+          img.src = e.target.result;
+        };
+        reader.readAsDataURL(file);
+      });
+    }
+
+    async function fetchAndRenderAdminMops() {
+      try {
+        const res = await api('/api/admin/mop');
+        globalMops = res.mop || [];
+        renderAdminMops();
+        updateMopBadgesAndHomeSummary();
+      } catch (err) {
+        const grid = document.getElementById('mopCardsGrid');
+        if (grid) grid.innerHTML = `<div style="padding:20px;text-align:center;color:#ef4444;grid-column:1/-1;">Error: ${esc(err.message)}</div>`;
+      }
+    }
+
+    function updateMopBadgesAndHomeSummary() {
+      const activeCount = globalMops.filter(m => m.is_active !== false).length;
+      const navBadge = document.getElementById('badgeNavMop');
+      if (navBadge) navBadge.textContent = activeCount;
+
+      const summaryText = document.getElementById('mopSummaryCount');
+      if (summaryText) summaryText.textContent = `${activeCount} Active / ${globalMops.length} Total Channels`;
+
+      const homeSummary = document.getElementById('homeMopSummary');
+      if (homeSummary) {
+        if (!globalMops.length) {
+          homeSummary.innerHTML = '<span style="color:#ef4444;">No payment channels configured yet. Click button to add one.</span>';
+        } else {
+          const primary = globalMops.find(m => m.is_primary) || globalMops[0];
+          homeSummary.innerHTML = `<strong>${activeCount} Active Channels</strong> · Primary: <span class="badge-tag tag-available" style="font-size:10px;padding:2px 6px;">${esc(primary ? primary.method : '—')}</span> (${esc(primary ? primary.account_name : '—')})`;
+        }
+      }
+    }
+
+    function renderAdminMops() {
+      const grid = document.getElementById('mopCardsGrid');
+      if (!grid) return;
+
+      const totalCount = globalMops.length;
+      const activeCount = globalMops.filter(m => m.is_active !== false).length;
+      const inactiveCount = totalCount - activeCount;
+
+      const cAll = document.getElementById('countMopAll');
+      const cAct = document.getElementById('countMopActive');
+      const cIna = document.getElementById('countMopInactive');
+      if (cAll) cAll.textContent = totalCount;
+      if (cAct) cAct.textContent = activeCount;
+      if (cIna) cIna.textContent = inactiveCount;
+
+      let list = globalMops;
+      if (mopFilterMode === 'active') list = list.filter(m => m.is_active !== false);
+      else if (mopFilterMode === 'inactive') list = list.filter(m => m.is_active === false);
+
+      if (!list.length) {
+        grid.innerHTML = `
+          <div style="grid-column:1/-1;background:#ffffff;border:2px dashed rgba(15,122,69,0.25);border-radius:14px;padding:36px 20px;text-align:center;">
+            <span style="font-size:36px;display:block;margin-bottom:8px;">📲</span>
+            <h4 style="margin:0 0 6px;color:#0b4d2c;font-size:16px;">No Mode of Payment channels found</h4>
+            <p class="tiny muted" style="margin:0 0 14px;">Add your Official GCash, Maya, or Bank QR codes so members can send deposit payments directly.</p>
+            <button type="button" class="btn btn-mint btn-sm" id="btnMopEmptyAdd">＋ Add Official Payment Method</button>
+          </div>
+        `;
+        document.getElementById('btnMopEmptyAdd')?.addEventListener('click', openAddMopModal);
+        return;
+      }
+
+      grid.innerHTML = list.map(m => {
+        const isActive = m.is_active !== false;
+        const isPrimary = Boolean(m.is_primary);
+        const hasQr = Boolean(m.qr_image);
+
+        return `
+          <div class="admin-card" style="display:flex;flex-direction:column;justify-content:space-between;border:${isPrimary ? '2.5px solid #0f7a45' : '1px solid rgba(15,122,69,0.2)'};background:${isActive ? '#ffffff' : '#fafafa'};opacity:${isActive ? '1' : '0.8'};position:relative;border-radius:14px;padding:16px;box-shadow:${isPrimary ? '0 4px 16px rgba(15,122,69,0.12)' : 'none'};">
+            <div>
+              <!-- Card Top Header -->
+              <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:8px;margin-bottom:12px;">
+                <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;">
+                  <span class="badge-tag tag-available" style="font-size:11px;padding:3px 8px;font-weight:800;background:#0b4d2c;color:#fff;">
+                    ${esc(m.method)}
+                  </span>
+                  ${isPrimary ? '<span class="badge-tag tag-approved" style="font-size:9.5px;padding:2px 6px;background:#e8f9f0;color:#0f7a45;border:1px solid #10b981;font-weight:700;">★ PRIMARY</span>' : ''}
+                </div>
+                <span class="pill ${isActive ? 'open' : 'closed'}" style="font-size:10px;">● ${isActive ? 'ACTIVE' : 'DISABLED'}</span>
+              </div>
+
+              <!-- Main Content: QR & Details -->
+              <div style="display:flex;gap:14px;align-items:flex-start;margin-bottom:14px;">
+                <div style="text-align:center;flex-shrink:0;">
+                  ${hasQr ? `
+                    <div style="position:relative;">
+                      <img src="${m.qr_image}" class="mop-qr-thumb" data-zoom-mop="${m.id}" alt="${esc(m.method)} QR" style="width:84px;height:84px;object-fit:contain;background:#fff;border-radius:10px;border:1.5px solid rgba(15,122,69,0.25);padding:3px;cursor:pointer;box-shadow:0 2px 6px rgba(0,0,0,0.06);" />
+                      <button type="button" class="btn btn-ghost btn-sm" data-zoom-mop="${m.id}" style="display:block;width:100%;font-size:9.5px;padding:2px 4px;margin-top:4px;white-space:nowrap;">🔍 Zoom QR</button>
+                    </div>
+                  ` : `
+                    <div style="width:84px;height:84px;border-radius:10px;background:#f3f4f6;border:1.5px dashed #cbd5e1;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#9ca3af;font-size:10px;padding:6px;text-align:center;">
+                      <span style="font-size:22px;margin-bottom:2px;">📷</span>
+                      <span>No QR Code</span>
+                    </div>
+                  `}
+                </div>
+
+                <div style="flex:1;min-width:0;display:flex;flex-direction:column;gap:6px;">
+                  <div>
+                    <span class="tiny muted" style="font-size:9.5px;text-transform:uppercase;font-weight:700;letter-spacing:0.04em;">Account Name:</span>
+                    <div style="display:flex;align-items:center;gap:6px;">
+                      <strong style="font-size:13.5px;color:#0b4d2c;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${esc(m.account_name)}</strong>
+                      <button type="button" data-copy-txt="${esc(m.account_name)}" class="btn btn-ghost btn-sm" style="padding:1px 6px;font-size:10px;" title="Copy Account Name">Copy</button>
+                    </div>
+                  </div>
+
+                  <div>
+                    <span class="tiny muted" style="font-size:9.5px;text-transform:uppercase;font-weight:700;letter-spacing:0.04em;">Account / Mobile No:</span>
+                    <div style="display:flex;align-items:center;gap:6px;">
+                      <code style="font-size:13px;font-weight:800;color:var(--text);">${esc(m.account_number)}</code>
+                      <button type="button" data-copy-txt="${esc(m.account_number)}" class="btn btn-ghost btn-sm" style="padding:1px 6px;font-size:10px;" title="Copy Account Number">Copy</button>
+                    </div>
+                  </div>
+
+                  ${m.instructions ? `
+                    <p class="tiny muted" style="margin:2px 0 0;font-size:11px;line-height:1.4;background:#f9fcf9;padding:6px 8px;border-radius:6px;border:1px solid rgba(15,122,69,0.12);">
+                      ℹ ${esc(m.instructions)}
+                    </p>
+                  ` : ''}
+                </div>
+              </div>
+            </div>
+
+            <!-- Card Actions -->
+            <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;padding-top:10px;border-top:1px dashed rgba(15,122,69,0.2);">
+              <div style="display:flex;gap:6px;">
+                ${!isPrimary ? `
+                  <button type="button" class="btn btn-ghost btn-sm" data-mop-primary="${m.id}" style="font-size:11px;padding:4px 8px;">★ Make Primary</button>
+                ` : '<span class="tiny" style="color:#0f7a45;font-weight:700;">✓ Primary Channel</span>'}
+                <button type="button" class="btn btn-ghost btn-sm" data-mop-toggle="${m.id}" style="font-size:11px;padding:4px 8px;">
+                  ${isActive ? 'Disable' : 'Enable'}
+                </button>
+              </div>
+              <div style="display:flex;gap:6px;">
+                <button type="button" class="btn btn-ghost btn-sm" data-mop-edit="${m.id}" style="font-size:11px;padding:4px 10px;font-weight:700;">✎ Edit</button>
+                <button type="button" class="btn btn-secondary btn-sm" data-mop-del="${m.id}" style="font-size:11px;padding:4px 8px;background:rgba(239,68,68,0.08);color:#ef4444;border-color:rgba(239,68,68,0.2);">🗑 Delete</button>
+              </div>
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      // Wire up card action buttons
+      grid.querySelectorAll('[data-zoom-mop]').forEach(el => {
+        el.onclick = () => {
+          const id = el.dataset.zoomMop;
+          const mop = globalMops.find(x => x.id === id);
+          if (mop && mop.qr_image) {
+            openReceiptLightbox(mop.qr_image, `Official QR Code · ${mop.method} (${mop.account_name})`);
+          }
+        };
+      });
+
+      grid.querySelectorAll('[data-copy-txt]').forEach(btn => {
+        btn.onclick = async () => {
+          const txt = btn.dataset.copyTxt;
+          try {
+            await navigator.clipboard.writeText(txt);
+            flash(`Copied "${txt}" to clipboard!`, true);
+          } catch {
+            flash('Failed to copy.');
+          }
+        };
+      });
+
+      grid.querySelectorAll('[data-mop-primary]').forEach(btn => {
+        btn.onclick = async () => {
+          const id = btn.dataset.mopPrimary;
+          const mop = globalMops.find(x => x.id === id);
+          if (!mop) return;
+          try {
+            btn.disabled = true;
+            await api('/api/admin/mop', {
+              method: 'POST',
+              body: JSON.stringify({ ...mop, is_primary: true }),
+            });
+            flash(`✓ ${mop.method} set as primary Official Mode of Payment!`, true);
+            await fetchAndRenderAdminMops();
+          } catch (err) {
+            flash(err.message);
+          } finally {
+            btn.disabled = false;
+          }
+        };
+      });
+
+      grid.querySelectorAll('[data-mop-toggle]').forEach(btn => {
+        btn.onclick = async () => {
+          const id = btn.dataset.mopToggle;
+          try {
+            btn.disabled = true;
+            await api(`/api/admin/mop/${encodeURIComponent(id)}/toggle`, { method: 'POST' });
+            flash('✓ Channel status updated successfully!', true);
+            await fetchAndRenderAdminMops();
+          } catch (err) {
+            flash(err.message);
+          } finally {
+            btn.disabled = false;
+          }
+        };
+      });
+
+      grid.querySelectorAll('[data-mop-edit]').forEach(btn => {
+        btn.onclick = () => {
+          const id = btn.dataset.mopEdit;
+          const mop = globalMops.find(x => x.id === id);
+          if (mop) openEditMopModal(mop);
+        };
+      });
+
+      grid.querySelectorAll('[data-mop-del]').forEach(btn => {
+        btn.onclick = () => {
+          const id = btn.dataset.mopDel;
+          const mop = globalMops.find(x => x.id === id);
+          if (!mop) return;
+          showAdminConfirm({
+            title: `Delete ${mop.method} Channel?`,
+            subtitle: `Are you sure you want to delete this Official Mode of Payment?`,
+            icon: '🗑️',
+            summary: `This will remove the <strong>${esc(mop.method)}</strong> channel (${esc(mop.account_name)} - ${esc(mop.account_number)}) from official deposit options.`,
+            confirmText: 'Yes, Delete Channel',
+            confirmClass: 'btn-secondary',
+            onConfirm: async () => {
+              try {
+                await api(`/api/admin/mop/${encodeURIComponent(id)}`, { method: 'DELETE' });
+                flash(`✓ Deleted ${mop.method} channel.`, true);
+                await fetchAndRenderAdminMops();
+              } catch (err) {
+                flash(err.message);
+              }
+            }
+          });
+        };
+      });
+    }
+
+    // Modal controls for Add/Edit MOP
+    function openAddMopModal() {
+      document.getElementById('modalMopTitle').textContent = 'Add Official Mode of Payment';
+      document.getElementById('mopIdInput').value = '';
+      document.getElementById('mopMethodSelect').value = 'GCash';
+      document.getElementById('mopCustomMethodWrap').style.display = 'none';
+      document.getElementById('mopCustomMethodInput').value = '';
+      document.getElementById('mopAccountNameInput').value = '';
+      document.getElementById('mopAccountNumberInput').value = '';
+      document.getElementById('mopInstructionsInput').value = 'Send payment to the official account, then attach the screenshot below.';
+      document.getElementById('mopIsActiveCheck').checked = true;
+      document.getElementById('mopIsPrimaryCheck').checked = globalMops.length === 0;
+
+      currentMopQrData = null;
+      mopQrRemoved = false;
+      document.getElementById('mopQrPreviewBox').style.display = 'none';
+      document.getElementById('mopQrDropzone').style.display = 'block';
+      document.getElementById('mopQrInput').value = '';
+
+      document.getElementById('modalEditMop').hidden = false;
+      document.body.classList.add('modal-open');
+    }
+
+    function openEditMopModal(mop) {
+      document.getElementById('modalMopTitle').textContent = `Edit Mode of Payment · ${mop.method}`;
+      document.getElementById('mopIdInput').value = mop.id;
+
+      const methodSelect = document.getElementById('mopMethodSelect');
+      const standardMethods = ['GCash', 'Maya', 'GoTyme', 'MariBank', 'UnionBank', 'BDO', 'BPI', 'SeaBank'];
+      if (standardMethods.includes(mop.method)) {
+        methodSelect.value = mop.method;
+        document.getElementById('mopCustomMethodWrap').style.display = 'none';
+        document.getElementById('mopCustomMethodInput').value = '';
+      } else {
+        methodSelect.value = 'Other';
+        document.getElementById('mopCustomMethodWrap').style.display = 'block';
+        document.getElementById('mopCustomMethodInput').value = mop.method;
+      }
+
+      document.getElementById('mopAccountNameInput').value = mop.account_name || '';
+      document.getElementById('mopAccountNumberInput').value = mop.account_number || '';
+      document.getElementById('mopInstructionsInput').value = mop.instructions || '';
+      document.getElementById('mopIsActiveCheck').checked = mop.is_active !== false;
+      document.getElementById('mopIsPrimaryCheck').checked = Boolean(mop.is_primary);
+
+      currentMopQrData = mop.qr_image || null;
+      mopQrRemoved = false;
+      if (mop.qr_image) {
+        document.getElementById('mopQrPreviewImg').src = mop.qr_image;
+        document.getElementById('mopQrFileName').textContent = `${mop.method}_QR.jpg`;
+        document.getElementById('mopQrFileSize').textContent = 'Attached QR code';
+        document.getElementById('mopQrPreviewBox').style.display = 'flex';
+        document.getElementById('mopQrDropzone').style.display = 'none';
+      } else {
+        document.getElementById('mopQrPreviewBox').style.display = 'none';
+        document.getElementById('mopQrDropzone').style.display = 'block';
+      }
+      document.getElementById('mopQrInput').value = '';
+
+      document.getElementById('modalEditMop').hidden = false;
+      document.body.classList.add('modal-open');
+    }
+
+    function closeMopModal() {
+      const modal = document.getElementById('modalEditMop');
+      if (modal) modal.hidden = true;
+      document.body.classList.remove('modal-open');
+    }
+
+    document.getElementById('btnOpenAddMopModal')?.addEventListener('click', openAddMopModal);
+    document.getElementById('btnCloseMopModal')?.addEventListener('click', closeMopModal);
+    document.getElementById('btnCancelMop')?.addEventListener('click', closeMopModal);
+    document.getElementById('closeMopBackdrop')?.addEventListener('click', closeMopModal);
+
+    document.getElementById('mopMethodSelect')?.addEventListener('change', (e) => {
+      const isOther = e.target.value === 'Other';
+      const customWrap = document.getElementById('mopCustomMethodWrap');
+      if (customWrap) {
+        customWrap.style.display = isOther ? 'block' : 'none';
+        if (isOther) document.getElementById('mopCustomMethodInput')?.focus();
+      }
+    });
+
+    // MOP Filter Tabs
+    document.querySelectorAll('#mopFilterTabs .ctrl-tab').forEach(tab => {
       tab.onclick = () => {
-        document.querySelectorAll('#adminEarningsFilterTabs .ctrl-tab').forEach(t => t.classList.remove('active'));
+        document.querySelectorAll('#mopFilterTabs .ctrl-tab').forEach(t => t.classList.remove('active'));
         tab.classList.add('active');
-        loadAdminEarningsHistory(tab.dataset.adminEarning || 'all');
+        mopFilterMode = tab.dataset.mopfilter || 'all';
+        renderAdminMops();
       };
+    });
+
+    // QR Image Dropzone & File Input Handling
+    const mopDropzone = document.getElementById('mopQrDropzone');
+    const mopFileInput = document.getElementById('mopQrInput');
+    const mopPreviewBox = document.getElementById('mopQrPreviewBox');
+    const mopPreviewImg = document.getElementById('mopQrPreviewImg');
+    const mopFileName = document.getElementById('mopQrFileName');
+    const mopFileSize = document.getElementById('mopQrFileSize');
+    const btnRemoveMopQr = document.getElementById('btnRemoveMopQr');
+
+    if (mopDropzone && mopFileInput) {
+      mopDropzone.addEventListener('click', () => mopFileInput.click());
+      mopDropzone.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        mopDropzone.classList.add('dragover');
+      });
+      mopDropzone.addEventListener('dragleave', () => mopDropzone.classList.remove('dragover'));
+      mopDropzone.addEventListener('drop', async (e) => {
+        e.preventDefault();
+        mopDropzone.classList.remove('dragover');
+        const file = e.dataTransfer.files[0];
+        if (file) handleMopQrFile(file);
+      });
+      mopFileInput.addEventListener('change', () => {
+        const file = mopFileInput.files[0];
+        if (file) handleMopQrFile(file);
+      });
+    }
+
+    async function handleMopQrFile(file) {
+      if (!file.type.startsWith('image/')) {
+        flash('Please select a valid image file (PNG, JPG, WEBP).');
+        return;
+      }
+      try {
+        const compressed = await compressMopImage(file);
+        currentMopQrData = compressed;
+        mopQrRemoved = false;
+        if (mopPreviewImg) mopPreviewImg.src = compressed;
+        if (mopFileName) mopFileName.textContent = file.name;
+        if (mopFileSize) mopFileSize.textContent = (file.size / 1024).toFixed(1) + ' KB (Compressed)';
+        if (mopDropzone) mopDropzone.style.display = 'none';
+        if (mopPreviewBox) mopPreviewBox.style.display = 'flex';
+      } catch (err) {
+        flash('Error processing QR image: ' + err.message);
+      }
+    }
+
+    if (btnRemoveMopQr) {
+      btnRemoveMopQr.addEventListener('click', () => {
+        currentMopQrData = null;
+        mopQrRemoved = true;
+        if (mopFileInput) mopFileInput.value = '';
+        if (mopPreviewBox) mopPreviewBox.style.display = 'none';
+        if (mopDropzone) mopDropzone.style.display = 'block';
+      });
+    }
+
+    if (mopPreviewImg) {
+      mopPreviewImg.addEventListener('click', () => {
+        if (currentMopQrData) {
+          openReceiptLightbox(currentMopQrData, 'Official QR Code Preview');
+        }
+      });
+    }
+
+    // Save MOP Form Handler
+    document.getElementById('formMop')?.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const id = document.getElementById('mopIdInput').value.trim();
+      const methodSelect = document.getElementById('mopMethodSelect').value;
+      const customMethod = document.getElementById('mopCustomMethodInput').value.trim();
+      const method = methodSelect === 'Other' ? (customMethod || 'Other') : methodSelect;
+      const account_name = document.getElementById('mopAccountNameInput').value.trim();
+      const account_number = document.getElementById('mopAccountNumberInput').value.trim();
+      const instructions = document.getElementById('mopInstructionsInput').value.trim();
+      const is_active = document.getElementById('mopIsActiveCheck').checked;
+      const is_primary = document.getElementById('mopIsPrimaryCheck').checked;
+
+      if (!account_name) {
+        flash('Please enter account name.');
+        return;
+      }
+      if (!account_number) {
+        flash('Please enter account/mobile number.');
+        return;
+      }
+
+      const btnSave = document.getElementById('btnSaveMop');
+      btnSave.disabled = true;
+      btnSave.textContent = 'Saving...';
+
+      try {
+        await api('/api/admin/mop', {
+          method: 'POST',
+          body: JSON.stringify({
+            id: id || undefined,
+            method,
+            account_name,
+            account_number,
+            qr_image: currentMopQrData || '',
+            remove_qr: mopQrRemoved,
+            instructions,
+            is_active,
+            is_primary,
+          }),
+        });
+        flash(`✓ Official ${method} Mode of Payment saved successfully!`, true);
+        closeMopModal();
+        await fetchAndRenderAdminMops();
+      } catch (err) {
+        flash(err.message);
+      } finally {
+        btnSave.disabled = false;
+        btnSave.textContent = 'Save Mode of Payment ➔';
+      }
     });
 
     function renderUsers() {
@@ -2757,19 +3386,21 @@
 
     async function refreshAll() {
       try {
-        const [overview, usersData, tradeinData, withdrawalsData, codesData, meData] = await Promise.all([
+        const [overview, usersData, tradeinData, withdrawalsData, codesData, meData, mopData] = await Promise.all([
           api('/api/admin/overview'),
           api('/api/admin/users'),
           api('/api/admin/tradein'),
           api('/api/admin/withdrawals'),
           api('/api/admin/codes'),
           api('/api/me').catch(() => null),
+          api('/api/admin/mop').catch(() => ({ mop: [] })),
         ]);
 
         globalUsers = usersData.users || [];
         globalTradein = tradeinData.packages || [];
         globalWithdrawals = withdrawalsData.withdrawals || [];
         globalCodes = codesData.codes || [];
+        globalMops = mopData.mop || [];
 
         if (meData && meData.user) {
           currentAdminUser = meData.user;
@@ -2783,6 +3414,8 @@
         renderCodes();
         renderTradein();
         renderWithdrawals();
+        updateMopBadgesAndHomeSummary();
+        renderAdminMops();
       } catch (err) {
         flash(err.message);
       }

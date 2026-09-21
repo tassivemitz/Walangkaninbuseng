@@ -309,6 +309,26 @@ function getBinaryCap(data) {
   return Number(data && data.settings && data.settings.binary_cap) || BINARY_CAP || 6000;
 }
 
+function getOfficialMops(data) {
+  if (data && data.settings && Array.isArray(data.settings.official_mop) && data.settings.official_mop.length > 0) {
+    return data.settings.official_mop;
+  }
+  return [
+    {
+      id: 'mop_default_gcash',
+      method: 'GCash',
+      account_name: 'Infinite Trading Official Treasury',
+      account_number: '0917 000 0000',
+      qr_image: '',
+      instructions: 'Send payment to the official account, then attach the screenshot below.',
+      is_active: true,
+      is_primary: true,
+      created_at: nowIso(),
+      updated_at: nowIso(),
+    },
+  ];
+}
+
 function logEarning(data, { userId, category, amount, sourceUserId = null, description = '', refId = null }) {
   if (!Array.isArray(data.earnings_history)) data.earnings_history = [];
   const amt = money(amount);
@@ -1092,13 +1112,24 @@ app.get('/api/dashboard', auth, async (req, res) => {
     cycle_info: getPackageCycleInfo(p),
   }));
 
-  // Direct referral earnings calculation
+  // Direct referral earnings calculation (only active placed directs qualify)
+  const activeDirects = (directs || []).filter((d) => d.status === 'active' && d.position);
   const directEarningRecords = Array.isArray(data.earnings_history)
     ? data.earnings_history.filter((e) => e.user_id === req.user.id && e.category === 'referral')
     : [];
   const directEarningsTotal = directEarningRecords.length > 0
     ? directEarningRecords.reduce((sum, e) => sum + Number(e.amount || 0), 0)
-    : (directs ? directs.length * DIRECT_BONUS : 0);
+    : (activeDirects.length * DIRECT_BONUS);
+
+  // Indirect referral earnings calculation (only active indirect downlines qualify)
+  const activeIndirects = (indirects || []).filter((ind) => ind.status === 'active');
+  const indirectEarningRecords = Array.isArray(data.earnings_history)
+    ? data.earnings_history.filter((e) => e.user_id === req.user.id && e.category === 'indirect')
+    : [];
+  const indirectEarningsTotal = indirectEarningRecords.length > 0
+    ? indirectEarningRecords.reduce((sum, e) => sum + Number(e.amount || 0), 0)
+    : (activeIndirects.length * INDIRECT_BONUS);
+
   const activeBinaryCap = getBinaryCap(data);
   user.binary_cap = activeBinaryCap;
 
@@ -1120,14 +1151,17 @@ app.get('/api/dashboard', auth, async (req, res) => {
       used_count: used_codes.length,
       used_list: used_codes,
     },
+    official_mop: getOfficialMops(data).filter((m) => m.is_active !== false),
     metrics: {
       binary: Number(user.binary_ref_balance) || 0,
       direct_earnings: money(directEarningsTotal),
-      direct_count: directs ? directs.length : 0,
+      direct_count: activeDirects.length,
+      direct_total_count: (directs || []).length,
       ppt_pairs: user.pairs_today || 0,
       ppt_earnings: (user.pairs_today || 0) * PAIR_BONUS,
-      in_ppt_count: indirects.length,
-      in_ppt_earnings: indirects.length * INDIRECT_BONUS,
+      in_ppt_count: activeIndirects.length,
+      in_ppt_total_count: (indirects || []).length,
+      in_ppt_earnings: money(indirectEarningsTotal),
       total_balance,
       tradein_deposit: total_tradein_deposit,
       tradein_profit: Number(user.tradein_cycle_balance) || 0,
@@ -1456,6 +1490,122 @@ app.post('/api/admin/settings/tradein-slots', auth, adminOnly, async (req, res) 
     data.settings.max_tradein_slots = slots;
   });
   res.json({ ok: true, max_tradein_slots: slots });
+});
+
+// ==========================================
+// OFFICIAL MODE OF PAYMENT (MOP) ENDPOINTS
+// ==========================================
+
+// Public / User Official MOP Endpoint
+app.get('/api/mop', (_req, res) => {
+  const data = db.getStore();
+  const allMops = getOfficialMops(data);
+  const activeMops = allMops.filter((m) => m.is_active !== false);
+  res.json({ mop: activeMops });
+});
+
+// Admin All Official MOP Channels Endpoint
+app.get('/api/admin/mop', auth, adminOnly, (_req, res) => {
+  const data = db.getStore();
+  const mop = getOfficialMops(data);
+  res.json({ mop });
+});
+
+// Admin Create or Update Official MOP Endpoint
+app.post('/api/admin/mop', auth, adminOnly, async (req, res) => {
+  const method = String(req.body.method || '').trim();
+  const account_name = String(req.body.account_name || '').trim();
+  const account_number = String(req.body.account_number || '').trim();
+  const qr_image = String(req.body.qr_image || '').trim();
+  const instructions = String(req.body.instructions || '').trim();
+  const is_active = req.body.is_active !== false;
+  const is_primary = Boolean(req.body.is_primary);
+  const id = req.body.id ? String(req.body.id).trim() : null;
+
+  if (!method) return res.status(400).json({ error: 'Please specify payment method (e.g. GCash, Maya, GoTyme).' });
+  if (!account_name) return res.status(400).json({ error: 'Please enter account name.' });
+  if (!account_number) return res.status(400).json({ error: 'Please enter account/mobile number.' });
+
+  try {
+    const saved = await db.tx((data) => {
+      if (!data.settings) data.settings = {};
+      if (!Array.isArray(data.settings.official_mop)) {
+        data.settings.official_mop = getOfficialMops(data).slice();
+      }
+
+      if (is_primary) {
+        data.settings.official_mop.forEach((m) => { m.is_primary = false; });
+      }
+
+      let target = id ? data.settings.official_mop.find((m) => m.id === id) : null;
+      if (target) {
+        target.method = method;
+        target.account_name = account_name;
+        target.account_number = account_number;
+        if (qr_image) target.qr_image = qr_image;
+        else if (req.body.remove_qr) target.qr_image = '';
+        target.instructions = instructions;
+        target.is_active = is_active;
+        target.is_primary = is_primary;
+        target.updated_at = nowIso();
+      } else {
+        target = {
+          id: id || `mop_${Date.now()}_${Math.floor(Math.random() * 1000)}`,
+          method,
+          account_name,
+          account_number,
+          qr_image: qr_image || '',
+          instructions: instructions || 'Send payment to the official account, then attach the screenshot below.',
+          is_active,
+          is_primary: is_primary || data.settings.official_mop.length === 0,
+          created_at: nowIso(),
+          updated_at: nowIso(),
+        };
+        data.settings.official_mop.push(target);
+      }
+      return target;
+    });
+
+    res.json({ ok: true, mop: saved });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Failed to save Mode of Payment.' });
+  }
+});
+
+// Admin Delete Official MOP Endpoint
+app.delete('/api/admin/mop/:id', auth, adminOnly, async (req, res) => {
+  const id = String(req.params.id || '').trim();
+  try {
+    await db.tx((data) => {
+      if (!data.settings || !Array.isArray(data.settings.official_mop)) return;
+      data.settings.official_mop = data.settings.official_mop.filter((m) => m.id !== id);
+    });
+    res.json({ ok: true });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Failed to delete Mode of Payment.' });
+  }
+});
+
+// Admin Toggle MOP Active Status
+app.post('/api/admin/mop/:id/toggle', auth, adminOnly, async (req, res) => {
+  const id = String(req.params.id || '').trim();
+  try {
+    const updated = await db.tx((data) => {
+      if (!data.settings || !Array.isArray(data.settings.official_mop)) return null;
+      const target = data.settings.official_mop.find((m) => m.id === id);
+      if (!target) return null;
+      target.is_active = !target.is_active;
+      target.updated_at = nowIso();
+      return target;
+    });
+    if (!updated) return res.status(404).json({ error: 'MOP channel not found.' });
+    res.json({ ok: true, mop: updated });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Failed to toggle MOP status.' });
+  }
 });
 
 function normalizePayoutMethod(m) {
