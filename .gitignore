@@ -4,3 +4,6 @@ node_modules/
 .DS_Store
 data/*.tmp
 data/*.backup*.json
+data/store.json
+scratch/
+
