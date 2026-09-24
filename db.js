@@ -11,6 +11,7 @@ function emptyStore() {
       withdrawals: 1,
       code_vault: 1,
       earnings_history: 1,
+      load_wallet_requests: 1,
     },
     users: [],
     wallets: [],
@@ -19,7 +20,8 @@ function emptyStore() {
     withdrawals: [],
     code_vault: [],
     earnings_history: [],
-    settings: { weekly_payout_enabled: 0, binary_cap: 6000, max_tradein_slots: 5 },
+    load_wallet_requests: [],
+    settings: { weekly_payout_enabled: 0, binary_cap: 3000, max_tradein_slots: 5 },
   };
 }
 
@@ -37,7 +39,8 @@ function load() {
   store.nextId = Object.assign(emptyStore().nextId, parsed.nextId || {});
   store.settings = Object.assign(emptyStore().settings, parsed.settings || {});
   if (!Array.isArray(store.earnings_history)) store.earnings_history = [];
-  if (!store.settings.binary_cap) store.settings.binary_cap = 6000;
+  if (!Array.isArray(store.load_wallet_requests)) store.load_wallet_requests = [];
+  if (!store.settings.binary_cap) store.settings.binary_cap = 3000;
   if (!store.settings.max_tradein_slots) store.settings.max_tradein_slots = 5;
 }
 

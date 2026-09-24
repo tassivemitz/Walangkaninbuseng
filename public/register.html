@@ -9,11 +9,12 @@
     content="Create your Infinite Trading account. Enter your mobile number, password, and sponsor's mobile number to get started." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link
-    href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,560&family=Sora:wght@400;500;600;700&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&display=swap"
     rel="stylesheet" />
-  <link rel="stylesheet" href="/styles.css" />
+  <script src="/theme.js"></script>
+  <link rel="stylesheet" href="/styles.css?v=20260924reffix" />
   <link rel="manifest" href="/manifest.json" />
-  <meta name="theme-color" content="#0f7a45" />
+  <meta name="theme-color" content="#131a22" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <meta name="apple-mobile-web-app-title" content="Infinite Trading" />
@@ -21,6 +22,13 @@
 </head>
 
 <body class="auth-page-body">
+  <!-- Floating Theme Switcher -->
+  <div style="position:fixed;top:16px;right:16px;z-index:999;">
+    <button class="btn-theme-toggle" type="button" data-theme-toggle aria-label="Toggle Light/Dark Theme" title="Toggle Light/Dark Theme">
+      <span class="theme-toggle-icon">☀️</span>
+      <span class="theme-toggle-text">Light</span>
+    </button>
+  </div>
   <!-- Animated ambient background mesh orbs -->
   <div class="orbs" aria-hidden="true">
     <span class="orb-1"></span>
@@ -35,7 +43,7 @@
     <!-- Left: Brand Artwork & Live Highlights -->
     <aside class="auth-art">
       <a class="auth-logo-interactive" href="/" title="Infinite Trading Home">
-        <img src="/images/site-logo.png" alt="Infinite Trading" style="max-width:320px;width:100%;height:auto;display:block;" />
+        <img src="/images/site-logo.png?v=20260924gold" alt="Infinite Trading" style="max-width:320px;width:100%;height:auto;display:block;" />
       </a>
       <div class="auth-art-copy">
         <span class="pill open" style="margin-bottom:8px;font-size:11px;letter-spacing:0.12em;font-weight:700;">● INSTANT REGISTRATION</span>
@@ -47,17 +55,17 @@
 
       <!-- 3 Key Stats Highlight Band -->
       <div class="stats-band" style="grid-template-columns: repeat(3, 1fr); margin: 0; padding: 0; gap: 10px; width: 100%; max-width: 390px;">
-        <div class="stat" style="text-align: center; padding: 14px 10px; background:rgba(255,255,255,0.85); backdrop-filter:blur(8px);">
+        <div class="stat" style="text-align: center; padding: 14px 10px; background:var(--card-bg); border:1px solid var(--line); backdrop-filter:blur(8px); border-radius:14px;">
           <span class="tiny muted" style="font-weight:700;">ENTRY</span>
-          <b style="font-size:22px;color:var(--jade);">₱300</b>
+          <b style="font-size:22px;color:var(--jade);">₱399</b>
         </div>
-        <div class="stat" style="text-align: center; padding: 14px 10px; background:rgba(255,255,255,0.85); backdrop-filter:blur(8px);">
+        <div class="stat" style="text-align: center; padding: 14px 10px; background:var(--card-bg); border:1px solid var(--line); backdrop-filter:blur(8px); border-radius:14px;">
           <span class="tiny muted" style="font-weight:700;">CAP</span>
           <b style="font-size:22px;color:var(--gold);">₱3,000</b>
         </div>
-        <div class="stat" style="text-align: center; padding: 14px 10px; background:rgba(255,255,255,0.85); backdrop-filter:blur(8px);">
+        <div class="stat" style="text-align: center; padding: 14px 10px; background:var(--card-bg); border:1px solid var(--line); backdrop-filter:blur(8px); border-radius:14px;">
           <span class="tiny muted" style="font-weight:700;">TRADE-IN</span>
-          <b style="font-size:22px;color:#0b4d2c;">120%</b>
+          <b style="font-size:22px;color:var(--cyan);">120%</b>
         </div>
       </div>
     </aside>

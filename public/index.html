@@ -6,15 +6,15 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Infinite Trading — Building Your Future, Beyond Limits</title>
   <meta name="description"
-    content="Infinite Trading — Join the Binary Program with a ₱300 entry, or invest in the Trade-In Program for 120% ROI in 12 days. Earn referral commissions on 4 levels." />
+    content="Infinite Trading — Join the Binary Program with a ₱399 entry, or invest in the Trade-In Program for 120% ROI in 12 days. Earn referral commissions on 4 levels." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link
-    href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Sora:wght@300;400;500;600;700;800&display=swap"
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&display=swap"
     rel="stylesheet" />
-  <link rel="stylesheet" href="/styles.css?v=20260914glass" />
+  <script src="/theme.js"></script>
+  <link rel="stylesheet" href="/styles.css?v=20260924reffix" />
   <link rel="manifest" href="/manifest.json" />
-  <meta name="theme-color" content="#0f7a45" />
+  <meta name="theme-color" content="#131a22" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <meta name="apple-mobile-web-app-title" content="Infinite Trading" />
@@ -33,41 +33,11 @@
   <!-- Cursor glow effect -->
   <div class="cursor-glow" id="cursorGlow"></div>
 
-  <!-- Top Real-Time Highlight Bar -->
-  <aside class="ticker" aria-label="System Highlights">
-    <div class="ticker-track" id="tickerTrack">
-      <span>✦ Entry Fee ₱300</span>
-      <span>✦ Binary Cap ₱3,000</span>
-      <span>✦ Direct Referral ₱50</span>
-      <span>✦ Indirect L2–L4 ₱5 each</span>
-      <span>✦ Pairing Bonus ₱50 / pair</span>
-      <span>✦ Max 10 Pairs / Day</span>
-      <span>✦ Trade-In Min ₱1,000</span>
-      <span>✦ 120% ROI in 12 Days</span>
-      <span>✦ Payouts Every 3 Days</span>
-      <span>✦ L1 Trade-In Ref 10%</span>
-      <span>✦ L2 Ref 5% · L3 Ref 3% · L4 Ref 2%</span>
-      <span>✦ Min Withdrawal ₱100</span>
-      <span>✦ Entry Fee ₱300</span>
-      <span>✦ Binary Cap ₱3,000</span>
-      <span>✦ Direct Referral ₱50</span>
-      <span>✦ Indirect L2–L4 ₱5 each</span>
-      <span>✦ Pairing Bonus ₱50 / pair</span>
-      <span>✦ Max 10 Pairs / Day</span>
-      <span>✦ Trade-In Min ₱1,000</span>
-      <span>✦ 120% ROI in 12 Days</span>
-      <span>✦ Payouts Every 3 Days</span>
-      <span>✦ L1 Trade-In Ref 10%</span>
-      <span>✦ L2 Ref 5% · L3 Ref 3% · L4 Ref 2%</span>
-      <span>✦ Min Withdrawal ₱100</span>
-    </div>
-  </aside>
-
   <!-- Sticky Glassmorphic Navbar -->
   <header class="land-header" id="landHeader">
     <div class="wrap land-nav-wrap">
       <a href="#" class="land-brand" aria-label="Infinite Trading Home">
-        <img src="/images/site-logo.png" alt="Infinite Trading Logo" class="land-brand-logo" />
+        <img src="/images/site-logo.png?v=20260924gold" alt="Infinite Trading Logo" class="land-brand-logo" />
       </a>
 
       <nav class="land-nav-menu" id="landNavMenu" aria-label="Main Navigation">
@@ -77,22 +47,34 @@
         <a href="#how-it-works" class="nav-link">How It Works</a>
         <a href="#gateways" class="nav-link">Gateways</a>
         <a href="#faq" class="nav-link">FAQ</a>
+        <!-- Mobile-only: Compensation Plan inside hamburger -->
+        <button class="btn btn-ghost btn-sm land-nav-plan-pill nav-link plan-pill-mobile" type="button" data-open-plan>
+          <span class="icon-spark">✦</span> Compensation Plan
+        </button>
       </nav>
 
       <div class="land-nav-actions">
-        <button class="btn btn-ghost btn-sm land-btn-plan" type="button" data-open-plan id="navViewPlan">
+        <!-- Desktop-only: Compensation Plan in top bar -->
+        <button class="btn btn-ghost btn-sm land-nav-plan-pill plan-pill-desktop" type="button" data-open-plan id="navBtnPlan">
           <span class="icon-spark">✦</span> Compensation Plan
         </button>
-        <button class="btn btn-sm btn-pwa-install" type="button" id="navInstallApp" style="display: none;" title="Install Infinite Trading App">
-          <svg class="icon-install" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 4px; vertical-align: -2px;">
-            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
-            <polyline points="7 10 12 15 17 10"/>
-            <line x1="12" y1="15" x2="12" y2="3"/>
+        <button class="btn-theme-toggle btn-theme-icon-only" type="button" data-theme-toggle id="navThemeToggle"
+          aria-label="Toggle Light/Dark Theme" title="Toggle Light/Dark Theme">
+          <span class="theme-toggle-icon">☀️</span>
+        </button>
+        <button class="btn btn-sm btn-pwa-install" type="button" id="navInstallApp"
+          title="Install Infinite Trading App">
+          <svg class="icon-install" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+            stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"
+            style="margin-right: 4px; vertical-align: -2px;">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+            <polyline points="7 10 12 15 17 10" />
+            <line x1="12" y1="15" x2="12" y2="3" />
           </svg>
-          <span>Install App</span>
+          <span>Install</span>
         </button>
         <a href="/login.html" class="btn btn-ghost btn-sm" id="navLogin">Login</a>
-        <a href="/register.html" class="btn btn-sm btn-primary-glow" id="navRegister">Register</a>
+        <a href="/register.html" class="btn btn-sm btn-primary-glow" id="navRegister">Register ➔</a>
         <button class="mobile-toggle" id="mobileNavToggle" aria-label="Toggle Navigation Menu">
           <span></span><span></span><span></span>
         </button>
@@ -101,93 +83,24 @@
   </header>
 
   <main>
-    <!-- HERO SECTION -->
+    <!-- HERO SECTION (CENTERED SHOWCASE) -->
     <section class="wrap land-hero-section">
-      <div class="hero">
-        <!-- 3D Interactive Logo Display -->
+      <div class="hero hero-centered">
+        <!-- Centered 3D Interactive Logo Display -->
         <div class="hero-logo-wrapper reveal d1" id="heroLogoContainer">
           <div class="hero-logo-card" id="hero3DCard">
-            <img src="/images/site-logo.png" alt="Infinite Trading Emblem" class="hero-main-img" />
+            <img src="/images/site-logo.png?v=20260924gold" alt="Infinite Trading Emblem" class="hero-main-img" />
           </div>
         </div>
 
-        <!-- Hero Content -->
-        <div class="hero-content">
-          <div class="kicker-pill reveal d1">
-            <span class="pulse-dot"></span>
-            <span>PREMIER PLATFORM FOR FINANCIAL ACCELERATION</span>
-          </div>
-
-          <h1 class="reveal d2 hero-title">
+        <!-- Centered Hero Title -->
+        <div class="hero-centered-content reveal d2">
+          <h1 class="hero-title text-center">
             Building Your Future,<br>
             <span class="gradient-text">Beyond Limits.</span>
           </h1>
-
-          <p class="lede reveal d3">
-            Bridging traditional network matrix dynamics with automated trade-in yield. Start with a <strong>₱300
-              entry</strong> in the Binary Matrix or accelerate your capital with a <strong>120% ROI in 12
-              days</strong>.
-          </p>
-
-          <div class="cta reveal d4">
-            <a class="btn btn-primary-glow btn-lg" href="/register.html" id="ctaRegister">
-              <span>Create Account</span>
-              <span class="btn-arrow">➔</span>
-            </a>
-            <a class="btn btn-ghost btn-lg" href="#calculator" id="ctaCalcQuick">
-              <span>Try ROI Calculator</span>
-            </a>
-            <button class="btn btn-ghost btn-lg" type="button" data-open-plan id="ctaViewPlan">
-              <span>Compensation Plan</span>
-            </button>
-          </div>
-
-          <!-- Quick Stat Badges -->
-          <div class="stats-band reveal d5">
-            <div class="stat stat-interactive" data-tooltip="₱300 one-time code to activate binary">
-              <span class="tiny">Entry Fee</span>
-              <b class="kpi-counter" data-count="300" data-prefix="₱">₱300</b>
-              <span class="stat-sub">Instant Matrix</span>
-            </div>
-            <div class="stat stat-interactive" data-tooltip="Earn up to ₱3,000 gross before ₱300 renewal">
-              <span class="tiny">Binary Cap</span>
-              <b class="kpi-counter" data-count="3000" data-prefix="₱">₱3,000</b>
-              <span class="stat-sub">Max Gross/Cycle</span>
-            </div>
-            <div class="stat stat-interactive" data-tooltip="Minimum deposit for Trade-In yield">
-              <span class="tiny">Trade-in Min</span>
-              <b class="kpi-counter" data-count="1000" data-prefix="₱">₱1,000</b>
-              <span class="stat-sub">Passive Growth</span>
-            </div>
-            <div class="stat stat-interactive" data-tooltip="Total return over 12 days paid every 3 days">
-              <span class="tiny">Trade-in ROI</span>
-              <b class="kpi-counter" data-count="120" data-suffix="%">120%</b>
-              <span class="stat-sub">In 12 Days</span>
-            </div>
-          </div>
         </div>
-      </div>
-    </section>
 
-    <!-- LIVE PLATFORM STREAM BAR (Social Proof / Engagement) -->
-    <section class="live-activity-bar">
-      <div class="wrap live-stream-inner">
-        <div class="live-stream-badge">
-          <span class="live-indicator"></span>
-          <span>LIVE ACTIVITY</span>
-        </div>
-        <div class="live-stream-content" id="liveStreamText">
-          <span class="stream-icon">⚡</span>
-          <span class="stream-msg" id="streamMessage">0917***892 earned ₱50 pairing bonus in Binary Tree</span>
-          <span class="stream-time" id="streamTime">Just now</span>
-        </div>
-        <div class="live-stream-stats">
-          <span>Active Today: <strong class="kpi-counter" data-count="1480" data-suffix="+ Members">1,480+
-              Members</strong></span>
-          <span>•</span>
-          <span>Total Paid: <strong class="kpi-counter" data-count="1840000" data-prefix="₱"
-              data-suffix="+">₱1,840,000+</strong></span>
-        </div>
       </div>
     </section>
 
@@ -219,14 +132,14 @@
           </div>
 
           <p class="track-desc">
-            Activate with a single <strong>₱300 code</strong> and unlock binary pairing bonuses plus 4-level direct and
+            Activate with a single <strong>₱399 code</strong> and unlock binary pairing bonuses plus 4-level direct and
             indirect referral income.
           </p>
 
           <div class="track-metrics">
             <div class="metric-row">
               <span class="metric-label">Entry Capital</span>
-              <span class="metric-val">₱300</span>
+              <span class="metric-val">₱399</span>
             </div>
             <div class="metric-row">
               <span class="metric-label">Direct Referral</span>
@@ -548,7 +461,7 @@
                 </div>
 
                 <div class="calc-action-bar">
-                  <a href="/register.html" class="btn btn-primary-glow w-100">Start Binary Matrix with ₱300 ➔</a>
+                  <a href="/register.html" class="btn btn-primary-glow w-100">Start Binary Matrix with ₱399 ➔</a>
                 </div>
               </div>
             </div>
@@ -593,7 +506,7 @@
             <div class="tree-node node-you">
               <div class="node-avatar">👤</div>
               <div class="node-title">YOU</div>
-              <div class="node-sub">₱300 Active</div>
+              <div class="node-sub">₱399 Active</div>
             </div>
           </div>
 
@@ -615,7 +528,7 @@
               </div>
               <div class="tree-btn-wrap">
                 <button type="button" class="btn btn-sm btn-ghost" id="btnAddLeft">
-                  <span>+ Add Left (₱300)</span>
+                  <span>+ Add Left (₱399)</span>
                 </button>
               </div>
             </div>
@@ -638,7 +551,7 @@
               </div>
               <div class="tree-btn-wrap">
                 <button type="button" class="btn btn-sm btn-ghost" id="btnAddRight">
-                  <span>+ Add Right (₱300)</span>
+                  <span>+ Add Right (₱399)</span>
                 </button>
               </div>
             </div>
@@ -674,7 +587,7 @@
           <div class="step-card-icon">📱</div>
           <h3>Quick Registration</h3>
           <p>Create your account using your mobile number and your sponsor's sponsor mobile. Activate with your
-            <strong>₱300 entry code</strong>.
+            <strong>₱399 entry code</strong>.
           </p>
           <span class="step-pill">Instant Access</span>
         </article>
@@ -776,13 +689,13 @@
 
         <div class="faq-accordion" id="faqAccordion">
           <!-- Item 1 -->
-          <div class="faq-item" data-keywords="entry code binary activation register 300">
+          <div class="faq-item" data-keywords="entry code binary activation register 399">
             <button type="button" class="faq-question">
-              <span>What is the ₱300 entry fee and how do I activate my account?</span>
+              <span>What is the ₱399 entry fee and how do I activate my account?</span>
               <span class="faq-toggle-icon">+</span>
             </button>
             <div class="faq-answer">
-              <p>The ₱300 entry fee is a one-time activation code required during registration. It instantly opens your
+              <p>The ₱399 entry fee is a one-time activation code required during registration. It instantly opens your
                 binary network position and qualifies you for direct referral bonuses (₱50), indirect bonuses (₱5 for
                 L2–L4), and binary pairing matches (₱50/pair).</p>
             </div>
@@ -810,7 +723,7 @@
             <div class="faq-answer">
               <p>To ensure system sustainability, every active binary account has a gross earning cap of ₱3,000. Once
                 your account reaches ₱3,000 in total binary matching earnings, the account expires and can
-                be seamlessly reactivated with a fresh ₱300 renewal code to continue receiving matches.</p>
+                be seamlessly reactivated with a fresh ₱399 renewal code to continue receiving matches.</p>
             </div>
           </div>
 
@@ -891,7 +804,8 @@
     <div class="wrap foot-grid">
       <div>
         <a href="#" class="land-brand">
-          <img src="/images/site-logo.png" alt="Infinite Trading" style="max-height: 48px; width: auto;" />
+          <img src="/images/site-logo.png?v=20260924gold" alt="Infinite Trading"
+            style="max-height: 48px; width: auto;" />
         </a>
         <p style="margin-top: 12px; max-width: 320px;">
           Building Your Future, Beyond Limits. Next-generation hybrid platform combining binary network marketing and
@@ -962,7 +876,7 @@
           <div class="hl">
             <article class="panel card">
               <h3>Low Capital</h3>
-              <p>Only a ₱300 entry fee required to start an account and participate in binary matching.</p>
+              <p>Only a ₱399 entry fee required to start an account and participate in binary matching.</p>
             </article>
             <article class="panel card">
               <h3>Fast ROI</h3>
@@ -978,7 +892,7 @@
             </article>
           </div>
           <div class="stats-band">
-            <div class="stat"><span class="tiny">Entry</span><b>₱300</b></div>
+            <div class="stat"><span class="tiny">Entry</span><b>₱399</b></div>
             <div class="stat"><span class="tiny">Binary cap</span><b>₱3,000</b></div>
             <div class="stat"><span class="tiny">Trade-in min</span><b>₱1,000</b></div>
             <div class="stat"><span class="tiny">Trade-in ROI</span><b>120%</b></div>
@@ -989,14 +903,14 @@
           <h3>1. Entry &amp; Binary Matching</h3>
           <div class="panel card plan-block">
             <ul>
-              <li><strong>Entry fee:</strong> ₱300 per account (activation code required at registration)</li>
+              <li><strong>Entry fee:</strong> ₱399 per account (activation code required at registration)</li>
               <li><strong>Direct referral:</strong> ₱50 for every direct referral you bring in</li>
               <li><strong>Indirect referral:</strong> ₱5 from Level 2, Level 3, and Level 4 downlines</li>
               <li><strong>Pairing / matching:</strong> ₱50 per pair (1 Left + 1 Right in your binary tree)</li>
               <li><strong>Daily pairing limit:</strong> Maximum 10 pairs per day (₱500 / day max). No 5th-pair deduction
                 and no flash out.</li>
               <li><strong>Binary income cap:</strong> Maximum ₱3,000 gross per account. At ₱3,000 the account expires
-                and needs a ₱300 renewal code to reopen matching.</li>
+                and needs a ₱399 renewal code to reopen matching.</li>
             </ul>
           </div>
         </section>
@@ -1009,7 +923,7 @@
               <li><strong>Minimum capital:</strong> ₱1,000 (yields ₱1,200 total in 12 days)</li>
               <li><strong>Payout schedule:</strong> Every 3 days — ₱300 per cycle on a ₱1,000 package, across 4 cycles
               </li>
-              <li><strong>Expired account restriction:</strong> Account must be renewed (₱300 code) before accessing
+              <li><strong>Expired account restriction:</strong> Account must be renewed (₱399 code) before accessing
                 trade-in</li>
               <li><strong>Downline commission</strong> (based on downline capital invested):
                 <ul>
@@ -1718,12 +1632,7 @@
         window.matchMedia('(display-mode: standalone)').matches;
     };
 
-    if (!isStandalone()) {
-      if (btnInstallApp) {
-        btnInstallApp.style.display = 'inline-flex';
-      }
-    }
-
+    // Only show install button if PWA install prompt is available
     window.addEventListener('beforeinstallprompt', (e) => {
       e.preventDefault();
       deferredPrompt = e;
@@ -1761,7 +1670,8 @@
   <div class="pwa-ios-modal" id="pwaIosModal" aria-hidden="true">
     <div class="pwa-ios-header">
       <div class="pwa-ios-title">
-        <img src="/images/app-icon.jpg" alt="Logo" style="height: 24px; width: 24px; border-radius: 6px; object-fit: cover;" />
+        <img src="/images/app-icon.jpg" alt="Logo"
+          style="height: 24px; width: 24px; border-radius: 6px; object-fit: cover;" />
         <span>Install Infinite App</span>
       </div>
       <button type="button" class="pwa-ios-close" id="pwaIosClose" aria-label="Close modal">✕</button>

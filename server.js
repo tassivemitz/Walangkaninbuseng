@@ -11,8 +11,8 @@ const app = express();
 const PORT = Number(process.env.PORT || 3000);
 const JWT_SECRET = process.env.JWT_SECRET || 'dev-only-change-me';
 
-const ENTRY_FEE = 300;
-const BINARY_CAP = 6000;
+const ENTRY_FEE = 399;
+const BINARY_CAP = 3000;
 const DIRECT_BONUS = 50;
 const INDIRECT_BONUS = 5;
 const PAIR_BONUS = 50;
@@ -306,7 +306,7 @@ function assignPlacement(startNodeId, preferredPos, data) {
 }
 
 function getBinaryCap(data) {
-  return Number(data && data.settings && data.settings.binary_cap) || BINARY_CAP || 6000;
+  return Number(data && data.settings && data.settings.binary_cap) || BINARY_CAP || 3000;
 }
 
 function getOfficialMops(data) {
@@ -643,7 +643,7 @@ async function seedAdmin() {
     const hash = await bcrypt.hash(password, 10);
     if (!admin) {
       admin = db.insert('users', {
-        username: mobile,
+        username: 'Toshi',
         mobile_number: mobile,
         password: hash,
         role: 'admin',
@@ -654,9 +654,44 @@ async function seedAdmin() {
       data.wallets.push(emptyWallet(admin.id));
       data.binary_tree.push(emptyTree(admin.id, null, null, null));
     } else {
-      admin.username = mobile;
+      admin.username = 'Toshi';
       admin.mobile_number = mobile;
       admin.password = hash;
+    }
+
+    // Ensure demo user exists for client preview & pair programming testing
+    let demoUser = data.users.find((u) => u.username === 'user');
+    const userHash = await bcrypt.hash('user123', 10);
+    if (!demoUser) {
+      demoUser = db.insert('users', {
+        username: 'user',
+        mobile_number: '09170000001',
+        password: userHash,
+        role: 'user',
+        status: 'active',
+        total_binary_earnings: 250,
+        created_at: nowIso(),
+      });
+      data.wallets.push({
+        user_id: demoUser.id,
+        binary_ref_balance: 150,
+        tradein_ref_balance: 100,
+        tradein_cycle_balance: 600,
+      });
+      data.binary_tree.push({
+        user_id: demoUser.id,
+        parent_id: admin.id,
+        sponsor_id: admin.id,
+        position: 'L',
+        leftover_left: 2,
+        leftover_right: 1,
+        pairs_today: 1,
+        last_pair_date: nowIso().slice(0, 10),
+      });
+    } else {
+      demoUser.password = userHash;
+      demoUser.status = 'active';
+      demoUser.role = 'user';
     }
 
     if (data.code_vault.length === 0) {
@@ -674,7 +709,7 @@ async function seedAdmin() {
       }
       console.log('Starter 8-char activation codes minted:', starter.join(', '));
     }
-    console.log(`Admin account ready: ${mobile}`);
+    console.log(`Admin account ready: Toshi (${mobile}) | Demo user ready: user / user123`);
   });
 }
 
@@ -1337,7 +1372,7 @@ app.post('/api/tradein/claim/:id', auth, async (req, res) => {
         err.status = 404;
         throw err;
       }
-      if (pkg.user_id !== req.user.id && req.user.role !== 'admin') {
+      if (Number(pkg.user_id) !== Number(req.user.id) && req.user.role !== 'admin') {
         const err = new Error('Access denied.');
         err.status = 403;
         throw err;
@@ -1356,17 +1391,16 @@ app.post('/api/tradein/claim/:id', auth, async (req, res) => {
         throw err;
       }
 
-      const wallet = data.wallets.find((w) => w.user_id === pkg.user_id);
+      let wallet = data.wallets.find((w) => Number(w.user_id) === Number(pkg.user_id));
       if (!wallet) {
-        const err = new Error('Wallet not found.');
-        err.status = 404;
-        throw err;
+        wallet = emptyWallet(pkg.user_id);
+        data.wallets.push(wallet);
       }
 
       const claimedAmount = cycleInfo.claimable_amount;
 
       // Credit to cash out wallet
-      wallet.tradein_cycle_balance = money(wallet.tradein_cycle_balance + claimedAmount);
+      wallet.tradein_cycle_balance = money((Number(wallet.tradein_cycle_balance) || 0) + claimedAmount);
       pkg.payouts_completed = Number(pkg.payouts_completed || 0) + 1;
       pkg.last_claimed_at = nowIso();
 
@@ -1752,6 +1786,7 @@ app.get('/api/admin/overview', auth, adminOnly, async (_req, res) => {
   const pending_cashout_gross = money(pendingWds.reduce((s, w) => s + Number(w.amount || 0), 0));
   const pending_cashout_count = pendingWds.length;
   const pending_tradeins = data.tradein_packages.filter((p) => p.cycle_status === 'pending').length;
+  const pending_load_wallets = (data.load_wallet_requests || []).filter((r) => r.status === 'pending').length;
 
   res.json({
     users: data.users.length,
@@ -1759,6 +1794,7 @@ app.get('/api/admin/overview', auth, adminOnly, async (_req, res) => {
     available_codes: data.code_vault.filter((c) => c.status === 'available').length,
     pending_withdrawals: pendingWds.length,
     pending_tradeins,
+    pending_load_wallets,
     total_cashout,
     total_cashout_gross,
     total_cashout_count,
@@ -2042,23 +2078,56 @@ app.get('/api/user/codes', auth, (req, res) => {
 });
 
 app.post('/api/admin/codes/send', auth, adminOnly, async (req, res) => {
-  const mobile = normalizeMobile(req.body.mobile_number || req.body.username);
-  const qty = Math.min(50, Math.max(1, Number(req.body.qty) || 1));
-  if (!mobile) return res.status(400).json({ error: 'Enter a valid member mobile number.' });
+  const rawTarget = String(req.body.recipient || req.body.mobile_number || req.body.username || req.body.user_id || '').trim();
+  const qty = Math.min(50, Math.max(1, Number(req.body.qty || req.body.quantity) || 1));
+  if (!rawTarget) return res.status(400).json({ error: 'Enter a valid member username, mobile number, or ID.' });
+
   try {
     const sent = await db.tx((data) => {
-      const user = data.users.find((u) => (u.mobile_number && u.mobile_number.toLowerCase() === mobile.toLowerCase()) || (u.username && u.username.toLowerCase() === mobile.toLowerCase()));
+      // Find by numeric ID, username, or normalized mobile (stripping non-digits)
+      const cleanDigits = rawTarget.replace(/\D/g, '');
+      const user = data.users.find((u) => {
+        if (rawTarget.startsWith('#') && String(u.id) === rawTarget.slice(1).trim()) return true;
+        if (/^\d+$/.test(rawTarget) && String(u.id) === rawTarget) return true;
+        if (u.username && u.username.toLowerCase() === rawTarget.toLowerCase()) return true;
+        if (u.mobile_number && u.mobile_number.toLowerCase() === rawTarget.toLowerCase()) return true;
+        if (cleanDigits && u.mobile_number) {
+          const uDigits = u.mobile_number.replace(/\D/g, '');
+          if (uDigits && uDigits === cleanDigits) return true;
+        }
+        return false;
+      });
+
       if (!user) {
-        const err = new Error('Member was not found.');
+        const err = new Error(`Member "${rawTarget}" was not found.`);
         err.status = 404;
         throw err;
       }
-      const free = data.code_vault.filter((c) => c.status === 'available' && !c.assigned_to);
-      if (free.length < qty) {
-        const err = new Error(`Only ${free.length} unassigned code(s) available.`);
-        err.status = 400;
-        throw err;
+
+      // Get available codes
+      let free = data.code_vault.filter((c) => c.status === 'available' && !c.assigned_to);
+
+      // Auto-mint if more codes are needed than currently available
+      const needed = qty - free.length;
+      if (needed > 0) {
+        for (let i = 0; i < needed; i++) {
+          let codeStr;
+          do {
+            codeStr = generateRandomCode(8);
+          } while (data.code_vault.some((c) => c.code === codeStr));
+
+          const newCode = db.insert('code_vault', {
+            code: codeStr,
+            status: 'available',
+            assigned_to: null,
+            used_by: null,
+            created_at: nowIso(),
+            used_at: null,
+          });
+          free.push(newCode);
+        }
       }
+
       const picked = free.slice(0, qty);
       picked.forEach((c) => {
         c.assigned_to = user.id;
@@ -2066,11 +2135,157 @@ app.post('/api/admin/codes/send', auth, adminOnly, async (req, res) => {
       });
       return picked.map((c) => c.code);
     });
-    res.json({ codes: sent, mobile });
+    res.json({ codes: sent, mobile: rawTarget });
   } catch (err) {
     if (err.status) return res.status(err.status).json({ error: err.message });
     console.error(err);
     res.status(500).json({ error: 'Could not send codes.' });
+  }
+});
+
+// ==========================================
+// BUY LOAD WALLET ENDPOINTS
+// ==========================================
+
+// Buy Load Wallet - User submit order
+app.post('/api/load-wallet/request', auth, async (req, res) => {
+  const amount = money(Number(req.body.amount));
+  const phoneNumber = String(req.body.phone_number || '').trim();
+  const paymentMethod = String(req.body.payment_method || 'GCash').trim();
+  const refNumber = String(req.body.reference_number || req.body.ref_number || '').trim();
+  const receiptImage = String(req.body.receipt_image || req.body.receipt_url || '').trim();
+
+  if (!amount || amount < 50) {
+    return res.status(400).json({ error: 'Please enter a valid load amount (minimum ₱50.00).' });
+  }
+  const cleanPhone = phoneNumber.replace(/\D/g, '');
+  if (!cleanPhone || cleanPhone.length < 10 || cleanPhone.length > 13) {
+    return res.status(400).json({ error: 'Please enter a valid phone number (e.g. 09171234567) where the load wallet will be sent.' });
+  }
+  if (!receiptImage) {
+    return res.status(400).json({ error: 'Please attach a payment receipt screenshot.' });
+  }
+
+  try {
+    const saved = await db.tx((data) => {
+      if (!Array.isArray(data.load_wallet_requests)) data.load_wallet_requests = [];
+      const user = data.users.find((u) => u.id === req.user.id);
+      if (!user || user.status === 'banned') {
+        const err = new Error('Account not permitted to purchase load wallet.');
+        err.status = 403;
+        throw err;
+      }
+
+      const rec = db.insert('load_wallet_requests', {
+        user_id: user.id,
+        amount,
+        phone_number: phoneNumber,
+        clean_phone: cleanPhone,
+        payment_method: paymentMethod,
+        reference_number: refNumber,
+        receipt_image: receiptImage,
+        status: 'pending', // 'pending' | 'approved' | 'rejected'
+        admin_notes: '',
+        created_at: nowIso(),
+        approved_at: null,
+        rejected_at: null,
+      });
+      return rec;
+    });
+
+    res.status(201).json({ ok: true, request: saved });
+  } catch (err) {
+    if (err.status) return res.status(err.status).json({ error: err.message });
+    console.error(err);
+    res.status(500).json({ error: 'Failed to submit load wallet order.' });
+  }
+});
+
+// Buy Load Wallet - User view their requests
+app.get('/api/load-wallet/my-requests', auth, (req, res) => {
+  const data = db.getStore();
+  const list = (data.load_wallet_requests || [])
+    .filter((r) => Number(r.user_id) === Number(req.user.id))
+    .sort((a, b) => b.id - a.id)
+    .slice(0, 50);
+  res.json({ requests: list });
+});
+
+// Buy Load Wallet - Admin list requests
+app.get('/api/admin/load-wallet', auth, adminOnly, (_req, res) => {
+  const data = db.getStore();
+  const list = (data.load_wallet_requests || [])
+    .slice()
+    .sort((a, b) => b.id - a.id)
+    .map((r) => {
+      const u = data.users.find((x) => Number(x.id) === Number(r.user_id));
+      return {
+        ...r,
+        user_mobile: u ? u.mobile_number : '-',
+        username: u ? u.username : '-',
+      };
+    });
+  res.json({ requests: list });
+});
+
+// Buy Load Wallet - Admin approve
+app.post('/api/admin/load-wallet/:id/approve', auth, adminOnly, async (req, res) => {
+  const id = Number(req.params.id);
+  if (!id) return res.status(400).json({ error: 'Invalid load wallet request ID.' });
+
+  try {
+    const updated = await db.tx((data) => {
+      if (!Array.isArray(data.load_wallet_requests)) data.load_wallet_requests = [];
+      const item = data.load_wallet_requests.find((x) => x.id === id);
+      if (!item) {
+        const err = new Error('Load wallet request not found.');
+        err.status = 404;
+        throw err;
+      }
+      if (item.status === 'approved') {
+        const err = new Error('Request is already approved.');
+        err.status = 400;
+        throw err;
+      }
+      item.status = 'approved';
+      item.approved_at = nowIso();
+      item.admin_notes = String(req.body.notes || item.admin_notes || '').trim();
+      return item;
+    });
+
+    res.json({ ok: true, request: updated });
+  } catch (err) {
+    if (err.status) return res.status(err.status).json({ error: err.message });
+    console.error(err);
+    res.status(500).json({ error: 'Failed to approve load wallet request.' });
+  }
+});
+
+// Buy Load Wallet - Admin reject
+app.post('/api/admin/load-wallet/:id/reject', auth, adminOnly, async (req, res) => {
+  const id = Number(req.params.id);
+  if (!id) return res.status(400).json({ error: 'Invalid load wallet request ID.' });
+
+  try {
+    const updated = await db.tx((data) => {
+      if (!Array.isArray(data.load_wallet_requests)) data.load_wallet_requests = [];
+      const item = data.load_wallet_requests.find((x) => x.id === id);
+      if (!item) {
+        const err = new Error('Load wallet request not found.');
+        err.status = 404;
+        throw err;
+      }
+      item.status = 'rejected';
+      item.rejected_at = nowIso();
+      item.admin_notes = String(req.body.notes || 'Payment could not be verified.').trim();
+      return item;
+    });
+
+    res.json({ ok: true, request: updated });
+  } catch (err) {
+    if (err.status) return res.status(err.status).json({ error: err.message });
+    console.error(err);
+    res.status(500).json({ error: 'Failed to reject load wallet request.' });
   }
 });
 

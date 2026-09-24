@@ -1,20 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Desk · Infinite Trading</title>
-  <meta name="description" content="Infinite Trading member dashboard — Member list, Code vault, Trade-in deposit, Wallet dashboard, and TradingView chart." />
+  <meta name="description"
+    content="Infinite Trading member dashboard — Member list, Code vault, Trade-in deposit, Wallet dashboard, and TradingView chart." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,560&family=Sora:wght@400;500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="/styles.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&display=swap"
+    rel="stylesheet" />
+  <script src="/theme.js"></script>
+  <link rel="stylesheet" href="/styles.css?v=20260924topbarfix" />
   <link rel="manifest" href="/manifest.json" />
-  <meta name="theme-color" content="#0f7a45" />
+  <meta name="theme-color" content="#131a22" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <meta name="apple-mobile-web-app-title" content="Infinite Trading" />
   <link rel="apple-touch-icon" href="/images/app-icon.jpg" />
 </head>
+
 <body class="dash-terminal-body">
   <!-- Animated ambient background mesh orbs -->
   <div class="orbs" aria-hidden="true">
@@ -87,11 +92,13 @@
             <span class="accordion-caret">▼</span>
           </div>
           <div class="side-nav-body">
-            <button type="button" class="side-nav-btn" id="btnTradeinDeposit" style="color:var(--jade);font-weight:700;">
+            <button type="button" class="side-nav-btn" id="btnTradeinDeposit"
+              style="color:var(--jade);font-weight:700;">
               <span>⬆ Deposit Package</span>
             </button>
             <div class="side-info-card">
-              <p style="margin:0 0 4px;"><strong>*Every 3 days cycle*</strong> — 120% ROI in 12 days (payouts every 3 days).</p>
+              <p style="margin:0 0 4px;"><strong>*Every 3 days cycle*</strong> — 120% ROI in 12 days (payouts every 3
+                days).</p>
               <p style="margin:0;"><strong>*Minimum Deposit:*</strong> ₱1,000 per package.</p>
             </div>
           </div>
@@ -104,18 +111,27 @@
         </button>
 
         <!-- 5. Earnings History CTA -->
-        <button type="button" class="side-cta-btn" id="btnOpenEarningsHistory" style="background:linear-gradient(135deg,#0b4d2c 0%,#15663a 100%);color:#fff;margin-top:6px;">
+        <button type="button" class="side-cta-btn side-cta-alt" id="btnOpenEarningsHistory">
           <span class="side-cta-icon">📊</span>
           <span>EARNINGS HISTORY</span>
+        </button>
+
+        <!-- 6. Buy Load Wallet CTA -->
+        <button type="button" class="side-cta-btn side-cta-alt" id="btnOpenBuyLoadWallet">
+          <span class="side-cta-icon">📱</span>
+          <span>BUY LOAD WALLET</span>
         </button>
       </div>
 
       <!-- Bottom Referral Link Box -->
       <div class="side-ref-card" id="refCard">
-        <p class="tiny" style="margin:0 0 6px;font-weight:700;color:var(--muted);letter-spacing:0.04em;text-transform:uppercase;">YOUR REFERRAL LINK</p>
+        <p class="tiny"
+          style="margin:0 0 6px;font-weight:700;color:var(--muted);letter-spacing:0.04em;text-transform:uppercase;">YOUR
+          REFERRAL LINK</p>
         <div class="row" style="margin-top:6px;gap:6px;">
           <input id="refLink" class="in" style="font-size:11px;padding:8px 10px;" readonly />
-          <button id="copyRef" type="button" class="btn btn-ghost btn-sm" style="padding:6px 12px;font-size:11px;white-space:nowrap;">Copy</button>
+          <button id="copyRef" type="button" class="btn btn-ghost btn-sm"
+            style="padding:6px 12px;font-size:11px;white-space:nowrap;">Copy</button>
         </div>
       </div>
     </aside>
@@ -141,14 +157,21 @@
           <span class="dash-top-tag">INFINITE TRADING DESK</span>
         </div>
         <div class="dash-top-right">
+          <button class="btn-theme-toggle" type="button" data-theme-toggle aria-label="Toggle Light/Dark Theme"
+            title="Toggle Light/Dark Theme">
+            <span class="theme-toggle-icon">☀️</span>
+            <span class="theme-toggle-text">Light</span>
+          </button>
           <div class="user-badge" id="whoWrapper">
             <span class="user-avatar-icon">👤</span>
             <div class="user-badge-info">
               <span id="who" class="user-badge-name">Loading...</span>
-              <span class="user-badge-status"><span class="user-status-dot" id="userStatusDot"></span> <span id="userStatusText">Active</span></span>
+              <span class="user-badge-status"><span class="user-status-dot" id="userStatusDot"></span> <span
+                  id="userStatusText">Active</span></span>
             </div>
           </div>
-          <a id="adminLink" class="btn btn-ghost btn-sm" href="/admin.html" style="display:none;color:var(--gold);border-color:rgba(232,148,58,0.3);font-weight:700;">⚙ Admin Panel</a>
+          <a id="adminLink" class="btn btn-ghost btn-sm" href="/admin.html"
+            style="display:none;color:var(--gold);border-color:rgba(232,148,58,0.3);font-weight:700;">⚙ Admin Panel</a>
           <button id="logout" class="dash-logout-btn">
             <span>Log out</span>
             <span class="logout-icon">⏻</span>
@@ -161,23 +184,34 @@
         <p id="banner" class="banner"></p>
 
         <!-- Inactive Account Pending Notice (Upline Activation Required) -->
-        <div id="activationBox" class="panel card activation-panel" style="display:none; margin-bottom: 20px; border: 2px solid #f59e0b; background: #ffffff; border-radius:16px; padding:22px;">
+        <div id="activationBox" class="panel card activation-panel"
+          style="display:none; margin-bottom: 20px; border: 2px solid #f59e0b; background: var(--card-bg); border-radius:16px; padding:22px;">
           <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:14px;">
             <div style="max-width:680px;">
               <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">
-                <span class="pill closed" style="background:#fef3c7;color:#b45309;border-color:#fde68a;">● Account Pending Activation</span>
-                <span style="font-size:12px;font-weight:700;color:#0b4d2c;background:#e8f9f0;padding:2px 8px;border-radius:6px;">Upline Activation Only</span>
+                <span class="pill closed" style="background:#fef3c7;color:#b45309;border-color:#fde68a;">● Account
+                  Pending Activation</span>
+                <span
+                  style="font-size:12px;font-weight:700;color:var(--jade);background:rgba(46,213,158,0.12);padding:2px 8px;border-radius:6px;">Upline
+                  Activation Only</span>
               </div>
-              <h2 style="margin:4px 0 8px; font-size:22px; color:#0b4d2c; font-family:'Fraunces', serif;">Awaiting Placement &amp; Activation by Upline</h2>
+              <h2 style="margin:4px 0 8px; font-size:22px; font-weight:800; letter-spacing:-0.02em;">Awaiting Placement
+                &amp; Activation by Upline</h2>
               <p style="font-size:13.5px; color:var(--text); margin:0 0 14px; line-height:1.55;">
-                Welcome to Infinite Trading! Your account registration is complete. Under system rules, <strong>only your direct sponsor or upline can place and activate your account</strong> into the binary genealogy tree.
+                Welcome to Infinite Trading! Your account registration is complete. Under system rules, <strong>only
+                  your direct sponsor or upline can place and activate your account</strong> into the binary genealogy
+                tree.
               </p>
-              
-              <div style="background:#f8faf8; border:1px solid rgba(15,122,69,0.2); border-radius:12px; padding:14px 16px; margin-bottom:14px;">
+
+              <div
+                style="background:var(--bg2); border:1px solid var(--line); border-radius:12px; padding:14px 16px; margin-bottom:14px;">
                 <div style="display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:10px;">
                   <div>
-                    <span class="tiny muted" style="text-transform:uppercase; font-weight:700; font-size:10.5px; letter-spacing:0.04em;">Your Direct Sponsor</span>
-                    <p style="margin:2px 0 0; font-size:16px; font-weight:800; color:#0f7a45;" id="pendingSponsorDisplay">Loading...</p>
+                    <span class="tiny muted"
+                      style="text-transform:uppercase; font-weight:700; font-size:10.5px; letter-spacing:0.04em;">Your
+                      Direct Sponsor</span>
+                    <p style="margin:2px 0 0; font-size:16px; font-weight:800; color:var(--jade);"
+                      id="pendingSponsorDisplay">Loading...</p>
                   </div>
                   <div style="font-size:12px; color:var(--muted); text-align:right;">
                     <span>Status: </span><strong style="color:#d97706;">Pending Tree Placement</strong>
@@ -185,10 +219,12 @@
                 </div>
               </div>
 
-              <div style="display:flex; align-items:center; gap:10px; padding:10px 14px; background:#fffbeb; border-radius:10px; border:1px solid #fef3c7;">
+              <div
+                style="display:flex; align-items:center; gap:10px; padding:10px 14px; background:rgba(245,158,11,0.08); border-radius:10px; border:1px solid rgba(245,158,11,0.25);">
                 <span style="font-size:18px;">💡</span>
-                <span class="tiny" style="color:#92400e; line-height:1.4;">
-                  Please coordinate with your sponsor/upline to activate your slot with a ₱300 code via their genealogy tree. Once activated, your binary pairing and trade-in features will unlock automatically.
+                <span class="tiny" style="color:var(--text); line-height:1.4;">
+                  Please coordinate with your sponsor/upline to activate your slot with a ₱399 code via their genealogy
+                  tree. Once activated, your binary pairing and trade-in features will unlock automatically.
                 </span>
               </div>
             </div>
@@ -196,27 +232,35 @@
         </div>
 
         <!-- Binary Cap Expiration Renewal Box -->
-        <div id="renewBox" class="panel card" style="display:none; margin-bottom: 20px; border: 2px solid var(--gold); background: #ffffff;">
+        <div id="renewBox" class="panel card"
+          style="display:none; margin-bottom: 20px; border: 2px solid var(--gold); background: var(--card-bg);">
           <span class="pill closed" style="margin-bottom:6px">● Binary Cap Reached (₱3,000)</span>
-          <h2 style="margin:6px 0; font-size:22px; color:var(--gold);">Renew Account (₱300)</h2>
-          <p style="font-size:13px; color:var(--muted); margin:0 0 12px;">Enter an activation code to reopen binary matching and trade-in access.</p>
+          <h2 style="margin:6px 0; font-size:22px; color:var(--gold);">Renew Account (₱399)</h2>
+          <p style="font-size:13px; color:var(--muted); margin:0 0 12px;">Enter an activation code to reopen binary
+            matching and trade-in access.</p>
           <form id="renewForm" class="row" style="max-width:480px; margin-top:0;">
-            <input class="in" name="code" required placeholder="8-CHAR CODE" style="text-transform:uppercase; font-family:ui-monospace, monospace; font-weight:700;" maxlength="12" />
+            <input class="in" name="code" required placeholder="8-CHAR CODE"
+              style="text-transform:uppercase; font-family:ui-monospace, monospace; font-weight:700;" maxlength="12" />
             <button class="btn btn-sm">Renew</button>
           </form>
         </div>
 
         <!-- Code Seller Vault Inventory Desk Banner (Shown if user holds available codes) -->
-        <div id="sellerDeskPanel" class="panel card" style="display:none; margin-bottom: 20px; border: 2px solid var(--jade); background: #f8fdf9;">
-          <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-bottom:12px;">
+        <div id="sellerDeskPanel" class="panel card"
+          style="display:none; margin-bottom: 20px; border: 2px solid var(--jade); background: var(--card-bg);">
+          <div
+            style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-bottom:12px;">
             <div>
               <span class="pill open" style="font-size:10px; font-weight:700;">📦 CODE SELLER DESK</span>
-              <h3 style="margin:4px 0 2px; font-size:18px; color:var(--jade);">My Code Vault Inventory (<span id="sellerDeskCount">0</span> Available)</h3>
-              <p class="tiny muted" style="margin:0;">Ready-to-sell activation codes. Click Copy to distribute to new signups:</p>
+              <h3 style="margin:4px 0 2px; font-size:18px; color:var(--jade);">My Code Vault Inventory (<span
+                  id="sellerDeskCount">0</span> Available)</h3>
+              <p class="tiny muted" style="margin:0;">Ready-to-sell activation codes. Click Copy to distribute to new
+                signups:</p>
             </div>
             <button type="button" class="btn btn-ghost btn-sm" id="btnOpenFullVault">Open Full Vault ➔</button>
           </div>
-          <div id="sellerDeskCodeList" style="display:grid; grid-template-columns:repeat(auto-fill, minmax(200px, 1fr)); gap:8px;"></div>
+          <div id="sellerDeskCodeList"
+            style="display:grid; grid-template-columns:repeat(auto-fill, minmax(200px, 1fr)); gap:8px;"></div>
         </div>
 
         <!-- =========================================================
@@ -238,12 +282,14 @@
             <div class="m-hero-right">
               <span class="m-corner-icon">🪙</span>
               <svg class="sparkline-svg" viewBox="0 0 130 40" fill="none">
-                <path d="M0 32 Q 28 34, 52 20 T 90 15 T 130 5" stroke="#0f7a45" stroke-width="2.5" stroke-linecap="round" fill="none"/>
-                <path d="M0 32 Q 28 34, 52 20 T 90 15 T 130 5 L 130 40 L 0 40 Z" fill="url(#heroSparkGrad)" opacity="0.16"/>
+                <path d="M0 32 Q 28 34, 52 20 T 90 15 T 130 5" stroke="#0f7a45" stroke-width="2.5"
+                  stroke-linecap="round" fill="none" />
+                <path d="M0 32 Q 28 34, 52 20 T 90 15 T 130 5 L 130 40 L 0 40 Z" fill="url(#heroSparkGrad)"
+                  opacity="0.16" />
                 <defs>
                   <linearGradient id="heroSparkGrad" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0%" stop-color="#0f7a45" stop-opacity="0.8"/>
-                    <stop offset="100%" stop-color="#0f7a45" stop-opacity="0"/>
+                    <stop offset="0%" stop-color="#0f7a45" stop-opacity="0.8" />
+                    <stop offset="100%" stop-color="#0f7a45" stop-opacity="0" />
                   </linearGradient>
                 </defs>
               </svg>
@@ -277,11 +323,31 @@
             <div class="ppt-dial-wrap">
               <svg class="ppt-dial-svg" viewBox="0 0 50 50">
                 <circle class="ppt-dial-bg" cx="25" cy="25" r="20"></circle>
-                <circle class="ppt-dial-bar" id="pptDialCircle" cx="25" cy="25" r="20" stroke-dasharray="125.66" stroke-dashoffset="125.66"></circle>
+                <circle class="ppt-dial-bar" id="pptDialCircle" cx="25" cy="25" r="20" stroke-dasharray="125.66"
+                  stroke-dashoffset="125.66"></circle>
               </svg>
               <span class="ppt-dial-text" id="pptDialText">0/10</span>
             </div>
           </div>
+        </div>
+
+        <!-- Action Quick Buttons (Deposit, Withdraw, Buy Load Wallet - KingLaro styling) -->
+        <div class="dash-quick-actions" style="display:flex;gap:12px;margin:16px 0 20px;flex-wrap:wrap;">
+          <button type="button" class="btn btn-mint" id="btnHeroDeposit"
+            style="flex:1;min-width:140px;font-weight:700;display:flex;align-items:center;justify-content:center;gap:8px;padding:12px 18px;border-radius:12px;box-shadow:0 4px 14px rgba(46,213,158,0.25);font-size:13.5px;">
+            <span style="font-size:16px;">＋</span>
+            <span>Deposit</span>
+          </button>
+          <button type="button" class="btn btn-cyan" id="btnHeroWithdraw"
+            style="flex:1;min-width:140px;font-weight:700;display:flex;align-items:center;justify-content:center;gap:8px;padding:12px 18px;border-radius:12px;box-shadow:0 4px 14px rgba(30,161,242,0.25);font-size:13.5px;">
+            <span style="font-size:16px;">💳</span>
+            <span>Withdraw</span>
+          </button>
+          <button type="button" class="btn btn-secondary" id="btnHeroBuyLoadWallet"
+            style="flex:1;min-width:160px;font-weight:700;display:flex;align-items:center;justify-content:center;gap:8px;padding:12px 18px;border-radius:12px;border:1px solid rgba(46,213,158,0.35);background:#1c2732;color:var(--accent-mint);font-size:13.5px;">
+            <span style="font-size:16px;">📱</span>
+            <span>Buy Load Wallet</span>
+          </button>
         </div>
 
         <!-- =========================================================
@@ -326,7 +392,8 @@
                 <span class="m-sub">120% Cycle Yield Balance</span>
               </div>
               <svg class="sparkline-mini-svg" viewBox="0 0 54 20" fill="none">
-                <path d="M0 15 Q 15 17, 28 9 T 54 3" stroke="#22c55e" stroke-width="2" stroke-linecap="round" fill="none"/>
+                <path d="M0 15 Q 15 17, 28 9 T 54 3" stroke="#22c55e" stroke-width="2" stroke-linecap="round"
+                  fill="none" />
               </svg>
             </div>
           </div>
@@ -351,12 +418,13 @@
         <div class="binary-cap-card floating-card">
           <div class="cap-header-row">
             <div class="cap-left-side">
-              <span class="cap-main-label" id="capMainLabel">BINARY EARNINGS CAP (₱6,000 MAX)</span>
+              <span class="cap-main-label" id="capMainLabel">BINARY EARNINGS CAP (₱3,000 MAX)</span>
               <span class="cap-val-display" id="capLabel">₱0.00 / ₱3,000.00</span>
             </div>
             <div class="cap-right-side">
               <span class="pill open" id="treeCounts" style="font-weight:700;font-size:11px;">Left: 0 · Right: 0</span>
-              <span class="tiny" id="pairsTodayText" style="font-weight:600;color:var(--muted);">Pairs today: 0 / 10</span>
+              <span class="tiny" id="pairsTodayText" style="font-weight:600;color:var(--muted);">Pairs today: 0 /
+                10</span>
             </div>
           </div>
           <div class="cap-track-bar">
@@ -374,7 +442,9 @@
               <span class="chart-title-text">Trading Chart · BTCUSDT (1h)</span>
             </div>
             <div class="chart-status-badge">
-              <span class="pill open" style="font-size:11px;font-weight:700;background:rgba(255,255,255,0.2);color:#ffffff;border-color:rgba(255,255,255,0.4);">● BTCUSDT Live Market Feed</span>
+              <span class="pill open"
+                style="font-size:11px;font-weight:700;background:rgba(255,255,255,0.2);color:#ffffff;border-color:rgba(255,255,255,0.4);">●
+                BTCUSDT Live Market Feed</span>
             </div>
           </div>
           <div id="tvchart" style="height:460px;"></div>
@@ -420,7 +490,8 @@
         <button class="plan-close" type="button" data-close-modal>×</button>
       </header>
       <div class="plan-modal-body">
-        <p class="tiny" style="margin-bottom:12px;">Direct signups referred using your username/link (₱50 bonus per active direct).</p>
+        <p class="tiny" style="margin-bottom:12px;">Direct signups referred using your username/link (₱50 bonus per
+          active direct).</p>
         <div class="table-wrap">
           <table class="table">
             <thead>
@@ -432,7 +503,9 @@
               </tr>
             </thead>
             <tbody id="tbodyDirects">
-              <tr><td colspan="4" class="center muted">Loading directs...</td></tr>
+              <tr>
+                <td colspan="4" class="center muted">Loading directs...</td>
+              </tr>
             </tbody>
           </table>
         </div>
@@ -452,7 +525,8 @@
         <button class="plan-close" type="button" data-close-modal>×</button>
       </header>
       <div class="plan-modal-body">
-        <p class="tiny" style="margin-bottom:12px;">Downline members across Levels 2, 3, and 4 (₱5 indirect bonus per active downline).</p>
+        <p class="tiny" style="margin-bottom:12px;">Downline members across Levels 2, 3, and 4 (₱5 indirect bonus per
+          active downline).</p>
         <div class="table-wrap">
           <table class="table">
             <thead>
@@ -465,7 +539,9 @@
               </tr>
             </thead>
             <tbody id="tbodyIndirects">
-              <tr><td colspan="5" class="center muted">Loading indirects...</td></tr>
+              <tr>
+                <td colspan="5" class="center muted">Loading indirects...</td>
+              </tr>
             </tbody>
           </table>
         </div>
@@ -519,11 +595,14 @@
           <div style="display:flex;align-items:center;gap:8px;">
             <span style="font-size:18px;">⚡</span>
             <div>
-              <strong style="color:#b45309;font-size:12.5px;" id="treeUnactivatedTitle">You have pending directs waiting for activation!</strong>
-              <p class="tiny muted" style="margin:2px 0 0;">Click any empty <strong style="color:var(--jade);">+ Encode Slot</strong> below to place and activate them in your tree.</p>
+              <strong style="color:#b45309;font-size:12.5px;" id="treeUnactivatedTitle">You have pending directs waiting
+                for activation!</strong>
+              <p class="tiny muted" style="margin:2px 0 0;">Click any empty <strong style="color:var(--jade);">+ Encode
+                  Slot</strong> below to place and activate them in your tree.</p>
             </div>
           </div>
-          <button type="button" class="btn btn-mint btn-sm" id="btnActivateDirectFast" style="padding:5px 14px;font-size:11.5px;font-weight:700;">
+          <button type="button" class="btn btn-mint btn-sm" id="btnActivateDirectFast"
+            style="padding:5px 14px;font-size:11.5px;font-weight:700;">
             Encode Direct Now
           </button>
         </div>
@@ -542,13 +621,16 @@
             </div>
 
             <div class="genealogy-search-box">
-              <input type="text" class="genealogy-search-in" id="genealogySearchInput" placeholder="🔍 Search downline..." list="treeDownlineDataList" />
+              <input type="text" class="genealogy-search-in" id="genealogySearchInput"
+                placeholder="🔍 Search downline..." list="treeDownlineDataList" />
               <datalist id="treeDownlineDataList"></datalist>
             </div>
-            <button type="button" class="btn btn-secondary btn-sm" id="btnGenealogyReset" style="padding:5px 10px;font-size:11.5px;font-weight:700;">
+            <button type="button" class="btn btn-secondary btn-sm" id="btnGenealogyReset"
+              style="padding:5px 10px;font-size:11.5px;font-weight:700;">
               🏠 My Account
             </button>
-            <button type="button" class="btn btn-secondary btn-sm" id="btnGenealogyUp" style="padding:5px 10px;font-size:11.5px;font-weight:700;">
+            <button type="button" class="btn btn-secondary btn-sm" id="btnGenealogyUp"
+              style="padding:5px 10px;font-size:11.5px;font-weight:700;">
               ⬆ Up 1 Level
             </button>
           </div>
@@ -558,7 +640,8 @@
           <!-- Rendered dynamically -->
         </div>
 
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-top:12px;padding:8px 12px;background:#f9fcf9;border-radius:10px;font-size:11px;color:var(--muted);flex-wrap:wrap;gap:8px;">
+        <div
+          style="display:flex;justify-content:space-between;align-items:center;margin-top:12px;padding:8px 12px;background:#f9fcf9;border-radius:10px;font-size:11px;color:var(--muted);flex-wrap:wrap;gap:8px;">
           <span>💡 <strong>Tip:</strong> Click any active member card to drill down and explore deeper branches.</span>
           <span>Click any <strong>+ Encode Slot</strong> to place an account directly in that slot.</span>
         </div>
@@ -578,21 +661,29 @@
         <button class="plan-close" type="button" data-close-modal>×</button>
       </header>
       <div class="plan-modal-body">
-        <div style="padding:8px 12px;background:#fef9e7;border:1px solid rgba(234,179,8,0.3);border-radius:10px;font-size:11.5px;color:#854d0e;margin-bottom:14px;line-height:1.45;">
-          🛡️ <strong>Placement Rule:</strong> Bawal mapunta sa upline o crossline. Ang downline ay dapat ilagay sa ilalim mo o ng kahit sinong downline sa loob ng sarili mong network tree.
+        <div
+          style="padding:8px 12px;background:#fef9e7;border:1px solid rgba(234,179,8,0.3);border-radius:10px;font-size:11.5px;color:#854d0e;margin-bottom:14px;line-height:1.45;">
+          🛡️ <strong>Placement Rule:</strong> Bawal mapunta sa upline o crossline. Ang downline ay dapat ilagay sa
+          ilalim mo o ng kahit sinong downline sa loob ng sarili mong network tree.
         </div>
 
         <!-- Visual Target Slot Banner -->
-        <div id="encodeTargetSlotBanner" style="margin-bottom:14px;padding:12px 16px;background:#eefbf3;border:1.5px solid var(--jade);border-radius:12px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 4px 12px rgba(15,122,69,0.08);">
+        <div id="encodeTargetSlotBanner"
+          style="margin-bottom:14px;padding:12px 16px;background:#eefbf3;border:1.5px solid var(--jade);border-radius:12px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 4px 12px rgba(15,122,69,0.08);">
           <div>
-            <span class="tiny muted" style="font-weight:700;display:block;letter-spacing:0.04em;">SELECTED TREE PLACEMENT:</span>
+            <span class="tiny muted" style="font-weight:700;display:block;letter-spacing:0.04em;">SELECTED TREE
+              PLACEMENT:</span>
             <strong id="targetSlotPlacementText" style="font-size:15px;color:#0b4d2c;">Yourself</strong>
           </div>
-          <span id="targetSlotLegBadge" class="pill" style="font-size:12px;font-weight:800;background:#0b4d2c;color:#fff;padding:6px 14px;border-radius:20px;">RIGHT LEG ▶</span>
+          <span id="targetSlotLegBadge" class="pill"
+            style="font-size:12px;font-weight:800;background:#0b4d2c;color:#fff;padding:6px 14px;border-radius:20px;">RIGHT
+            LEG ▶</span>
         </div>
 
         <!-- In-Modal Error Notification Banner -->
-        <div id="encodeErrorBanner" style="display:none;margin-bottom:14px;padding:12px 16px;background:#fef2f2;border:1.5px solid #ef4444;border-radius:12px;color:#991b1b;font-size:13px;font-weight:700;line-height:1.45;box-shadow:0 4px 12px rgba(239,68,68,0.12);"></div>
+        <div id="encodeErrorBanner"
+          style="display:none;margin-bottom:14px;padding:12px 16px;background:#fef2f2;border:1.5px solid #ef4444;border-radius:12px;color:#991b1b;font-size:13px;font-weight:700;line-height:1.45;box-shadow:0 4px 12px rgba(239,68,68,0.12);">
+        </div>
 
         <!-- Mode Selector: Register & Place vs Activate Existing -->
         <div class="encode-mode-tabs" id="encodeModeTabs">
@@ -611,34 +702,46 @@
           <!-- Panel A: New Account Registration Fields -->
           <div id="panelEncodeNewUser">
             <div style="margin-bottom:12px;">
-              <label class="tiny muted" style="display:block; font-weight:700; margin-bottom:4px;">NEW MEMBER USERNAME *</label>
-              <input class="in" name="new_username" id="encodeNewUsername" placeholder="e.g. maria123" style="font-size:14px; font-weight:700; width:100%;" />
-              <span class="tiny muted" style="display:block; margin-top:3px;">Account will be created and placed directly into this slot.</span>
+              <label class="tiny muted" style="display:block; font-weight:700; margin-bottom:4px;">NEW MEMBER USERNAME
+                *</label>
+              <input class="in" name="new_username" id="encodeNewUsername" placeholder="e.g. maria123"
+                style="font-size:14px; font-weight:700; width:100%;" />
+              <span class="tiny muted" style="display:block; margin-top:3px;">Account will be created and placed
+                directly into this slot.</span>
             </div>
 
             <div style="margin-bottom:12px;">
-              <label class="tiny muted" style="display:block; font-weight:700; margin-bottom:4px;">PASSWORD FOR NEW ACCOUNT *</label>
+              <label class="tiny muted" style="display:block; font-weight:700; margin-bottom:4px;">PASSWORD FOR NEW
+                ACCOUNT *</label>
               <div style="display:flex; gap:8px;">
-                <input class="in" type="text" name="new_password" id="encodeNewPassword" placeholder="e.g. Pass12345" value="Pass12345" style="font-size:13.5px; font-weight:600; flex:1;" />
-                <button type="button" class="btn btn-ghost btn-sm" id="btnGenPass" style="white-space:nowrap;font-size:11px;">Random Pass</button>
+                <input class="in" type="text" name="new_password" id="encodeNewPassword" placeholder="e.g. Pass12345"
+                  value="Pass12345" style="font-size:13.5px; font-weight:600; flex:1;" />
+                <button type="button" class="btn btn-ghost btn-sm" id="btnGenPass"
+                  style="white-space:nowrap;font-size:11px;">Random Pass</button>
               </div>
-              <span class="tiny muted" style="display:block; margin-top:3px;">Give this password to your new member so they can log in.</span>
+              <span class="tiny muted" style="display:block; margin-top:3px;">Give this password to your new member so
+                they can log in.</span>
             </div>
           </div>
 
           <!-- Panel B: Existing Downline Activation Fields -->
           <div id="panelEncodeExistingUser" style="display:none;">
             <!-- Quick Selector for Sponsor's Pending Directs -->
-            <div id="unactivatedDirectsPickerWrap" style="display:none;margin-bottom:12px;background:#f0fbf5;padding:10px 12px;border-radius:10px;border:1px solid rgba(15,122,69,0.2);">
-              <label class="tiny" style="font-weight:800;color:#0b4d2c;display:block;margin-bottom:4px;">⚡ PICK FROM YOUR PENDING DIRECTS:</label>
+            <div id="unactivatedDirectsPickerWrap"
+              style="display:none;margin-bottom:12px;background:#f0fbf5;padding:10px 12px;border-radius:10px;border:1px solid rgba(15,122,69,0.2);">
+              <label class="tiny" style="font-weight:800;color:#0b4d2c;display:block;margin-bottom:4px;">⚡ PICK FROM
+                YOUR PENDING DIRECTS:</label>
               <select class="in" id="selectPendingDirect" style="width:100%;font-size:13px;font-weight:600;">
                 <option value="">-- Or enter username manually below --</option>
               </select>
             </div>
 
             <div style="margin-bottom:12px;">
-              <label class="tiny muted" style="display:block; font-weight:700; margin-bottom:4px;">EXISTING MEMBER USERNAME TO ACTIVATE *</label>
-              <input class="in" name="member_mobile" id="encodeMemberMobile" placeholder="Enter existing member username" style="font-size:14px; font-weight:600; width:100%;" list="inactiveDirectsList" />
+              <label class="tiny muted" style="display:block; font-weight:700; margin-bottom:4px;">EXISTING MEMBER
+                USERNAME TO ACTIVATE *</label>
+              <input class="in" name="member_mobile" id="encodeMemberMobile"
+                placeholder="Enter existing member username" style="font-size:14px; font-weight:600; width:100%;"
+                list="inactiveDirectsList" />
               <datalist id="inactiveDirectsList"></datalist>
               <span class="tiny muted" id="encodeMemberNotice" style="display:block; margin-top:3px;"></span>
             </div>
@@ -646,27 +749,37 @@
 
           <!-- Universal Fields -->
           <div style="margin-bottom:12px;">
-            <label class="tiny muted" style="display:block; font-weight:700; margin-bottom:4px;">8-CHARACTER ACTIVATION CODE *</label>
+            <label class="tiny muted" style="display:block; font-weight:700; margin-bottom:4px;">8-CHARACTER ACTIVATION
+              CODE *</label>
             <div style="display:flex; gap:8px;">
-              <input class="in" name="code" id="encodeActivationCode" required placeholder="8-CHAR CODE (e.g. K9X2M4N7)" maxlength="12" style="text-transform:uppercase; font-family:ui-monospace, monospace; font-weight:700; letter-spacing:0.06em; flex:1;" />
-              <button type="button" class="btn btn-ghost btn-sm" id="btnPickSellerCode" style="white-space:nowrap; font-size:11.5px;">Pick from My Vault</button>
+              <input class="in" name="code" id="encodeActivationCode" required placeholder="8-CHAR CODE (e.g. K9X2M4N7)"
+                maxlength="12"
+                style="text-transform:uppercase; font-family:ui-monospace, monospace; font-weight:700; letter-spacing:0.06em; flex:1;" />
+              <button type="button" class="btn btn-ghost btn-sm" id="btnPickSellerCode"
+                style="white-space:nowrap; font-size:11.5px;">Pick from My Vault</button>
             </div>
             <span class="tiny muted" id="encodeCodeNotice" style="display:block; margin-top:3px;"></span>
           </div>
 
           <div style="margin-bottom:12px;">
-            <label class="tiny muted" style="display:block; font-weight:700; margin-bottom:4px;">PLACEMENT UPLINE (DIRECT PARENT)</label>
-            <input class="in" name="placement_mobile" id="encodePlacementMobile" placeholder="Placement Upline Username (leave blank for sponsor)" style="font-size:13.5px; width:100%;" />
-            <span class="tiny muted" style="display:block; margin-top:3px;">Must be yourself or an existing downline in your tree.</span>
+            <label class="tiny muted" style="display:block; font-weight:700; margin-bottom:4px;">PLACEMENT UPLINE
+              (DIRECT PARENT)</label>
+            <input class="in" name="placement_mobile" id="encodePlacementMobile"
+              placeholder="Placement Upline Username (leave blank for sponsor)" style="font-size:13.5px; width:100%;" />
+            <span class="tiny muted" style="display:block; margin-top:3px;">Must be yourself or an existing downline in
+              your tree.</span>
           </div>
 
           <div style="margin-bottom:16px;">
-            <label class="tiny muted" style="display:block; font-weight:700; margin-bottom:6px;">CHOOSE BINARY LEG (POSITION) *</label>
+            <label class="tiny muted" style="display:block; font-weight:700; margin-bottom:6px;">CHOOSE BINARY LEG
+              (POSITION) *</label>
             <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
-              <button type="button" class="btn btn-ghost encode-pos-btn" id="encodePosLeft" data-pos="L" style="font-weight:700; border:1px solid var(--line); padding:10px; transition:all 0.2s;">
+              <button type="button" class="btn btn-ghost encode-pos-btn" id="encodePosLeft" data-pos="L"
+                style="font-weight:700; border:1px solid var(--line); padding:10px; transition:all 0.2s;">
                 ◀ LEFT LEG
               </button>
-              <button type="button" class="btn btn-ghost encode-pos-btn" id="encodePosRight" data-pos="R" style="font-weight:700; border:1px solid var(--line); padding:10px; transition:all 0.2s;">
+              <button type="button" class="btn btn-ghost encode-pos-btn" id="encodePosRight" data-pos="R"
+                style="font-weight:700; border:1px solid var(--line); padding:10px; transition:all 0.2s;">
                 RIGHT LEG ▶
               </button>
             </div>
@@ -675,7 +788,8 @@
 
           <div style="display:flex; gap:8px; justify-content:flex-end;">
             <button type="button" class="btn btn-ghost btn-sm" data-close-modal>Cancel</button>
-            <button type="submit" class="btn btn-mint btn-sm" id="btnSubmitEncode" style="padding:8px 22px; font-weight:700;">Confirm &amp; Place in Tree ➔</button>
+            <button type="submit" class="btn btn-mint btn-sm" id="btnSubmitEncode"
+              style="padding:8px 22px; font-weight:700;">Confirm &amp; Place in Tree ➔</button>
           </div>
         </form>
       </div>
@@ -694,12 +808,15 @@
         <button class="plan-close" type="button" data-close-modal>×</button>
       </header>
       <div class="plan-tabs" style="padding:0 22px 10px;">
-        <button type="button" class="plan-tab on" id="tabCodeAvail">Available (<span id="countAvailCodes">0</span>)</button>
+        <button type="button" class="plan-tab on" id="tabCodeAvail">Available (<span
+            id="countAvailCodes">0</span>)</button>
         <button type="button" class="plan-tab" id="tabCodeUsed">Used (<span id="countUsedCodes">0</span>)</button>
       </div>
       <div class="plan-modal-body">
-        <div id="viewCodesAvail" class="list" style="display:grid; grid-template-columns:repeat(auto-fill, minmax(220px, 1fr)); gap:10px;"></div>
-        <div id="viewCodesUsed" class="list" style="display:none; grid-template-columns:repeat(auto-fill, minmax(220px, 1fr)); gap:10px;"></div>
+        <div id="viewCodesAvail" class="list"
+          style="display:grid; grid-template-columns:repeat(auto-fill, minmax(220px, 1fr)); gap:10px;"></div>
+        <div id="viewCodesUsed" class="list"
+          style="display:none; grid-template-columns:repeat(auto-fill, minmax(220px, 1fr)); gap:10px;"></div>
       </div>
     </div>
   </div>
@@ -726,8 +843,10 @@
             <div style="display:flex;align-items:center;gap:10px;">
               <span style="font-size:24px;">🎰</span>
               <div>
-                <h4 style="margin:0;font-size:14px;color:#0b4d2c;font-weight:800;letter-spacing:0.02em;">TRADE-IN SLOTS CAPACITY</h4>
-                <p class="tiny muted" style="margin:2px 0 0;">Each active package occupies 1 slot. Completed 4-cycle packages free up slots.</p>
+                <h4 style="margin:0;font-size:14px;color:#0b4d2c;font-weight:800;letter-spacing:0.02em;">TRADE-IN SLOTS
+                  CAPACITY</h4>
+                <p class="tiny muted" style="margin:2px 0 0;">Each active package occupies 1 slot. Completed 4-cycle
+                  packages free up slots.</p>
               </div>
             </div>
             <div class="slots-pill-badge" id="tradeinSlotsBadge">
@@ -737,22 +856,29 @@
           <div class="tradein-slots-grid" id="tradeinSlotsVisualGrid"></div>
         </div>
 
-        <div id="tradeinSlotsFullNotice" class="tradein-blocked-notice" style="display:none;margin-bottom:14px;background:#fef2f2;border-color:#fca5a5;color:#991b1b;">
-          ⛔ <strong>All Trade-In Slots Occupied:</strong> You have reached the capacity of active packages. You must complete an existing 4-cycle package before opening a new slot for deposit.
+        <div id="tradeinSlotsFullNotice" class="tradein-blocked-notice"
+          style="display:none;margin-bottom:14px;background:#fef2f2;border-color:#fca5a5;color:#991b1b;">
+          ⛔ <strong>All Trade-In Slots Occupied:</strong> You have reached the capacity of active packages. You must
+          complete an existing 4-cycle package before opening a new slot for deposit.
         </div>
 
-        <div class="panel card" style="background:#f8fdf9;padding:16px;margin-bottom:16px;border:1px solid rgba(15,122,69,0.2);">
+        <div class="panel card"
+          style="background:var(--card-bg);padding:16px;margin-bottom:16px;border:1px solid var(--line);">
           <h3 style="margin:0 0 6px;font-size:16px;color:var(--jade);">120% Total Return in 12 Days</h3>
           <p style="font-size:13px;color:var(--muted);margin:0 0 12px;line-height:1.5;">
             Earn 30% yield every 3 days across 4 payout cycles (₱300 payout every 3 days for a ₱1,000 package).
           </p>
 
           <!-- Dynamic Official Mode of Payment (MOP) Treasury Card -->
-          <div id="officialMopBox" style="background:#ffffff;border:1.5px solid rgba(15,122,69,0.25);border-radius:14px;padding:16px;margin-bottom:16px;box-shadow:0 2px 10px rgba(15,122,69,0.04);">
-            <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-bottom:12px;padding-bottom:10px;border-bottom:1px solid rgba(15,122,69,0.12);">
+          <div id="officialMopBox"
+            style="background:var(--bg2);border:1.5px solid var(--line);border-radius:14px;padding:16px;margin-bottom:16px;">
+            <div
+              style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-bottom:12px;padding-bottom:10px;border-bottom:1px solid var(--line);">
               <div style="display:flex;align-items:center;gap:6px;">
                 <span style="font-size:16px;">📲</span>
-                <span class="tiny muted" style="font-weight:800;text-transform:uppercase;letter-spacing:0.04em;color:#0b4d2c;">OFFICIAL TREASURY PAYMENT CHANNEL:</span>
+                <span class="tiny muted"
+                  style="font-weight:800;text-transform:uppercase;letter-spacing:0.04em;color:var(--jade);">OFFICIAL
+                  TREASURY PAYMENT CHANNEL:</span>
               </div>
               <div id="mopChannelTabs" style="display:flex;gap:4px;flex-wrap:wrap;"></div>
             </div>
@@ -760,35 +886,51 @@
             <!-- Active MOP Content Display -->
             <div id="mopChannelContent" style="display:flex;gap:14px;align-items:flex-start;flex-wrap:wrap;">
               <div style="text-align:center;flex-shrink:0;" id="mopQrWrap">
-                <img id="mopActiveQrImg" src="" alt="Official QR Code" style="display:none;width:105px;height:105px;object-fit:contain;background:#fff;border-radius:10px;border:1.5px solid rgba(15,122,69,0.3);padding:4px;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,0.08);" title="Tap to zoom QR Code in full view" />
-                <button type="button" id="btnZoomActiveMopQr" class="btn btn-ghost btn-sm" style="display:none;width:100%;font-size:10px;padding:3px 6px;margin-top:5px;font-weight:700;">🔍 Zoom QR</button>
+                <img id="mopActiveQrImg" src="" alt="Official QR Code"
+                  style="display:none;width:105px;height:105px;object-fit:contain;background:#fff;border-radius:10px;border:1.5px solid var(--line);padding:4px;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,0.08);"
+                  title="Tap to zoom QR Code in full view" />
+                <button type="button" id="btnZoomActiveMopQr" class="btn btn-ghost btn-sm"
+                  style="display:none;width:100%;font-size:10px;padding:3px 6px;margin-top:5px;font-weight:700;">🔍 Zoom
+                  QR</button>
               </div>
 
               <div style="flex:1;min-width:200px;display:flex;flex-direction:column;gap:8px;">
                 <div style="display:flex;align-items:center;gap:8px;">
-                  <span id="mopActiveMethodBadge" class="badge-tag tag-available" style="font-size:11px;padding:2px 8px;font-weight:800;background:#0b4d2c;color:#fff;">GCash</span>
-                  <span id="mopActivePrimaryBadge" class="badge-tag tag-approved" style="font-size:9.5px;padding:1px 6px;display:none;">★ Official</span>
+                  <span id="mopActiveMethodBadge" class="badge-tag tag-available"
+                    style="font-size:11px;padding:2px 8px;font-weight:800;background:#0b4d2c;color:#fff;">GCash</span>
+                  <span id="mopActivePrimaryBadge" class="badge-tag tag-approved"
+                    style="font-size:9.5px;padding:1px 6px;display:none;">★ Official</span>
                 </div>
 
                 <div>
-                  <span class="tiny muted" style="font-size:10px;text-transform:uppercase;font-weight:700;letter-spacing:0.04em;display:block;">Account Name:</span>
+                  <span class="tiny muted"
+                    style="font-size:10px;text-transform:uppercase;font-weight:700;letter-spacing:0.04em;display:block;">Account
+                    Name:</span>
                   <div style="display:flex;align-items:center;gap:6px;margin-top:2px;">
-                    <strong id="mopActiveAccountName" style="font-size:14px;color:#0b4d2c;">Infinite Trading Treasury</strong>
-                    <button type="button" id="btnCopyMopName" class="btn btn-ghost btn-sm" style="padding:2px 8px;font-size:10.5px;">📋 Copy</button>
+                    <strong id="mopActiveAccountName" style="font-size:14px;color:var(--text);">Infinite Trading
+                      Treasury</strong>
+                    <button type="button" id="btnCopyMopName" class="btn btn-ghost btn-sm"
+                      style="padding:2px 8px;font-size:10.5px;">📋 Copy</button>
                   </div>
                 </div>
 
                 <div>
-                  <span class="tiny muted" style="font-size:10px;text-transform:uppercase;font-weight:700;letter-spacing:0.04em;display:block;">Account / Mobile Number:</span>
+                  <span class="tiny muted"
+                    style="font-size:10px;text-transform:uppercase;font-weight:700;letter-spacing:0.04em;display:block;">Account
+                    / Mobile Number:</span>
                   <div style="display:flex;align-items:center;gap:6px;margin-top:2px;">
-                    <code id="mopActiveAccountNumber" style="font-size:14px;font-weight:800;color:var(--text);letter-spacing:0.03em;">0917 000 0000</code>
-                    <button type="button" id="btnCopyMopNumber" class="btn btn-ghost btn-sm" style="padding:2px 8px;font-size:10.5px;">📋 Copy</button>
+                    <code id="mopActiveAccountNumber"
+                      style="font-size:14px;font-weight:800;color:var(--text);letter-spacing:0.03em;">0917 000 0000</code>
+                    <button type="button" id="btnCopyMopNumber" class="btn btn-ghost btn-sm"
+                      style="padding:2px 8px;font-size:10.5px;">📋 Copy</button>
                   </div>
                 </div>
 
-                <div id="mopActiveInstructionsBox" style="background:#f8faf8;border-radius:8px;padding:8px 10px;border:1px solid rgba(15,122,69,0.15);">
+                <div id="mopActiveInstructionsBox"
+                  style="background:var(--card-bg);border-radius:8px;padding:8px 10px;border:1px solid var(--line);">
                   <p class="tiny muted" id="mopActiveInstructions" style="margin:0;font-size:11.5px;line-height:1.45;">
-                    Send payment to the official account, then attach the screenshot with visible Reference Number below.
+                    Send payment to the official account, then attach the screenshot with visible Reference Number
+                    below.
                   </p>
                 </div>
               </div>
@@ -798,18 +940,25 @@
           <fieldset style="border:none;padding:0;margin:0" id="tradeinFieldset">
             <form id="tradeinDepositForm" style="margin-top:0;">
               <div style="margin-bottom:12px;">
-                <label class="tiny muted" style="display:block;font-weight:700;margin-bottom:4px;">CAPITAL AMOUNT (MIN ₱1,000) *</label>
-                <input class="in" name="capital" id="tradeCapitalInput" type="number" min="1000" step="100" value="1000" placeholder="Capital (min ₱1,000)" style="font-size:15px;font-weight:700;width:100%;" required />
-                <div style="display:flex;justify-content:space-between;font-size:11.5px;color:var(--muted);margin-top:4px;">
-                  <span>Total Return: <strong id="tradeinReturnPreview" style="color:var(--jade);">₱1,200.00</strong></span>
-                  <span>Payout: <strong id="tradeinPayoutPreview" style="color:var(--jade);">₱300.00 / 3 days</strong></span>
+                <label class="tiny muted" style="display:block;font-weight:700;margin-bottom:4px;">CAPITAL AMOUNT (MIN
+                  ₱1,000) *</label>
+                <input class="in" name="capital" id="tradeCapitalInput" type="number" min="1000" step="100" value="1000"
+                  placeholder="Capital (min ₱1,000)" style="font-size:15px;font-weight:700;width:100%;" required />
+                <div
+                  style="display:flex;justify-content:space-between;font-size:11.5px;color:var(--muted);margin-top:4px;">
+                  <span>Total Return: <strong id="tradeinReturnPreview"
+                      style="color:var(--jade);">₱1,200.00</strong></span>
+                  <span>Payout: <strong id="tradeinPayoutPreview" style="color:var(--jade);">₱300.00 / 3
+                      days</strong></span>
                 </div>
               </div>
 
               <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px;">
                 <div>
-                  <label class="tiny muted" style="display:block;font-weight:700;margin-bottom:4px;">PAYMENT METHOD</label>
-                  <select class="in" name="payment_method" id="tradeinPaymentMethod" style="width:100%;font-size:13px;font-weight:600;">
+                  <label class="tiny muted" style="display:block;font-weight:700;margin-bottom:4px;">PAYMENT
+                    METHOD</label>
+                  <select class="in" name="payment_method" id="tradeinPaymentMethod"
+                    style="width:100%;font-size:13px;font-weight:600;">
                     <option value="GCash">GCash</option>
                     <option value="Maya">Maya</option>
                     <option value="GoTyme">GoTyme</option>
@@ -818,14 +967,17 @@
                   </select>
                 </div>
                 <div>
-                  <label class="tiny muted" style="display:block;font-weight:700;margin-bottom:4px;">REF / TRANSACTION NO.</label>
-                  <input class="in" name="ref_number" id="tradeinRefNumber" placeholder="e.g. 1002 9948 1234" style="width:100%;font-size:13px;font-weight:600;" />
+                  <label class="tiny muted" style="display:block;font-weight:700;margin-bottom:4px;">REF / TRANSACTION
+                    NO.</label>
+                  <input class="in" name="ref_number" id="tradeinRefNumber" placeholder="e.g. 1002 9948 1234"
+                    style="width:100%;font-size:13px;font-weight:600;" />
                 </div>
               </div>
 
               <!-- Receipt Image Upload Dropzone -->
               <div style="margin-bottom:14px;">
-                <label class="tiny muted" style="display:block;font-weight:700;margin-bottom:4px;">ATTACH PAYMENT RECEIPT / SCREENSHOT *</label>
+                <label class="tiny muted" style="display:block;font-weight:700;margin-bottom:4px;">ATTACH PAYMENT
+                  RECEIPT / SCREENSHOT *</label>
                 <div class="receipt-dropzone" id="tradeinReceiptDropzone">
                   <input type="file" id="tradeinReceiptInput" accept="image/*" style="display:none;" />
                   <span class="receipt-drop-icon">🧾</span>
@@ -842,7 +994,8 @@
                 </div>
               </div>
 
-              <button type="submit" class="btn btn-mint btn-sm" id="btnSubmitTradein" style="width:100%;padding:12px;font-size:14px;font-weight:700;">
+              <button type="submit" class="btn btn-mint btn-sm" id="btnSubmitTradein"
+                style="width:100%;padding:12px;font-size:14px;font-weight:700;">
                 Deposit &amp; Submit Receipt ➔
               </button>
             </form>
@@ -867,12 +1020,14 @@
       </header>
       <div class="plan-modal-body">
         <div id="withdrawalBlockedNotice" class="tradein-blocked-notice">
-          ⚠ Activate your account with a ₱300 code to enable wallet withdrawals.
+          ⚠ Activate your account with a ₱399 code to enable wallet withdrawals.
         </div>
 
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;background:#f8fdf9;padding:10px 14px;border-radius:12px;border:1px solid var(--line);flex-wrap:wrap;gap:8px;">
+        <div
+          style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;background:#f8fdf9;padding:10px 14px;border-radius:12px;border:1px solid var(--line);flex-wrap:wrap;gap:8px;">
           <div style="display:flex;align-items:center;gap:8px;">
-            <span class="tiny" style="font-weight:700;color:var(--text);text-transform:uppercase;letter-spacing:0.04em;">Window:</span>
+            <span class="tiny"
+              style="font-weight:700;color:var(--text);text-transform:uppercase;letter-spacing:0.04em;">Window:</span>
             <span id="payoutStatusBadge"><span class="pill open">Payouts Open</span></span>
           </div>
           <div style="font-size:11.5px;color:var(--muted);">
@@ -881,34 +1036,44 @@
         </div>
 
         <!-- Mode of Payment / Bound Payout Account Card -->
-        <div class="panel card" id="payoutAccountCard" style="background:#ffffff;border:1.5px solid rgba(15,122,69,0.3);padding:14px 16px;margin-bottom:16px;border-radius:14px;box-shadow:0 4px 16px rgba(15,122,69,0.05);">
+        <div class="panel card" id="payoutAccountCard"
+          style="background:var(--card-bg);border:1.5px solid var(--line);padding:14px 16px;margin-bottom:16px;border-radius:14px;">
           <!-- 1. Display View -->
-          <div id="payoutDisplayView" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;">
+          <div id="payoutDisplayView"
+            style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;">
             <div style="display:flex;align-items:center;gap:12px;">
               <div id="payoutMethodIconBox" class="payout-method-icon-box">
                 <span id="payoutMethodIcon" style="display:flex;align-items:center;justify-content:center;">
-                  <img src="/images/GCash.png" alt="GCash" style="max-width:44px;max-height:44px;object-fit:contain;display:block;" />
+                  <img src="/images/GCash.png" alt="GCash"
+                    style="max-width:44px;max-height:44px;object-fit:contain;display:block;" />
                 </span>
               </div>
               <div>
                 <div style="display:flex;align-items:center;gap:8px;margin-bottom:2px;">
-                  <span class="tiny" style="font-weight:700;letter-spacing:0.06em;text-transform:uppercase;color:var(--muted);">Bound Payout Destination</span>
-                  <span id="payoutMethodBadge" class="badge-tag tag-gcash" style="font-size:10px;font-weight:700;">GCash</span>
+                  <span class="tiny"
+                    style="font-weight:700;letter-spacing:0.06em;text-transform:uppercase;color:var(--muted);">Bound
+                    Payout Destination</span>
+                  <span id="payoutMethodBadge" class="badge-tag tag-gcash"
+                    style="font-size:10px;font-weight:700;">GCash</span>
                 </div>
-                <div id="payoutAccountDetails" style="font-size:13.5px;font-weight:700;color:#0b4d2c;">
-                  <span id="payoutNameDisplay">No Account Bound</span> · <span id="payoutNumberDisplay" style="font-family:ui-monospace, monospace;color:var(--jade);">—</span>
+                <div id="payoutAccountDetails" style="font-size:13.5px;font-weight:700;color:var(--text);">
+                  <span id="payoutNameDisplay">No Account Bound</span> · <span id="payoutNumberDisplay"
+                    style="font-family:ui-monospace, monospace;color:var(--jade);">—</span>
                 </div>
               </div>
             </div>
-            <button type="button" id="btnEditPayoutAccount" class="btn btn-ghost btn-sm" style="font-size:11.5px;padding:6px 14px;border-color:var(--jade);color:var(--jade);font-weight:700;">
+            <button type="button" id="btnEditPayoutAccount" class="btn btn-ghost btn-sm"
+              style="font-size:11.5px;padding:6px 14px;border-color:var(--jade);color:var(--jade);font-weight:700;">
               <span id="btnEditPayoutAccountText">✎ Edit Mode of Payment</span>
             </button>
           </div>
 
           <!-- 2. Edit / Bind Form (Collapsible) -->
-          <form id="payoutAccountForm" style="display:none;margin-top:14px;padding-top:14px;border-top:1px dashed rgba(15,122,69,0.2);">
+          <form id="payoutAccountForm"
+            style="display:none;margin-top:14px;padding-top:14px;border-top:1px dashed rgba(15,122,69,0.2);">
             <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
-              <p class="tiny" style="font-weight:700;color:var(--jade);margin:0;text-transform:uppercase;letter-spacing:0.04em;">
+              <p class="tiny"
+                style="font-weight:700;color:var(--jade);margin:0;text-transform:uppercase;letter-spacing:0.04em;">
                 ⚡ Select Payment Provider:
               </p>
               <span class="tiny muted">Click icon to choose provider</span>
@@ -954,19 +1119,27 @@
 
             <input type="hidden" name="method" id="selectedPayoutMethod" value="GCash" />
 
-            <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(200px, 1fr));gap:10px;margin-bottom:12px;">
+            <div
+              style="display:grid;grid-template-columns:repeat(auto-fit, minmax(200px, 1fr));gap:10px;margin-bottom:12px;">
               <div>
-                <label class="tiny muted" style="display:block;margin-bottom:4px;font-weight:600;">Account Name (Full Name on Account) *</label>
-                <input class="in" name="account_name" id="inputPayoutName" required placeholder="e.g. Juan Dela Cruz" style="font-size:13px;padding:8px 10px;" />
+                <label class="tiny muted" style="display:block;margin-bottom:4px;font-weight:600;">Account Name (Full
+                  Name on Account) *</label>
+                <input class="in" name="account_name" id="inputPayoutName" required placeholder="e.g. Juan Dela Cruz"
+                  style="font-size:13px;padding:8px 10px;" />
               </div>
               <div>
-                <label class="tiny muted" style="display:block;margin-bottom:4px;font-weight:600;">Account Number / Mobile Number *</label>
-                <input class="in" name="account_number" id="inputPayoutNumber" required placeholder="e.g. 0917XXXXXXX or Bank Acc #" style="font-size:13px;padding:8px 10px;font-family:ui-monospace, monospace;font-weight:700;" />
+                <label class="tiny muted" style="display:block;margin-bottom:4px;font-weight:600;">Account Number /
+                  Mobile Number *</label>
+                <input class="in" name="account_number" id="inputPayoutNumber" required
+                  placeholder="e.g. 0917XXXXXXX or Bank Acc #"
+                  style="font-size:13px;padding:8px 10px;font-family:ui-monospace, monospace;font-weight:700;" />
               </div>
             </div>
             <div style="display:flex;gap:8px;justify-content:flex-end;">
-              <button type="button" id="btnCancelPayoutEdit" class="btn btn-ghost btn-sm" style="padding:6px 12px;font-size:11.5px;">Cancel</button>
-              <button type="submit" id="btnSavePayoutAccount" class="btn btn-mint btn-sm" style="padding:6px 18px;font-size:11.5px;font-weight:700;">Save &amp; Bind Account</button>
+              <button type="button" id="btnCancelPayoutEdit" class="btn btn-ghost btn-sm"
+                style="padding:6px 12px;font-size:11.5px;">Cancel</button>
+              <button type="submit" id="btnSavePayoutAccount" class="btn btn-mint btn-sm"
+                style="padding:6px 18px;font-size:11.5px;font-weight:700;">Save &amp; Bind Account</button>
             </div>
           </form>
         </div>
@@ -994,8 +1167,10 @@
               <form data-wallet="binary-ref" class="wd wd-card-form">
                 <div class="wd-input-wrapper">
                   <span class="wd-curr-symbol">₱</span>
-                  <input class="wd-input-field in" id="amtBinary" name="amount" type="number" min="100" step="0.01" placeholder="100.00" required />
-                  <button type="button" class="wd-max-pill" data-fill-target="amtBinary" data-balance-key="binary">MAX</button>
+                  <input class="wd-input-field in" id="amtBinary" name="amount" type="number" min="100" step="0.01"
+                    placeholder="100.00" required />
+                  <button type="button" class="wd-max-pill" data-fill-target="amtBinary"
+                    data-balance-key="binary">MAX</button>
                 </div>
                 <div class="wd-min-info">
                   <span>Min: <strong>₱100.00</strong></span>
@@ -1031,8 +1206,10 @@
               <form data-wallet="tradein-ref" class="wd wd-card-form">
                 <div class="wd-input-wrapper">
                   <span class="wd-curr-symbol">₱</span>
-                  <input class="wd-input-field in" id="amtTradeRef" name="amount" type="number" min="100" step="0.01" placeholder="100.00" required />
-                  <button type="button" class="wd-max-pill" data-fill-target="amtTradeRef" data-balance-key="tradeRef">MAX</button>
+                  <input class="wd-input-field in" id="amtTradeRef" name="amount" type="number" min="100" step="0.01"
+                    placeholder="100.00" required />
+                  <button type="button" class="wd-max-pill" data-fill-target="amtTradeRef"
+                    data-balance-key="tradeRef">MAX</button>
                 </div>
                 <div class="wd-min-info">
                   <span>Min: <strong>₱100.00</strong></span>
@@ -1068,8 +1245,10 @@
               <form data-wallet="tradein-cycle" class="wd wd-card-form">
                 <div class="wd-input-wrapper">
                   <span class="wd-curr-symbol">₱</span>
-                  <input class="wd-input-field in" id="amtCycle" name="amount" type="number" min="100" step="0.01" placeholder="100.00" required />
-                  <button type="button" class="wd-max-pill" data-fill-target="amtCycle" data-balance-key="cycle">MAX</button>
+                  <input class="wd-input-field in" id="amtCycle" name="amount" type="number" min="100" step="0.01"
+                    placeholder="100.00" required />
+                  <button type="button" class="wd-max-pill" data-fill-target="amtCycle"
+                    data-balance-key="cycle">MAX</button>
                 </div>
                 <div class="wd-min-info">
                   <span>Min: <strong>₱100.00</strong></span>
@@ -1088,6 +1267,157 @@
 
         <h3 style="font-size:15px;margin:16px 0 8px;">Recent Withdrawal History</h3>
         <div id="withdrawalsList" class="list"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal 7B: Buy Load Wallet Modal (Retailer SIM Top-Up) -->
+  <div class="plan-modal" id="modalBuyLoadWallet" hidden>
+    <div class="plan-modal-backdrop" data-close-modal></div>
+    <div class="plan-modal-sheet" style="max-width:680px;">
+      <header class="plan-modal-head">
+        <div>
+          <p class="kicker">Retailer Wallet Top-Up</p>
+          <h2>Buy Load Wallet</h2>
+        </div>
+        <button class="plan-close" type="button" data-close-modal>×</button>
+      </header>
+      <div class="plan-modal-body">
+
+        <!-- Official Mode of Payment (MOP) Channel Box -->
+        <div id="loadWalletMopBox" class="modal-mop-box">
+          <div
+            style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-bottom:12px;">
+            <div style="display:flex;align-items:center;gap:6px;">
+              <span style="font-size:18px;">🏛️</span>
+              <strong class="mop-box-title">Official Payment Channels</strong>
+            </div>
+            <span class="mop-box-sub">Send exact payment &amp; keep screenshot receipt</span>
+          </div>
+
+          <div id="loadWalletMopTabs" style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px;"></div>
+
+          <div id="loadWalletMopContent" class="mop-channel-content-card"
+            style="display:flex;gap:14px;align-items:flex-start;flex-wrap:wrap;border-radius:10px;padding:12px;">
+            <div style="text-align:center;flex-shrink:0;" id="loadWalletQrWrap">
+              <img id="loadWalletActiveQrImg" src="" alt="Official QR Code"
+                style="display:none;width:100px;height:100px;object-fit:contain;background:#fff;border-radius:8px;padding:4px;cursor:pointer;"
+                title="Tap to zoom QR Code" />
+              <button type="button" id="btnZoomLoadWalletQr" class="btn btn-ghost btn-sm btn-mop-copy"
+                style="display:none;width:100%;font-size:10px;padding:2px 4px;margin-top:4px;">🔍 Zoom QR</button>
+            </div>
+            <div style="flex:1;min-width:180px;">
+              <div style="margin-bottom:6px;">
+                <span class="mop-field-label">Account Name</span>
+                <strong id="loadWalletActiveAccName" class="mop-field-val">Infinite Trading Treasury</strong>
+              </div>
+              <div style="margin-bottom:6px;">
+                <span class="mop-field-label">Account Number</span>
+                <div style="display:flex;align-items:center;gap:6px;">
+                  <code id="loadWalletActiveAccNum" class="mop-acc-num">0917 000 0000</code>
+                  <button type="button" id="btnCopyLoadWalletAccNum" class="btn btn-ghost btn-sm btn-mop-copy"
+                    style="padding:2px 8px;font-size:11px;">📋 Copy</button>
+                </div>
+              </div>
+              <div id="loadWalletActiveInstructions" class="mop-instructions">Scan or transfer then upload your receipt below.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Buy Load Wallet Order Form -->
+        <form id="formBuyLoadWallet" style="margin-top:0;">
+
+          <!-- 1. Amount with Preset Quick Chips -->
+          <div style="margin-bottom:14px;">
+            <label class="tiny muted" style="display:block;font-weight:700;margin-bottom:6px;">1. AMOUNT TO BUY (₱) *</label>
+            <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px;">
+              <button type="button" class="btn load-preset-btn" data-preset="300">₱300</button>
+              <button type="button" class="btn load-preset-btn" data-preset="500">₱500</button>
+              <button type="button" class="btn load-preset-btn" data-preset="1000">₱1,000</button>
+              <button type="button" class="btn load-preset-btn" data-preset="2000">₱2,000</button>
+              <button type="button" class="btn load-preset-btn" data-preset="5000">₱5,000</button>
+            </div>
+            <input type="number" id="loadWalletAmountInput" class="in load-amount-in" placeholder="Enter amount (min ₱100)" min="100"
+              max="100000" step="50" required style="width:100%;font-size:15px;font-weight:700;" />
+          </div>
+
+          <!-- 2. Target Load Wallet Phone Number -->
+          <div style="margin-bottom:14px;">
+            <label class="tiny muted" style="display:block;font-weight:700;margin-bottom:4px;">2. RECIPIENT PHONE NUMBER (WHERE LOAD WALLET WILL BE SENT) *</label>
+            <input type="tel" id="loadWalletPhoneInput" class="in" placeholder="e.g. 0917 123 4567" required
+              style="width:100%;font-size:15px;font-weight:800;letter-spacing:0.04em;" />
+            <div style="display:flex;align-items:center;gap:6px;margin-top:4px;">
+              <span style="font-size:13px;">📲</span>
+              <span class="tiny muted" style="color:#d97706;font-weight:700;">Double-check this phone number! The load wallet credits will be sent directly to this SIM.</span>
+            </div>
+          </div>
+
+          <!-- 3. Payment Method & Reference Number -->
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px;">
+            <div>
+              <label class="tiny muted" style="display:block;font-weight:700;margin-bottom:4px;">3. PAYMENT METHOD USED *</label>
+              <select id="loadWalletMethodSelect" class="in" style="width:100%;font-size:13px;font-weight:600;">
+                <option value="GCash">GCash</option>
+                <option value="Maya">Maya</option>
+                <option value="GoTyme">GoTyme Bank</option>
+                <option value="MariBank">MariBank</option>
+                <option value="UnionBank">UnionBank</option>
+                <option value="BDO">BDO Unibank</option>
+                <option value="BPI">BPI</option>
+                <option value="SeaBank">SeaBank</option>
+                <option value="Other">Other Bank / E-Wallet</option>
+              </select>
+            </div>
+            <div>
+              <label class="tiny muted" style="display:block;font-weight:700;margin-bottom:4px;">REFERENCE NUMBER (OPTIONAL)</label>
+              <input type="text" id="loadWalletRefInput" class="in" placeholder="e.g. 10928374928"
+                style="width:100%;font-size:13px;font-weight:600;" />
+            </div>
+          </div>
+
+          <!-- 4. Upload Receipt (Proof of Payment) -->
+          <div style="margin-bottom:16px;">
+            <label class="tiny muted" style="display:block;font-weight:700;margin-bottom:4px;">4. UPLOAD PROOF OF PAYMENT / RECEIPT *</label>
+            <input type="file" id="loadWalletReceiptInput" accept="image/*" style="display:none;" />
+            <div class="receipt-dropzone" id="loadWalletReceiptDropzone" style="margin:4px 0 8px;cursor:pointer;">
+              <span class="receipt-drop-icon">🧾</span>
+              <p class="receipt-drop-title">Tap here to choose screenshot receipt</p>
+              <p class="receipt-drop-hint">PNG, JPG, JPEG, WEBP (Auto-compressed for fast upload)</p>
+            </div>
+            <!-- Receipt Preview Box -->
+            <div id="loadWalletReceiptPreviewBox" class="receipt-preview-box" style="display:none;">
+              <img src="" id="loadWalletReceiptPreviewImg" class="receipt-preview-img" alt="Receipt Preview"
+                style="width:68px;height:68px;object-fit:cover;border-radius:8px;border:1px solid #444;cursor:pointer;"
+                title="Click to preview" />
+              <div style="flex:1;min-width:0;">
+                <p id="loadWalletReceiptFileName" class="receipt-file-name"
+                  style="font-size:12px;font-weight:700;margin:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">
+                  Receipt.jpg</p>
+                <p id="loadWalletReceiptFileSize" class="tiny muted" style="margin:2px 0 0;">Attached</p>
+              </div>
+              <button type="button" class="btn btn-ghost btn-sm" id="btnRemoveLoadWalletReceipt"
+                style="color:#ef4444;font-size:11px;">✕ Remove</button>
+            </div>
+          </div>
+
+          <button type="submit" class="btn btn-mint" id="btnSubmitBuyLoadWallet"
+            style="width:100%;font-size:14px;font-weight:700;padding:12px;border-radius:10px;">
+            Submit Load Wallet Request ➔
+          </button>
+        </form>
+
+        <!-- User Past Load Wallet Orders -->
+        <div style="margin-top:24px;border-top:1px solid rgba(255,255,255,0.08);padding-top:16px;">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
+            <h3 style="font-size:14px;font-weight:700;margin:0;color:var(--text);">My Recent Load Wallet Orders</h3>
+            <button type="button" class="btn btn-ghost btn-sm" id="btnRefreshMyLoadWallet"
+              style="font-size:11px;padding:2px 8px;">🔄 Refresh</button>
+          </div>
+          <div id="myLoadWalletOrdersList" style="display:flex;flex-direction:column;gap:8px;">
+            <p class="tiny muted" style="text-align:center;padding:12px;">Loading your orders...</p>
+          </div>
+        </div>
+
       </div>
     </div>
   </div>
@@ -1175,7 +1505,8 @@
         </div>
       </div>
       <div class="confirm-body">
-        <div id="confirmModalSummary" style="font-size:13px;color:var(--text);margin-bottom:12px;line-height:1.5;"></div>
+        <div id="confirmModalSummary" style="font-size:13px;color:var(--text);margin-bottom:12px;line-height:1.5;">
+        </div>
         <table class="confirm-details-table" id="confirmModalTable" style="display:none;">
           <tbody id="confirmModalTableBody"></tbody>
         </table>
@@ -1195,7 +1526,8 @@
           <span>🧾</span>
           <strong id="receiptLightboxTitle" style="font-size:14px;">Receipt Inspection</strong>
         </div>
-        <button type="button" class="plan-close" id="btnCloseReceiptLightbox" style="background:none;border:none;color:#fff;font-size:22px;cursor:pointer;">×</button>
+        <button type="button" class="plan-close" id="btnCloseReceiptLightbox"
+          style="background:none;border:none;color:#fff;font-size:22px;cursor:pointer;">×</button>
       </div>
       <div class="receipt-lightbox-body">
         <img src="" id="receiptLightboxImg" class="receipt-lightbox-img" alt="Payment Receipt" />
@@ -1212,7 +1544,7 @@
     if (!token) location.href = '/login.html';
     const headers = { Authorization: 'Bearer ' + token, 'Content-Type': 'application/json' };
     const peso = (n) => '₱' + Number(n || 0).toLocaleString('en-PH', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-    const esc  = (s) => String(s || '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+    const esc = (s) => String(s || '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 
     let payoutsOpen = false;
     let dashboardData = null;
@@ -1251,13 +1583,13 @@
     function calcFee(amount) {
       if (amount <= 0) return null;
       const rate = amount <= 1000 ? 0.12 : amount <= 5000 ? 0.10 : 0.08;
-      const fee  = Math.round(amount * rate * 100) / 100;
-      const net  = Math.round((amount - fee) * 100) / 100;
+      const fee = Math.round(amount * rate * 100) / 100;
+      const net = Math.round((amount - fee) * 100) / 100;
       return { rate, fee, net };
     }
 
     function wireFeePreview(inputId, previewId) {
-      const inp  = document.getElementById(inputId);
+      const inp = document.getElementById(inputId);
       const prev = document.getElementById(previewId);
       if (!inp || !prev) return;
       inp.addEventListener('input', () => {
@@ -1269,9 +1601,9 @@
       });
     }
 
-    wireFeePreview('amtBinary',   'feeBinary');
+    wireFeePreview('amtBinary', 'feeBinary');
     wireFeePreview('amtTradeRef', 'feeTradeRef');
-    wireFeePreview('amtCycle',    'feeCycle');
+    wireFeePreview('amtCycle', 'feeCycle');
 
     let latestBalances = { binary: 0, tradeRef: 0, cycle: 0 };
 
@@ -1409,9 +1741,9 @@
         title.textContent = 'Terms of Service';
         body.innerHTML = `
           <h4 style="margin:0 0 8px;color:var(--jade);font-size:15px;">1. Participation &amp; Account Verification</h4>
-          <p style="margin:0 0 14px;">All members participate in the Infinite Trading network desk by registering a valid mobile identifier and activating their slot with an authentic ₱300 activation code. Each account operates under standard binary matching guidelines.</p>
+          <p style="margin:0 0 14px;">All members participate in the Infinite Trading network desk by registering a valid mobile identifier and activating their slot with an authentic ₱399 activation code. Each account operates under standard binary matching guidelines.</p>
           <h4 style="margin:0 0 8px;color:var(--jade);font-size:15px;">2. Earning Caps &amp; Renewals</h4>
-          <p style="margin:0 0 14px;">Binary matching earnings are capped at ₱6,000 per cycle. Upon reaching the maximum binary matching cap, an account requires renewal with a ₱300 code to continue participating in paired payouts (Direct and Indirect referral commissions remain unrestricted).</p>
+          <p style="margin:0 0 14px;">Binary matching earnings are capped at ₱6,000 per cycle. Upon reaching the maximum binary matching cap, an account requires renewal with a ₱399 code to continue participating in paired payouts (Direct and Indirect referral commissions remain unrestricted).</p>
           <h4 style="margin:0 0 8px;color:var(--jade);font-size:15px;">3. Weekly Cashout Schedule</h4>
           <p style="margin:0;">Withdrawals are available when the weekly payout window is toggled open by administration. All submitted withdrawal requests are subject to standard verification and tier-based processing fees.</p>
         `;
@@ -1738,33 +2070,38 @@
       const badge = document.getElementById('headerAccountBadge');
       if (badge) {
         badge.innerHTML =
-          u.status === 'active'   ? '<span class="pill open">● Active</span>' :
-          u.status === 'inactive' ? '<span class="pill closed">● Inactive</span>' :
-          '<span class="pill closed">● ' + esc(u.status) + '</span>';
+          u.status === 'active' ? '<span class="pill open">● Active</span>' :
+            u.status === 'inactive' ? '<span class="pill closed">● Inactive</span>' :
+              '<span class="pill closed">● ' + esc(u.status) + '</span>';
       }
 
       // Inactive vs Active vs Expired gates
       const isInactive = u.status === 'inactive';
-      const isExpired  = u.status === 'expired';
+      const isExpired = u.status === 'expired';
 
       document.getElementById('activationBox').style.display = isInactive ? 'block' : 'none';
-      document.getElementById('renewBox').style.display      = isExpired ? 'block' : 'none';
+      document.getElementById('renewBox').style.display = isExpired ? 'block' : 'none';
 
       const copyRefBtn = document.getElementById('copyRef');
       const refInput = document.getElementById('refLink');
       const wdFieldset = document.getElementById('withdrawalFieldset');
       const wdNotice = document.getElementById('withdrawalBlockedNotice');
 
+      // Always populate and enable referral link
+      if (refInput) refInput.value = location.origin + '/register.html?sponsor=' + encodeURIComponent(u.mobile_number || '');
+      if (copyRefBtn) copyRefBtn.disabled = false;
+      const refCardEl = document.getElementById('refCard');
+      if (refCardEl) {
+        refCardEl.style.opacity = '1';
+        refCardEl.style.pointerEvents = 'auto';
+      }
+
       if (isInactive) {
-        document.getElementById('refCard').style.opacity = '0.4';
-        document.getElementById('refCard').style.pointerEvents = 'none';
-        if (copyRefBtn) copyRefBtn.disabled = true;
-        if (refInput) refInput.value = 'Activate account to unlock referral link';
-        document.getElementById('tradeinBlockedNotice').textContent = '⚠ Activate your account with a ₱300 code to access Trade-In packages.';
+        document.getElementById('tradeinBlockedNotice').textContent = '⚠ Activate your account with a ₱399 code to access Trade-In packages.';
         document.getElementById('tradeinBlockedNotice').classList.add('show');
         document.getElementById('tradeinFieldset').disabled = true;
         if (wdNotice) {
-          wdNotice.textContent = '⚠ Activate your account with a ₱300 code to enable wallet cashouts.';
+          wdNotice.textContent = '⚠ Activate your account with a ₱399 code to enable wallet cashouts.';
           wdNotice.classList.add('show');
         }
         if (wdFieldset) wdFieldset.disabled = true;
@@ -1772,23 +2109,15 @@
         const spDisplay = document.getElementById('pendingSponsorDisplay');
         if (spDisplay) spDisplay.textContent = u.sponsor_name || 'Admin / Direct Sponsor';
       } else if (isExpired) {
-        document.getElementById('refCard').style.opacity = '';
-        document.getElementById('refCard').style.pointerEvents = '';
-        if (copyRefBtn) copyRefBtn.disabled = false;
-        if (refInput) refInput.value = location.origin + '/register.html?sponsor=' + encodeURIComponent(u.mobile_number);
-        document.getElementById('tradeinBlockedNotice').textContent = '⚠ Your account is expired. Renew with a ₱300 code to access Trade-In.';
+        document.getElementById('tradeinBlockedNotice').textContent = '⚠ Your account is expired. Renew with a ₱399 code to access Trade-In.';
         document.getElementById('tradeinBlockedNotice').classList.add('show');
         document.getElementById('tradeinFieldset').disabled = true;
         if (wdNotice) {
-          wdNotice.textContent = '⚠ Your account is expired. Renew with a ₱300 code to enable wallet cashouts.';
+          wdNotice.textContent = '⚠ Your account is expired. Renew with a ₱399 code to enable wallet cashouts.';
           wdNotice.classList.add('show');
         }
         if (wdFieldset) wdFieldset.disabled = true;
       } else {
-        document.getElementById('refCard').style.opacity = '';
-        document.getElementById('refCard').style.pointerEvents = '';
-        if (copyRefBtn) copyRefBtn.disabled = false;
-        if (refInput) refInput.value = location.origin + '/register.html?sponsor=' + encodeURIComponent(u.mobile_number);
         document.getElementById('tradeinBlockedNotice').classList.remove('show');
         document.getElementById('tradeinFieldset').disabled = false;
         if (wdNotice) wdNotice.classList.remove('show');
@@ -1807,8 +2136,8 @@
       const mSub = document.getElementById('mBinarySub');
       if (mSub) mSub.textContent = activeDirectsCount + ' direct invites (₱50 ea)';
 
-      document.getElementById('mPPT').textContent          = peso(m.ppt_earnings);
-      document.getElementById('mPPTSub').textContent       = (m.ppt_pairs || 0) + ' / 10 pairs today';
+      document.getElementById('mPPT').textContent = peso(m.ppt_earnings);
+      document.getElementById('mPPTSub').textContent = (m.ppt_pairs || 0) + ' / 10 pairs today';
 
       // PPT Pairs Today circular dial animation
       const pairs = Number(m.ppt_pairs || u.pairs_today || 0);
@@ -1821,25 +2150,25 @@
         pptDialCircle.style.strokeDashoffset = offset;
       }
 
-      document.getElementById('mInPPT').textContent        = peso(m.in_ppt_earnings !== undefined ? m.in_ppt_earnings : 0);
-      document.getElementById('mInPPTSub').textContent     = (m.in_ppt_count !== undefined ? m.in_ppt_count : 0) + ' downlines (₱5 ea)';
-      document.getElementById('mTotal').textContent        = peso(m.total_balance);
+      document.getElementById('mInPPT').textContent = peso(m.in_ppt_earnings !== undefined ? m.in_ppt_earnings : 0);
+      document.getElementById('mInPPTSub').textContent = (m.in_ppt_count !== undefined ? m.in_ppt_count : 0) + ' downlines (₱5 ea)';
+      document.getElementById('mTotal').textContent = peso(m.total_balance);
       document.getElementById('mTradeDeposit').textContent = peso(m.tradein_deposit);
-      document.getElementById('mTradeDepositSub').textContent = d.packages.filter(p=>p.cycle_status==='active').length + ' active packages';
-      document.getElementById('mTradeProfit').textContent  = peso(m.tradein_profit || u.tradein_cycle_balance);
-      document.getElementById('mTradeRef').textContent     = peso(m.tradein_ref || u.tradein_ref_balance);
+      document.getElementById('mTradeDepositSub').textContent = d.packages.filter(p => p.cycle_status === 'active').length + ' active packages';
+      document.getElementById('mTradeProfit').textContent = peso(m.tradein_profit || u.tradein_cycle_balance);
+      document.getElementById('mTradeRef').textContent = peso(m.tradein_ref || u.tradein_ref_balance);
 
       // Modal wallet balances
-      document.getElementById('wBinaryModal').textContent   = peso(u.binary_ref_balance);
+      document.getElementById('wBinaryModal').textContent = peso(u.binary_ref_balance);
       document.getElementById('wTradeRefModal').textContent = peso(u.tradein_ref_balance);
-      document.getElementById('wCycleModal').textContent    = peso(u.tradein_cycle_balance);
+      document.getElementById('wCycleModal').textContent = peso(u.tradein_cycle_balance);
 
-      latestBalances.binary   = Number(u.binary_ref_balance || 0);
+      latestBalances.binary = Number(u.binary_ref_balance || 0);
       latestBalances.tradeRef = Number(u.tradein_ref_balance || 0);
-      latestBalances.cycle    = Number(u.tradein_cycle_balance || 0);
+      latestBalances.cycle = Number(u.tradein_cycle_balance || 0);
 
       // Binary Cap Progress Bar (Matching Bonus Cap)
-      const cap    = d.binary_cap || (d.constants && d.constants.binaryCap) || 6000;
+      const cap = d.binary_cap || (d.constants && d.constants.binaryCap) || 3000;
       const earned = Number(u.total_binary_earnings || 0);
       const capMainLabel = document.getElementById('capMainLabel');
       if (capMainLabel) capMainLabel.textContent = `BINARY EARNINGS CAP (₱${Number(cap).toLocaleString()} MAX)`;
@@ -1852,16 +2181,16 @@
       document.getElementById('pairsTodayText').textContent = 'Pairs today: ' + (u.pairs_today || 0) + ' / 10';
 
       // Sidebar badges
-      document.getElementById('badgeDirectCount').textContent   = d.directs.length;
+      document.getElementById('badgeDirectCount').textContent = d.directs.length;
       document.getElementById('badgeIndirectCount').textContent = (d.indirects || []).length;
 
       const cv = d.code_vault || {};
       const availList = cv.available_list || [];
-      const usedList  = cv.used_list || [];
+      const usedList = cv.used_list || [];
       document.getElementById('badgeAvailCodes').textContent = availList.length;
-      document.getElementById('badgeUsedCodes').textContent  = usedList.length;
+      document.getElementById('badgeUsedCodes').textContent = usedList.length;
       document.getElementById('countAvailCodes').textContent = availList.length;
-      document.getElementById('countUsedCodes').textContent  = usedList.length;
+      document.getElementById('countUsedCodes').textContent = usedList.length;
 
       // Code Seller Desk on main dashboard view
       const sellerPanel = document.getElementById('sellerDeskPanel');
@@ -1872,9 +2201,9 @@
         if (sellerCountEl) sellerCountEl.textContent = availList.length;
         if (sellerListEl) {
           sellerListEl.innerHTML = availList.slice(0, 8).map(c => `
-            <div style="display:flex;justify-content:space-between;align-items:center;background:#fff;padding:6px 10px;border-radius:8px;border:1px solid rgba(15,122,69,0.3);">
-              <code style="font-size:13px;font-weight:700;color:var(--jade);">${esc(c.code)}</code>
-              <button type="button" data-copy-vault="${esc(c.code)}" class="btn btn-ghost btn-sm" style="padding:2px 8px;font-size:10.5px;">Copy</button>
+            <div class="seller-code-item">
+              <code class="seller-code-val">${esc(c.code)}</code>
+              <button type="button" data-copy-vault="${esc(c.code)}" class="btn btn-ghost btn-sm btn-seller-copy">Copy</button>
             </div>
           `).join('');
         }
@@ -1901,13 +2230,13 @@
 
       document.getElementById('tbodyDirects').innerHTML = d.directs.length
         ? d.directs.map(x => {
-            const encodeBtn = x.status !== 'active'
-              ? `<button type="button" class="btn btn-mint btn-sm" data-encode-direct="${esc(x.mobile_number)}" style="font-size:10px;padding:3px 8px;margin-left:6px;white-space:nowrap;">⚡ Encode</button>`
-              : '';
-            const posBadge = x.position
-              ? `<span class="pill ${x.position === 'L' ? 'open' : ''}">${x.position === 'L' ? 'LEFT' : 'RIGHT'}</span>`
-              : '<span class="pill closed">Not Placed</span>';
-            return `
+          const encodeBtn = x.status !== 'active'
+            ? `<button type="button" class="btn btn-mint btn-sm" data-encode-direct="${esc(x.mobile_number)}" style="font-size:10px;padding:3px 8px;margin-left:6px;white-space:nowrap;">⚡ Encode</button>`
+            : '';
+          const posBadge = x.position
+            ? `<span class="pill ${x.position === 'L' ? 'open' : ''}">${x.position === 'L' ? 'LEFT' : 'RIGHT'}</span>`
+            : '<span class="pill closed">Not Placed</span>';
+          return `
             <tr>
               <td><div style="display:flex;align-items:center;gap:6px;"><strong>${esc(x.mobile_number)}</strong> ${encodeBtn}</div></td>
               <td>${posBadge}</td>
@@ -1915,7 +2244,7 @@
               <td class="tiny muted">${new Date(x.created_at).toLocaleDateString()}</td>
             </tr>
             `;
-          }).join('')
+        }).join('')
         : '<tr><td colspan="4" class="center muted" style="padding:16px;">No direct referrals yet.</td></tr>';
 
       document.querySelectorAll('button[data-encode-direct]').forEach(btn => {
@@ -2048,66 +2377,66 @@
       // Render Packages List with Milestone Stepper & 3-Day Paused Claim Actions
       document.getElementById('packagesList').innerHTML = d.packages.length
         ? d.packages.map(p => {
-            const isPending = p.cycle_status === 'pending';
-            const isActive = p.cycle_status === 'active';
-            const isCompleted = p.cycle_status === 'completed';
-            const isRejected = p.cycle_status === 'rejected';
+          const isPending = p.cycle_status === 'pending';
+          const isActive = p.cycle_status === 'active';
+          const isCompleted = p.cycle_status === 'completed';
+          const isRejected = p.cycle_status === 'rejected';
 
-            const ci = p.cycle_info || {
-              current_cycle: 1,
-              total_cycles: 4,
-              payouts_completed: 0,
-              is_completed: false,
-              is_paused: false,
-              can_claim: false,
-              claimable_payouts: 0,
-              claimable_amount: 0,
-              installment_amount: (p.total_return || (p.capital * 1.2)) / 4,
-              elapsed_days: 0,
-              total_days: 12,
-              progress_percent: 0,
-              next_payout_date: null,
-              next_payout_in_hours: 0,
-            };
+          const ci = p.cycle_info || {
+            current_cycle: 1,
+            total_cycles: 4,
+            payouts_completed: 0,
+            is_completed: false,
+            is_paused: false,
+            can_claim: false,
+            claimable_payouts: 0,
+            claimable_amount: 0,
+            installment_amount: (p.total_return || (p.capital * 1.2)) / 4,
+            elapsed_days: 0,
+            total_days: 12,
+            progress_percent: 0,
+            next_payout_date: null,
+            next_payout_in_hours: 0,
+          };
 
-            const statusClass = isActive ? (ci.can_claim ? 'badge-tag tag-maya' : 'open') : isCompleted ? 'open' : isPending ? 'badge-tag tag-available' : 'closed';
-            const statusLabel = isPending ? '⏳ Pending Verification' : isActive ? (ci.can_claim ? '🎁 Payout Ready to Claim' : `Active · Cycle ${(p.payouts_completed || 0) + 1}/4`) : isCompleted ? '✓ Completed' : '✕ Rejected';
+          const statusClass = isActive ? (ci.can_claim ? 'badge-tag tag-maya' : 'open') : isCompleted ? 'open' : isPending ? 'badge-tag tag-available' : 'closed';
+          const statusLabel = isPending ? '⏳ Pending Verification' : isActive ? (ci.can_claim ? '🎁 Payout Ready to Claim' : `Active · Cycle ${(p.payouts_completed || 0) + 1}/4`) : isCompleted ? '✓ Completed' : '✕ Rejected';
 
-            const receiptBtn = (p.receipt_image || p.receipt_url)
-              ? `<button type="button" class="receipt-view-btn" data-tradein-receipt-pkg="${p.id}" style="margin-top:6px;">🧾 View Receipt</button>`
-              : '';
+          const receiptBtn = (p.receipt_image || p.receipt_url)
+            ? `<button type="button" class="receipt-view-btn" data-tradein-receipt-pkg="${p.id}" style="margin-top:6px;">🧾 View Receipt</button>`
+            : '';
 
-            const methodTag = p.payment_method ? `<span class="badge-tag tag-available" style="font-size:9.5px;padding:2px 6px;margin-left:4px;">${esc(p.payment_method)}</span>` : '';
-            const refTag = p.ref_number ? `<span class="tiny muted" style="margin-left:4px;">Ref: ${esc(p.ref_number)}</span>` : '';
+          const methodTag = p.payment_method ? `<span class="badge-tag tag-available" style="font-size:9.5px;padding:2px 6px;margin-left:4px;">${esc(p.payment_method)}</span>` : '';
+          const refTag = p.ref_number ? `<span class="tiny muted" style="margin-left:4px;">Ref: ${esc(p.ref_number)}</span>` : '';
 
-            // Milestones breakdown (4 cycles: Day 3, Day 6, Day 9, Day 12)
-            const milestonesHtml = (isActive || isCompleted) ? `
+          // Milestones breakdown (4 cycles: Day 3, Day 6, Day 9, Day 12)
+          const milestonesHtml = (isActive || isCompleted) ? `
               <div class="tradein-progress-wrap">
                 <div class="tradein-progress-bar" style="width:${Math.min(100, Math.max(0, ci.progress_percent))}%;"></div>
               </div>
               <div class="tradein-milestones">
                 ${[1, 2, 3, 4].map(idx => {
-                  const isDone = (p.payouts_completed || 0) >= idx;
-                  const isReady = !isDone && (ci.can_claim && ((p.payouts_completed || 0) + 1 === idx));
-                  const nodeCls = isDone ? 'milestone-node m-done' : isReady ? 'milestone-node m-claimable' : 'milestone-node m-pending';
-                  const dotSymbol = isDone ? '✓' : isReady ? '★' : idx;
-                  const lbl = isDone ? 'Claimed' : isReady ? 'Ready!' : 'Pending';
-                  return `
+            const isDone = (p.payouts_completed || 0) >= idx;
+            const isReady = !isDone && (ci.can_claim && ((p.payouts_completed || 0) + 1 === idx));
+            const nodeCls = isDone ? 'milestone-node m-done' : isReady ? 'milestone-node m-claimable' : 'milestone-node m-pending';
+            const dotSymbol = isDone ? '✓' : isReady ? '★' : idx;
+            const lbl = isDone ? 'Claimed' : isReady ? 'Ready!' : 'Pending';
+            return `
                     <div class="${nodeCls}">
                       <div class="milestone-dot">${dotSymbol}</div>
                       <div class="milestone-lbl">Cycle ${idx}</div>
                       <div class="milestone-sub">${lbl}</div>
                     </div>
                   `;
-                }).join('')}
+          }).join('')}
               </div>
             ` : '';
 
-            // Payout Actions & Strict Paused State Alert
-            let actionHtml = '';
-            if (isActive) {
-              if (ci.can_claim) {
-                actionHtml = `
+          // Payout Actions & Strict Paused State Alert
+          let actionHtml = '';
+          if (isActive) {
+            if (ci.can_claim) {
+              actionHtml = `
                   <div style="margin-top:12px;padding-top:12px;border-top:1px dashed rgba(15,122,69,0.25);">
                     <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;">
                       <button type="button" class="tradein-claim-btn-glowing tradein-claim-btn" data-claim-pkg="${p.id}" data-claim-amt="${ci.claimable_amount}" data-claim-count="${ci.claimable_payouts}">
@@ -2120,24 +2449,24 @@
                     </div>
                   </div>
                 `;
-              } else if ((p.payouts_completed || 0) < 4) {
-                actionHtml = `
+            } else if ((p.payouts_completed || 0) < 4) {
+              actionHtml = `
                   <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-top:10px;padding-top:10px;border-top:1px dashed rgba(15,122,69,0.2);">
                     <span class="tradein-countdown-pill">⏳ Cycle ${(p.payouts_completed || 0) + 1} in progress · Next claim in ~${ci.next_payout_in_hours || 0}h (${ci.next_payout_date ? new Date(ci.next_payout_date).toLocaleDateString() : 'Scheduled'})</span>
                     <span class="tiny muted">Progress: <strong>${Math.round(ci.progress_percent)}%</strong> (3 Days per Cycle)</span>
                   </div>
                 `;
-              } else {
-                actionHtml = `
+            } else {
+              actionHtml = `
                   <div style="margin-top:8px;padding-top:8px;border-top:1px dashed rgba(15,122,69,0.2);display:flex;align-items:center;justify-content:space-between;">
                     <span class="pill open" style="font-size:10px;">All 4 Cycles Claimed ✓</span>
                     <span class="tiny muted">Slot has been freed for a new package</span>
                   </div>
                 `;
-              }
             }
+          }
 
-            return `
+          return `
               <div class="tradein-monitor-card" style="margin-bottom:12px;">
                 <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:10px;">
                   <div>
@@ -2162,7 +2491,7 @@
                 ${actionHtml}
               </div>
             `;
-          }).join('')
+        }).join('')
         : '<p class="tiny muted">No trade-in packages yet.</p>';
 
       // Wire receipt view buttons
@@ -2217,83 +2546,83 @@
         };
       });
 
-    // Payout Provider Transparent Logo Helper
-    function getPayoutImg(method, size = 26) {
-      const m = String(method || '').toLowerCase();
-      let file = 'GCash.png';
-      let alt = 'GCash';
-      if (m.includes('maya')) { file = 'Maya.png'; alt = 'Maya'; }
-      else if (m.includes('gotyme')) { file = 'Gotyme.png'; alt = 'GoTyme'; }
-      else if (m.includes('maribank')) { file = 'Maribank.png'; alt = 'MariBank'; }
-      else if (m.includes('ub') || m.includes('unionbank')) { file = 'UnionBank.png'; alt = 'UnionBank'; }
+      // Payout Provider Transparent Logo Helper
+      function getPayoutImg(method, size = 26) {
+        const m = String(method || '').toLowerCase();
+        let file = 'GCash.png';
+        let alt = 'GCash';
+        if (m.includes('maya')) { file = 'Maya.png'; alt = 'Maya'; }
+        else if (m.includes('gotyme')) { file = 'Gotyme.png'; alt = 'GoTyme'; }
+        else if (m.includes('maribank')) { file = 'Maribank.png'; alt = 'MariBank'; }
+        else if (m.includes('ub') || m.includes('unionbank')) { file = 'UnionBank.png'; alt = 'UnionBank'; }
 
-      return `<img src="/images/${file}" alt="${alt}" style="width:${size}px;height:${size}px;object-fit:contain;vertical-align:middle;display:inline-block;flex-shrink:0;" />`;
-    }
+        return `<img src="/images/${file}" alt="${alt}" style="width:${size}px;height:${size}px;object-fit:contain;vertical-align:middle;display:inline-block;flex-shrink:0;" />`;
+      }
 
-    // Interactive Payout Tile Selector
-    function selectPayoutTile(methodName) {
-      const tiles = document.querySelectorAll('#payoutTilePicker .payout-method-tile');
-      tiles.forEach(t => {
-        const isMatch = t.dataset.method.toLowerCase() === methodName.toLowerCase() ||
-          t.dataset.method.toLowerCase().includes(methodName.toLowerCase()) ||
-          methodName.toLowerCase().includes(t.dataset.method.toLowerCase());
-        t.classList.toggle('active', isMatch);
+      // Interactive Payout Tile Selector
+      function selectPayoutTile(methodName) {
+        const tiles = document.querySelectorAll('#payoutTilePicker .payout-method-tile');
+        tiles.forEach(t => {
+          const isMatch = t.dataset.method.toLowerCase() === methodName.toLowerCase() ||
+            t.dataset.method.toLowerCase().includes(methodName.toLowerCase()) ||
+            methodName.toLowerCase().includes(t.dataset.method.toLowerCase());
+          t.classList.toggle('active', isMatch);
+        });
+        const hiddenInput = document.getElementById('selectedPayoutMethod');
+        if (hiddenInput) hiddenInput.value = methodName;
+      }
+
+      document.querySelectorAll('#payoutTilePicker .payout-method-tile').forEach(tile => {
+        tile.addEventListener('click', () => {
+          selectPayoutTile(tile.dataset.method);
+        });
       });
-      const hiddenInput = document.getElementById('selectedPayoutMethod');
-      if (hiddenInput) hiddenInput.value = methodName;
-    }
 
-    document.querySelectorAll('#payoutTilePicker .payout-method-tile').forEach(tile => {
-      tile.addEventListener('click', () => {
-        selectPayoutTile(tile.dataset.method);
-      });
-    });
+      // Payout Account State & UI Binding
+      currentPayoutAccount = u.payout_account || null;
+      const pBadge = document.getElementById('payoutMethodBadge');
+      const pName = document.getElementById('payoutNameDisplay');
+      const pNum = document.getElementById('payoutNumberDisplay');
+      const pIcon = document.getElementById('payoutMethodIcon');
+      const pBtnText = document.getElementById('btnEditPayoutAccountText');
+      const pCard = document.getElementById('payoutAccountCard');
 
-    // Payout Account State & UI Binding
-    currentPayoutAccount = u.payout_account || null;
-    const pBadge = document.getElementById('payoutMethodBadge');
-    const pName = document.getElementById('payoutNameDisplay');
-    const pNum = document.getElementById('payoutNumberDisplay');
-    const pIcon = document.getElementById('payoutMethodIcon');
-    const pBtnText = document.getElementById('btnEditPayoutAccountText');
-    const pCard = document.getElementById('payoutAccountCard');
+      if (currentPayoutAccount && currentPayoutAccount.account_number) {
+        const mName = currentPayoutAccount.method || 'GCash';
+        const mKey = mName.toLowerCase();
+        let badgeClass = 'badge-tag tag-gcash';
 
-    if (currentPayoutAccount && currentPayoutAccount.account_number) {
-      const mName = currentPayoutAccount.method || 'GCash';
-      const mKey = mName.toLowerCase();
-      let badgeClass = 'badge-tag tag-gcash';
+        if (mKey.includes('maya')) badgeClass = 'badge-tag tag-maya';
+        else if (mKey.includes('gotyme')) badgeClass = 'badge-tag tag-gotyme';
+        else if (mKey.includes('maribank')) badgeClass = 'badge-tag tag-maribank';
+        else if (mKey.includes('ub') || mKey.includes('unionbank')) badgeClass = 'badge-tag tag-ub';
 
-      if (mKey.includes('maya')) badgeClass = 'badge-tag tag-maya';
-      else if (mKey.includes('gotyme')) badgeClass = 'badge-tag tag-gotyme';
-      else if (mKey.includes('maribank')) badgeClass = 'badge-tag tag-maribank';
-      else if (mKey.includes('ub') || mKey.includes('unionbank')) badgeClass = 'badge-tag tag-ub';
+        pBadge.className = badgeClass;
+        pBadge.textContent = mName;
+        pIcon.innerHTML = getPayoutImg(mName, 42);
+        pName.textContent = currentPayoutAccount.account_name || 'Bound Account';
+        pNum.textContent = currentPayoutAccount.account_number || '';
+        pBtnText.textContent = '✎ Edit Account';
+        pCard.style.borderColor = 'rgba(15, 122, 69, 0.35)';
 
-      pBadge.className = badgeClass;
-      pBadge.textContent = mName;
-      pIcon.innerHTML = getPayoutImg(mName, 42);
-      pName.textContent = currentPayoutAccount.account_name || 'Bound Account';
-      pNum.textContent = currentPayoutAccount.account_number || '';
-      pBtnText.textContent = '✎ Edit Account';
-      pCard.style.borderColor = 'rgba(15, 122, 69, 0.35)';
+        // Pre-select active tile and fill inputs
+        selectPayoutTile(mName);
+        document.getElementById('inputPayoutName').value = currentPayoutAccount.account_name || '';
+        document.getElementById('inputPayoutNumber').value = currentPayoutAccount.account_number || '';
+      } else {
+        pBadge.className = 'badge-tag tag-rejected';
+        pBadge.textContent = 'Unbound';
+        pIcon.innerHTML = '<span style="font-size:28px;">💳</span>';
+        pName.textContent = 'No Account Bound';
+        pNum.textContent = 'Bind to withdraw';
+        pBtnText.textContent = '+ Bind Payout Account';
+        pCard.style.borderColor = '#eab308';
+        selectPayoutTile('GCash');
+      }
 
-      // Pre-select active tile and fill inputs
-      selectPayoutTile(mName);
-      document.getElementById('inputPayoutName').value = currentPayoutAccount.account_name || '';
-      document.getElementById('inputPayoutNumber').value = currentPayoutAccount.account_number || '';
-    } else {
-      pBadge.className = 'badge-tag tag-rejected';
-      pBadge.textContent = 'Unbound';
-      pIcon.innerHTML = '<span style="font-size:28px;">💳</span>';
-      pName.textContent = 'No Account Bound';
-      pNum.textContent = 'Bind to withdraw';
-      pBtnText.textContent = '+ Bind Payout Account';
-      pCard.style.borderColor = '#eab308';
-      selectPayoutTile('GCash');
-    }
-
-    // Render Withdrawals List
-    document.getElementById('withdrawalsList').innerHTML = d.withdrawals.length
-      ? d.withdrawals.map(w => {
+      // Render Withdrawals List
+      document.getElementById('withdrawalsList').innerHTML = d.withdrawals.length
+        ? d.withdrawals.map(w => {
           const walletLabel = w.wallet_type === 'binary_ref' ? 'Binary Ref' : w.wallet_type === 'tradein_ref' ? 'Trade-In Ref' : 'Cycle Yield';
           const iconImg = getPayoutImg(w.payout_method, 28);
           const mTag = w.payout_method ? `<span class="badge-tag tag-available" style="font-size:9.5px;padding:2px 6px;margin-left:4px;">${esc(w.payout_method)}</span>` : '';
@@ -2319,215 +2648,263 @@
             </div>
           `;
         }).join('')
-      : '<p class="tiny muted">No withdrawals yet.</p>';
+        : '<p class="tiny muted">No withdrawals yet.</p>';
 
-    // Render Official Mode of Payment Treasury Box
-    renderDashboardMop(d.official_mop);
+      // Render Official Mode of Payment Treasury Box
+      renderDashboardMop(d.official_mop);
 
-    // Render Genealogy Tree
-    fetchAndRenderTree(currentTreeUserId);
-  }
+      // Render Genealogy Tree
+      fetchAndRenderTree(currentTreeUserId);
+    }
 
-  // ==========================================
-  // DYNAMIC OFFICIAL MODE OF PAYMENT (MOP)
-  // ==========================================
-  let activeOfficialMops = [];
-  let currentMopIndex = 0;
+    // ==========================================
+    // DYNAMIC OFFICIAL MODE OF PAYMENT (MOP)
+    // ==========================================
+    let activeOfficialMops = [];
+    let currentMopIndex = 0;
 
-  function renderDashboardMop(mops) {
-    activeOfficialMops = Array.isArray(mops) && mops.length > 0 ? mops : [
-      {
-        id: 'mop_default_gcash',
-        method: 'GCash',
-        account_name: 'Infinite Trading Official Treasury',
-        account_number: '0917 000 0000',
-        qr_image: '',
-        instructions: 'Send payment to the official account, then attach the screenshot below.',
-        is_active: true,
-        is_primary: true
+    function renderDashboardMop(mops) {
+      activeOfficialMops = Array.isArray(mops) && mops.length > 0 ? mops : [
+        {
+          id: 'mop_default_gcash',
+          method: 'GCash',
+          account_name: 'Infinite Trading Official Treasury',
+          account_number: '0917 000 0000',
+          qr_image: '',
+          instructions: 'Send payment to the official account, then attach the screenshot below.',
+          is_active: true,
+          is_primary: true
+        }
+      ];
+
+      const primaryIdx = activeOfficialMops.findIndex(m => m.is_primary);
+      if (primaryIdx >= 0 && currentMopIndex === 0) {
+        currentMopIndex = primaryIdx;
       }
-    ];
+      if (currentMopIndex >= activeOfficialMops.length) {
+        currentMopIndex = 0;
+      }
 
-    const primaryIdx = activeOfficialMops.findIndex(m => m.is_primary);
-    if (primaryIdx >= 0 && currentMopIndex === 0) {
-      currentMopIndex = primaryIdx;
-    }
-    if (currentMopIndex >= activeOfficialMops.length) {
-      currentMopIndex = 0;
-    }
-
-    const tabsContainer = document.getElementById('mopChannelTabs');
-    if (tabsContainer) {
-      tabsContainer.innerHTML = activeOfficialMops.map((m, idx) => {
-        const isSel = idx === currentMopIndex;
-        return `
+      const tabsContainer = document.getElementById('mopChannelTabs');
+      if (tabsContainer) {
+        tabsContainer.innerHTML = activeOfficialMops.map((m, idx) => {
+          const isSel = idx === currentMopIndex;
+          return `
           <button type="button" class="btn btn-sm ${isSel ? 'btn-mint' : 'btn-ghost'}" data-mop-tab="${idx}" style="font-size:11px;padding:3px 10px;font-weight:700;">
             ${esc(m.method)}
           </button>
         `;
-      }).join('');
+        }).join('');
 
-      tabsContainer.querySelectorAll('[data-mop-tab]').forEach(btn => {
-        btn.onclick = () => {
-          currentMopIndex = parseInt(btn.dataset.mopTab, 10) || 0;
-          displayCurrentMopChannel();
-        };
-      });
-    }
-
-    displayCurrentMopChannel();
-  }
-
-  function displayCurrentMopChannel() {
-    if (!activeOfficialMops.length) return;
-    const m = activeOfficialMops[currentMopIndex] || activeOfficialMops[0];
-
-    const tabsContainer = document.getElementById('mopChannelTabs');
-    if (tabsContainer) {
-      tabsContainer.querySelectorAll('[data-mop-tab]').forEach(btn => {
-        const idx = parseInt(btn.dataset.mopTab, 10);
-        btn.className = `btn btn-sm ${idx === currentMopIndex ? 'btn-mint' : 'btn-ghost'}`;
-      });
-    }
-
-    const badgeEl = document.getElementById('mopActiveMethodBadge');
-    if (badgeEl) badgeEl.textContent = m.method;
-
-    const primaryEl = document.getElementById('mopActivePrimaryBadge');
-    if (primaryEl) primaryEl.style.display = m.is_primary ? 'inline-block' : 'none';
-
-    const nameEl = document.getElementById('mopActiveAccountName');
-    if (nameEl) nameEl.textContent = m.account_name || '—';
-
-    const numEl = document.getElementById('mopActiveAccountNumber');
-    if (numEl) numEl.textContent = m.account_number || '—';
-
-    const instEl = document.getElementById('mopActiveInstructions');
-    if (instEl) {
-      instEl.textContent = m.instructions || 'Send payment to the official account, then attach the screenshot with visible Reference Number below.';
-    }
-
-    const qrImg = document.getElementById('mopActiveQrImg');
-    const qrBtn = document.getElementById('btnZoomActiveMopQr');
-    if (m.qr_image) {
-      if (qrImg) {
-        qrImg.src = m.qr_image;
-        qrImg.style.display = 'block';
-        qrImg.onclick = () => openReceiptLightbox(m.qr_image, `Official ${m.method} QR Code · ${m.account_name}`);
+        tabsContainer.querySelectorAll('[data-mop-tab]').forEach(btn => {
+          btn.onclick = () => {
+            currentMopIndex = parseInt(btn.dataset.mopTab, 10) || 0;
+            displayCurrentMopChannel();
+          };
+        });
       }
-      if (qrBtn) {
-        qrBtn.style.display = 'block';
-        qrBtn.onclick = () => openReceiptLightbox(m.qr_image, `Official ${m.method} QR Code · ${m.account_name}`);
-      }
-    } else {
-      if (qrImg) qrImg.style.display = 'none';
-      if (qrBtn) qrBtn.style.display = 'none';
-    }
 
-    const selectMethod = document.getElementById('tradeinPaymentMethod');
-    if (selectMethod) {
-      const match = Array.from(selectMethod.options).find(opt => opt.value.toLowerCase() === m.method.toLowerCase());
-      if (match) selectMethod.value = match.value;
-    }
-  }
-
-  document.getElementById('btnCopyMopName')?.addEventListener('click', async () => {
-    const m = activeOfficialMops[currentMopIndex] || activeOfficialMops[0];
-    if (m && m.account_name) {
-      try {
-        await navigator.clipboard.writeText(m.account_name);
-        toast(`Copied account name: ${m.account_name}`, true);
-      } catch { toast('Copy failed.'); }
-    }
-  });
-
-  document.getElementById('btnCopyMopNumber')?.addEventListener('click', async () => {
-    const m = activeOfficialMops[currentMopIndex] || activeOfficialMops[0];
-    if (m && m.account_number) {
-      try {
-        await navigator.clipboard.writeText(m.account_number);
-        toast(`Copied account number: ${m.account_number}`, true);
-      } catch { toast('Copy failed.'); }
-    }
-  });
-
-  document.getElementById('tradeinPaymentMethod')?.addEventListener('change', (e) => {
-    const val = e.target.value.toLowerCase();
-    const idx = activeOfficialMops.findIndex(m => m.method.toLowerCase() === val || m.method.toLowerCase().includes(val));
-    if (idx >= 0 && idx !== currentMopIndex) {
-      currentMopIndex = idx;
       displayCurrentMopChannel();
     }
-  });
 
-  // Toggle Payout Account Binding Form
-  let currentPayoutAccount = null;
-  const btnEditPayout = document.getElementById('btnEditPayoutAccount');
-  const formPayout = document.getElementById('payoutAccountForm');
-  const btnCancelPayout = document.getElementById('btnCancelPayoutEdit');
+    function displayCurrentMopChannel() {
+      if (!activeOfficialMops.length) return;
+      const m = activeOfficialMops[currentMopIndex] || activeOfficialMops[0];
 
-  if (btnEditPayout && formPayout) {
-    btnEditPayout.addEventListener('click', () => {
-      const isHidden = formPayout.style.display === 'none' || !formPayout.style.display;
-      formPayout.style.display = isHidden ? 'block' : 'none';
-      if (isHidden) {
-        document.getElementById('inputPayoutName').focus();
-      }
-    });
-  }
-
-  if (btnCancelPayout && formPayout) {
-    btnCancelPayout.addEventListener('click', () => {
-      formPayout.style.display = 'none';
-    });
-  }
-
-  // Save Payout Account
-  if (formPayout) {
-    formPayout.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      const method = document.getElementById('selectedPayoutMethod').value || 'GCash';
-      const account_name = document.getElementById('inputPayoutName').value.trim();
-      const account_number = document.getElementById('inputPayoutNumber').value.trim();
-
-      if (!account_name || account_name.length < 2) {
-        toast('Please enter a valid Account Name.');
-        document.getElementById('inputPayoutName').focus();
-        return;
-      }
-      if (!account_number || account_number.length < 5) {
-        toast('Please enter a valid Account/Mobile Number.');
-        document.getElementById('inputPayoutNumber').focus();
-        return;
-      }
-
-      const body = { method, account_name, account_number };
-      const btnSave = document.getElementById('btnSavePayoutAccount');
-      btnSave.disabled = true;
-      btnSave.textContent = 'Saving...';
-
-      try {
-        const res = await fetch('/api/user/payout-account', {
-          method: 'POST',
-          headers,
-          body: JSON.stringify(body),
+      const tabsContainer = document.getElementById('mopChannelTabs');
+      if (tabsContainer) {
+        tabsContainer.querySelectorAll('[data-mop-tab]').forEach(btn => {
+          const idx = parseInt(btn.dataset.mopTab, 10);
+          btn.className = `btn btn-sm ${idx === currentMopIndex ? 'btn-mint' : 'btn-ghost'}`;
         });
-        const data = await res.json().catch(() => ({}));
-        if (!res.ok) {
-          toast(data.error || 'Failed to save payout account. Please try again.');
+      }
+
+      const badgeEl = document.getElementById('mopActiveMethodBadge');
+      if (badgeEl) badgeEl.textContent = m.method;
+
+      const primaryEl = document.getElementById('mopActivePrimaryBadge');
+      if (primaryEl) primaryEl.style.display = m.is_primary ? 'inline-block' : 'none';
+
+      const nameEl = document.getElementById('mopActiveAccountName');
+      if (nameEl) nameEl.textContent = m.account_name || '—';
+
+      const numEl = document.getElementById('mopActiveAccountNumber');
+      if (numEl) numEl.textContent = m.account_number || '—';
+
+      const instEl = document.getElementById('mopActiveInstructions');
+      if (instEl) {
+        instEl.textContent = m.instructions || 'Send payment to the official account, then attach the screenshot with visible Reference Number below.';
+      }
+
+      const qrImg = document.getElementById('mopActiveQrImg');
+      const qrBtn = document.getElementById('btnZoomActiveMopQr');
+      if (m.qr_image) {
+        if (qrImg) {
+          qrImg.src = m.qr_image;
+          qrImg.style.display = 'block';
+          qrImg.onclick = () => openReceiptLightbox(m.qr_image, `Official ${m.method} QR Code · ${m.account_name}`);
+        }
+        if (qrBtn) {
+          qrBtn.style.display = 'block';
+          qrBtn.onclick = () => openReceiptLightbox(m.qr_image, `Official ${m.method} QR Code · ${m.account_name}`);
+        }
+      } else {
+        if (qrImg) qrImg.style.display = 'none';
+        if (qrBtn) qrBtn.style.display = 'none';
+      }
+
+      const selectMethod = document.getElementById('tradeinPaymentMethod');
+      if (selectMethod) {
+        const match = Array.from(selectMethod.options).find(opt => opt.value.toLowerCase() === m.method.toLowerCase());
+        if (match) selectMethod.value = match.value;
+      }
+
+      // Also sync with Load Wallet MOP box
+      const selectLwMethod = document.getElementById('loadWalletMethodSelect');
+      if (selectLwMethod) {
+        const match = Array.from(selectLwMethod.options).find(opt => opt.value.toLowerCase() === m.method.toLowerCase());
+        if (match) selectLwMethod.value = match.value;
+      }
+
+      const lwTabs = document.getElementById('loadWalletMopTabs');
+      if (lwTabs && activeOfficialMops.length) {
+        lwTabs.innerHTML = activeOfficialMops.map((ch, idx) => {
+          const isSel = idx === currentMopIndex;
+          return `
+          <button type="button" class="btn btn-sm ${isSel ? 'btn-mint' : 'btn-ghost'}" data-lwmop-tab="${idx}" style="font-size:11px;padding:3px 10px;font-weight:700;">
+            ${esc(ch.method)}
+          </button>
+        `;
+        }).join('');
+        lwTabs.querySelectorAll('[data-lwmop-tab]').forEach(btn => {
+          btn.onclick = () => {
+            currentMopIndex = parseInt(btn.dataset.lwmopTab, 10) || 0;
+            displayCurrentMopChannel();
+          };
+        });
+      }
+
+      const lwName = document.getElementById('loadWalletActiveAccName');
+      if (lwName) lwName.textContent = m.account_name || '—';
+      const lwNum = document.getElementById('loadWalletActiveAccNum');
+      if (lwNum) lwNum.textContent = m.account_number || '—';
+      const lwInst = document.getElementById('loadWalletActiveInstructions');
+      if (lwInst) lwInst.textContent = m.instructions || 'Send exact payment, then upload screenshot receipt below.';
+      const lwQr = document.getElementById('loadWalletActiveQrImg');
+      const btnZoomLw = document.getElementById('btnZoomLoadWalletQr');
+      if (m.qr_image) {
+        if (lwQr) {
+          lwQr.src = m.qr_image;
+          lwQr.style.display = 'block';
+          lwQr.onclick = () => openReceiptLightbox(m.qr_image, `Official ${m.method} QR Code · ${m.account_name}`);
+        }
+        if (btnZoomLw) {
+          btnZoomLw.style.display = 'block';
+          btnZoomLw.onclick = () => openReceiptLightbox(m.qr_image, `Official ${m.method} QR Code · ${m.account_name}`);
+        }
+      } else {
+        if (lwQr) lwQr.style.display = 'none';
+        if (btnZoomLw) btnZoomLw.style.display = 'none';
+      }
+    }
+
+    document.getElementById('btnCopyMopName')?.addEventListener('click', async () => {
+      const m = activeOfficialMops[currentMopIndex] || activeOfficialMops[0];
+      if (m && m.account_name) {
+        try {
+          await navigator.clipboard.writeText(m.account_name);
+          toast(`Copied account name: ${m.account_name}`, true);
+        } catch { toast('Copy failed.'); }
+      }
+    });
+
+    document.getElementById('btnCopyMopNumber')?.addEventListener('click', async () => {
+      const m = activeOfficialMops[currentMopIndex] || activeOfficialMops[0];
+      if (m && m.account_number) {
+        try {
+          await navigator.clipboard.writeText(m.account_number);
+          toast(`Copied account number: ${m.account_number}`, true);
+        } catch { toast('Copy failed.'); }
+      }
+    });
+
+    document.getElementById('tradeinPaymentMethod')?.addEventListener('change', (e) => {
+      const val = e.target.value.toLowerCase();
+      const idx = activeOfficialMops.findIndex(m => m.method.toLowerCase() === val || m.method.toLowerCase().includes(val));
+      if (idx >= 0 && idx !== currentMopIndex) {
+        currentMopIndex = idx;
+        displayCurrentMopChannel();
+      }
+    });
+
+    // Toggle Payout Account Binding Form
+    let currentPayoutAccount = null;
+    const btnEditPayout = document.getElementById('btnEditPayoutAccount');
+    const formPayout = document.getElementById('payoutAccountForm');
+    const btnCancelPayout = document.getElementById('btnCancelPayoutEdit');
+
+    if (btnEditPayout && formPayout) {
+      btnEditPayout.addEventListener('click', () => {
+        const isHidden = formPayout.style.display === 'none' || !formPayout.style.display;
+        formPayout.style.display = isHidden ? 'block' : 'none';
+        if (isHidden) {
+          document.getElementById('inputPayoutName').focus();
+        }
+      });
+    }
+
+    if (btnCancelPayout && formPayout) {
+      btnCancelPayout.addEventListener('click', () => {
+        formPayout.style.display = 'none';
+      });
+    }
+
+    // Save Payout Account
+    if (formPayout) {
+      formPayout.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const method = document.getElementById('selectedPayoutMethod').value || 'GCash';
+        const account_name = document.getElementById('inputPayoutName').value.trim();
+        const account_number = document.getElementById('inputPayoutNumber').value.trim();
+
+        if (!account_name || account_name.length < 2) {
+          toast('Please enter a valid Account Name.');
+          document.getElementById('inputPayoutName').focus();
           return;
         }
-        toast('✓ Payout account successfully bound (' + esc(body.method) + ')!', true);
-        formPayout.style.display = 'none';
-        load();
-      } catch (err) {
-        toast(err.message || 'Error saving payout account.');
-      } finally {
-        btnSave.disabled = false;
-        btnSave.textContent = 'Save & Bind Account';
-      }
-    });
-  }
+        if (!account_number || account_number.length < 5) {
+          toast('Please enter a valid Account/Mobile Number.');
+          document.getElementById('inputPayoutNumber').focus();
+          return;
+        }
+
+        const body = { method, account_name, account_number };
+        const btnSave = document.getElementById('btnSavePayoutAccount');
+        btnSave.disabled = true;
+        btnSave.textContent = 'Saving...';
+
+        try {
+          const res = await fetch('/api/user/payout-account', {
+            method: 'POST',
+            headers,
+            body: JSON.stringify(body),
+          });
+          const data = await res.json().catch(() => ({}));
+          if (!res.ok) {
+            toast(data.error || 'Failed to save payout account. Please try again.');
+            return;
+          }
+          toast('✓ Payout account successfully bound (' + esc(body.method) + ')!', true);
+          formPayout.style.display = 'none';
+          load();
+        } catch (err) {
+          toast(err.message || 'Error saving payout account.');
+        } finally {
+          btnSave.disabled = false;
+          btnSave.textContent = 'Save & Bind Account';
+        }
+      });
+    }
 
     // Self Activation Position Buttons
     const btnSelfL = document.getElementById('btnSelfPosLeft');
@@ -2726,7 +3103,7 @@
       document.getElementById('confirmModalIcon').textContent = icon || '⚠️';
       document.getElementById('confirmModalTitle').textContent = title || 'Confirm Action';
       document.getElementById('confirmModalSubtitle').textContent = subtitle || 'Please review the details below before proceeding.';
-      
+
       const summaryEl = document.getElementById('confirmModalSummary');
       if (summary) {
         summaryEl.innerHTML = summary;
@@ -3234,7 +3611,7 @@
       const code = new FormData(e.target).get('code');
       showConfirmPopup({
         title: 'Confirm Account Renewal',
-        subtitle: 'Reopen your ₱3,000 binary referral earning cap with a ₱300 renewal code.',
+        subtitle: 'Reopen your ₱3,000 binary referral earning cap with a ₱399 renewal code.',
         icon: '🔄',
         details: [
           { label: 'Renewal Code', val: code, highlight: true }
@@ -3315,7 +3692,7 @@
       form.addEventListener('submit', (e) => {
         e.preventDefault();
         if (!payoutsOpen) { toast('Payouts are currently closed by admin. Please try again later.'); return; }
-        
+
         if (!currentPayoutAccount || !currentPayoutAccount.method || !currentPayoutAccount.account_number) {
           toast('⚠ Please bind your payout account (GCash, Maya, GoTyme, MariBank, or UB) first before withdrawing.');
           if (formPayout) {
@@ -3370,9 +3747,259 @@
         autosize: true, symbol: 'BINANCE:BTCUSDT', interval: '60',
         timezone: 'Asia/Manila', theme: 'light', style: '1', locale: 'en', container_id: 'tvchart',
       });
-    } catch(e) {}
+    } catch (e) { }
+
+    // =========================================================
+    // BUY LOAD WALLET USER ACTIONS & HANDLERS
+    // =========================================================
+    document.getElementById('btnOpenBuyLoadWallet')?.addEventListener('click', () => {
+      openModal('modalBuyLoadWallet');
+      fetchMyLoadWalletRequests();
+    });
+    document.getElementById('btnHeroBuyLoadWallet')?.addEventListener('click', () => {
+      openModal('modalBuyLoadWallet');
+      fetchMyLoadWalletRequests();
+    });
+    document.getElementById('btnHeroDeposit')?.addEventListener('click', () => {
+      openModal('modalTradein');
+    });
+    document.getElementById('btnHeroWithdraw')?.addEventListener('click', () => {
+      openModal('modalWithdrawal');
+    });
+    document.getElementById('btnRefreshMyLoadWallet')?.addEventListener('click', () => {
+      fetchMyLoadWalletRequests();
+    });
+
+    // Preset amount buttons
+    document.querySelectorAll('.load-preset-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const val = btn.dataset.preset;
+        const input = document.getElementById('loadWalletAmountInput');
+        if (input) input.value = val;
+      });
+    });
+
+    // Load Wallet Receipt Dropzone & File Input Handling
+    let currentLwReceiptData = null;
+    const lwDropzone = document.getElementById('loadWalletReceiptDropzone');
+    const lwInput = document.getElementById('loadWalletReceiptInput');
+    const lwPreviewBox = document.getElementById('loadWalletReceiptPreviewBox');
+    const lwPreviewImg = document.getElementById('loadWalletReceiptPreviewImg');
+    const lwFileName = document.getElementById('loadWalletReceiptFileName');
+    const lwFileSize = document.getElementById('loadWalletReceiptFileSize');
+    const btnRemoveLwReceipt = document.getElementById('btnRemoveLoadWalletReceipt');
+
+    if (lwDropzone && lwInput) {
+      lwDropzone.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        lwInput.click();
+      });
+      lwInput.addEventListener('click', (e) => e.stopPropagation());
+      lwDropzone.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        lwDropzone.classList.add('dragover');
+      });
+      lwDropzone.addEventListener('dragleave', () => lwDropzone.classList.remove('dragover'));
+      lwDropzone.addEventListener('drop', (e) => {
+        e.preventDefault();
+        lwDropzone.classList.remove('dragover');
+        const file = e.dataTransfer.files[0];
+        if (file) handleLwReceiptFile(file);
+      });
+      lwInput.addEventListener('change', () => {
+        const file = lwInput.files[0];
+        if (file) handleLwReceiptFile(file);
+      });
+    }
+
+    async function handleLwReceiptFile(file) {
+      if (!file.type.startsWith('image/')) {
+        toast('Please upload a valid image file (PNG, JPG, WEBP).');
+        return;
+      }
+      try {
+        const compressed = await compressReceiptImage(file);
+        currentLwReceiptData = compressed.base64;
+        if (lwPreviewImg) {
+          lwPreviewImg.src = compressed.base64;
+          lwPreviewImg.onclick = () => openReceiptLightbox(compressed.base64, 'Load Wallet Payment Receipt');
+        }
+        if (lwFileName) lwFileName.textContent = file.name;
+        if (lwFileSize) lwFileSize.textContent = compressed.size + ' (Optimized)';
+        if (lwDropzone) lwDropzone.style.display = 'none';
+        if (lwPreviewBox) lwPreviewBox.style.display = 'flex';
+      } catch (err) {
+        // Direct read fallback
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          currentLwReceiptData = e.target.result;
+          if (lwPreviewImg) {
+            lwPreviewImg.src = e.target.result;
+            lwPreviewImg.onclick = () => openReceiptLightbox(e.target.result, 'Load Wallet Payment Receipt');
+          }
+          if (lwFileName) lwFileName.textContent = file.name;
+          if (lwFileSize) lwFileSize.textContent = (file.size / 1024).toFixed(1) + ' KB';
+          if (lwDropzone) lwDropzone.style.display = 'none';
+          if (lwPreviewBox) lwPreviewBox.style.display = 'flex';
+        };
+        reader.readAsDataURL(file);
+      }
+    }
+
+    if (btnRemoveLwReceipt) {
+      btnRemoveLwReceipt.addEventListener('click', () => {
+        currentLwReceiptData = null;
+        if (lwInput) lwInput.value = '';
+        if (lwPreviewBox) lwPreviewBox.style.display = 'none';
+        if (lwDropzone) lwDropzone.style.display = 'block';
+      });
+    }
+
+    // Copy MOP account number in modalBuyLoadWallet
+    document.getElementById('btnCopyLoadWalletAccNum')?.addEventListener('click', async () => {
+      const m = activeOfficialMops[currentMopIndex] || activeOfficialMops[0];
+      if (m && m.account_number) {
+        try {
+          await navigator.clipboard.writeText(m.account_number);
+          toast(`Copied account number: ${m.account_number}`, true);
+        } catch { toast('Copy failed.'); }
+      }
+    });
+
+    // Form submission for Buy Load Wallet
+    document.getElementById('formBuyLoadWallet')?.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const amount = Number(document.getElementById('loadWalletAmountInput').value) || 0;
+      const phone_number = document.getElementById('loadWalletPhoneInput').value.trim();
+      const payment_method = document.getElementById('loadWalletMethodSelect').value;
+      const reference_number = document.getElementById('loadWalletRefInput').value.trim();
+
+      if (amount < 50) {
+        toast('Minimum load wallet order is ₱50.');
+        return;
+      }
+      if (!phone_number) {
+        toast('Please enter the recipient phone number for the load wallet.');
+        return;
+      }
+      if (!currentLwReceiptData) {
+        toast('Please upload proof of payment / screenshot receipt.');
+        return;
+      }
+
+      const btnSubmit = document.getElementById('btnSubmitBuyLoadWallet');
+      btnSubmit.disabled = true;
+      btnSubmit.textContent = 'Submitting Request...';
+
+      try {
+        const res = await fetch('/api/load-wallet/request', {
+          method: 'POST',
+          headers,
+          body: JSON.stringify({
+            amount,
+            phone_number,
+            payment_method,
+            reference_number,
+            receipt_image: currentLwReceiptData
+          })
+        });
+        const data = await res.json();
+        if (!res.ok) {
+          toast(data.error || 'Failed to submit load wallet order.');
+          return;
+        }
+
+        toast('✓ Load wallet request submitted! Order is now pending verification by administration.', true);
+        document.getElementById('formBuyLoadWallet').reset();
+        currentLwReceiptData = null;
+        if (lwInput) lwInput.value = '';
+        if (lwPreviewBox) lwPreviewBox.style.display = 'none';
+        if (lwDropzone) lwDropzone.style.display = 'block';
+
+        fetchMyLoadWalletRequests();
+      } catch (err) {
+        toast(err.message || 'Error submitting request.');
+      } finally {
+        btnSubmit.disabled = false;
+        btnSubmit.textContent = 'Submit Load Wallet Request ➔';
+      }
+    });
+
+    // Fetch user's load wallet requests
+    async function fetchMyLoadWalletRequests() {
+      const container = document.getElementById('myLoadWalletOrdersList');
+      if (!container) return;
+      try {
+        const res = await fetch('/api/load-wallet/my-requests', { headers });
+        if (!res.ok) return;
+        const data = await res.json();
+        const orders = data.requests || [];
+        if (orders.length === 0) {
+          container.innerHTML = '<p class="tiny muted" style="text-align:center;padding:12px;">You have no load wallet orders yet.</p>';
+          return;
+        }
+
+        container.innerHTML = orders.map(o => {
+          const isPending = o.status === 'pending';
+          const isApproved = o.status === 'approved';
+          const badgeClass = isPending ? 'badge-tag tag-expired' : isApproved ? 'badge-tag tag-available' : 'badge-tag tag-rejected';
+          const badgeText = isPending ? '⏳ Pending' : isApproved ? '✓ Credited' : '✕ Rejected';
+
+          return `
+            <div style="background:var(--bg2);border:1px solid var(--line);border-radius:10px;padding:10px 14px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;">
+              <div>
+                <div style="display:flex;align-items:center;gap:6px;">
+                  <strong style="color:var(--accent-mint);font-size:14px;">${peso(o.amount)}</strong>
+                  <span class="${badgeClass}" style="font-size:10px;">${badgeText}</span>
+                  <span class="tiny muted">• #LW${o.id}</span>
+                </div>
+                <div class="tiny muted" style="margin-top:2px;">
+                  Target SIM: <code style="font-weight:700;color:var(--text);">${esc(o.phone_number)}</code> · Via ${esc(o.payment_method)}
+                </div>
+                ${o.admin_notes ? `<div class="tiny" style="color:var(--text);margin-top:2px;font-style:italic;">Notes: ${esc(o.admin_notes)}</div>` : ''}
+              </div>
+              <div class="tiny muted" style="text-align:right;">
+                ${fmtDate(o.created_at)}
+              </div>
+            </div>
+          `;
+        }).join('');
+      } catch (err) {
+        console.error('Failed to load my load wallet orders', err);
+      }
+    }
 
     load();
+    fetchMyLoadWalletRequests();
   </script>
+
+  <!-- Floating Mobile Bottom Nav (Mobile Devices Only) -->
+  <nav class="mobile-bottom-nav">
+    <button type="button" class="bnav-item active" id="bnavHome" onclick="window.scrollTo({top:0,behavior:'smooth'});">
+      <span class="bnav-icon">🏠</span>
+      <span>HOME</span>
+    </button>
+    <button type="button" class="bnav-item" id="bnavMatrix" onclick="openModal('modalGenealogy');">
+      <span class="bnav-icon">👥</span>
+      <span>MATRIX</span>
+    </button>
+    <button type="button" class="bnav-center-action" id="bnavTradein" onclick="openModal('modalTradein');">
+      <div class="bnav-center-bubble">
+        <span>📈</span>
+      </div>
+      <span style="font-size:10px;font-weight:800;color:var(--jade);margin-top:2px;">TRADE-IN</span>
+    </button>
+    <button type="button" class="bnav-item" id="bnavLoad"
+      onclick="openModal('modalBuyLoadWallet');fetchMyLoadWalletRequests();">
+      <span class="bnav-icon">📱</span>
+      <span>LOAD</span>
+    </button>
+    <button type="button" class="bnav-item" id="bnavCashout" onclick="openModal('modalWithdrawal');">
+      <span class="bnav-icon">💳</span>
+      <span>CASHOUT</span>
+    </button>
+  </nav>
 </body>
+
 </html>

@@ -7,11 +7,12 @@
   <title>Sign In · Infinite Trading Backoffice</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link
-    href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,560&family=Sora:wght@400;500;600;700&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&display=swap"
     rel="stylesheet" />
-  <link rel="stylesheet" href="/styles.css" />
+  <script src="/theme.js"></script>
+  <link rel="stylesheet" href="/styles.css?v=20260924reffix" />
   <link rel="manifest" href="/manifest.json" />
-  <meta name="theme-color" content="#0f7a45" />
+  <meta name="theme-color" content="#131a22" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <meta name="apple-mobile-web-app-title" content="Infinite Trading" />
@@ -19,6 +20,13 @@
 </head>
 
 <body class="auth-page-body">
+  <!-- Floating Theme Switcher -->
+  <div style="position:fixed;top:16px;right:16px;z-index:999;">
+    <button class="btn-theme-toggle" type="button" data-theme-toggle aria-label="Toggle Light/Dark Theme" title="Toggle Light/Dark Theme">
+      <span class="theme-toggle-icon">☀️</span>
+      <span class="theme-toggle-text">Light</span>
+    </button>
+  </div>
   <!-- Animated ambient background mesh orbs -->
   <div class="orbs" aria-hidden="true">
     <span class="orb-1"></span>
@@ -33,7 +41,7 @@
     <!-- Left: Brand Showcase & Live Activity -->
     <aside class="auth-art">
       <a class="auth-logo-interactive" href="/" title="Infinite Trading Home">
-        <img src="/images/site-logo.png" alt="Infinite Trading"
+        <img src="/images/site-logo.png?v=20260924gold" alt="Infinite Trading"
           style="max-width:320px;width:100%;height:auto;display:block;" />
       </a>
       <div class="auth-art-copy">
@@ -112,6 +120,7 @@
             <span id="submitBtnText">Sign In to Backoffice</span>
             <span id="submitArrow" style="font-size:16px;">➔</span>
           </button>
+
         </form>
       </div>
     </section>
@@ -279,9 +288,9 @@
         errEl.classList.add('show');
         submitBtn.disabled = false;
         submitText.textContent = 'Sign In to Backoffice';
-        submitArrow.textContent = '➔';
       }
     });
+
   </script>
 </body>
 
