@@ -11,7 +11,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&display=swap"
     rel="stylesheet" />
   <script src="/theme.js"></script>
-  <link rel="stylesheet" href="/styles.css?v=20260924topbarfix" />
+  <link rel="stylesheet" href="/styles.css?v=20260924v6side" />
   <link rel="manifest" href="/manifest.json" />
   <meta name="theme-color" content="#131a22" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -245,24 +245,6 @@
           </form>
         </div>
 
-        <!-- Code Seller Vault Inventory Desk Banner (Shown if user holds available codes) -->
-        <div id="sellerDeskPanel" class="panel card"
-          style="display:none; margin-bottom: 20px; border: 2px solid var(--jade); background: var(--card-bg);">
-          <div
-            style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-bottom:12px;">
-            <div>
-              <span class="pill open" style="font-size:10px; font-weight:700;">📦 CODE SELLER DESK</span>
-              <h3 style="margin:4px 0 2px; font-size:18px; color:var(--jade);">My Code Vault Inventory (<span
-                  id="sellerDeskCount">0</span> Available)</h3>
-              <p class="tiny muted" style="margin:0;">Ready-to-sell activation codes. Click Copy to distribute to new
-                signups:</p>
-            </div>
-            <button type="button" class="btn btn-ghost btn-sm" id="btnOpenFullVault">Open Full Vault ➔</button>
-          </div>
-          <div id="sellerDeskCodeList"
-            style="display:grid; grid-template-columns:repeat(auto-fill, minmax(200px, 1fr)); gap:8px;"></div>
-        </div>
-
         <!-- =========================================================
              ROW 1: 3 METRIC CARDS (TOTAL BALANCE ~48%, BINARY ~26%, PPT ~26%)
              ========================================================= -->
@@ -329,25 +311,6 @@
               <span class="ppt-dial-text" id="pptDialText">0/10</span>
             </div>
           </div>
-        </div>
-
-        <!-- Action Quick Buttons (Deposit, Withdraw, Buy Load Wallet - KingLaro styling) -->
-        <div class="dash-quick-actions" style="display:flex;gap:12px;margin:16px 0 20px;flex-wrap:wrap;">
-          <button type="button" class="btn btn-mint" id="btnHeroDeposit"
-            style="flex:1;min-width:140px;font-weight:700;display:flex;align-items:center;justify-content:center;gap:8px;padding:12px 18px;border-radius:12px;box-shadow:0 4px 14px rgba(46,213,158,0.25);font-size:13.5px;">
-            <span style="font-size:16px;">＋</span>
-            <span>Deposit</span>
-          </button>
-          <button type="button" class="btn btn-cyan" id="btnHeroWithdraw"
-            style="flex:1;min-width:140px;font-weight:700;display:flex;align-items:center;justify-content:center;gap:8px;padding:12px 18px;border-radius:12px;box-shadow:0 4px 14px rgba(30,161,242,0.25);font-size:13.5px;">
-            <span style="font-size:16px;">💳</span>
-            <span>Withdraw</span>
-          </button>
-          <button type="button" class="btn btn-secondary" id="btnHeroBuyLoadWallet"
-            style="flex:1;min-width:160px;font-weight:700;display:flex;align-items:center;justify-content:center;gap:8px;padding:12px 18px;border-radius:12px;border:1px solid rgba(46,213,158,0.35);background:#1c2732;color:var(--accent-mint);font-size:13.5px;">
-            <span style="font-size:16px;">📱</span>
-            <span>Buy Load Wallet</span>
-          </button>
         </div>
 
         <!-- =========================================================
@@ -802,21 +765,25 @@
     <div class="plan-modal-sheet" style="max-width:680px;">
       <header class="plan-modal-head">
         <div>
-          <p class="kicker">Code Vault</p>
+          <p class="kicker">🔒 Code Vault</p>
           <h2 id="codeVaultTitle">Activation Codes</h2>
+          <p class="tiny muted" style="margin:2px 0 0;">Distribute ₱399 activation codes to new downlines. Tap
+            <strong>Copy</strong> to share.</p>
         </div>
         <button class="plan-close" type="button" data-close-modal>×</button>
       </header>
-      <div class="plan-tabs" style="padding:0 22px 10px;">
-        <button type="button" class="plan-tab on" id="tabCodeAvail">Available (<span
-            id="countAvailCodes">0</span>)</button>
-        <button type="button" class="plan-tab" id="tabCodeUsed">Used (<span id="countUsedCodes">0</span>)</button>
+      <div style="padding:0 22px 6px;">
+        <div class="plan-tabs">
+          <button type="button" class="plan-tab on" id="tabCodeAvail">📦 Available (<span
+              id="countAvailCodes">0</span>)</button>
+          <button type="button" class="plan-tab" id="tabCodeUsed">🧾 Used (<span id="countUsedCodes">0</span>)</button>
+        </div>
       </div>
       <div class="plan-modal-body">
         <div id="viewCodesAvail" class="list"
-          style="display:grid; grid-template-columns:repeat(auto-fill, minmax(220px, 1fr)); gap:10px;"></div>
+          style="display:grid; grid-template-columns:repeat(auto-fill, minmax(240px, 1fr)); gap:10px;"></div>
         <div id="viewCodesUsed" class="list"
-          style="display:none; grid-template-columns:repeat(auto-fill, minmax(220px, 1fr)); gap:10px;"></div>
+          style="display:none; grid-template-columns:repeat(auto-fill, minmax(240px, 1fr)); gap:10px;"></div>
       </div>
     </div>
   </div>
@@ -1024,7 +991,7 @@
         </div>
 
         <div
-          style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;background:#f8fdf9;padding:10px 14px;border-radius:12px;border:1px solid var(--line);flex-wrap:wrap;gap:8px;">
+          style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;background:var(--bg2);padding:10px 14px;border-radius:12px;border:1px solid var(--line);flex-wrap:wrap;gap:8px;">
           <div style="display:flex;align-items:center;gap:8px;">
             <span class="tiny"
               style="font-weight:700;color:var(--text);text-transform:uppercase;letter-spacing:0.04em;">Window:</span>
@@ -1319,7 +1286,8 @@
                     style="padding:2px 8px;font-size:11px;">📋 Copy</button>
                 </div>
               </div>
-              <div id="loadWalletActiveInstructions" class="mop-instructions">Scan or transfer then upload your receipt below.</div>
+              <div id="loadWalletActiveInstructions" class="mop-instructions">Scan or transfer then upload your receipt
+                below.</div>
             </div>
           </div>
         </div>
@@ -1329,7 +1297,8 @@
 
           <!-- 1. Amount with Preset Quick Chips -->
           <div style="margin-bottom:14px;">
-            <label class="tiny muted" style="display:block;font-weight:700;margin-bottom:6px;">1. AMOUNT TO BUY (₱) *</label>
+            <label class="tiny muted" style="display:block;font-weight:700;margin-bottom:6px;">1. AMOUNT TO BUY (₱)
+              *</label>
             <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px;">
               <button type="button" class="btn load-preset-btn" data-preset="300">₱300</button>
               <button type="button" class="btn load-preset-btn" data-preset="500">₱500</button>
@@ -1337,25 +1306,29 @@
               <button type="button" class="btn load-preset-btn" data-preset="2000">₱2,000</button>
               <button type="button" class="btn load-preset-btn" data-preset="5000">₱5,000</button>
             </div>
-            <input type="number" id="loadWalletAmountInput" class="in load-amount-in" placeholder="Enter amount (min ₱100)" min="100"
-              max="100000" step="50" required style="width:100%;font-size:15px;font-weight:700;" />
+            <input type="number" id="loadWalletAmountInput" class="in load-amount-in"
+              placeholder="Enter amount (min ₱100)" min="100" max="100000" step="50" required
+              style="width:100%;font-size:15px;font-weight:700;" />
           </div>
 
           <!-- 2. Target Load Wallet Phone Number -->
           <div style="margin-bottom:14px;">
-            <label class="tiny muted" style="display:block;font-weight:700;margin-bottom:4px;">2. RECIPIENT PHONE NUMBER (WHERE LOAD WALLET WILL BE SENT) *</label>
+            <label class="tiny muted" style="display:block;font-weight:700;margin-bottom:4px;">2. RECIPIENT PHONE NUMBER
+              (WHERE LOAD WALLET WILL BE SENT) *</label>
             <input type="tel" id="loadWalletPhoneInput" class="in" placeholder="e.g. 0917 123 4567" required
               style="width:100%;font-size:15px;font-weight:800;letter-spacing:0.04em;" />
             <div style="display:flex;align-items:center;gap:6px;margin-top:4px;">
               <span style="font-size:13px;">📲</span>
-              <span class="tiny muted" style="color:#d97706;font-weight:700;">Double-check this phone number! The load wallet credits will be sent directly to this SIM.</span>
+              <span class="tiny muted" style="color:#d97706;font-weight:700;">Double-check this phone number! The load
+                wallet credits will be sent directly to this SIM.</span>
             </div>
           </div>
 
           <!-- 3. Payment Method & Reference Number -->
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px;">
             <div>
-              <label class="tiny muted" style="display:block;font-weight:700;margin-bottom:4px;">3. PAYMENT METHOD USED *</label>
+              <label class="tiny muted" style="display:block;font-weight:700;margin-bottom:4px;">3. PAYMENT METHOD USED
+                *</label>
               <select id="loadWalletMethodSelect" class="in" style="width:100%;font-size:13px;font-weight:600;">
                 <option value="GCash">GCash</option>
                 <option value="Maya">Maya</option>
@@ -1369,7 +1342,8 @@
               </select>
             </div>
             <div>
-              <label class="tiny muted" style="display:block;font-weight:700;margin-bottom:4px;">REFERENCE NUMBER (OPTIONAL)</label>
+              <label class="tiny muted" style="display:block;font-weight:700;margin-bottom:4px;">REFERENCE NUMBER
+                (OPTIONAL)</label>
               <input type="text" id="loadWalletRefInput" class="in" placeholder="e.g. 10928374928"
                 style="width:100%;font-size:13px;font-weight:600;" />
             </div>
@@ -1377,7 +1351,8 @@
 
           <!-- 4. Upload Receipt (Proof of Payment) -->
           <div style="margin-bottom:16px;">
-            <label class="tiny muted" style="display:block;font-weight:700;margin-bottom:4px;">4. UPLOAD PROOF OF PAYMENT / RECEIPT *</label>
+            <label class="tiny muted" style="display:block;font-weight:700;margin-bottom:4px;">4. UPLOAD PROOF OF
+              PAYMENT / RECEIPT *</label>
             <input type="file" id="loadWalletReceiptInput" accept="image/*" style="display:none;" />
             <div class="receipt-dropzone" id="loadWalletReceiptDropzone" style="margin:4px 0 8px;cursor:pointer;">
               <span class="receipt-drop-icon">🧾</span>
@@ -1624,18 +1599,38 @@
 
     // Modal open/close helpers
     function openModal(id) {
+      document.querySelectorAll('.plan-modal').forEach(m => m.hidden = true);
       const el = document.getElementById(id);
-      if (el) { el.hidden = false; document.body.classList.add('modal-open'); }
+      if (el) {
+        el.hidden = false;
+        document.body.classList.add('modal-open');
+        const mapping = {
+          'modalGenealogy': 'bnavMatrix',
+          'modalTradein': 'bnavTradein',
+          'modalBuyLoadWallet': 'bnavLoad',
+          'modalWithdrawal': 'bnavCashout'
+        };
+        const targetNavId = mapping[id];
+        document.querySelectorAll('.mobile-bottom-nav .bnav-item, .mobile-bottom-nav .bnav-center-action').forEach(btn => {
+          btn.classList.toggle('active', btn.id === (targetNavId || 'bnavHome'));
+        });
+      }
     }
     function closeModal(id) {
       const el = typeof id === 'string' ? document.getElementById(id) : id.closest('.plan-modal');
       if (el) { el.hidden = true; document.body.classList.remove('modal-open'); }
+      document.querySelectorAll('.mobile-bottom-nav .bnav-item, .mobile-bottom-nav .bnav-center-action').forEach(btn => {
+        btn.classList.toggle('active', btn.id === 'bnavHome');
+      });
     }
 
     document.querySelectorAll('[data-close-modal]').forEach(el => {
       el.addEventListener('click', () => {
         document.querySelectorAll('.plan-modal').forEach(m => m.hidden = true);
         document.body.classList.remove('modal-open');
+        document.querySelectorAll('.mobile-bottom-nav .bnav-item, .mobile-bottom-nav .bnav-center-action').forEach(btn => {
+          btn.classList.toggle('active', btn.id === 'bnavHome');
+        });
       });
     });
 
@@ -1643,8 +1638,40 @@
       if (e.key === 'Escape') {
         document.querySelectorAll('.plan-modal').forEach(m => m.hidden = true);
         document.body.classList.remove('modal-open');
+        document.querySelectorAll('.mobile-bottom-nav .bnav-item, .mobile-bottom-nav .bnav-center-action').forEach(btn => {
+          btn.classList.toggle('active', btn.id === 'bnavHome');
+        });
       }
     });
+
+    function switchMobileBottomTab(tabId) {
+      if (sidebarEl) sidebarEl.classList.remove('open');
+      if (backdropEl) backdropEl.classList.remove('show');
+      document.body.classList.remove('sidebar-drawer-open');
+
+      document.querySelectorAll('.plan-modal').forEach(m => m.hidden = true);
+      document.body.classList.remove('modal-open');
+
+      document.querySelectorAll('.mobile-bottom-nav .bnav-item, .mobile-bottom-nav .bnav-center-action').forEach(btn => {
+        btn.classList.remove('active');
+      });
+      const activeBtn = document.getElementById(tabId);
+      if (activeBtn) activeBtn.classList.add('active');
+
+      if (tabId === 'bnavHome') {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      } else if (tabId === 'bnavMatrix') {
+        openModal('modalGenealogy');
+        if (typeof fetchAndRenderTree === 'function') fetchAndRenderTree(currentTreeUserId);
+      } else if (tabId === 'bnavTradein') {
+        openModal('modalTradein');
+      } else if (tabId === 'bnavLoad') {
+        openModal('modalBuyLoadWallet');
+        if (typeof fetchMyLoadWalletRequests === 'function') fetchMyLoadWalletRequests();
+      } else if (tabId === 'bnavCashout') {
+        openModal('modalWithdrawal');
+      }
+    }
 
     // Mobile Drawer Open / Close Logic
     const sidebarEl = document.getElementById('dashSidebar');
@@ -1697,6 +1724,12 @@
     };
     document.getElementById('btnTradeinDeposit').onclick = () => openModal('modalTradein');
     document.getElementById('btnOpenWithdrawal').onclick = () => openModal('modalWithdrawal');
+
+    document.getElementById('btnSideOpenCodeDesk')?.addEventListener('click', () => {
+      openModal('modalCodeVault');
+      document.getElementById('tabCodeAvail')?.click();
+      if (window.innerWidth <= 900) closeMobileDrawer();
+    });
 
     document.getElementById('btnCodesAvailable').onclick = () => {
       openModal('modalCodeVault');
@@ -1983,7 +2016,7 @@
         container.innerHTML = `
           <!-- Level 1: Root Focal Node -->
           <div class="tree-root-wrapper">
-            <div class="tree-node root-node" style="border-color:var(--gold);background:#fffdfa;box-shadow:0 6px 20px rgba(180,130,20,0.15);">
+            <div class="tree-node root-node" style="border-color:var(--gold);background:var(--card-bg);box-shadow:0 6px 20px rgba(180,130,20,0.15);">
               <span class="pill" style="font-size:9px;background:#fef3c7;color:#92400e;margin-bottom:2px;font-weight:700;">★ FOCUS NODE</span>
               <p class="tree-node-name" style="font-size:14px;">👤 ${esc(root.mobile || root.mobile_number)}</p>
               <span class="pill ${root.status === 'active' ? 'open' : 'closed'}">${esc(root.status)}</span>
@@ -2274,31 +2307,50 @@
       // Render Code Vault Lists
       document.getElementById('viewCodesAvail').innerHTML = availList.length
         ? availList.map(c => `
-            <div class="item" style="display:flex;justify-content:space-between;align-items:center;background:#fff;border-color:var(--jade);">
-              <code style="font-size:14px;font-weight:700;color:var(--jade);">${esc(c.code)}</code>
-              <button type="button" data-copy-vault="${esc(c.code)}" class="btn btn-ghost btn-sm" style="padding:4px 10px;font-size:11px;">Copy</button>
+            <div class="code-vault-card">
+              <div style="display:flex;align-items:center;gap:10px;">
+                <span style="font-size:18px;">🔑</span>
+                <div>
+                  <div style="display:flex;align-items:center;gap:6px;">
+                    <code class="code-val-text">${esc(c.code)}</code>
+                    <span class="badge-tag tag-available" style="font-size:9.5px;padding:2px 6px;">₱399</span>
+                  </div>
+                  <span class="tiny muted">Single-use activation</span>
+                </div>
+              </div>
+              <button type="button" data-copy-vault="${esc(c.code)}" class="btn btn-mint btn-sm btn-vault-copy">Copy</button>
             </div>
           `).join('')
-        : '<p class="tiny muted center" style="grid-column:1/-1;">No available codes in inventory.</p>';
+        : '<p class="tiny muted center" style="grid-column:1/-1;padding:24px;">No available codes in inventory.</p>';
 
       document.getElementById('viewCodesUsed').innerHTML = usedList.length
         ? usedList.map(c => `
-            <div class="item" style="display:flex;justify-content:space-between;align-items:center;background:#f9faf9;">
-              <div>
-                <code style="font-size:13px;color:var(--muted);text-decoration:line-through;">${esc(c.code)}</code>
-                ${c.used_by_mobile ? `<p class="tiny muted" style="margin:2px 0 0;">Used by: <strong>${esc(c.used_by_mobile)}</strong></p>` : ''}
+            <div class="code-vault-card used-card">
+              <div style="display:flex;align-items:center;gap:10px;">
+                <span style="font-size:18px;opacity:0.5;">🧾</span>
+                <div>
+                  <code class="code-val-text used-text">${esc(c.code)}</code>
+                  ${c.used_by_mobile ? `<p class="tiny muted" style="margin:2px 0 0;">Used by: <strong>${esc(c.used_by_mobile)}</strong></p>` : ''}
+                </div>
               </div>
-              <span class="tiny muted">${c.used_at ? new Date(c.used_at).toLocaleDateString() : 'Used'}</span>
+              <span class="badge-tag tag-expired" style="font-size:10px;padding:3px 8px;">Used</span>
             </div>
           `).join('')
-        : '<p class="tiny muted center" style="grid-column:1/-1;">No used codes found.</p>';
+        : '<p class="tiny muted center" style="grid-column:1/-1;padding:24px;">No used codes found.</p>';
 
       document.querySelectorAll('button[data-copy-vault]').forEach(btn => {
         btn.onclick = async () => {
           const codeVal = btn.dataset.copyVault;
           try {
             await navigator.clipboard.writeText(codeVal);
-            toast('Copied code ' + codeVal + ' to clipboard!', true);
+            const orig = btn.textContent;
+            btn.textContent = '✓ Copied!';
+            btn.classList.add('copied');
+            setTimeout(() => {
+              btn.textContent = orig;
+              btn.classList.remove('copied');
+            }, 1800);
+            toast('✓ Copied code ' + codeVal + ' to clipboard!', true);
           } catch { toast('Copy failed.'); }
         };
       });
@@ -2628,12 +2680,12 @@
           const mTag = w.payout_method ? `<span class="badge-tag tag-available" style="font-size:9.5px;padding:2px 6px;margin-left:4px;">${esc(w.payout_method)}</span>` : '';
           const accInfo = w.account_number ? `<span class="tiny muted" style="margin-left:4px;">(${esc(w.account_number)})</span>` : '';
           return `
-            <div class="item" style="background:#fff;margin-bottom:8px;padding:10px 14px;border-radius:10px;display:flex;justify-content:space-between;align-items:center;">
+            <div class="item" style="background:var(--card-bg);border:1px solid var(--line);margin-bottom:8px;padding:10px 14px;border-radius:10px;display:flex;justify-content:space-between;align-items:center;">
               <div style="display:flex;align-items:center;gap:10px;">
                 ${iconImg}
                 <div>
                   <div style="display:flex;align-items:center;gap:4px;">
-                    <strong style="color:#0b4d2c;">${walletLabel}</strong>
+                    <strong style="color:var(--text);">${walletLabel}</strong>
                     ${mTag}
                   </div>
                   <p class="tiny muted" style="margin:2px 0 0;">
@@ -3290,7 +3342,7 @@
         listEl.innerHTML = data.records.map(rec => {
           const b = catBadges[rec.category] || { label: rec.category, class: 'badge-referral', icon: '💰' };
           return `
-            <div style="background:#fff;border:1px solid rgba(15,122,69,0.12);border-radius:10px;padding:10px 12px;margin-bottom:8px;display:flex;justify-content:space-between;align-items:center;gap:10px;">
+            <div class="earning-history-card" style="background:var(--card-bg);border:1px solid var(--line);border-radius:10px;padding:10px 12px;margin-bottom:8px;display:flex;justify-content:space-between;align-items:center;gap:10px;">
               <div style="display:flex;flex-direction:column;gap:3px;">
                 <div style="display:flex;align-items:center;gap:6px;">
                   <span class="earning-badge ${b.class}">${b.icon} ${esc(b.label)}</span>
@@ -3302,7 +3354,7 @@
                 </div>
               </div>
               <div style="text-align:right;">
-                <span style="font-size:14px;font-weight:800;color:#0b4d2c;">+${peso(rec.amount)}</span>
+                <span style="font-size:14px;font-weight:800;color:var(--jade);">+${peso(rec.amount)}</span>
               </div>
             </div>
           `;
@@ -3976,26 +4028,25 @@
 
   <!-- Floating Mobile Bottom Nav (Mobile Devices Only) -->
   <nav class="mobile-bottom-nav">
-    <button type="button" class="bnav-item active" id="bnavHome" onclick="window.scrollTo({top:0,behavior:'smooth'});">
+    <button type="button" class="bnav-item active" id="bnavHome" onclick="switchMobileBottomTab('bnavHome');">
       <span class="bnav-icon">🏠</span>
       <span>HOME</span>
     </button>
-    <button type="button" class="bnav-item" id="bnavMatrix" onclick="openModal('modalGenealogy');">
+    <button type="button" class="bnav-item" id="bnavMatrix" onclick="switchMobileBottomTab('bnavMatrix');">
       <span class="bnav-icon">👥</span>
       <span>MATRIX</span>
     </button>
-    <button type="button" class="bnav-center-action" id="bnavTradein" onclick="openModal('modalTradein');">
+    <button type="button" class="bnav-center-action" id="bnavTradein" onclick="switchMobileBottomTab('bnavTradein');">
       <div class="bnav-center-bubble">
         <span>📈</span>
       </div>
       <span style="font-size:10px;font-weight:800;color:var(--jade);margin-top:2px;">TRADE-IN</span>
     </button>
-    <button type="button" class="bnav-item" id="bnavLoad"
-      onclick="openModal('modalBuyLoadWallet');fetchMyLoadWalletRequests();">
+    <button type="button" class="bnav-item" id="bnavLoad" onclick="switchMobileBottomTab('bnavLoad');">
       <span class="bnav-icon">📱</span>
       <span>LOAD</span>
     </button>
-    <button type="button" class="bnav-item" id="bnavCashout" onclick="openModal('modalWithdrawal');">
+    <button type="button" class="bnav-item" id="bnavCashout" onclick="switchMobileBottomTab('bnavCashout');">
       <span class="bnav-icon">💳</span>
       <span>CASHOUT</span>
     </button>

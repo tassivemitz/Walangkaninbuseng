@@ -2033,8 +2033,8 @@ body[data-theme="light"].dash-terminal-body {
   border-radius: 8px;
   border: 1px solid transparent;
   background: transparent;
-  color: #143528;
-  font-size: 12.5px;
+  color: #f8fafc !important;
+  font-size: 13px;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.15s ease;
@@ -2042,26 +2042,35 @@ body[data-theme="light"].dash-terminal-body {
 
 .side-sub-btn {
   padding-left: 16px;
-  font-size: 12px;
-  color: #4a6b5a;
+  font-size: 12.5px;
+  color: #cbd5e1 !important;
 }
 
 .side-nav-btn:hover,
 .side-sub-btn:hover {
-  background: rgba(15, 122, 69, 0.08);
-  color: #0b4d2c;
+  background: rgba(46, 213, 158, 0.12) !important;
+  color: var(--jade, #2ed59e) !important;
   transform: translateX(3px);
 }
 
 .side-info-card {
-  background: rgba(15, 122, 69, 0.05);
-  border: 1px solid rgba(15, 122, 69, 0.12);
-  border-radius: 8px;
-  padding: 8px 10px;
-  margin: 4px 0 2px;
-  font-size: 11px;
-  color: #3b5b4a;
-  line-height: 1.45;
+  background: rgba(46, 213, 158, 0.1) !important;
+  border: 1px solid rgba(46, 213, 158, 0.3) !important;
+  border-radius: 10px;
+  padding: 10px 12px;
+  margin: 6px 0 4px;
+  font-size: 11.5px;
+  color: #f1f5f9 !important;
+  line-height: 1.55;
+}
+
+.side-info-card p {
+  color: #e2e8f0 !important;
+}
+
+.side-info-card strong {
+  color: #2ed59e !important;
+  font-weight: 750;
 }
 
 /* Wallet Withdrawal CTA button */
@@ -2356,7 +2365,7 @@ body[data-theme="light"].dash-terminal-body {
   font-family: var(--display);
   font-size: 32px;
   font-weight: 700;
-  color: #0b4d2c;
+  color: var(--jade);
   margin: 2px 0 2px;
   line-height: 1.1;
   letter-spacing: -0.02em;
@@ -2415,7 +2424,7 @@ body[data-theme="light"].dash-terminal-body {
   font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: #557766;
+  color: var(--muted);
 }
 
 .m-badge-icon {
@@ -2441,7 +2450,7 @@ body[data-theme="light"].dash-terminal-body {
   font-family: var(--display);
   font-size: 24px;
   font-weight: 600;
-  color: #0b4d2c;
+  color: var(--jade);
   margin: 2px 0 2px;
   line-height: 1.15;
   letter-spacing: -0.02em;
@@ -2449,7 +2458,7 @@ body[data-theme="light"].dash-terminal-body {
 
 .m-sub {
   font-size: 11.5px;
-  color: #628573;
+  color: var(--text-secondary);
   font-weight: 500;
 }
 
@@ -2501,7 +2510,7 @@ body[data-theme="light"].dash-terminal-body {
   position: absolute;
   font-size: 10px;
   font-weight: 700;
-  color: #0b4d2c;
+  color: var(--jade);
 }
 
 /* =========================================================
@@ -2575,14 +2584,14 @@ body[data-theme="light"].dash-terminal-body {
   font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: #557766;
+  color: var(--muted);
 }
 
 .cap-val-display {
   font-family: var(--display);
   font-size: 24px;
   font-weight: 700;
-  color: #0b4d2c;
+  color: var(--jade);
   margin-top: 2px;
   display: block;
 }
@@ -3378,7 +3387,7 @@ body[data-theme="light"].dash-terminal-body {
 .plan-modal {
   position: fixed;
   inset: 0;
-  z-index: 80;
+  z-index: 1200;
   display: grid;
   place-items: center;
   padding: 20px;
@@ -3444,25 +3453,151 @@ body[data-theme="light"].dash-terminal-body {
 }
 
 .plan-tabs {
-  display: flex;
-  gap: 6px;
-  overflow-x: auto;
-  padding: 0 18px 12px;
+  display: inline-flex;
+  gap: 4px;
+  background: var(--bg2);
+  padding: 4px;
+  border-radius: 12px;
+  border: 1px solid var(--line);
+  margin-bottom: 8px;
 }
 
 .plan-tab {
   border: 1px solid transparent;
   background: transparent;
   color: var(--muted);
-  border-radius: 999px;
-  padding: 8px 14px;
-  font-size: 13px;
+  border-radius: 9px;
+  padding: 8px 16px;
+  font-size: 12.5px;
+  font-weight: 700;
   white-space: nowrap;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.plan-tab:hover {
+  color: var(--text);
 }
 
 .plan-tab.on {
-  color: #fff;
-  background: linear-gradient(160deg, var(--jade), var(--jade2));
+  color: var(--jade);
+  background: var(--card-bg);
+  border-color: rgba(46, 213, 158, 0.35);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.22);
+}
+
+[data-theme="light"] .plan-tab.on {
+  color: #0b4d2c !important;
+  background: #ffffff !important;
+  border-color: rgba(15, 122, 69, 0.25) !important;
+  box-shadow: 0 2px 8px rgba(11, 55, 33, 0.08) !important;
+}
+
+/* Code Vault Modern Inventory Cards */
+.code-vault-card {
+  background: var(--card-bg);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.code-vault-card:hover {
+  transform: translateY(-2px);
+  border-color: var(--jade);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
+}
+
+[data-theme="light"] .code-vault-card {
+  background: #ffffff !important;
+  border: 1.5px solid rgba(15, 122, 69, 0.16) !important;
+  box-shadow: 0 2px 8px rgba(11, 55, 33, 0.04) !important;
+}
+
+[data-theme="light"] .code-vault-card:hover {
+  border-color: #0f7a45 !important;
+  box-shadow: 0 6px 18px rgba(11, 55, 33, 0.08) !important;
+}
+
+.code-val-text {
+  font-size: 15px;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  color: var(--jade);
+  font-family: ui-monospace, monospace;
+}
+
+[data-theme="light"] .code-val-text {
+  color: #0b4d2c !important;
+}
+
+.code-val-text.used-text {
+  color: var(--muted) !important;
+  text-decoration: line-through;
+}
+
+.btn-vault-copy {
+  padding: 6px 14px;
+  font-size: 12px;
+  font-weight: 700;
+  border-radius: 8px;
+  white-space: nowrap;
+  transition: all 0.2s ease;
+}
+
+.btn-vault-copy.copied {
+  background: #10b981 !important;
+  color: #ffffff !important;
+  border-color: #10b981 !important;
+}
+
+/* Modern Sleek Scrollbars (Eliminates Arrow Glyphs) */
+.plan-modal-body,
+.plan-modal-sheet,
+#earningsHistoryList,
+#viewCodesAvail,
+#viewCodesUsed,
+.table-wrap,
+.admin-table-wrap {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(46, 213, 158, 0.35) transparent;
+}
+
+.plan-modal-body::-webkit-scrollbar,
+.plan-modal-sheet::-webkit-scrollbar,
+#earningsHistoryList::-webkit-scrollbar,
+#viewCodesAvail::-webkit-scrollbar,
+#viewCodesUsed::-webkit-scrollbar,
+.table-wrap::-webkit-scrollbar,
+.admin-table-wrap::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+
+.plan-modal-body::-webkit-scrollbar-track,
+.plan-modal-sheet::-webkit-scrollbar-track,
+#earningsHistoryList::-webkit-scrollbar-track,
+#viewCodesAvail::-webkit-scrollbar-track,
+#viewCodesUsed::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.plan-modal-body::-webkit-scrollbar-thumb,
+.plan-modal-sheet::-webkit-scrollbar-thumb,
+#earningsHistoryList::-webkit-scrollbar-thumb,
+#viewCodesAvail::-webkit-scrollbar-thumb,
+#viewCodesUsed::-webkit-scrollbar-thumb {
+  background: rgba(46, 213, 158, 0.35);
+  border-radius: 99px;
+}
+
+[data-theme="light"] .plan-modal-body::-webkit-scrollbar-thumb,
+[data-theme="light"] .plan-modal-sheet::-webkit-scrollbar-thumb {
+  background: rgba(15, 122, 69, 0.3);
 }
 
 .plan-modal-body {
@@ -4111,11 +4246,11 @@ body.modal-open {
 
 .wd-card {
   position: relative;
-  background: #ffffff;
+  background: var(--card-bg);
   border-radius: 16px;
-  border: 1px solid rgba(15, 122, 69, 0.15);
+  border: 1px solid var(--line);
   padding: 16px 16px 14px;
-  box-shadow: 0 4px 16px rgba(15, 122, 69, 0.04);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -4125,23 +4260,23 @@ body.modal-open {
 
 .wd-card:hover {
   transform: translateY(-2px);
-  box-shadow: 0 8px 24px rgba(15, 122, 69, 0.08);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
 }
 
 /* Card Themes */
 .wd-card.theme-binary {
   border-top: 4px solid var(--jade);
-  background: linear-gradient(180deg, rgba(15, 122, 69, 0.035) 0%, #ffffff 45%);
+  background: var(--card-bg);
 }
 
 .wd-card.theme-ref {
   border-top: 4px solid var(--gold);
-  background: linear-gradient(180deg, rgba(217, 119, 6, 0.045) 0%, #ffffff 45%);
+  background: var(--card-bg);
 }
 
 .wd-card.theme-cycle {
   border-top: 4px solid var(--mint);
-  background: linear-gradient(180deg, rgba(34, 197, 94, 0.045) 0%, #ffffff 45%);
+  background: var(--card-bg);
 }
 
 /* Card Header */
@@ -4234,8 +4369,8 @@ body.modal-open {
 
 /* Balance Box */
 .wd-card-bal-box {
-  background: #fbfdfc;
-  border: 1px solid rgba(15, 122, 69, 0.09);
+  background: var(--bg2);
+  border: 1px solid var(--line);
   border-radius: 12px;
   padding: 8px 12px;
   margin-bottom: 12px;
@@ -4255,7 +4390,7 @@ body.modal-open {
   font-family: var(--display);
   font-size: 22px;
   font-weight: 700;
-  color: #0b4d2c;
+  color: var(--jade);
   line-height: 1.1;
   letter-spacing: -0.01em;
 }
@@ -8585,8 +8720,8 @@ body[data-theme="light"].auth-page-body {
 }
 
 .earning-sum-card {
-  background: #ffffff;
-  border: 1px solid rgba(15, 122, 69, 0.15);
+  background: var(--card-bg);
+  border: 1px solid var(--line);
   border-radius: 12px;
   padding: 10px 12px;
 }
@@ -8594,7 +8729,7 @@ body[data-theme="light"].auth-page-body {
 .earning-sum-card .sum-val {
   font-size: 15px;
   font-weight: 800;
-  color: #0b4d2c;
+  color: var(--jade);
 }
 
 .earning-sum-card .sum-lbl {
@@ -8609,8 +8744,8 @@ body[data-theme="light"].auth-page-body {
    ========================================================================== */
 
 .tradein-slots-card {
-  background: linear-gradient(135deg, rgba(240, 253, 244, 0.95), rgba(255, 255, 255, 0.98));
-  border: 1.5px solid rgba(16, 185, 129, 0.35);
+  background: var(--card-bg);
+  border: 1.5px solid var(--line);
   border-radius: 14px;
   padding: 14px 16px;
   margin-bottom: 16px;
@@ -11770,6 +11905,34 @@ textarea::placeholder {
   color: #ffffff !important;
 }
 
+[data-theme="light"] .side-nav-btn {
+  color: #0e291b !important;
+}
+
+[data-theme="light"] .side-sub-btn {
+  color: #2e4a3c !important;
+}
+
+[data-theme="light"] .side-nav-btn:hover,
+[data-theme="light"] .side-sub-btn:hover {
+  background: rgba(15, 122, 69, 0.08) !important;
+  color: #0b4d2c !important;
+}
+
+[data-theme="light"] .side-info-card {
+  background: #f4fbf7 !important;
+  border: 1px solid rgba(15, 122, 69, 0.22) !important;
+  color: #1e3a2b !important;
+}
+
+[data-theme="light"] .side-info-card p {
+  color: #1e3a2b !important;
+}
+
+[data-theme="light"] .side-info-card strong {
+  color: #0b4d2c !important;
+}
+
 [data-theme="light"] .side-ref-card {
   background: rgba(255, 255, 255, 0.95) !important;
   border: 1px solid rgba(15, 122, 69, 0.15) !important;
@@ -11819,10 +11982,12 @@ textarea::placeholder {
   color: #567264 !important;
 }
 
-[data-theme="light"] #btnHeroBuyLoadWallet {
-  background: #ffffff !important;
+[data-theme="light"] .cap-val-display {
   color: #0b4d2c !important;
-  border: 1px solid rgba(15, 122, 69, 0.25) !important;
+}
+
+[data-theme="light"] .cap-main-label {
+  color: #446353 !important;
 }
 
 [data-theme="light"] .mobile-bottom-nav {
@@ -12318,8 +12483,112 @@ textarea::placeholder {
   background: #f4fbf7 !important;
 }
 
+/* Light Theme: Withdrawal & Audit Cards */
+[data-theme="light"] .wd-card {
+  background: #ffffff !important;
+  border: 1.5px solid rgba(15, 122, 69, 0.16) !important;
+  box-shadow: 0 4px 16px rgba(11, 55, 33, 0.05) !important;
+}
+
+[data-theme="light"] .wd-card.theme-binary {
+  border-top: 4px solid #0f7a45 !important;
+  background: linear-gradient(180deg, #f4fbf7 0%, #ffffff 42%) !important;
+}
+
+[data-theme="light"] .wd-card.theme-ref {
+  border-top: 4px solid #d97706 !important;
+  background: linear-gradient(180deg, #fffbeb 0%, #ffffff 42%) !important;
+}
+
+[data-theme="light"] .wd-card.theme-cycle {
+  border-top: 4px solid #10b981 !important;
+  background: linear-gradient(180deg, #f0fdf4 0%, #ffffff 42%) !important;
+}
+
+[data-theme="light"] .wd-card-bal-box {
+  background: #f4fbf7 !important;
+  border: 1px solid rgba(15, 122, 69, 0.14) !important;
+}
+
+[data-theme="light"] .wd-card-bal {
+  color: #0b4d2c !important;
+}
+
+[data-theme="light"] .earning-sum-card {
+  background: #ffffff !important;
+  border: 1.5px solid rgba(15, 122, 69, 0.16) !important;
+  box-shadow: 0 2px 10px rgba(11, 55, 33, 0.04) !important;
+}
+
+[data-theme="light"] .earning-sum-card .sum-val {
+  color: #0b4d2c !important;
+}
+
+[data-theme="light"] .earning-sum-card .sum-lbl {
+  color: #446353 !important;
+}
+
+[data-theme="light"] .tradein-slots-card {
+  background: #ffffff !important;
+  border: 1.5px solid rgba(15, 122, 69, 0.2) !important;
+}
 
 @media (max-width: 768px) {
+  /* =========================================================
+     MOBILE HIGH-PERFORMANCE SCROLLING & GPU ACCELERATION
+     Eliminates blur compositing lag and enables butter-smooth 60fps
+     ========================================================= */
+  *,
+  *::before,
+  *::after {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+  }
+
+  html, body {
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior-y: contain;
+  }
+
+  .dash-top-bar,
+  .dash-sidebar,
+  .land-nav-wrap,
+  .mobile-bottom-nav {
+    background: #131a22 !important;
+  }
+
+  [data-theme="light"] .dash-top-bar,
+  [data-theme="light"] .dash-sidebar,
+  [data-theme="light"] .land-nav-wrap,
+  [data-theme="light"] .mobile-bottom-nav {
+    background: #ffffff !important;
+  }
+
+  .plan-modal {
+    padding: 10px !important;
+  }
+
+  .plan-modal-backdrop {
+    background: rgba(10, 15, 20, 0.88) !important;
+  }
+
+  [data-theme="light"] .plan-modal-backdrop {
+    background: rgba(14, 41, 27, 0.65) !important;
+  }
+
+  .plan-modal-sheet {
+    max-height: 92vh !important;
+    background: #1c2732 !important;
+    padding-bottom: 24px !important;
+  }
+
+  [data-theme="light"] .plan-modal-sheet {
+    background: #ffffff !important;
+  }
+
+  .plan-modal-body {
+    padding-bottom: 36px !important;
+  }
 
   /* Clean, Balanced Top Bar on Mobile */
   .land-nav-wrap {
@@ -12505,14 +12774,32 @@ textarea::placeholder {
     grid-template-columns: 1fr !important;
     gap: 22px !important;
   }
-}
 
-@media (max-width: 480px) {
-
-  /* Extra Small Mobile (e.g. iPhone SE / 360px Android devices) */
+  /* Mobile Landing Nav Actions: Keep Login, Register, and Install all visible */
   #navLogin {
+    display: inline-flex !important;
+    padding: 5px 9px !important;
+    font-size: 11.5px !important;
+  }
+
+  #navRegister {
+    display: inline-flex !important;
+    padding: 5px 9px !important;
+    font-size: 11.5px !important;
+  }
+
+  #navInstallApp {
+    display: inline-flex !important;
+    padding: 5px 7px !important;
+    font-size: 11px !important;
+  }
+
+  #navInstallApp span {
     display: none !important;
-    /* Login is accessible in menu and hero */
+  }
+
+  #navInstallApp svg {
+    margin-right: 0 !important;
   }
 
   .hero-title {

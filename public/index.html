@@ -12,7 +12,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&display=swap"
     rel="stylesheet" />
   <script src="/theme.js"></script>
-  <link rel="stylesheet" href="/styles.css?v=20260924reffix" />
+  <link rel="stylesheet" href="/styles.css?v=20260924v6side" />
   <link rel="manifest" href="/manifest.json" />
   <meta name="theme-color" content="#131a22" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -1474,6 +1474,10 @@
     function initKineticCanvas() {
       const canvas = document.getElementById('kineticCanvas');
       if (!canvas) return;
+      if (window.innerWidth <= 768) {
+        canvas.style.display = 'none';
+        return;
+      }
       const ctx = canvas.getContext('2d');
       if (!ctx) return;
 
@@ -1485,6 +1489,12 @@
       const mousePos = { x: -1000, y: -1000 };
 
       function resize() {
+        if (window.innerWidth <= 768) {
+          canvas.style.display = 'none';
+          if (animId) cancelAnimationFrame(animId);
+          return;
+        }
+        canvas.style.display = '';
         dpr = Math.min(window.devicePixelRatio || 1, 2);
         width = canvas.parentElement ? canvas.parentElement.clientWidth : window.innerWidth;
         height = canvas.parentElement ? canvas.parentElement.clientHeight : window.innerHeight;

@@ -306,7 +306,7 @@ function assignPlacement(startNodeId, preferredPos, data) {
 }
 
 function getBinaryCap(data) {
-  return Number(data && data.settings && data.settings.binary_cap) || BINARY_CAP || 3000;
+  return 3000;
 }
 
 function getOfficialMops(data) {
@@ -1512,9 +1512,9 @@ app.post('/api/admin/settings/binary-cap', auth, adminOnly, async (req, res) => 
   const cap = money(req.body.cap || req.body.binary_cap);
   if (!cap || cap < 1000) return res.status(400).json({ error: 'Minimum binary cap is ₱1,000.' });
   await db.tx((data) => {
-    data.settings.binary_cap = cap;
+    data.settings.binary_cap = 3000;
   });
-  res.json({ ok: true, binary_cap: cap });
+  res.json({ ok: true, binary_cap: 3000 });
 });
 
 // Admin Trade-In Slots Settings Endpoint
