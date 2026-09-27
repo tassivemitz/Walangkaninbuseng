@@ -166,6 +166,9 @@ function publicUser(userId, data = db.getStore()) {
     pairs_today: (t.last_pair_date && String(t.last_pair_date).slice(0, 10) === new Date().toISOString().slice(0, 10)) ? (t.pairs_today || 0) : 0,
     last_pair_date: t.last_pair_date || null,
     payout_account: u.payout_account || null,
+    load_wallet_claimed: Boolean(u.load_wallet_claimed),
+    load_wallet_claimed_at: u.load_wallet_claimed_at || null,
+    load_wallet_claim_info: u.load_wallet_claim_info || null,
   };
 }
 
@@ -2198,6 +2201,96 @@ app.post('/api/load-wallet/request', auth, async (req, res) => {
     if (err.status) return res.status(err.status).json({ error: err.message });
     console.error(err);
     res.status(500).json({ error: 'Failed to submit load wallet order.' });
+  }
+});
+
+// Newly Activated Accounts - Claim ₱100 Load Wallet
+app.post('/api/load-wallet/claim-100', auth, async (req, res) => {
+  const phoneNumber = String(req.body.phone_number || '').trim();
+  const network = String(req.body.network || '').trim();
+  const actionType = String(req.body.action_type || '').trim(); // 'activate_and_claim' | 'claim_only'
+
+  const allowedNetworks = ['Globe', 'Smart', 'TNT', 'DITO'];
+  if (!allowedNetworks.includes(network)) {
+    return res.status(400).json({ error: 'Please select a valid network (Globe, Smart, TNT, or DITO).' });
+  }
+
+  const cleanPhone = phoneNumber.replace(/\D/g, '');
+  if (!cleanPhone || cleanPhone.length < 10 || cleanPhone.length > 13) {
+    return res.status(400).json({ error: 'Please enter a valid Philippine mobile number (e.g. 09171234567).' });
+  }
+
+  const allowedActionTypes = ['activate_and_claim', 'claim_only'];
+  if (!allowedActionTypes.includes(actionType)) {
+    return res.status(400).json({ error: 'Please select an activation option.' });
+  }
+
+  try {
+    const result = await db.tx((data) => {
+      const user = data.users.find((u) => u.id === req.user.id);
+      if (!user || user.status === 'banned') {
+        const err = new Error('Account not permitted to claim load wallet.');
+        err.status = 403;
+        throw err;
+      }
+      if (user.status !== 'active') {
+        const err = new Error('Only activated accounts are eligible to claim the ₱100 Load Wallet. Please coordinate with your sponsor/upline to activate your account.');
+        err.status = 400;
+        throw err;
+      }
+      if (user.load_wallet_claimed) {
+        const err = new Error('The ₱100 Load Wallet has already been claimed for this account. This privilege can only be claimed once.');
+        err.status = 400;
+        throw err;
+      }
+
+      if (!Array.isArray(data.load_wallet_requests)) data.load_wallet_requests = [];
+
+      user.load_wallet_claimed = true;
+      user.load_wallet_claimed_at = nowIso();
+      user.load_wallet_claim_info = {
+        phone_number: phoneNumber,
+        clean_phone: cleanPhone,
+        network,
+        action_type: actionType,
+        claimed_at: nowIso(),
+      };
+
+      const actionLabel = actionType === 'activate_and_claim'
+        ? 'Activate My Number and Claim 100 Load Wallet'
+        : 'Claim 100 Load Wallet (Multiple Accounts / Already Activated)';
+
+      const rec = db.insert('load_wallet_requests', {
+        user_id: user.id,
+        amount: 100,
+        phone_number: phoneNumber,
+        clean_phone: cleanPhone,
+        network: network,
+        payment_method: 'Welcome Activation Bonus',
+        reference_number: `CLAIM100-${network.toUpperCase()}-${user.id}`,
+        receipt_image: '',
+        status: 'pending',
+        is_welcome_claim: true,
+        claim_type: actionType,
+        admin_notes: `FREE ₱100 CLAIM · Network: ${network} · Mode: ${actionLabel}`,
+        created_at: nowIso(),
+        approved_at: null,
+        rejected_at: null,
+      });
+
+      return { request: rec, user: publicUser(user.id, data) };
+    });
+
+    res.status(201).json({
+      ok: true,
+      message: '₱100 Load Wallet claimed successfully! Your order has been placed in the queue for processing.',
+      request: result.request,
+      user: result.user,
+    });
+  } catch (err) {
+    if (err.status) return res.status(err.status).json({ error: err.message });
+    console.error('Claim 100 Load Wallet error:', err);
+    res.status(500).json({ error: 'Failed to process load wallet claim.' });
   }
 });
 

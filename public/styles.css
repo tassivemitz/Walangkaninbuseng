@@ -12837,4 +12837,74 @@ textarea::placeholder {
   .wrap {
     width: calc(100% - 24px) !important;
   }
+
+  /* Claim 100 Load Wallet Responsive Network Grid */
+  #claimNetworkGrid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 10px !important;
+  }
 }
+
+/* =========================================================
+   CLAIM ₱100 LOAD WALLET (WELCOME PRIVILEGE MODAL & CARDS)
+   ========================================================= */
+.network-choice-card {
+  cursor: pointer;
+  border: 2px solid var(--line);
+  background: var(--bg2);
+  border-radius: 12px;
+  padding: 10px 4px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  transition: all 0.2s ease;
+  user-select: none;
+}
+.network-choice-card:hover {
+  border-color: rgba(46, 213, 158, 0.45);
+  transform: translateY(-1px);
+}
+.network-choice-card.active {
+  border-color: #2ed59e !important;
+  background: rgba(46, 213, 158, 0.14) !important;
+  box-shadow: 0 0 14px rgba(46, 213, 158, 0.22);
+}
+[data-theme="light"] .network-choice-card {
+  background: #f8fafc;
+  border-color: #e2e8f0;
+}
+[data-theme="light"] .network-choice-card.active {
+  border-color: #0f7a45 !important;
+  background: rgba(46, 213, 158, 0.16) !important;
+}
+
+.claim-type-card {
+  cursor: pointer;
+  border: 2px solid var(--line);
+  background: var(--bg2);
+  border-radius: 12px;
+  padding: 12px 14px;
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  transition: all 0.2s ease;
+  user-select: none;
+}
+.claim-type-card:hover {
+  border-color: rgba(46, 213, 158, 0.45);
+}
+.claim-type-card.active {
+  border-color: #2ed59e !important;
+  background: rgba(46, 213, 158, 0.14) !important;
+  box-shadow: 0 0 14px rgba(46, 213, 158, 0.18);
+}
+[data-theme="light"] .claim-type-card {
+  background: #f8fafc;
+  border-color: #e2e8f0;
+}
+[data-theme="light"] .claim-type-card.active {
+  border-color: #0f7a45 !important;
+  background: rgba(46, 213, 158, 0.16) !important;
+}

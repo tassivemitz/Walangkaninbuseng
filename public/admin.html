@@ -2382,8 +2382,14 @@
               </div>
             </td>
             <td style="padding:12px 14px;">
-              <span class="badge-tag tag-available" style="font-size:10px;">${esc(r.payment_method || 'GCash')}</span>
-              ${r.reference_number ? `<div class="tiny muted" style="margin-top:2px;">Ref: <code>${esc(r.reference_number)}</code></div>` : ''}
+              ${r.is_welcome_claim ? `
+                <span class="badge-tag" style="background:#f59e0b;color:#000;font-size:10px;font-weight:800;">🎁 WELCOME CLAIM</span>
+                <div class="tiny" style="font-weight:800;color:var(--accent-mint);margin-top:2px;">Network: ${esc(r.network || 'SIM')}</div>
+                <div class="tiny muted" style="font-size:9.5px;">${r.claim_type === 'activate_and_claim' ? '⚡ Activate SIM & Claim' : '🔁 Multiple Acct / Active SIM'}</div>
+              ` : `
+                <span class="badge-tag tag-available" style="font-size:10px;">${esc(r.payment_method || 'GCash')}</span>
+                ${r.reference_number ? `<div class="tiny muted" style="margin-top:2px;">Ref: <code>${esc(r.reference_number)}</code></div>` : ''}
+              `}
             </td>
             <td style="padding:12px 14px;">
               ${receiptThumb}
