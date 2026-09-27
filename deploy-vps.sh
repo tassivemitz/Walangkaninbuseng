@@ -74,7 +74,7 @@ cat > "$NGINX_CONF" <<EOF
 server {
     listen 80 default_server;
     listen [::]:80 default_server;
-    server_name $DOMAIN $WWW_DOMAIN 187.127.122.111 _;
+    server_name $DOMAIN $WWW_DOMAIN 2.29.43.245 _;
 
     client_max_body_size 25M;
 

@@ -4,7 +4,7 @@
 # ==============================================================================
 
 param (
-    [string]$VpsIp = "187.127.122.111",
+    [string]$VpsIp = "2.29.43.245",
     [string]$VpsUser = "root",
     [string]$RemoteDir = "/var/www/infinitetrading"
 )

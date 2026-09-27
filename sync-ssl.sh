@@ -5,12 +5,12 @@
 
 DOMAIN="infinitetrading.site"
 WWW_DOMAIN="www.infinitetrading.site"
-TARGET_IP="187.127.122.111"
+TARGET_IP="2.29.43.245"
 EMAIL="admin@infinitetrading.site"
 
 echo "=========================================================="
 echo "  DNS & SSL Auto-Sync Daemon Started"
-echo "  Watching: $DOMAIN -> $TARGET_IP"
+echo "  Watching: $DOMAIN and $WWW_DOMAIN -> $TARGET_IP"
 echo "=========================================================="
 
 # Ensure dnsutils (dig) is installed
@@ -20,9 +20,10 @@ fi
 
 while true; do
   RESOLVED_IP=$(dig +short "$DOMAIN" @8.8.8.8 | grep -E '^[0-9.]+$' | head -n1)
+  RESOLVED_WWW=$(dig +short "$WWW_DOMAIN" @8.8.8.8 | grep -E '^[0-9.]+$' | head -n1)
   
-  if [ "$RESOLVED_IP" = "$TARGET_IP" ]; then
-    echo ">>> [MATCH] DNS for $DOMAIN has resolved to $TARGET_IP!"
+  if [ "$RESOLVED_IP" = "$TARGET_IP" ] && [ "$RESOLVED_WWW" = "$TARGET_IP" ]; then
+    echo ">>> [MATCH] DNS for $DOMAIN ($RESOLVED_IP) and $WWW_DOMAIN ($RESOLVED_WWW) resolved to $TARGET_IP!"
     echo ">>> Requesting Let's Encrypt SSL Certificate..."
     
     if certbot --nginx -d "$DOMAIN" -d "$WWW_DOMAIN" --non-interactive --agree-tos -m "$EMAIL" --redirect; then
