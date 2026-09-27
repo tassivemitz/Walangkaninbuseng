@@ -107,7 +107,7 @@
             style="margin:0;font-weight:700;color:var(--jade);letter-spacing:0.04em;text-transform:uppercase;font-size:10px;">
             ADMIN REFERRAL LINK</p>
           <span
-            style="font-size:9.5px;background:#0f7a45;color:#fff;padding:1px 6px;border-radius:4px;font-weight:700;">ROOT</span>
+            style="font-size:9.5px;background:rgba(46,213,158,0.18);color:var(--jade);border:1px solid rgba(46,213,158,0.4);padding:1px 6px;border-radius:4px;font-weight:700;">ROOT</span>
         </div>
         <div style="display:flex;gap:6px;margin-top:6px;">
           <input id="adminSideRefLink" class="in"
@@ -872,7 +872,7 @@
             <div id="mopQrPreviewBox" class="receipt-preview-box" style="display:none;">
               <img src="" id="mopQrPreviewImg" class="receipt-preview-img" alt="QR Preview" style="width:68px;height:68px;object-fit:contain;background:#fff;border-radius:8px;border:1px solid #ddd;cursor:pointer;" title="Click to zoom in lightbox" />
               <div style="flex:1;min-width:0;">
-                <p id="mopQrFileName" style="font-size:12px;font-weight:700;margin:0;color:#0b4d2c;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">QR_Code.png</p>
+                <p id="mopQrFileName" style="font-size:12px;font-weight:700;margin:0;color:var(--text);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">QR_Code.png</p>
                 <p id="mopQrFileSize" class="tiny muted" style="margin:2px 0 0;">Attached</p>
               </div>
               <button type="button" class="btn btn-ghost btn-sm" id="btnRemoveMopQr" style="color:#ef4444;font-size:11px;">✕ Remove</button>
@@ -884,7 +884,7 @@
             <textarea class="in" id="mopInstructionsInput" rows="2" placeholder="e.g. Scan the QR code or send payment to this number. Make sure the reference number is clear in your screenshot." style="width:100%;font-size:12.5px;resize:vertical;"></textarea>
           </div>
 
-          <div style="display:flex;gap:16px;margin-bottom:16px;padding:10px 14px;background:#f8faf8;border-radius:10px;border:1px solid rgba(15,122,69,0.15);">
+          <div style="display:flex;gap:16px;margin-bottom:16px;padding:10px 14px;background:var(--bg2);border-radius:10px;border:1px solid var(--line);">
             <label style="display:flex;align-items:center;gap:6px;font-size:12.5px;font-weight:700;cursor:pointer;">
               <input type="checkbox" id="mopIsActiveCheck" checked style="width:16px;height:16px;accent-color:var(--jade);" />
               <span>Active Channel (Visible to Members)</span>
@@ -933,7 +933,7 @@
           </div>
         </div>
         <div class="genealogy-canvas-wrap" id="adminGenealogyContainer" style="min-height:300px;"></div>
-        <div style="margin-top:12px;padding:8px 12px;background:#f9fcf9;border-radius:10px;font-size:11px;color:var(--muted);">
+        <div style="margin-top:12px;padding:8px 12px;background:var(--bg2);border:1px solid var(--line);border-radius:10px;font-size:11px;color:var(--muted);">
           💡 <strong>Tip:</strong> Click any member node to drill down and explore their subtree &amp; spilled accounts. Click <strong>+ Encode Slot</strong> on any open slot to place a member.
         </div>
       </div>
@@ -956,13 +956,13 @@
           <input type="hidden" id="admActUserIdInput" value="" />
 
           <!-- Target Member Info Banner -->
-          <div style="background:rgba(15,122,69,0.08);border:1.5px solid rgba(15,122,69,0.22);border-radius:12px;padding:12px 14px;margin-bottom:14px;">
+          <div style="background:rgba(46,213,158,0.1);border:1.5px solid rgba(46,213,158,0.25);border-radius:12px;padding:12px 14px;margin-bottom:14px;">
             <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;">
               <div>
                 <span class="tiny muted" style="font-weight:700;display:block;">MEMBER TO ACTIVATE</span>
                 <div style="display:flex;align-items:center;gap:6px;margin-top:2px;">
-                  <strong id="admActUserMobileText" style="font-size:16px;color:#0b4d2c;letter-spacing:0.02em;">—</strong>
-                  <span id="admActUserRoleTag" class="badge-tag" style="background:#e0f2fe;color:#0369a1;font-weight:800;font-size:9.5px;">Inactive Member</span>
+                  <strong id="admActUserMobileText" style="font-size:16px;color:var(--text);letter-spacing:0.02em;">—</strong>
+                  <span id="admActUserRoleTag" class="badge-tag" style="background:rgba(14,165,233,0.18);color:#38bdf8;border:1px solid rgba(14,165,233,0.3);font-weight:800;font-size:9.5px;">Inactive Member</span>
                 </div>
               </div>
               <div style="text-align:right;">
@@ -1320,7 +1320,7 @@
       container.innerHTML = `
         <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;padding:48px 20px;color:var(--muted);gap:12px;">
           <div class="spinner" style="width:30px;height:30px;border:3px solid rgba(15,122,69,0.2);border-top-color:var(--jade);border-radius:50%;animation:spin 0.8s linear infinite;"></div>
-          <span style="font-size:12px;font-weight:600;color:#0b4d2c;">Loading Member Tree Subtree...</span>
+          <span style="font-size:12px;font-weight:600;color:var(--jade);">Loading Member Tree Subtree...</span>
         </div>
       `;
 
@@ -1351,7 +1351,7 @@
           if (node) {
             return `
               <div class="tree-l4-node ${node.status === 'active' ? 'active-slot' : 'inactive-slot'} clickable-adm-drill" data-adm-tree="${node.id}" style="cursor:pointer;" title="Click to view subtree">
-                <span style="font-weight:700;color:#0b4d2c;display:block;">${esc(node.mobile)}</span>
+                <span style="font-weight:700;color:var(--text);display:block;">${esc(node.mobile)}</span>
                 <span style="color:var(--muted);font-size:7px;">${node.left_count}L·${node.right_count}R</span>
               </div>
             `;
@@ -1396,7 +1396,7 @@
             <div class="tree-grandchild-branch">
               <div class="tree-grandchild-connector"></div>
               <div class="tree-grandchild-node empty-slot clickable-adm-encode" data-parent-id="${child.id}" data-parent-mobile="${esc(child.mobile)}" data-pos="${pos}" style="cursor:pointer;" title="Click to encode and place a member here">
-                <span class="pill" style="font-size:8px;padding:1px 5px;margin-bottom:2px;background:#eee;color:var(--muted);">${pos === 'L' ? 'LEFT ◀' : 'RIGHT ▶'}</span>
+                <span class="pill" style="font-size:8px;padding:1px 5px;margin-bottom:2px;background:var(--bg2);border:1px solid var(--line);color:var(--muted);">${pos === 'L' ? 'LEFT ◀' : 'RIGHT ▶'}</span>
                 <span style="font-size:10px;color:var(--jade);font-weight:700;margin-top:2px;">+ Encode</span>
               </div>
             </div>
@@ -1432,7 +1432,7 @@
             <div class="tree-subbranch">
               <div class="tree-branch-top-connector"></div>
               <div class="tree-node empty-slot clickable-adm-encode" data-parent-id="${root.id}" data-parent-mobile="${esc(root.mobile)}" data-pos="${posKey}" style="cursor:pointer;" title="Click to encode and place a member here">
-                <span class="pill" style="font-size:9px;margin-bottom:4px;background:#eee;color:var(--muted);">${posLabel}</span>
+                <span class="pill" style="font-size:9px;margin-bottom:4px;background:var(--bg2);border:1px solid var(--line);color:var(--muted);">${posLabel}</span>
                 <p style="margin:2px 0 0;font-size:12px;color:var(--jade);font-weight:700;">+ Encode Slot</p>
               </div>
             </div>
@@ -1441,8 +1441,8 @@
 
         container.innerHTML = `
           <div class="tree-root-wrapper">
-            <div class="tree-node root-node" style="border-color:var(--gold);background:#fffdfa;box-shadow:0 6px 20px rgba(180,130,20,0.15);">
-              <span class="pill" style="font-size:9px;background:#fef3c7;color:#92400e;margin-bottom:2px;font-weight:700;">★ FOCUS NODE</span>
+            <div class="tree-node root-node" style="border-color:var(--gold);background:var(--card-bg);box-shadow:0 6px 20px rgba(180,130,20,0.15);">
+              <span class="pill" style="font-size:9px;background:rgba(245,166,35,0.18);color:#fbbf24;border:1px solid rgba(245,166,35,0.35);margin-bottom:2px;font-weight:700;">★ FOCUS NODE</span>
               <p class="tree-node-name" style="font-size:14px;">👤 ${esc(root.mobile)}</p>
               <span class="pill ${root.status === 'active' ? 'open' : 'closed'}">${esc(root.status)}</span>
               <div class="tree-node-counts">
@@ -1824,7 +1824,7 @@
               <td><code>#${r.id}</code></td>
               <td><strong>${esc(r.recipient_mobile || ('User #' + r.user_id))}</strong></td>
               <td><span class="earning-badge ${b.class}">${b.icon} ${esc(b.label)}</span></td>
-              <td style="font-weight:700;color:#0b4d2c;">+${peso(r.amount)}</td>
+              <td style="font-weight:700;color:var(--jade);">+${peso(r.amount)}</td>
               <td>${esc(r.description || 'Bonus credited')}</td>
               <td class="tiny muted">${new Date(r.created_at).toLocaleString()}</td>
             </tr>
@@ -1838,7 +1838,7 @@
               <div class="admin-mob-card">
                 <div class="admin-mob-card-head">
                   <div style="display:flex;align-items:center;gap:6px;">
-                    <strong style="font-size:13px;color:#0b4d2c;">#${r.id}</strong>
+                    <strong style="font-size:13px;color:var(--jade);">#${r.id}</strong>
                     <span class="earning-badge ${b.class}" style="font-size:10.5px;">${b.icon} ${esc(b.label)}</span>
                   </div>
                   <span class="tiny muted">${new Date(r.created_at).toLocaleDateString()}</span>
@@ -1850,7 +1850,7 @@
                   </div>
                   <div class="admin-mob-card-field">
                     <span class="admin-mob-card-label">Bonus Credited</span>
-                    <span class="admin-mob-card-val" style="font-weight:800;color:#0f7a45;font-size:14px;">+${peso(r.amount)}</span>
+                    <span class="admin-mob-card-val" style="font-weight:800;color:var(--jade);font-size:14px;">+${peso(r.amount)}</span>
                   </div>
                   <div class="admin-mob-card-field full">
                     <span class="admin-mob-card-label">Audit Description</span>
@@ -1963,9 +1963,9 @@
 
       if (!list.length) {
         grid.innerHTML = `
-          <div style="grid-column:1/-1;background:#ffffff;border:2px dashed rgba(15,122,69,0.25);border-radius:14px;padding:36px 20px;text-align:center;">
+          <div style="grid-column:1/-1;background:var(--card-bg);border:2px dashed var(--line);border-radius:14px;padding:36px 20px;text-align:center;">
             <span style="font-size:36px;display:block;margin-bottom:8px;">📲</span>
-            <h4 style="margin:0 0 6px;color:#0b4d2c;font-size:16px;">No Mode of Payment channels found</h4>
+            <h4 style="margin:0 0 6px;color:var(--text);font-size:16px;">No Mode of Payment channels found</h4>
             <p class="tiny muted" style="margin:0 0 14px;">Add your Official GCash, Maya, or Bank QR codes so members can send deposit payments directly.</p>
             <button type="button" class="btn btn-mint btn-sm" id="btnMopEmptyAdd">＋ Add Official Payment Method</button>
           </div>
@@ -1980,15 +1980,15 @@
         const hasQr = Boolean(m.qr_image);
 
         return `
-          <div class="admin-card" style="display:flex;flex-direction:column;justify-content:space-between;border:${isPrimary ? '2.5px solid #0f7a45' : '1px solid rgba(15,122,69,0.2)'};background:${isActive ? '#ffffff' : '#fafafa'};opacity:${isActive ? '1' : '0.8'};position:relative;border-radius:14px;padding:16px;box-shadow:${isPrimary ? '0 4px 16px rgba(15,122,69,0.12)' : 'none'};">
+          <div class="admin-card" style="display:flex;flex-direction:column;justify-content:space-between;border:${isPrimary ? '2px solid var(--jade)' : '1px solid var(--line)'};background:var(--card-bg);opacity:${isActive ? '1' : '0.8'};position:relative;border-radius:14px;padding:16px;box-shadow:${isPrimary ? '0 4px 16px rgba(46,213,158,0.18)' : '0 4px 16px rgba(0,0,0,0.2)'};">
             <div>
               <!-- Card Top Header -->
               <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:8px;margin-bottom:12px;">
                 <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;">
-                  <span class="badge-tag tag-available" style="font-size:11px;padding:3px 8px;font-weight:800;background:#0b4d2c;color:#fff;">
+                  <span class="badge-tag" style="font-size:11px;padding:3px 8px;font-weight:800;background:rgba(46,213,158,0.18);color:var(--jade);border:1px solid rgba(46,213,158,0.35);">
                     ${esc(m.method)}
                   </span>
-                  ${isPrimary ? '<span class="badge-tag tag-approved" style="font-size:9.5px;padding:2px 6px;background:#e8f9f0;color:#0f7a45;border:1px solid #10b981;font-weight:700;">★ PRIMARY</span>' : ''}
+                  ${isPrimary ? '<span class="badge-tag tag-approved" style="font-size:9.5px;padding:2px 6px;background:rgba(46,213,158,0.18);color:#2ed59e;border:1px solid rgba(46,213,158,0.35);font-weight:700;">★ PRIMARY</span>' : ''}
                 </div>
                 <span class="pill ${isActive ? 'open' : 'closed'}" style="font-size:10px;">● ${isActive ? 'ACTIVE' : 'DISABLED'}</span>
               </div>
@@ -1998,11 +1998,11 @@
                 <div style="text-align:center;flex-shrink:0;">
                   ${hasQr ? `
                     <div style="position:relative;">
-                      <img src="${m.qr_image}" class="mop-qr-thumb" data-zoom-mop="${m.id}" alt="${esc(m.method)} QR" style="width:84px;height:84px;object-fit:contain;background:#fff;border-radius:10px;border:1.5px solid rgba(15,122,69,0.25);padding:3px;cursor:pointer;box-shadow:0 2px 6px rgba(0,0,0,0.06);" />
+                      <img src="${m.qr_image}" class="mop-qr-thumb" data-zoom-mop="${m.id}" alt="${esc(m.method)} QR" style="width:84px;height:84px;object-fit:contain;background:#ffffff;border-radius:10px;border:1.5px solid var(--line);padding:3px;cursor:pointer;box-shadow:0 2px 6px rgba(0,0,0,0.2);" />
                       <button type="button" class="btn btn-ghost btn-sm" data-zoom-mop="${m.id}" style="display:block;width:100%;font-size:9.5px;padding:2px 4px;margin-top:4px;white-space:nowrap;">🔍 Zoom QR</button>
                     </div>
                   ` : `
-                    <div style="width:84px;height:84px;border-radius:10px;background:#f3f4f6;border:1.5px dashed #cbd5e1;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#9ca3af;font-size:10px;padding:6px;text-align:center;">
+                    <div style="width:84px;height:84px;border-radius:10px;background:var(--bg2);border:1.5px dashed var(--line);display:flex;flex-direction:column;align-items:center;justify-content:center;color:var(--muted);font-size:10px;padding:6px;text-align:center;">
                       <span style="font-size:22px;margin-bottom:2px;">📷</span>
                       <span>No QR Code</span>
                     </div>
@@ -2013,7 +2013,7 @@
                   <div>
                     <span class="tiny muted" style="font-size:9.5px;text-transform:uppercase;font-weight:700;letter-spacing:0.04em;">Account Name:</span>
                     <div style="display:flex;align-items:center;gap:6px;">
-                      <strong style="font-size:13.5px;color:#0b4d2c;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${esc(m.account_name)}</strong>
+                      <strong style="font-size:13.5px;color:var(--text);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${esc(m.account_name)}</strong>
                       <button type="button" data-copy-txt="${esc(m.account_name)}" class="btn btn-ghost btn-sm" style="padding:1px 6px;font-size:10px;" title="Copy Account Name">Copy</button>
                     </div>
                   </div>
@@ -2027,7 +2027,7 @@
                   </div>
 
                   ${m.instructions ? `
-                    <p class="tiny muted" style="margin:2px 0 0;font-size:11px;line-height:1.4;background:#f9fcf9;padding:6px 8px;border-radius:6px;border:1px solid rgba(15,122,69,0.12);">
+                    <p class="tiny muted" style="margin:2px 0 0;font-size:11px;line-height:1.4;background:var(--bg2);padding:6px 8px;border-radius:6px;border:1px solid var(--line);">
                       ℹ ${esc(m.instructions)}
                     </p>
                   ` : ''}
@@ -2040,7 +2040,7 @@
               <div style="display:flex;gap:6px;">
                 ${!isPrimary ? `
                   <button type="button" class="btn btn-ghost btn-sm" data-mop-primary="${m.id}" style="font-size:11px;padding:4px 8px;">★ Make Primary</button>
-                ` : '<span class="tiny" style="color:#0f7a45;font-weight:700;">✓ Primary Channel</span>'}
+                ` : '<span class="tiny" style="color:var(--jade);font-weight:700;">✓ Primary Channel</span>'}
                 <button type="button" class="btn btn-ghost btn-sm" data-mop-toggle="${m.id}" style="font-size:11px;padding:4px 8px;">
                   ${isActive ? 'Disable' : 'Enable'}
                 </button>
@@ -2650,13 +2650,13 @@
         const isInactive = u.status === 'inactive';
         const isAdminDirect = !u.sponsor_mobile || u.sponsor_mobile === 'Toshi' || u.sponsor_id === 1;
         const activateBtn = isInactive
-          ? '<button type="button" data-act-id="' + u.id + '" data-act-mobile="' + esc(u.mobile_number) + '" data-act-sponsor="' + esc(u.sponsor_mobile || 'Admin') + '" class="btn-admin-action" style="padding:2px 7px;font-size:10.5px;font-weight:800;margin-right:4px;background:#0f7a45;color:#fff;border-radius:4px;" title="Activate & Place in Binary Tree">⚡ Activate</button>'
+          ? '<button type="button" data-act-id="' + u.id + '" data-act-mobile="' + esc(u.mobile_number) + '" data-act-sponsor="' + esc(u.sponsor_mobile || 'Admin') + '" class="btn-admin-action" style="padding:2px 7px;font-size:10.5px;font-weight:800;margin-right:4px;background:var(--jade);color:#0c131c;border-radius:4px;" title="Activate & Place in Binary Tree">⚡ Activate</button>'
           : '';
         const adminDirectTag = (isInactive && isAdminDirect)
-          ? ' <span class="badge-tag" style="background:#e0f2fe;color:#0369a1;font-size:9px;padding:1px 5px;font-weight:800;">⭐ Admin Direct</span>'
+          ? ' <span class="badge-tag" style="background:rgba(56,189,248,0.18);color:#38bdf8;border:1px solid rgba(56,189,248,0.35);font-size:9px;padding:1px 5px;font-weight:800;">⭐ Admin Direct</span>'
           : '';
 
-        const roleBadge = u.role === 'admin' ? ' <span class="badge-tag" style="background:#0b4d2c;color:#fff">Admin</span>' : '';
+        const roleBadge = u.role === 'admin' ? ' <span class="badge-tag" style="background:rgba(46,213,158,0.18);color:var(--jade);border:1px solid rgba(46,213,158,0.35);">Admin</span>' : '';
         const sponsorText = u.sponsor_mobile ? esc(u.sponsor_mobile) : '<span class="muted">—</span>';
         const treeBtn = '<button type="button" data-tree-user-id="' + u.id + '" class="btn btn-ghost btn-sm" style="padding:2px 7px;font-size:10.5px;margin-right:4px;" title="View Genealogy Tree">🌳 Tree</button>';
         const deleteBtn = u.role === 'admin'
@@ -2673,7 +2673,7 @@
           '<td>' + statusBadge + adminDirectTag + '</td>' +
           '<td>' + sponsorText + '</td>' +
           '<td>' + (u.directs || 0) + '</td>' +
-          '<td style="color:#0f7a45;font-weight:700">' + peso(u.total_binary_earnings) + '</td>' +
+          '<td style="color:var(--jade);font-weight:700">' + peso(u.total_binary_earnings) + '</td>' +
           '<td>' + peso(u.binary_ref_balance) + '</td>' +
           '<td>' + peso(u.tradein_ref_balance) + '</td>' +
           '<td>' + peso(u.tradein_cycle_balance) + '</td>' +
@@ -2694,9 +2694,9 @@
                 ? '<span class="badge-tag tag-expired">Expired</span>'
                 : '<span class="badge-tag tag-rejected">' + esc(u.status) + '</span>';
 
-          const roleBadge = u.role === 'admin' ? ' <span class="badge-tag" style="background:#0b4d2c;color:#fff;font-size:9.5px;padding:1px 5px;">Admin</span>' : '';
+          const roleBadge = u.role === 'admin' ? ' <span class="badge-tag" style="background:rgba(46,213,158,0.18);color:var(--jade);border:1px solid rgba(46,213,158,0.35);font-size:9.5px;padding:1px 5px;">Admin</span>' : '';
           const adminDirectTag = (isInactive && isAdminDirect)
-            ? ' <span class="badge-tag" style="background:#e0f2fe;color:#0369a1;font-size:9.5px;padding:1px 5px;font-weight:800;">⭐ Admin Direct</span>'
+            ? ' <span class="badge-tag" style="background:rgba(56,189,248,0.18);color:#38bdf8;border:1px solid rgba(56,189,248,0.35);font-size:9.5px;padding:1px 5px;font-weight:800;">⭐ Admin Direct</span>'
             : '';
           const sponsorText = u.sponsor_mobile ? esc(u.sponsor_mobile) : '—';
           const mobActivateBtn = isInactive
@@ -2715,7 +2715,7 @@
             <div class="admin-mob-card">
               <div class="admin-mob-card-head">
                 <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;">
-                  <strong style="font-size:13.5px;color:#0b4d2c;">#${u.id}</strong>
+                  <strong style="font-size:13.5px;color:var(--jade);">#${u.id}</strong>
                   <strong style="font-size:13.5px;">${esc(u.mobile_number)}</strong>
                   ${roleBadge}
                   ${statusBadge}
@@ -2734,7 +2734,7 @@
                 </div>
                 <div class="admin-mob-card-field">
                   <span class="admin-mob-card-label">Binary Earned</span>
-                  <span class="admin-mob-card-val" style="color:#0f7a45;font-weight:700;">${peso(u.total_binary_earnings)}</span>
+                  <span class="admin-mob-card-val" style="color:var(--jade);font-weight:700;">${peso(u.total_binary_earnings)}</span>
                 </div>
                 <div class="admin-mob-card-field">
                   <span class="admin-mob-card-label">Binary Ref Bal</span>
@@ -3046,8 +3046,8 @@
             ? '<span class="badge-tag tag-assigned">Assigned to Seller</span>'
             : '<span class="badge-tag tag-used">Used / Active</span>';
 
-        const assignedMobile = c.assigned_mobile ? '<strong style="color:#0b4d2c;">' + esc(c.assigned_mobile) + '</strong>' : '<span class="muted">—</span>';
-        const usedMobile = c.used_mobile ? '<strong style="color:#0f7a45;">' + esc(c.used_mobile) + '</strong>' : '<span class="muted">—</span>';
+        const assignedMobile = c.assigned_mobile ? '<strong style="color:var(--text);">' + esc(c.assigned_mobile) + '</strong>' : '<span class="muted">—</span>';
+        const usedMobile = c.used_mobile ? '<strong style="color:var(--jade);">' + esc(c.used_mobile) + '</strong>' : '<span class="muted">—</span>';
 
         // Placement column
         let placementHtml = '<span class="muted">—</span>';
@@ -3075,7 +3075,7 @@
 
         return '<tr>' +
           '<td><strong>#' + c.id + '</strong></td>' +
-          '<td><div style="display:flex;align-items:center;gap:6px;"><code style="font-weight:700;font-size:13px;color:#0b4d2c;letter-spacing:0.04em;">' + esc(c.code) + '</code>' + copyBtn + '</div></td>' +
+          '<td><div style="display:flex;align-items:center;gap:6px;"><code style="font-weight:700;font-size:13px;color:var(--jade);letter-spacing:0.04em;">' + esc(c.code) + '</code>' + copyBtn + '</div></td>' +
           '<td>' + badge + '</td>' +
           '<td>' + assignedMobile + '</td>' +
           '<td>' + usedMobile + '</td>' +
@@ -3094,8 +3094,8 @@
               ? '<span class="badge-tag tag-assigned">Assigned to Seller</span>'
               : '<span class="badge-tag tag-used">Used / Active</span>';
 
-          const assignedMobile = c.assigned_mobile ? '<strong style="color:#0b4d2c;">' + esc(c.assigned_mobile) + '</strong>' : '<span class="muted">—</span>';
-          const usedMobile = c.used_mobile ? '<strong style="color:#0f7a45;">' + esc(c.used_mobile) + '</strong>' : '<span class="muted">—</span>';
+          const assignedMobile = c.assigned_mobile ? '<strong style="color:var(--text);">' + esc(c.assigned_mobile) + '</strong>' : '<span class="muted">—</span>';
+          const usedMobile = c.used_mobile ? '<strong style="color:var(--jade);">' + esc(c.used_mobile) + '</strong>' : '<span class="muted">—</span>';
 
           let placementHtml = '<span class="muted">—</span>';
           if (c.status === 'used') {
@@ -3118,13 +3118,13 @@
             <div class="admin-mob-card">
               <div class="admin-mob-card-head">
                 <div style="display:flex;align-items:center;gap:6px;">
-                  <strong style="font-size:13px;color:#0b4d2c;">#${c.id}</strong>
+                  <strong style="font-size:13px;color:var(--jade);">#${c.id}</strong>
                   ${badge}
                 </div>
                 <span class="tiny muted">${fmtDate(c.created_at)}</span>
               </div>
-              <div style="display:flex;align-items:center;justify-content:space-between;background:rgba(15,122,69,0.06);border:1px solid rgba(15,122,69,0.18);border-radius:10px;padding:8px 12px;">
-                <code style="font-weight:800;font-size:15px;color:#0b4d2c;letter-spacing:0.06em;">${esc(c.code)}</code>
+              <div style="display:flex;align-items:center;justify-content:space-between;background:rgba(46,213,158,0.08);border:1px solid rgba(46,213,158,0.25);border-radius:10px;padding:8px 12px;">
+                <code style="font-weight:800;font-size:15px;color:var(--jade);letter-spacing:0.06em;">${esc(c.code)}</code>
                 ${copyBtn}
               </div>
               <div class="admin-mob-card-grid">
@@ -3265,7 +3265,7 @@
         const payouts = (p.payouts_completed || 0) + ' / 4 payouts';
 
         const methodBadge = p.payment_method ? `<span class="badge-tag tag-available" style="font-size:9.5px;padding:2px 6px;">${esc(p.payment_method)}</span>` : '<span class="muted">—</span>';
-        const refTag = p.ref_number ? `<code style="font-size:11px;font-weight:700;color:#0b4d2c;display:block;margin-top:2px;">${esc(p.ref_number)}</code>` : '';
+        const refTag = p.ref_number ? `<code style="font-size:11px;font-weight:700;color:var(--jade);display:block;margin-top:2px;">${esc(p.ref_number)}</code>` : '';
         const methodCol = `<div>${methodBadge}${refTag}</div>`;
 
         const hasReceipt = Boolean(p.receipt_image || p.receipt_url);
@@ -3282,7 +3282,7 @@
           <td><strong>#${p.id}</strong></td>
           <td><strong>${esc(p.mobile_number)}</strong></td>
           <td style="font-weight:600;">${peso(p.capital)}</td>
-          <td style="color:#0f7a45;font-weight:700;">${peso(p.total_return)}</td>
+          <td style="color:var(--jade);font-weight:700;">${peso(p.total_return)}</td>
           <td>${methodCol}</td>
           <td>${receiptBtn}</td>
           <td>${payouts}</td>
@@ -3310,7 +3310,7 @@
           const payouts = (p.payouts_completed || 0) + ' / 4 payouts';
 
           const methodBadge = p.payment_method ? `<span class="badge-tag tag-available" style="font-size:9.5px;padding:2px 6px;">${esc(p.payment_method)}</span>` : '<span class="muted">—</span>';
-          const refTag = p.ref_number ? `<code style="font-size:11px;font-weight:700;color:#0b4d2c;display:inline-block;margin-left:4px;">${esc(p.ref_number)}</code>` : '';
+          const refTag = p.ref_number ? `<code style="font-size:11px;font-weight:700;color:var(--jade);display:inline-block;margin-left:4px;">${esc(p.ref_number)}</code>` : '';
           const methodCol = `<span>${methodBadge}${refTag}</span>`;
 
           const hasReceipt = Boolean(p.receipt_image || p.receipt_url);
@@ -3322,7 +3322,7 @@
             <div class="admin-mob-card ${isPending ? 'pending' : ''}">
               <div class="admin-mob-card-head">
                 <div style="display:flex;align-items:center;gap:6px;">
-                  <strong style="font-size:13.5px;color:#0b4d2c;">#${p.id}</strong>
+                  <strong style="font-size:13.5px;color:var(--jade);">#${p.id}</strong>
                   ${badge}
                 </div>
                 <span class="tiny muted">${fmtDate(p.created_at || p.start_date)}</span>
@@ -3334,11 +3334,11 @@
                 </div>
                 <div class="admin-mob-card-field">
                   <span class="admin-mob-card-label">Capital</span>
-                  <span class="admin-mob-card-val" style="font-weight:700;color:#0b4d2c;">${peso(p.capital)}</span>
+                  <span class="admin-mob-card-val" style="font-weight:700;color:var(--text);">${peso(p.capital)}</span>
                 </div>
                 <div class="admin-mob-card-field">
                   <span class="admin-mob-card-label">Total Return</span>
-                  <span class="admin-mob-card-val" style="color:#0f7a45;font-weight:700;">${peso(p.total_return)}</span>
+                  <span class="admin-mob-card-val" style="color:var(--jade);font-weight:700;">${peso(p.total_return)}</span>
                 </div>
                 <div class="admin-mob-card-field">
                   <span class="admin-mob-card-label">Progress</span>
@@ -3517,13 +3517,13 @@
               <div style="flex:1;">
                 <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-bottom:3px;">
                   <span class="badge-tag tag-expired" style="font-size:10px;font-weight:700;">Trade-In Deposit</span>
-                  <strong style="font-size:13px;color:#0b4d2c;">#${p.id} · ${esc(p.mobile_number)}</strong>
+                  <strong style="font-size:13px;color:var(--jade);">#${p.id} · ${esc(p.mobile_number)}</strong>
                   <span class="tiny muted">• ${fmtDate(p.created_at || p.start_date)}</span>
                 </div>
                 <div style="display:flex;gap:14px;align-items:center;flex-wrap:wrap;font-size:12px;margin-top:4px;">
-                  <span>Capital: <strong style="color:#0b4d2c;">${peso(p.capital)}</strong></span>
-                  <span>120% Return: <strong style="color:#0f7a45;">${peso(p.total_return)}</strong></span>
-                  <span>Method: <code style="font-weight:700;color:#0b4d2c;">${esc(p.payment_method || '—')}</code></span>
+                  <span>Capital: <strong style="color:var(--text);">${peso(p.capital)}</strong></span>
+                  <span>120% Return: <strong style="color:var(--jade);">${peso(p.total_return)}</strong></span>
+                  <span>Method: <code style="font-weight:700;color:var(--jade);">${esc(p.payment_method || '—')}</code></span>
                   <span>Proof: ${receiptBtn}</span>
                 </div>
               </div>
@@ -3558,17 +3558,17 @@
                 <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-bottom:3px;">
                   <span class="badge-tag tag-pending" style="font-size:10px;font-weight:700;">Cashout Release</span>
                   ${walletBadge}
-                  <strong style="font-size:13px;color:#0b4d2c;">#${w.id} · ${esc(w.mobile_number)}</strong>
+                  <strong style="font-size:13px;color:var(--jade);">#${w.id} · ${esc(w.mobile_number)}</strong>
                   <span class="tiny muted">• ${fmtDate(w.created_at)}</span>
                 </div>
                 <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;font-size:12px;margin-top:4px;">
                   <div style="display:inline-flex;align-items:center;gap:4px;">
                     ${iconImg}
-                    <strong style="color:#0b4d2c;">${esc(w.account_name || '—')}</strong>
-                    ${accNum ? `<code style="font-weight:700;color:#0f7a45;background:rgba(15,122,69,0.06);padding:2px 6px;border-radius:4px;">${accNum}</code>${copyBtn}` : ''}
+                    <strong style="color:var(--text);">${esc(w.account_name || '—')}</strong>
+                    ${accNum ? `<code style="font-weight:700;color:var(--jade);background:rgba(46,213,158,0.12);padding:2px 6px;border-radius:4px;">${accNum}</code>${copyBtn}` : ''}
                   </div>
                   <div class="amount-release-box" style="display:inline-flex;align-items:center;gap:6px;padding:4px 10px;margin:0;">
-                    <span style="font-size:11px;color:#065f46;font-weight:700;">RELEASE:</span>
+                    <span style="font-size:11px;color:var(--jade);font-weight:700;">RELEASE:</span>
                     <span class="amount-release-val" style="font-size:15px;">${peso(w.net_amount)}</span>
                     <span class="amount-release-less" style="margin:0;font-size:10.5px;">(Gross ${peso(w.amount)} - ${peso(w.fee)} tax)</span>
                   </div>
@@ -3728,9 +3728,9 @@
           const isApprove = act === 'approve';
 
           const releasePill = `
-            <div style="background:#ecfdf5;border:1.5px solid #059669;border-radius:8px;padding:6px 12px;display:inline-block;">
-              <span style="font-size:15px;font-weight:800;color:#047857;">${peso(req.net_amount || 0)}</span>
-              <span style="font-size:11px;color:#065f46;font-weight:700;display:block;">(Already less tax/fee of ${peso(req.fee || 0)})</span>
+            <div style="background:rgba(46,213,158,0.12);border:1.5px solid rgba(46,213,158,0.35);border-radius:8px;padding:6px 12px;display:inline-block;">
+              <span style="font-size:15px;font-weight:800;color:var(--jade);">${peso(req.net_amount || 0)}</span>
+              <span style="font-size:11px;color:var(--muted);font-weight:700;display:block;">(Already less tax/fee of ${peso(req.fee || 0)})</span>
             </div>
           `;
 
@@ -3957,9 +3957,9 @@
           '<div>' +
           '<div style="display:flex;align-items:center;gap:6px;margin-bottom:2px;">' +
           methodBadge +
-          '<strong style="font-size:12.5px;color:#0b4d2c;">' + accName + '</strong>' +
+          '<strong style="font-size:12.5px;color:var(--text);">' + accName + '</strong>' +
           '</div>' +
-          (accNum ? '<div style="display:flex;align-items:center;gap:6px;"><code style="font-weight:700;font-size:12px;color:#0f7a45;background:rgba(15,122,69,0.06);padding:2px 6px;border-radius:4px;">' + accNum + '</code>' + copyBtn + '</div>' : '') +
+          (accNum ? '<div style="display:flex;align-items:center;gap:6px;"><code style="font-weight:700;font-size:12px;color:var(--jade);background:rgba(46,213,158,0.12);padding:2px 6px;border-radius:4px;">' + accNum + '</code>' + copyBtn + '</div>' : '') +
           '</div>' +
           '</div>';
 
@@ -4026,7 +4026,7 @@
             <div class="admin-mob-card ${isPending ? 'pending' : ''}">
               <div class="admin-mob-card-head">
                 <div style="display:flex;align-items:center;gap:6px;">
-                  <strong style="font-size:13.5px;color:#0b4d2c;">#${w.id}</strong>
+                  <strong style="font-size:13.5px;color:var(--jade);">#${w.id}</strong>
                   ${walletBadge}
                   ${badge}
                 </div>
@@ -4048,16 +4048,16 @@
                     <div style="flex:1;">
                       <div style="display:flex;align-items:center;gap:6px;">
                         ${methodBadge}
-                        <strong style="font-size:12.5px;color:#0b4d2c;">${accName}</strong>
+                        <strong style="font-size:12.5px;color:var(--text);">${accName}</strong>
                       </div>
-                      ${accNum ? `<div style="display:flex;align-items:center;gap:6px;margin-top:2px;"><code style="font-weight:700;font-size:12px;color:#0f7a45;background:rgba(15,122,69,0.06);padding:2px 6px;border-radius:4px;">${accNum}</code>${copyBtn}</div>` : ''}
+                      ${accNum ? `<div style="display:flex;align-items:center;gap:6px;margin-top:2px;"><code style="font-weight:700;font-size:12px;color:var(--jade);background:rgba(46,213,158,0.12);padding:2px 6px;border-radius:4px;">${accNum}</code>${copyBtn}</div>` : ''}
                     </div>
                   </div>
                 </div>
                 <div class="admin-mob-card-field full">
                   <div class="amount-release-box">
                     <div style="display:flex;justify-content:space-between;align-items:baseline;">
-                      <span style="font-size:11px;font-weight:700;color:#065f46;text-transform:uppercase;letter-spacing:0.04em;">Amount to Release (Net)</span>
+                      <span style="font-size:11px;font-weight:700;color:var(--jade);text-transform:uppercase;letter-spacing:0.04em;">Amount to Release (Net)</span>
                       <span class="amount-release-val">${peso(w.net_amount)}</span>
                     </div>
                     <span class="amount-release-less">✓ Already less ${peso(w.fee)} processing fee / tax</span>
@@ -4105,9 +4105,9 @@
           const isApprove = act === 'approve';
 
           const releasePill = `
-            <div style="background:#ecfdf5;border:1.5px solid #059669;border-radius:8px;padding:6px 12px;display:inline-block;">
-              <span style="font-size:15px;font-weight:800;color:#047857;">${peso(req.net_amount || 0)}</span>
-              <span style="font-size:11px;color:#065f46;font-weight:700;display:block;">(Already less tax/fee of ${peso(req.fee || 0)})</span>
+            <div style="background:rgba(46,213,158,0.12);border:1.5px solid rgba(46,213,158,0.35);border-radius:8px;padding:6px 12px;display:inline-block;">
+              <span style="font-size:15px;font-weight:800;color:var(--jade);">${peso(req.net_amount || 0)}</span>
+              <span style="font-size:11px;color:var(--muted);font-weight:700;display:block;">(Already less tax/fee of ${peso(req.fee || 0)})</span>
             </div>
           `;
 

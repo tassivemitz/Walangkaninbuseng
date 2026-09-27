@@ -189,7 +189,7 @@
           <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:14px;">
             <div style="max-width:680px;">
               <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">
-                <span class="pill closed" style="background:#fef3c7;color:#b45309;border-color:#fde68a;">● Account
+                <span class="pill closed" style="background:rgba(245,166,35,0.16);color:#fbbf24;border:1px solid rgba(245,166,35,0.35);">● Account
                   Pending Activation</span>
                 <span
                   style="font-size:12px;font-weight:700;color:var(--jade);background:rgba(46,213,158,0.12);padding:2px 8px;border-radius:6px;">Upline
@@ -291,14 +291,14 @@
             <div class="m-hero-right">
               <span class="m-corner-icon">🪙</span>
               <svg class="sparkline-svg" viewBox="0 0 130 40" fill="none">
-                <path d="M0 32 Q 28 34, 52 20 T 90 15 T 130 5" stroke="#0f7a45" stroke-width="2.5"
+                <path d="M0 32 Q 28 34, 52 20 T 90 15 T 130 5" stroke="#2ed59e" stroke-width="2.5"
                   stroke-linecap="round" fill="none" />
                 <path d="M0 32 Q 28 34, 52 20 T 90 15 T 130 5 L 130 40 L 0 40 Z" fill="url(#heroSparkGrad)"
                   opacity="0.16" />
                 <defs>
                   <linearGradient id="heroSparkGrad" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0%" stop-color="#0f7a45" stop-opacity="0.8" />
-                    <stop offset="100%" stop-color="#0f7a45" stop-opacity="0" />
+                    <stop offset="0%" stop-color="#2ed59e" stop-opacity="0.8" />
+                    <stop offset="100%" stop-color="#2ed59e" stop-opacity="0" />
                   </linearGradient>
                 </defs>
               </svg>
@@ -585,7 +585,7 @@
           <div style="display:flex;align-items:center;gap:8px;">
             <span style="font-size:18px;">⚡</span>
             <div>
-              <strong style="color:#b45309;font-size:12.5px;" id="treeUnactivatedTitle">You have pending directs waiting
+              <strong style="color:#fbbf24;font-size:12.5px;" id="treeUnactivatedTitle">You have pending directs waiting
                 for activation!</strong>
               <p class="tiny muted" style="margin:2px 0 0;">Click any empty <strong style="color:var(--jade);">+ Encode
                   Slot</strong> below to place and activate them in your tree.</p>
@@ -631,7 +631,7 @@
         </div>
 
         <div
-          style="display:flex;justify-content:space-between;align-items:center;margin-top:12px;padding:8px 12px;background:#f9fcf9;border-radius:10px;font-size:11px;color:var(--muted);flex-wrap:wrap;gap:8px;">
+          style="display:flex;justify-content:space-between;align-items:center;margin-top:12px;padding:8px 12px;background:var(--bg2);border:1px solid var(--line);border-radius:10px;font-size:11px;color:var(--muted);flex-wrap:wrap;gap:8px;">
           <span>💡 <strong>Tip:</strong> Click any active member card to drill down and explore deeper branches.</span>
           <span>Click any <strong>+ Encode Slot</strong> to place an account directly in that slot.</span>
         </div>
@@ -652,27 +652,27 @@
       </header>
       <div class="plan-modal-body">
         <div
-          style="padding:8px 12px;background:#fef9e7;border:1px solid rgba(234,179,8,0.3);border-radius:10px;font-size:11.5px;color:#854d0e;margin-bottom:14px;line-height:1.45;">
+          style="padding:8px 12px;background:rgba(245,166,35,0.14);border:1px solid rgba(245,166,35,0.3);border-radius:10px;font-size:11.5px;color:#fbbf24;margin-bottom:14px;line-height:1.45;">
           🛡️ <strong>Placement Rule:</strong> Bawal mapunta sa upline o crossline. Ang downline ay dapat ilagay sa
           ilalim mo o ng kahit sinong downline sa loob ng sarili mong network tree.
         </div>
 
         <!-- Visual Target Slot Banner -->
         <div id="encodeTargetSlotBanner"
-          style="margin-bottom:14px;padding:12px 16px;background:#eefbf3;border:1.5px solid var(--jade);border-radius:12px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 4px 12px rgba(15,122,69,0.08);">
+          style="margin-bottom:14px;padding:12px 16px;background:rgba(46,213,158,0.12);border:1.5px solid var(--jade);border-radius:12px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 4px 12px rgba(0,0,0,0.2);">
           <div>
             <span class="tiny muted" style="font-weight:700;display:block;letter-spacing:0.04em;">SELECTED TREE
               PLACEMENT:</span>
-            <strong id="targetSlotPlacementText" style="font-size:15px;color:#0b4d2c;">Yourself</strong>
+            <strong id="targetSlotPlacementText" style="font-size:15px;color:var(--jade);">Yourself</strong>
           </div>
           <span id="targetSlotLegBadge" class="pill"
-            style="font-size:12px;font-weight:800;background:#0b4d2c;color:#fff;padding:6px 14px;border-radius:20px;">RIGHT
+            style="font-size:12px;font-weight:800;background:var(--jade);color:#0c131c;padding:6px 14px;border-radius:20px;">RIGHT
             LEG ▶</span>
         </div>
 
         <!-- In-Modal Error Notification Banner -->
         <div id="encodeErrorBanner"
-          style="display:none;margin-bottom:14px;padding:12px 16px;background:#fef2f2;border:1.5px solid #ef4444;border-radius:12px;color:#991b1b;font-size:13px;font-weight:700;line-height:1.45;box-shadow:0 4px 12px rgba(239,68,68,0.12);">
+          style="display:none;margin-bottom:14px;padding:12px 16px;background:rgba(239,68,68,0.14);border:1.5px solid #ef4444;border-radius:12px;color:#f87171;font-size:13px;font-weight:700;line-height:1.45;box-shadow:0 4px 12px rgba(239,68,68,0.2);">
         </div>
 
         <!-- Mode Selector: Register & Place vs Activate Existing -->
@@ -718,8 +718,8 @@
           <div id="panelEncodeExistingUser" style="display:none;">
             <!-- Quick Selector for Sponsor's Pending Directs -->
             <div id="unactivatedDirectsPickerWrap"
-              style="display:none;margin-bottom:12px;background:#f0fbf5;padding:10px 12px;border-radius:10px;border:1px solid rgba(15,122,69,0.2);">
-              <label class="tiny" style="font-weight:800;color:#0b4d2c;display:block;margin-bottom:4px;">⚡ PICK FROM
+              style="display:none;margin-bottom:12px;background:var(--bg2);padding:10px 12px;border-radius:10px;border:1px solid var(--line);">
+              <label class="tiny" style="font-weight:800;color:var(--jade);display:block;margin-bottom:4px;">⚡ PICK FROM
                 YOUR PENDING DIRECTS:</label>
               <select class="in" id="selectPendingDirect" style="width:100%;font-size:13px;font-weight:600;">
                 <option value="">-- Or enter username manually below --</option>
@@ -838,7 +838,7 @@
             <div style="display:flex;align-items:center;gap:10px;">
               <span style="font-size:24px;">🎰</span>
               <div>
-                <h4 style="margin:0;font-size:14px;color:#0b4d2c;font-weight:800;letter-spacing:0.02em;">TRADE-IN SLOTS
+                <h4 style="margin:0;font-size:14px;color:var(--jade);font-weight:800;letter-spacing:0.02em;">TRADE-IN SLOTS
                   CAPACITY</h4>
                 <p class="tiny muted" style="margin:2px 0 0;">Each active package occupies 1 slot. Completed 4-cycle
                   packages free up slots.</p>
@@ -852,7 +852,7 @@
         </div>
 
         <div id="tradeinSlotsFullNotice" class="tradein-blocked-notice"
-          style="display:none;margin-bottom:14px;background:#fef2f2;border-color:#fca5a5;color:#991b1b;">
+          style="display:none;margin-bottom:14px;background:rgba(239,68,68,0.14);border:1.5px solid rgba(239,68,68,0.35);color:#f87171;">
           ⛔ <strong>All Trade-In Slots Occupied:</strong> You have reached the capacity of active packages. You must
           complete an existing 4-cycle package before opening a new slot for deposit.
         </div>
@@ -892,7 +892,7 @@
               <div style="flex:1;min-width:200px;display:flex;flex-direction:column;gap:8px;">
                 <div style="display:flex;align-items:center;gap:8px;">
                   <span id="mopActiveMethodBadge" class="badge-tag tag-available"
-                    style="font-size:11px;padding:2px 8px;font-weight:800;background:#0b4d2c;color:#fff;">GCash</span>
+                    style="font-size:11px;padding:2px 8px;font-weight:800;background:var(--jade);color:#0c131c;">GCash</span>
                   <span id="mopActivePrimaryBadge" class="badge-tag tag-approved"
                     style="font-size:9.5px;padding:1px 6px;display:none;">★ Official</span>
                 </div>
@@ -2000,7 +2000,7 @@
       container.innerHTML = `
         <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;padding:48px 20px;color:var(--muted);gap:12px;">
           <div class="spinner" style="width:30px;height:30px;border:3px solid rgba(15,122,69,0.2);border-top-color:var(--jade);border-radius:50%;animation:spin 0.8s linear infinite;"></div>
-          <span style="font-size:12px;font-weight:600;color:#0b4d2c;">Loading Genealogy Network...</span>
+          <span style="font-size:12px;font-weight:600;color:var(--jade);">Loading Genealogy Network...</span>
         </div>
       `;
 
@@ -2084,7 +2084,7 @@
           if (node) {
             return `
               <div class="tree-l4-node ${node.status === 'active' ? 'active-slot' : 'inactive-slot'} clickable-drill" data-tree-target="${node.id}" title="Click to drill down into ${esc(node.mobile || node.mobile_number)}">
-                <span style="font-weight:700;color:#0b4d2c;display:block;">${esc(node.mobile || node.mobile_number)}</span>
+                <span style="font-weight:700;color:var(--text);display:block;">${esc(node.mobile || node.mobile_number)}</span>
                 <span style="color:var(--muted);font-size:7px;">${node.left_count}L·${node.right_count}R</span>
               </div>
             `;
@@ -2129,7 +2129,7 @@
             <div class="tree-grandchild-branch">
               <div class="tree-grandchild-connector"></div>
               <div class="tree-grandchild-node empty-slot clickable-encode-slot" data-slot-parent="${esc(parentMob)}" data-slot-parent-id="${parentId}" data-slot-pos="${pos}" title="Click to encode member into this slot">
-                <span class="pill" style="font-size:8px;padding:1px 5px;margin-bottom:2px;background:#e8f9f0;color:var(--jade);">${pos === 'L' ? 'LEFT ◀' : 'RIGHT ▶'}</span>
+                <span class="pill" style="font-size:8px;padding:1px 5px;margin-bottom:2px;background:rgba(46,213,158,0.14);border:1px solid rgba(46,213,158,0.3);color:var(--jade);">${pos === 'L' ? 'LEFT ◀' : 'RIGHT ▶'}</span>
                 <span style="font-size:11px;font-weight:700;color:var(--jade);margin-top:2px;">+ Encode Slot</span>
               </div>
             </div>
@@ -2167,7 +2167,7 @@
             <div class="tree-subbranch">
               <div class="tree-branch-top-connector"></div>
               <div class="tree-node empty-slot clickable-encode-slot" data-slot-parent="${esc(parentMob)}" data-slot-parent-id="${parentId}" data-slot-pos="${posKey}" title="Click to encode member into ${posLabel} slot">
-                <span class="pill" style="font-size:9px;margin-bottom:4px;background:#e8f9f0;color:var(--jade);">${posLabel}</span>
+                <span class="pill" style="font-size:9px;margin-bottom:4px;background:rgba(46,213,158,0.14);border:1px solid rgba(46,213,158,0.3);color:var(--jade);">${posLabel}</span>
                 <p style="margin:2px 0 0;font-size:13px;font-weight:700;color:var(--jade);">+ Encode Slot</p>
               </div>
             </div>
@@ -2178,7 +2178,7 @@
           <!-- Level 1: Root Focal Node -->
           <div class="tree-root-wrapper">
             <div class="tree-node root-node" style="border-color:var(--gold);background:var(--card-bg);box-shadow:0 6px 20px rgba(180,130,20,0.15);">
-              <span class="pill" style="font-size:9px;background:#fef3c7;color:#92400e;margin-bottom:2px;font-weight:700;">★ FOCUS NODE</span>
+              <span class="pill" style="font-size:9px;background:rgba(245,166,35,0.18);color:#fbbf24;border:1px solid rgba(245,166,35,0.35);margin-bottom:2px;font-weight:700;">★ FOCUS NODE</span>
               <p class="tree-node-name" style="font-size:14px;">👤 ${esc(root.mobile || root.mobile_number)}</p>
               <span class="pill ${root.status === 'active' ? 'open' : 'closed'}">${esc(root.status)}</span>
               <div class="tree-node-counts">
@@ -2699,7 +2699,7 @@
                 <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:10px;">
                   <div>
                     <div style="display:flex;align-items:center;gap:4px;flex-wrap:wrap;">
-                      <strong style="font-size:15px;color:#0b4d2c;">${peso(p.capital)}</strong>
+                      <strong style="font-size:15px;color:var(--text);">${peso(p.capital)}</strong>
                       <span style="color:var(--muted);font-size:12px;">➔</span>
                       <span style="color:var(--jade);font-weight:800;font-size:15px;">${peso(p.total_return)}</span>
                       ${methodTag}
@@ -3141,14 +3141,14 @@
     if (btnSelfL && btnSelfR && inSelfPos) {
       btnSelfL.onclick = () => {
         btnSelfL.style.border = '2px solid var(--jade)';
-        btnSelfL.style.background = '#f0fbf5';
+        btnSelfL.style.background = 'rgba(46, 213, 158, 0.16)';
         btnSelfR.style.border = '1px solid var(--line)';
         btnSelfR.style.background = '';
         inSelfPos.value = 'L';
       };
       btnSelfR.onclick = () => {
         btnSelfR.style.border = '2px solid var(--jade)';
-        btnSelfR.style.background = '#f0fbf5';
+        btnSelfR.style.background = 'rgba(46, 213, 158, 0.16)';
         btnSelfL.style.border = '1px solid var(--line)';
         btnSelfL.style.background = '';
         inSelfPos.value = 'R';
@@ -3170,43 +3170,45 @@
         if (btnEncR) {
           btnEncR.classList.add('active');
           btnEncR.style.border = '2.5px solid var(--jade)';
-          btnEncR.style.background = '#e8f9f0';
-          btnEncR.style.color = '#0b4d2c';
-          btnEncR.style.boxShadow = '0 0 0 3px rgba(15,122,69,0.18)';
+          btnEncR.style.background = 'rgba(46, 213, 158, 0.16)';
+          btnEncR.style.color = 'var(--jade)';
+          btnEncR.style.boxShadow = '0 0 0 3px rgba(46, 213, 158, 0.2)';
           btnEncR.innerHTML = '✔ RIGHT LEG ▶';
         }
         if (btnEncL) {
           btnEncL.classList.remove('active');
           btnEncL.style.border = '1px solid var(--line)';
-          btnEncL.style.background = '#ffffff';
-          btnEncL.style.color = 'var(--text)';
+          btnEncL.style.background = 'transparent';
+          btnEncL.style.color = 'var(--muted)';
           btnEncL.style.boxShadow = 'none';
           btnEncL.innerHTML = '◀ LEFT LEG';
         }
         if (legBadge) {
           legBadge.textContent = 'RIGHT LEG ▶';
-          legBadge.style.background = '#0b4d2c';
+          legBadge.style.background = 'var(--jade)';
+          legBadge.style.color = '#0c131c';
         }
       } else {
         if (btnEncL) {
           btnEncL.classList.add('active');
           btnEncL.style.border = '2.5px solid var(--jade)';
-          btnEncL.style.background = '#e8f9f0';
-          btnEncL.style.color = '#0b4d2c';
-          btnEncL.style.boxShadow = '0 0 0 3px rgba(15,122,69,0.18)';
+          btnEncL.style.background = 'rgba(46, 213, 158, 0.16)';
+          btnEncL.style.color = 'var(--jade)';
+          btnEncL.style.boxShadow = '0 0 0 3px rgba(46, 213, 158, 0.2)';
           btnEncL.innerHTML = '✔ ◀ LEFT LEG';
         }
         if (btnEncR) {
           btnEncR.classList.remove('active');
           btnEncR.style.border = '1px solid var(--line)';
-          btnEncR.style.background = '#ffffff';
-          btnEncR.style.color = 'var(--text)';
+          btnEncR.style.background = 'transparent';
+          btnEncR.style.color = 'var(--muted)';
           btnEncR.style.boxShadow = 'none';
           btnEncR.innerHTML = 'RIGHT LEG ▶';
         }
         if (legBadge) {
           legBadge.textContent = 'LEFT LEG ◀';
-          legBadge.style.background = '#0f7a45';
+          legBadge.style.background = 'var(--jade)';
+          legBadge.style.color = '#0c131c';
         }
       }
     }
@@ -3652,7 +3654,7 @@
       tradeinDropzone.ondragover = (e) => {
         e.preventDefault();
         tradeinDropzone.style.borderColor = 'var(--jade)';
-        tradeinDropzone.style.background = '#f0fbf5';
+        tradeinDropzone.style.background = 'rgba(46, 213, 158, 0.12)';
       };
       tradeinDropzone.ondragleave = () => {
         tradeinDropzone.style.borderColor = '';
