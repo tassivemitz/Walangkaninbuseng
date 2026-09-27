@@ -1276,6 +1276,24 @@ body[data-theme="light"].admin-terminal-body {
   width: 80px;
 }
 
+/* Inventory Header Bars & Pagination Bars */
+.code-inventory-head-bar,
+.member-inventory-head-bar {
+  background: #1c2732;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.25);
+  transition: all 0.2s ease;
+}
+
+.table-pagination-bar {
+  background: #1c2732;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 10px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.2);
+  transition: all 0.2s ease;
+}
+
 /* Tables & Controls */
 .admin-table-panel {
   background: linear-gradient(135deg, rgba(255, 255, 255, 0.8) 0%, rgba(255, 255, 255, 0.58) 100%);
@@ -9653,7 +9671,8 @@ body[data-theme="light"].auth-page-body {
     box-sizing: border-box !important;
   }
 
-  .code-inventory-head-bar {
+  .code-inventory-head-bar,
+  .member-inventory-head-bar {
     padding: 10px 12px !important;
   }
 
@@ -10221,6 +10240,7 @@ textarea::placeholder {
 :root:not([data-theme="light"]) .vault-panel,
 :root:not([data-theme="light"]) .admin-kpi-card,
 :root:not([data-theme="light"]) .code-inventory-head-bar,
+:root:not([data-theme="light"]) .member-inventory-head-bar,
 :root:not([data-theme="light"]) .table-pagination-bar,
 [data-theme="dark"] .card,
 [data-theme="dark"] .panel,
@@ -10228,6 +10248,7 @@ textarea::placeholder {
 [data-theme="dark"] .vault-panel,
 [data-theme="dark"] .admin-kpi-card,
 [data-theme="dark"] .code-inventory-head-bar,
+[data-theme="dark"] .member-inventory-head-bar,
 [data-theme="dark"] .table-pagination-bar {
   background: #1c2732 !important;
   border: 1px solid rgba(255, 255, 255, 0.08) !important;
@@ -10562,6 +10583,7 @@ textarea::placeholder {
 [data-theme="light"] .tree-visual-container,
 [data-theme="light"] .admin-kpi-card,
 [data-theme="light"] .code-inventory-head-bar,
+[data-theme="light"] .member-inventory-head-bar,
 [data-theme="light"] .table-pagination-bar,
 [data-theme="light"] .auth-card {
   background: linear-gradient(135deg, rgba(255, 255, 255, 0.96) 0%, rgba(244, 251, 247, 0.92) 100%) !important;

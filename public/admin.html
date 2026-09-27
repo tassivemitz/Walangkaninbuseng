@@ -318,11 +318,11 @@
         <section class="admin-view-panel" id="viewMembers">
           <div class="admin-sec-head">
             <div>
-              <h2 class="admin-sec-title">MEMBER LIST</h2>
-              <p class="admin-sec-sub">WITH COMPLETE DETAILS · WITH DELETE USER</p>
+              <h2 class="admin-sec-title">MEMBER DIRECTORY</h2>
+              <p class="admin-sec-sub">COMPLETE MEMBER PROFILES · ACTIVATION · PERMISSIONS</p>
             </div>
             <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
-              <input id="userSearch" class="ctrl-search" type="search" placeholder="Search by username or ID..." />
+              <input id="userSearch" class="ctrl-search" type="search" placeholder="Search by username, ID, or sponsor..." />
               <div class="ctrl-tabs">
                 <button class="ctrl-tab active" data-userfilter="all">All (<span id="userCountAll">0</span>)</button>
                 <button class="ctrl-tab" data-userfilter="active">Active</button>
@@ -332,33 +332,69 @@
             </div>
           </div>
 
-          <div class="admin-table-panel table-wrap">
-            <table class="admin-table">
-              <thead>
-                <tr>
-                  <th>ID</th>
-                  <th>Username</th>
-                  <th>Status</th>
-                  <th>Sponsor</th>
-                  <th>Directs</th>
-                  <th>Binary Earned</th>
-                  <th>Binary Ref</th>
-                  <th>Trade-In Ref</th>
-                  <th>Trade-In Cycle</th>
-                  <th>Joined Date</th>
-                  <th style="text-align:right">Actions</th>
-                </tr>
-              </thead>
-              <tbody id="userTableBody">
-                <tr>
-                  <td colspan="11" style="padding:20px;text-align:center" class="muted">Loading members...</td>
-                </tr>
-              </tbody>
-            </table>
+          <!-- Member Directory Inventory Header with Live Counters & Minimize -->
+          <div class="member-inventory-head-bar" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;margin:18px 0 14px;padding:12px 16px;border-radius:12px;">
+            <div style="display:flex;align-items:center;gap:10px;">
+              <span style="font-size:18px;">👥</span>
+              <div>
+                <strong style="font-size:13.5px;color:var(--text);letter-spacing:0.02em;">MEMBER DIRECTORY LIST</strong>
+                <span class="tiny muted" id="memberInventorySummaryTag" style="display:block;margin-top:2px;">Loading directory...</span>
+              </div>
+            </div>
+            <div style="display:flex;align-items:center;gap:8px;">
+              <button type="button" id="btnToggleMemberList" class="btn btn-sm btn-ghost" style="padding:6px 14px;font-size:11.5px;font-weight:700;">
+                <span id="toggleMemberListIcon">▾</span> <span id="toggleMemberListText">Hide List</span>
+              </button>
+            </div>
           </div>
 
-          <!-- Mobile Touch-Friendly Card View (Screens <= 768px) -->
-          <div class="admin-mobile-cards-list" id="userMobileCards"></div>
+          <!-- Collapsible Member List Wrap -->
+          <div id="memberInventoryContentWrap">
+            <div class="admin-table-panel table-wrap">
+              <table class="admin-table">
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Member Info</th>
+                    <th>Status</th>
+                    <th>Sponsor &amp; Directs</th>
+                    <th>Binary Earned</th>
+                    <th>Wallet Balances</th>
+                    <th style="text-align:right">Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="userTableBody">
+                  <tr>
+                    <td colspan="7" style="padding:20px;text-align:center" class="muted">Loading members...</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <!-- Mobile Touch-Friendly Card View (Screens <= 768px) -->
+            <div class="admin-mobile-cards-list" id="userMobileCards"></div>
+
+            <!-- Member Directory Pagination Bar (Both Desktop & Mobile) -->
+            <div id="memberPaginationBar" class="table-pagination-bar" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;margin-top:14px;padding:10px 14px;border-radius:10px;">
+              <div style="display:flex;align-items:center;gap:10px;font-size:12px;" class="muted">
+                <span id="memberPageRangeText">Showing 1–10 of 0 members</span>
+                <div style="display:flex;align-items:center;gap:6px;">
+                  <span>Per page:</span>
+                  <select id="memberPageSizeSelect" class="in" style="padding:3px 8px;font-size:12px;border-radius:6px;width:auto;">
+                    <option value="10" selected>10</option>
+                    <option value="25">25</option>
+                    <option value="50">50</option>
+                    <option value="all">All</option>
+                  </select>
+                </div>
+              </div>
+              <div style="display:flex;align-items:center;gap:6px;" id="memberPageButtons">
+                <button type="button" id="btnMemberPrevPage" class="btn btn-sm btn-ghost" style="padding:4px 10px;font-size:11.5px;">◀ Prev</button>
+                <div id="memberPageNumbers" style="display:flex;align-items:center;gap:4px;"></div>
+                <button type="button" id="btnMemberNextPage" class="btn btn-sm btn-ghost" style="padding:4px 10px;font-size:11.5px;">Next ▶</button>
+              </div>
+            </div>
+          </div>
         </section>
 
         <!-- =========================================================
@@ -1163,6 +1199,9 @@
     let codeCurrentPage = 1;
     let codePageSize = 10;
     let isCodeListMinimized = false;
+    let memberCurrentPage = 1;
+    let memberPageSize = 10;
+    let isMemberListMinimized = false;
 
     function flash(text, ok) {
       const el = document.getElementById('msg');
@@ -2664,16 +2703,70 @@
       const dl = document.getElementById('memberDatalist');
       dl.innerHTML = globalUsers.map(u => '<option value="' + esc(u.mobile_number) + '">ID #' + u.id + ' (' + esc(u.status) + ')</option>').join('');
 
+      // Live directory summary update
+      const totalUsers = globalUsers.length;
+      const activeUsers = globalUsers.filter(u => u.status === 'active').length;
+      const inactiveUsers = globalUsers.filter(u => u.status === 'inactive').length;
+      const bannedUsers = globalUsers.filter(u => u.status === 'banned').length;
+      const memSummary = document.getElementById('memberInventorySummaryTag');
+      if (memSummary) {
+        memSummary.textContent = `${activeUsers} Active · ${inactiveUsers} Inactive · ${bannedUsers} Banned (${totalUsers} Total)`;
+      }
+
+      // Member Directory Pagination
+      const totalItems = list.length;
+      const effectiveSize = memberPageSize === 'all' ? (totalItems || 1) : (Number(memberPageSize) || 10);
+      const totalPages = Math.max(1, Math.ceil(totalItems / effectiveSize));
+      if (memberCurrentPage > totalPages) memberCurrentPage = totalPages;
+      if (memberCurrentPage < 1) memberCurrentPage = 1;
+
+      const startIdx = (memberCurrentPage - 1) * effectiveSize;
+      const endIdx = memberPageSize === 'all' ? totalItems : Math.min(startIdx + effectiveSize, totalItems);
+      const pagedList = list.slice(startIdx, endIdx);
+
+      // Update Member Pagination Bar
+      const rangeText = document.getElementById('memberPageRangeText');
+      if (rangeText) {
+        rangeText.textContent = totalItems === 0
+          ? '0 members found'
+          : `Showing ${startIdx + 1}–${endIdx} of ${totalItems} members (Page ${memberCurrentPage} of ${totalPages})`;
+      }
+
+      const btnPrev = document.getElementById('btnMemberPrevPage');
+      const btnNext = document.getElementById('btnMemberNextPage');
+      if (btnPrev) btnPrev.disabled = memberCurrentPage <= 1;
+      if (btnNext) btnNext.disabled = memberCurrentPage >= totalPages;
+
+      const pageNums = document.getElementById('memberPageNumbers');
+      if (pageNums) {
+        let pBtns = '';
+        let startPage = Math.max(1, memberCurrentPage - 2);
+        let endPage = Math.min(totalPages, startPage + 4);
+        if (endPage - startPage < 4) startPage = Math.max(1, endPage - 4);
+
+        for (let p = startPage; p <= endPage; p++) {
+          const isCur = p === memberCurrentPage;
+          pBtns += `<button type="button" class="btn btn-sm ${isCur ? 'btn-mint' : 'btn-ghost'}" data-memberpage="${p}" style="padding:2px 8px;font-size:11px;min-width:26px;font-weight:${isCur ? '800' : '600'};">${p}</button>`;
+        }
+        pageNums.innerHTML = pBtns;
+        pageNums.querySelectorAll('[data-memberpage]').forEach((b) => {
+          b.onclick = () => {
+            memberCurrentPage = Number(b.dataset.memberpage);
+            renderUsers();
+          };
+        });
+      }
+
       const tbody = document.getElementById('userTableBody');
       const mobCards = document.getElementById('userMobileCards');
 
       if (!list.length) {
-        tbody.innerHTML = '<tr><td colspan="11" style="padding:20px;text-align:center" class="muted">No members found.</td></tr>';
+        tbody.innerHTML = '<tr><td colspan="7" style="padding:20px;text-align:center" class="muted">No members found matching filter.</td></tr>';
         if (mobCards) mobCards.innerHTML = '<div style="padding:20px;text-align:center" class="muted">No members found matching filter.</div>';
         return;
       }
 
-      tbody.innerHTML = list.map((u) => {
+      tbody.innerHTML = pagedList.map((u) => {
         const statusBadge = u.status === 'active'
           ? '<span class="badge-tag tag-active">Active</span>'
           : u.status === 'inactive'
@@ -2685,40 +2778,52 @@
         const isInactive = u.status === 'inactive';
         const isAdminDirect = !u.sponsor_mobile || u.sponsor_mobile === 'Toshi' || u.sponsor_id === 1;
         const activateBtn = isInactive
-          ? '<button type="button" data-act-id="' + u.id + '" data-act-mobile="' + esc(u.mobile_number) + '" data-act-sponsor="' + esc(u.sponsor_mobile || 'Admin') + '" class="btn-admin-action" style="padding:2px 7px;font-size:10.5px;font-weight:800;margin-right:4px;background:var(--jade);color:#0c131c;border-radius:4px;" title="Activate & Place in Binary Tree">⚡ Activate</button>'
+          ? '<button type="button" data-act-id="' + u.id + '" data-act-mobile="' + esc(u.mobile_number) + '" data-act-sponsor="' + esc(u.sponsor_mobile || 'Admin') + '" class="btn btn-mint btn-sm" style="padding:3px 8px;font-size:11px;font-weight:800;border-radius:6px;" title="Activate & Place in Binary Tree">⚡ Activate</button>'
           : '';
         const adminDirectTag = (isInactive && isAdminDirect)
-          ? ' <span class="badge-tag" style="background:rgba(56,189,248,0.18);color:#38bdf8;border:1px solid rgba(56,189,248,0.35);font-size:9px;padding:1px 5px;font-weight:800;">⭐ Admin Direct</span>'
+          ? ' <span class="badge-tag" style="background:rgba(56,189,248,0.18);color:#38bdf8;border:1px solid rgba(56,189,248,0.35);font-size:9.5px;padding:1px 6px;font-weight:800;">⭐ Admin Direct</span>'
           : '';
 
-        const roleBadge = u.role === 'admin' ? ' <span class="badge-tag" style="background:rgba(46,213,158,0.18);color:var(--jade);border:1px solid rgba(46,213,158,0.35);">Admin</span>' : '';
+        const roleBadge = u.role === 'admin' ? ' <span class="badge-tag" style="background:rgba(46,213,158,0.18);color:var(--jade);border:1px solid rgba(46,213,158,0.35);font-size:9.5px;padding:1px 5px;">Admin</span>' : '';
         const sponsorText = u.sponsor_mobile ? esc(u.sponsor_mobile) : '<span class="muted">—</span>';
-        const treeBtn = '<button type="button" data-tree-user-id="' + u.id + '" class="btn btn-ghost btn-sm" style="padding:2px 7px;font-size:10.5px;margin-right:4px;" title="View Genealogy Tree">🌳 Tree</button>';
+        const treeBtn = '<button type="button" data-tree-user-id="' + u.id + '" class="btn btn-ghost btn-sm" style="padding:3px 8px;font-size:11px;" title="View Genealogy Tree">🌳 Tree</button>';
         const deleteBtn = u.role === 'admin'
-          ? '<span class="tiny muted">Protected</span>'
-          : '<button data-del-id="' + u.id + '" data-del-mobile="' + esc(u.mobile_number) + '" class="btn-admin-del" style="margin-right:4px">Delete</button>' +
+          ? '<span class="tiny muted" style="padding:4px 6px;font-weight:700;">Protected</span>'
+          : '<button data-del-id="' + u.id + '" data-del-mobile="' + esc(u.mobile_number) + '" class="btn-admin-del" style="padding:3px 8px;font-size:11px;">Delete</button>' +
           (u.status === 'banned'
-            ? '<button data-ban-id="' + u.id + '" data-ban-mobile="' + esc(u.mobile_number) + '" data-ban-current="banned" class="btn-admin-unban">Unban</button>'
-            : '<button data-ban-id="' + u.id + '" data-ban-mobile="' + esc(u.mobile_number) + '" data-ban-current="active" class="btn-admin-ban">Ban</button>'
+            ? '<button data-ban-id="' + u.id + '" data-ban-mobile="' + esc(u.mobile_number) + '" data-ban-current="banned" class="btn-admin-unban" style="padding:3px 8px;font-size:11px;">Unban</button>'
+            : '<button data-ban-id="' + u.id + '" data-ban-mobile="' + esc(u.mobile_number) + '" data-ban-current="active" class="btn-admin-ban" style="padding:3px 8px;font-size:11px;">Ban</button>'
           );
 
         return '<tr>' +
-          '<td><strong>#' + u.id + '</strong></td>' +
-          '<td><strong>' + esc(u.mobile_number) + '</strong>' + roleBadge + '</td>' +
-          '<td>' + statusBadge + adminDirectTag + '</td>' +
-          '<td>' + sponsorText + '</td>' +
-          '<td>' + (u.directs || 0) + '</td>' +
-          '<td style="color:var(--jade);font-weight:700">' + peso(u.total_binary_earnings) + '</td>' +
-          '<td>' + peso(u.binary_ref_balance) + '</td>' +
-          '<td>' + peso(u.tradein_ref_balance) + '</td>' +
-          '<td>' + peso(u.tradein_cycle_balance) + '</td>' +
-          '<td class="tiny muted">' + fmtDate(u.created_at) + '</td>' +
-          '<td style="text-align:right">' + activateBtn + treeBtn + deleteBtn + '</td>' +
+          '<td><strong style="color:var(--jade);font-size:13px;">#' + u.id + '</strong></td>' +
+          '<td>' +
+            '<div style="font-weight:700;font-size:13px;display:flex;align-items:center;gap:6px;">' + esc(u.mobile_number) + roleBadge + '</div>' +
+            '<div class="tiny muted" style="margin-top:2px;">Joined ' + fmtDate(u.created_at) + '</div>' +
+          '</td>' +
+          '<td><div style="display:flex;align-items:center;gap:4px;flex-wrap:wrap;">' + statusBadge + adminDirectTag + '</div></td>' +
+          '<td>' +
+            '<div style="font-weight:600;font-size:12.5px;">' + sponsorText + '</div>' +
+            '<div class="tiny muted" style="margin-top:2px;">Directs: <strong>' + (u.directs || 0) + '</strong></div>' +
+          '</td>' +
+          '<td><span style="color:var(--jade);font-weight:800;font-size:13.5px;">' + peso(u.total_binary_earnings) + '</span></td>' +
+          '<td>' +
+            '<div class="tiny" style="display:flex;flex-direction:column;gap:2px;font-family:ui-monospace,monospace;">' +
+              '<span class="muted">Bin Ref: <strong style="color:var(--text);">' + peso(u.binary_ref_balance) + '</strong></span>' +
+              '<span class="muted">Trade Ref: <strong style="color:var(--text);">' + peso(u.tradein_ref_balance) + '</strong></span>' +
+              '<span class="muted">Cycle: <strong style="color:var(--text);">' + peso(u.tradein_cycle_balance) + '</strong></span>' +
+            '</div>' +
+          '</td>' +
+          '<td style="text-align:right;">' +
+            '<div style="display:inline-flex;align-items:center;gap:5px;justify-content:flex-end;flex-wrap:nowrap;">' +
+              activateBtn + treeBtn + deleteBtn +
+            '</div>' +
+          '</td>' +
           '</tr>';
       }).join('');
 
       if (mobCards) {
-        mobCards.innerHTML = list.map((u) => {
+        mobCards.innerHTML = pagedList.map((u) => {
           const isInactive = u.status === 'active' ? false : u.status === 'inactive';
           const isAdminDirect = !u.sponsor_mobile || u.sponsor_mobile === 'Toshi' || u.sponsor_id === 1;
           const statusBadge = u.status === 'active'
@@ -4360,16 +4465,68 @@
     };
     document.getElementById('btnProcessTradeinYields').onclick = processYieldsHandler;
 
-    // Filters
+    // Member Directory Filters & Search
     document.querySelectorAll('[data-userfilter]').forEach((btn) => {
       btn.onclick = () => {
         document.querySelectorAll('[data-userfilter]').forEach((b) => b.classList.remove('active'));
         btn.classList.add('active');
         userFilterMode = btn.dataset.userfilter;
+        memberCurrentPage = 1;
         renderUsers();
       };
     });
-    document.getElementById('userSearch').oninput = renderUsers;
+
+    if (document.getElementById('userSearch')) {
+      document.getElementById('userSearch').oninput = () => {
+        memberCurrentPage = 1;
+        renderUsers();
+      };
+    }
+
+    // Member Directory Toggle & Pagination Listeners
+    const btnToggleMember = document.getElementById('btnToggleMemberList');
+    const wrapMemberContent = document.getElementById('memberInventoryContentWrap');
+    if (btnToggleMember && wrapMemberContent) {
+      btnToggleMember.onclick = () => {
+        isMemberListMinimized = !isMemberListMinimized;
+        wrapMemberContent.style.display = isMemberListMinimized ? 'none' : 'block';
+        document.getElementById('toggleMemberListIcon').textContent = isMemberListMinimized ? '▸' : '▾';
+        document.getElementById('toggleMemberListText').textContent = isMemberListMinimized ? 'Show List' : 'Hide List';
+        btnToggleMember.className = isMemberListMinimized ? 'btn btn-sm btn-mint' : 'btn btn-sm btn-ghost';
+      };
+    }
+
+    const selMemberSize = document.getElementById('memberPageSizeSelect');
+    if (selMemberSize) {
+      selMemberSize.onchange = () => {
+        memberPageSize = selMemberSize.value === 'all' ? 'all' : Number(selMemberSize.value);
+        memberCurrentPage = 1;
+        renderUsers();
+      };
+    }
+
+    const btnPrevMember = document.getElementById('btnMemberPrevPage');
+    if (btnPrevMember) {
+      btnPrevMember.onclick = () => {
+        if (memberCurrentPage > 1) {
+          memberCurrentPage--;
+          renderUsers();
+        }
+      };
+    }
+
+    const btnNextMember = document.getElementById('btnMemberNextPage');
+    if (btnNextMember) {
+      btnNextMember.onclick = () => {
+        const totalItems = globalUsers.length;
+        const effSize = memberPageSize === 'all' ? totalItems : (Number(memberPageSize) || 10);
+        const totalPages = Math.max(1, Math.ceil(totalItems / effSize));
+        if (memberCurrentPage < totalPages) {
+          memberCurrentPage++;
+          renderUsers();
+        }
+      };
+    }
 
     document.querySelectorAll('[data-codefilter]').forEach((btn) => {
       btn.onclick = () => {
