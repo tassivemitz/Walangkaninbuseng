@@ -2289,6 +2289,23 @@ body[data-theme="light"].dash-terminal-body {
   font-size: 14px;
 }
 
+.dash-logout-btn .logout-icon-svg,
+.admin-side-logout-btn .logout-icon-svg,
+#logoutTopBtn .logout-icon-svg,
+#logout .logout-icon-svg {
+  display: inline-block !important;
+  vertical-align: middle !important;
+  flex-shrink: 0 !important;
+  transition: transform 0.15s ease;
+}
+
+.dash-logout-btn:hover .logout-icon-svg,
+.admin-side-logout-btn:hover .logout-icon-svg,
+#logoutTopBtn:hover .logout-icon-svg,
+#logout:hover .logout-icon-svg {
+  transform: scale(1.12);
+}
+
 /* Inner Content Area */
 .dash-content-inner {
   padding: 20px 28px 48px;
@@ -2841,26 +2858,102 @@ body[data-theme="light"].dash-terminal-body {
 
   /* Compact Mobile Top Bar */
   .dash-top-bar {
-    padding: 10px 14px;
-    gap: 8px;
+    padding: 8px 12px !important;
+    gap: 6px !important;
+    height: 52px !important;
+    min-height: 52px !important;
+  }
+
+  .dash-top-left {
+    gap: 6px !important;
+    min-width: 0 !important;
+  }
+
+  .dash-top-brand .top-brand-logo {
+    height: 26px !important;
+    max-width: 85px !important;
+    object-fit: contain !important;
+  }
+
+  .dash-top-tag {
+    display: none !important;
   }
 
   .dash-top-right {
-    gap: 6px;
+    gap: 5px !important;
+    margin-left: auto !important;
+    flex-shrink: 0 !important;
   }
 
-  .user-badge {
-    padding: 4px 10px;
-    gap: 6px;
+  .dash-top-right .btn-theme-toggle {
+    width: 32px !important;
+    height: 32px !important;
+    padding: 0 !important;
+    border-radius: 8px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    flex-shrink: 0 !important;
   }
 
-  .user-badge-name {
-    font-size: 11px;
+  .dash-top-right .btn-theme-toggle .theme-toggle-text {
+    display: none !important;
   }
 
-  .dash-logout-btn {
-    padding: 6px 10px;
-    font-size: 11px;
+  .dash-top-right .user-badge {
+    padding: 4px 8px !important;
+    gap: 5px !important;
+    max-width: 95px !important;
+    overflow: hidden !important;
+    flex-shrink: 1 !important;
+  }
+
+  .dash-top-right .user-badge-name {
+    font-size: 11px !important;
+    max-width: 55px !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    white-space: nowrap !important;
+  }
+
+  .dash-top-right .user-badge-status {
+    display: none !important;
+  }
+
+  /* Universal Mobile Logout Button (Icon Only, Never Overflowed) */
+  .dash-logout-btn,
+  #logout {
+    width: 34px !important;
+    height: 34px !important;
+    min-width: 34px !important;
+    min-height: 34px !important;
+    padding: 0 !important;
+    border-radius: 8px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    flex-shrink: 0 !important;
+    background: rgba(239, 68, 68, 0.12) !important;
+    color: #ef4444 !important;
+    border: 1.5px solid rgba(239, 68, 68, 0.35) !important;
+    cursor: pointer !important;
+  }
+
+  .dash-logout-btn span:first-child,
+  #logout span:first-child {
+    display: none !important;
+  }
+
+  .dash-logout-btn .logout-icon,
+  #logout .logout-icon,
+  .dash-logout-btn .logout-icon-svg,
+  #logout .logout-icon-svg {
+    font-size: 16px !important;
+    width: 17px !important;
+    height: 17px !important;
+    margin: 0 !important;
+    line-height: 1 !important;
+    display: block !important;
   }
 
   /* Compact Content Inner Area */
@@ -9202,7 +9295,7 @@ body[data-theme="light"].auth-page-body {
   }
 
   #togglePayoutsTopBtn {
-    padding: 5px 8px !important;
+    padding: 4px 8px !important;
     font-size: 10px !important;
     font-weight: 700 !important;
     border-radius: 8px !important;
@@ -9211,41 +9304,56 @@ body[data-theme="light"].auth-page-body {
   }
 
   #logoutTopBtn {
-    padding: 6px !important;
-    width: 32px !important;
-    height: 32px !important;
-    border-radius: 50% !important;
+    width: 34px !important;
+    height: 34px !important;
+    min-width: 34px !important;
+    min-height: 34px !important;
+    padding: 0 !important;
+    border-radius: 8px !important;
     display: inline-flex !important;
     align-items: center !important;
     justify-content: center !important;
     color: #ef4444 !important;
-    border: 1px solid rgba(239, 68, 68, 0.3) !important;
-    background: rgba(239, 68, 68, 0.08) !important;
+    border: 1.5px solid rgba(239, 68, 68, 0.4) !important;
+    background: rgba(239, 68, 68, 0.12) !important;
     flex-shrink: 0 !important;
+    cursor: pointer !important;
   }
 
   #logoutTopBtn span:first-child {
     display: none !important;
   }
 
-  #logoutTopBtn .logout-icon {
-    font-size: 14px !important;
+  #logoutTopBtn .logout-icon,
+  #logoutTopBtn .logout-icon-svg {
+    font-size: 16px !important;
+    width: 17px !important;
+    height: 17px !important;
     margin: 0 !important;
+    line-height: 1 !important;
+    display: block !important;
   }
 
-  @media (max-width: 400px) {
+  @media (max-width: 520px) {
     .admin-top-right .user-badge span:last-child {
       display: none !important;
     }
     .admin-top-right .user-badge {
-      padding: 6px !important;
-      width: 26px !important;
-      height: 26px !important;
+      padding: 0 !important;
+      width: 24px !important;
+      height: 24px !important;
+      border-radius: 50% !important;
+      display: inline-flex !important;
+      align-items: center !important;
       justify-content: center !important;
+      flex-shrink: 0 !important;
     }
     #togglePayoutsTopBtn {
-      padding: 4px 6px !important;
+      padding: 3px 6px !important;
       font-size: 9.5px !important;
+      max-width: 85px !important;
+      overflow: hidden !important;
+      text-overflow: ellipsis !important;
     }
   }
 
@@ -9543,6 +9651,28 @@ body[data-theme="light"].auth-page-body {
   .slot-input {
     width: 100% !important;
     box-sizing: border-box !important;
+  }
+
+  .code-inventory-head-bar {
+    padding: 10px 12px !important;
+  }
+
+  .table-pagination-bar {
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: 10px !important;
+    padding: 10px 12px !important;
+  }
+
+  .table-pagination-bar > div:first-child {
+    justify-content: space-between !important;
+    width: 100% !important;
+  }
+
+  #codePageButtons {
+    justify-content: center !important;
+    flex-wrap: wrap !important;
+    width: 100% !important;
   }
 
   /* 8. Panel 5: Withdrawals 3 Category Summary Cards */
@@ -10090,11 +10220,15 @@ textarea::placeholder {
 :root:not([data-theme="light"]) .tradein-monitor-card,
 :root:not([data-theme="light"]) .vault-panel,
 :root:not([data-theme="light"]) .admin-kpi-card,
+:root:not([data-theme="light"]) .code-inventory-head-bar,
+:root:not([data-theme="light"]) .table-pagination-bar,
 [data-theme="dark"] .card,
 [data-theme="dark"] .panel,
 [data-theme="dark"] .tradein-monitor-card,
 [data-theme="dark"] .vault-panel,
-[data-theme="dark"] .admin-kpi-card {
+[data-theme="dark"] .admin-kpi-card,
+[data-theme="dark"] .code-inventory-head-bar,
+[data-theme="dark"] .table-pagination-bar {
   background: #1c2732 !important;
   border: 1px solid rgba(255, 255, 255, 0.08) !important;
   box-shadow: 0 8px 30px rgba(0, 0, 0, 0.35) !important;
@@ -10427,6 +10561,8 @@ textarea::placeholder {
 [data-theme="light"] .result-card-main,
 [data-theme="light"] .tree-visual-container,
 [data-theme="light"] .admin-kpi-card,
+[data-theme="light"] .code-inventory-head-bar,
+[data-theme="light"] .table-pagination-bar,
 [data-theme="light"] .auth-card {
   background: linear-gradient(135deg, rgba(255, 255, 255, 0.96) 0%, rgba(244, 251, 247, 0.92) 100%) !important;
   border: 1px solid rgba(15, 122, 69, 0.15) !important;
@@ -10605,6 +10741,22 @@ textarea::placeholder {
 [data-theme="light"] .table tbody tr:hover td,
 [data-theme="light"] .admin-table tbody tr:hover td {
   background: #f0faf3 !important;
+}
+
+[data-theme="light"] .table-pagination-bar {
+  background: #ffffff !important;
+  border: 1px solid rgba(15, 122, 69, 0.16) !important;
+  box-shadow: 0 4px 16px rgba(11, 55, 33, 0.05) !important;
+}
+
+[data-theme="light"] .table-pagination-bar .muted {
+  color: #3b604e !important;
+}
+
+[data-theme="light"] #codePageSizeSelect {
+  background: #ffffff !important;
+  color: #0e291b !important;
+  border: 1px solid rgba(15, 122, 69, 0.25) !important;
 }
 
 /* Light Theme Modals */

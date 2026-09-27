@@ -120,8 +120,9 @@
 
       <!-- Sidebar Footer -->
       <div class="admin-sidebar-footer">
-        <button type="button" id="logoutSideBtn" class="admin-side-logout-btn">
-          <span>Sign Out ⏻</span>
+        <button type="button" id="logoutSideBtn" class="admin-side-logout-btn" title="Sign Out" aria-label="Sign Out">
+          <span>Sign Out</span>
+          <svg class="logout-icon-svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="margin-left:6px;"><path d="M18.36 6.64a9 9 0 1 1-12.73 0"></path><line x1="12" y1="2" x2="12" y2="12"></line></svg>
         </button>
       </div>
     </aside>
@@ -158,9 +159,9 @@
           </div>
           <button id="togglePayoutsTopBtn" class="btn btn-sm btn-ghost"
             style="font-size:11px;padding:6px 12px;">Payouts: Loading...</button>
-          <button id="logoutTopBtn" class="dash-logout-btn">
+          <button id="logoutTopBtn" class="dash-logout-btn" title="Sign out" aria-label="Sign out">
             <span>Sign out</span>
-            <span class="logout-icon">⏻</span>
+            <svg class="logout-icon-svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18.36 6.64a9 9 0 1 1-12.73 0"></path><line x1="12" y1="2" x2="12" y2="12"></line></svg>
           </button>
         </div>
       </header>
@@ -438,52 +439,92 @@
             </div>
           </div>
 
-          <!-- Code Vault Search & Batch Copy Actions Bar -->
-          <div
-            style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;margin-bottom:12px;">
-            <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
-              <input id="codeSearch" class="ctrl-search" type="search" placeholder="Search code, seller, or member..."
-                style="min-width:240px;" />
-              <span class="tiny muted" id="codeSearchCount"></span>
+          <!-- Code Vault Inventory Section Header with Collapse & Counter -->
+          <div class="code-inventory-head-bar" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;margin:24px 0 14px;padding:12px 16px;border-radius:12px;">
+            <div style="display:flex;align-items:center;gap:10px;">
+              <span style="font-size:18px;">📦</span>
+              <div>
+                <strong style="font-size:13.5px;color:var(--text);letter-spacing:0.02em;">CODE INVENTORY LIST</strong>
+                <span class="tiny muted" id="codeInventorySummaryTag" style="display:block;margin-top:2px;">Loading code inventory...</span>
+              </div>
             </div>
-            <div style="display:flex;gap:8px;flex-wrap:wrap;">
-              <button type="button" id="btnCopyAllAvailableCodes" class="btn btn-sm btn-ghost"
-                style="padding:6px 12px;font-size:11.5px;">
-                <span>📋 Copy All Available Codes</span>
-              </button>
-              <button type="button" id="btnCopyCodeInviteTemplate" class="btn btn-sm btn-mint"
-                style="padding:6px 12px;font-size:11.5px;">
-                <span>💬 Copy Member Promo Template</span>
+            <div style="display:flex;align-items:center;gap:8px;">
+              <button type="button" id="btnToggleCodeList" class="btn btn-sm btn-ghost" style="padding:6px 14px;font-size:11.5px;font-weight:700;">
+                <span id="toggleCodeListIcon">▾</span> <span id="toggleCodeListText">Hide List</span>
               </button>
             </div>
           </div>
 
-          <!-- Code Vault Inventory Table -->
-          <div class="admin-table-panel table-wrap">
-            <table class="admin-table">
-              <thead>
-                <tr>
-                  <th>ID</th>
-                  <th>Activation Code</th>
-                  <th>Status</th>
-                  <th>Assigned Seller</th>
-                  <th>Used By Member</th>
-                  <th>Binary Placement (Upline &amp; Leg)</th>
-                  <th>Created Date</th>
-                  <th>Used Date</th>
-                  <th style="text-align:right">Action</th>
-                </tr>
-              </thead>
-              <tbody id="codeTableBody">
-                <tr>
-                  <td colspan="9" style="padding:20px;text-align:center" class="muted">Loading codes...</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
+          <!-- Collapsible Container for Code List -->
+          <div id="codeInventoryContentWrap">
+            <!-- Code Vault Search & Batch Copy Actions Bar -->
+            <div
+              style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;margin-bottom:12px;">
+              <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
+                <input id="codeSearch" class="ctrl-search" type="search" placeholder="Search code, seller, or member..."
+                  style="min-width:240px;" />
+                <span class="tiny muted" id="codeSearchCount"></span>
+              </div>
+              <div style="display:flex;gap:8px;flex-wrap:wrap;">
+                <button type="button" id="btnCopyAllAvailableCodes" class="btn btn-sm btn-ghost"
+                  style="padding:6px 12px;font-size:11.5px;">
+                  <span>📋 Copy All Available Codes</span>
+                </button>
+                <button type="button" id="btnCopyCodeInviteTemplate" class="btn btn-sm btn-mint"
+                  style="padding:6px 12px;font-size:11.5px;">
+                  <span>💬 Copy Member Promo Template</span>
+                </button>
+              </div>
+            </div>
 
-          <!-- Mobile Touch-Friendly Card View (Screens <= 768px) -->
-          <div class="admin-mobile-cards-list" id="codeMobileCards"></div>
+            <!-- Code Vault Inventory Table -->
+            <div class="admin-table-panel table-wrap">
+              <table class="admin-table">
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Activation Code</th>
+                    <th>Status</th>
+                    <th>Assigned Seller</th>
+                    <th>Used By Member</th>
+                    <th>Binary Placement (Upline &amp; Leg)</th>
+                    <th>Created Date</th>
+                    <th>Used Date</th>
+                    <th style="text-align:right">Action</th>
+                  </tr>
+                </thead>
+                <tbody id="codeTableBody">
+                  <tr>
+                    <td colspan="9" style="padding:20px;text-align:center" class="muted">Loading codes...</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <!-- Mobile Touch-Friendly Card View (Screens <= 768px) -->
+            <div class="admin-mobile-cards-list" id="codeMobileCards"></div>
+
+            <!-- Code Inventory Pagination Bar (Both Desktop & Mobile) -->
+            <div id="codePaginationBar" class="table-pagination-bar" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;margin-top:14px;padding:10px 14px;border-radius:10px;">
+              <div style="display:flex;align-items:center;gap:10px;font-size:12px;" class="muted">
+                <span id="codePageRangeText">Showing 1–10 of 0 codes</span>
+                <div style="display:flex;align-items:center;gap:6px;">
+                  <span>Per page:</span>
+                  <select id="codePageSizeSelect" class="in" style="padding:3px 8px;font-size:12px;border-radius:6px;width:auto;">
+                    <option value="10" selected>10</option>
+                    <option value="25">25</option>
+                    <option value="50">50</option>
+                    <option value="all">All</option>
+                  </select>
+                </div>
+              </div>
+              <div style="display:flex;align-items:center;gap:6px;" id="codePageButtons">
+                <button type="button" id="btnCodePrevPage" class="btn btn-sm btn-ghost" style="padding:4px 10px;font-size:11.5px;">◀ Prev</button>
+                <div id="codePageNumbers" style="display:flex;align-items:center;gap:4px;"></div>
+                <button type="button" id="btnCodeNextPage" class="btn btn-sm btn-ghost" style="padding:4px 10px;font-size:11.5px;">Next ▶</button>
+              </div>
+            </div>
+          </div>
         </section>
 
         <!-- =========================================================
@@ -1119,6 +1160,9 @@
     let codeFilterMode = 'all';
     let tradeinFilterMode = 'all';
     let wdFilterMode = 'all';
+    let codeCurrentPage = 1;
+    let codePageSize = 10;
+    let isCodeListMinimized = false;
 
     function flash(text, ok) {
       const el = document.getElementById('msg');
@@ -3020,7 +3064,60 @@
       if (countEl) {
         countEl.textContent = list.length + ' of ' + globalCodes.length + ' codes';
       }
-      setSidebarBadge('badgeNavCodes', globalCodes.filter((c) => c.status === 'available').length);
+
+      // Live summary update on section header
+      const availCount = globalCodes.filter((c) => c.status === 'available').length;
+      const assignedCount = globalCodes.filter((c) => c.status === 'assigned').length;
+      const usedCount = globalCodes.filter((c) => c.status === 'used').length;
+      const summaryTag = document.getElementById('codeInventorySummaryTag');
+      if (summaryTag) {
+        summaryTag.textContent = `${availCount} Available · ${assignedCount} Assigned · ${usedCount} Used (${globalCodes.length} Total)`;
+      }
+      setSidebarBadge('badgeNavCodes', availCount);
+
+      // Pagination calculation
+      const totalItems = list.length;
+      const effectiveSize = codePageSize === 'all' ? (totalItems || 1) : (Number(codePageSize) || 10);
+      const totalPages = Math.max(1, Math.ceil(totalItems / effectiveSize));
+      if (codeCurrentPage > totalPages) codeCurrentPage = totalPages;
+      if (codeCurrentPage < 1) codeCurrentPage = 1;
+
+      const startIdx = (codeCurrentPage - 1) * effectiveSize;
+      const endIdx = codePageSize === 'all' ? totalItems : Math.min(startIdx + effectiveSize, totalItems);
+      const pagedList = list.slice(startIdx, endIdx);
+
+      // Update Pagination Bar UI
+      const rangeText = document.getElementById('codePageRangeText');
+      if (rangeText) {
+        rangeText.textContent = totalItems === 0
+          ? '0 codes found'
+          : `Showing ${startIdx + 1}–${endIdx} of ${totalItems} codes (Page ${codeCurrentPage} of ${totalPages})`;
+      }
+
+      const btnPrev = document.getElementById('btnCodePrevPage');
+      const btnNext = document.getElementById('btnCodeNextPage');
+      if (btnPrev) btnPrev.disabled = codeCurrentPage <= 1;
+      if (btnNext) btnNext.disabled = codeCurrentPage >= totalPages;
+
+      const pageNums = document.getElementById('codePageNumbers');
+      if (pageNums) {
+        let pBtns = '';
+        let startPage = Math.max(1, codeCurrentPage - 2);
+        let endPage = Math.min(totalPages, startPage + 4);
+        if (endPage - startPage < 4) startPage = Math.max(1, endPage - 4);
+
+        for (let p = startPage; p <= endPage; p++) {
+          const isCur = p === codeCurrentPage;
+          pBtns += `<button type="button" class="btn btn-sm ${isCur ? 'btn-mint' : 'btn-ghost'}" data-codepage="${p}" style="padding:2px 8px;font-size:11px;min-width:26px;font-weight:${isCur ? '800' : '600'};">${p}</button>`;
+        }
+        pageNums.innerHTML = pBtns;
+        pageNums.querySelectorAll('[data-codepage]').forEach((b) => {
+          b.onclick = () => {
+            codeCurrentPage = Number(b.dataset.codepage);
+            renderCodes();
+          };
+        });
+      }
 
       const tbody = document.getElementById('codeTableBody');
       const mobCards = document.getElementById('codeMobileCards');
@@ -3031,7 +3128,7 @@
         return;
       }
 
-      tbody.innerHTML = list.map((c) => {
+      tbody.innerHTML = pagedList.map((c) => {
         const badge = c.status === 'available'
           ? '<span class="badge-tag tag-available">Available</span>'
           : c.status === 'assigned'
@@ -3079,7 +3176,7 @@
       }).join('');
 
       if (mobCards) {
-        mobCards.innerHTML = list.map((c) => {
+        mobCards.innerHTML = pagedList.map((c) => {
           const badge = c.status === 'available'
             ? '<span class="badge-tag tag-available">Available</span>'
             : c.status === 'assigned'
@@ -4279,9 +4376,62 @@
         document.querySelectorAll('[data-codefilter]').forEach((b) => b.classList.remove('active'));
         btn.classList.add('active');
         codeFilterMode = btn.dataset.codefilter;
+        codeCurrentPage = 1;
         renderCodes();
       };
     });
+
+    // Code Vault Toggle & Pagination Listeners
+    const btnToggleCode = document.getElementById('btnToggleCodeList');
+    const wrapCodeContent = document.getElementById('codeInventoryContentWrap');
+    if (btnToggleCode && wrapCodeContent) {
+      btnToggleCode.onclick = () => {
+        isCodeListMinimized = !isCodeListMinimized;
+        wrapCodeContent.style.display = isCodeListMinimized ? 'none' : 'block';
+        document.getElementById('toggleCodeListIcon').textContent = isCodeListMinimized ? '▸' : '▾';
+        document.getElementById('toggleCodeListText').textContent = isCodeListMinimized ? 'Show List' : 'Hide List';
+        btnToggleCode.className = isCodeListMinimized ? 'btn btn-sm btn-mint' : 'btn btn-sm btn-ghost';
+      };
+    }
+
+    const selCodeSize = document.getElementById('codePageSizeSelect');
+    if (selCodeSize) {
+      selCodeSize.onchange = () => {
+        codePageSize = selCodeSize.value === 'all' ? 'all' : Number(selCodeSize.value);
+        codeCurrentPage = 1;
+        renderCodes();
+      };
+    }
+
+    const btnPrevCode = document.getElementById('btnCodePrevPage');
+    if (btnPrevCode) {
+      btnPrevCode.onclick = () => {
+        if (codeCurrentPage > 1) {
+          codeCurrentPage--;
+          renderCodes();
+        }
+      };
+    }
+
+    const btnNextCode = document.getElementById('btnCodeNextPage');
+    if (btnNextCode) {
+      btnNextCode.onclick = () => {
+        const totalItems = globalCodes.length;
+        const effSize = codePageSize === 'all' ? totalItems : (Number(codePageSize) || 10);
+        const totalPages = Math.max(1, Math.ceil(totalItems / effSize));
+        if (codeCurrentPage < totalPages) {
+          codeCurrentPage++;
+          renderCodes();
+        }
+      };
+    }
+
+    if (document.getElementById('codeSearch')) {
+      document.getElementById('codeSearch').oninput = () => {
+        codeCurrentPage = 1;
+        renderCodes();
+      };
+    }
 
     document.querySelectorAll('[data-wdfilter]').forEach((btn) => {
       btn.onclick = () => {
