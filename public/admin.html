@@ -934,8 +934,119 @@
         </div>
         <div class="genealogy-canvas-wrap" id="adminGenealogyContainer" style="min-height:300px;"></div>
         <div style="margin-top:12px;padding:8px 12px;background:#f9fcf9;border-radius:10px;font-size:11px;color:var(--muted);">
-          💡 <strong>Tip:</strong> Click any member node to drill down and explore their subtree &amp; spilled accounts.
+          💡 <strong>Tip:</strong> Click any member node to drill down and explore their subtree &amp; spilled accounts. Click <strong>+ Encode Slot</strong> on any open slot to place a member.
         </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: Admin Member Activation & Binary Placement -->
+  <div class="plan-modal" id="modalAdminActivateUser" hidden>
+    <div class="plan-modal-backdrop" id="closeAdminActivateBackdrop"></div>
+    <div class="plan-modal-sheet" style="max-width:560px;">
+      <header class="plan-modal-head">
+        <div>
+          <p class="kicker">Binary Network Placement</p>
+          <h2 id="modalAdminActivateTitle">⚡ Activate Member Account</h2>
+        </div>
+        <button class="plan-close" type="button" id="btnCloseAdminActivateModal">×</button>
+      </header>
+      <div class="plan-modal-body">
+        <form id="formAdminActivateUser" style="margin-top:0;">
+          <input type="hidden" id="admActUserIdInput" value="" />
+
+          <!-- Target Member Info Banner -->
+          <div style="background:rgba(15,122,69,0.08);border:1.5px solid rgba(15,122,69,0.22);border-radius:12px;padding:12px 14px;margin-bottom:14px;">
+            <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;">
+              <div>
+                <span class="tiny muted" style="font-weight:700;display:block;">MEMBER TO ACTIVATE</span>
+                <div style="display:flex;align-items:center;gap:6px;margin-top:2px;">
+                  <strong id="admActUserMobileText" style="font-size:16px;color:#0b4d2c;letter-spacing:0.02em;">—</strong>
+                  <span id="admActUserRoleTag" class="badge-tag" style="background:#e0f2fe;color:#0369a1;font-weight:800;font-size:9.5px;">Inactive Member</span>
+                </div>
+              </div>
+              <div style="text-align:right;">
+                <span class="tiny muted" style="font-weight:700;display:block;">DIRECT SPONSOR</span>
+                <span id="admActUserSponsorText" style="font-size:13px;font-weight:800;color:var(--text);">—</span>
+              </div>
+            </div>
+
+            <!-- Inactive User Selector (Visible when launched from Tree or when multiple exist) -->
+            <div id="admActMemberSelectWrap" style="display:none;margin-top:10px;padding-top:10px;border-top:1px dashed rgba(15,122,69,0.2);">
+              <label class="tiny muted" style="display:block;font-weight:700;margin-bottom:4px;">CHOOSE INACTIVE MEMBER TO PLACE *</label>
+              <select id="admActMemberDropdown" class="in" style="width:100%;font-size:13px;font-weight:700;">
+                <option value="">-- Choose member --</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Placement Settings -->
+          <div style="margin-bottom:16px;">
+            <label class="tiny muted" style="display:block;font-weight:700;margin-bottom:6px;letter-spacing:0.02em;">
+              BINARY TREE PLACEMENT MODE *
+            </label>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px;">
+              <label class="placement-mode-card active" id="cardPlaceAuto" style="cursor:pointer;border:2px solid var(--jade);background:rgba(15,122,69,0.08);border-radius:10px;padding:10px 12px;display:flex;align-items:center;gap:8px;">
+                <input type="radio" name="admPlacementMode" value="auto" checked style="accent-color:var(--jade);" />
+                <div>
+                  <strong style="font-size:12.5px;display:block;color:var(--text);">⚡ Auto-Placement</strong>
+                  <span class="tiny muted" style="font-size:10px;display:block;">Next available open slot</span>
+                </div>
+              </label>
+
+              <label class="placement-mode-card" id="cardPlaceManual" style="cursor:pointer;border:2px solid var(--line);background:var(--bg2);border-radius:10px;padding:10px 12px;display:flex;align-items:center;gap:8px;">
+                <input type="radio" name="admPlacementMode" value="manual" style="accent-color:var(--jade);" />
+                <div>
+                  <strong style="font-size:12.5px;display:block;color:var(--text);">🎯 Specific Slot</strong>
+                  <span class="tiny muted" style="font-size:10px;display:block;">Choose Parent &amp; Leg</span>
+                </div>
+              </label>
+            </div>
+
+            <!-- Manual Parent & Leg Fields (Toggled) -->
+            <div id="admManualPlacementFields" style="display:none;background:var(--bg2);border:1px solid var(--line);border-radius:10px;padding:12px;margin-top:8px;">
+              <div style="display:grid;grid-template-columns:2fr 1fr;gap:10px;">
+                <div>
+                  <label class="tiny muted" style="display:block;font-weight:700;margin-bottom:4px;">PLACEMENT PARENT (UPLINE) *</label>
+                  <input type="text" id="admActParentMobileInput" class="in" placeholder="Username or Mobile" style="width:100%;font-size:13px;font-weight:700;" />
+                </div>
+                <div>
+                  <label class="tiny muted" style="display:block;font-weight:700;margin-bottom:4px;">LEG POSITION *</label>
+                  <select id="admActPositionSelect" class="in" style="width:100%;font-size:13px;font-weight:700;">
+                    <option value="L">LEFT (L)</option>
+                    <option value="R">RIGHT (R)</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Activation Code Options -->
+          <div style="margin-bottom:18px;">
+            <label class="tiny muted" style="display:block;font-weight:700;margin-bottom:6px;letter-spacing:0.02em;">
+              ACTIVATION CODE (₱100 RETAILER ENTRY) *
+            </label>
+            <div style="background:var(--bg2);border:1px solid var(--line);border-radius:10px;padding:12px;">
+              <label style="display:flex;align-items:center;gap:8px;cursor:pointer;margin-bottom:8px;">
+                <input type="checkbox" id="admActAutoCodeCheck" checked style="accent-color:var(--jade);transform:scale(1.2);" />
+                <div>
+                  <strong style="font-size:13px;color:var(--text);">✨ Auto-generate &amp; apply new Admin Code</strong>
+                  <span class="tiny muted" style="display:block;font-size:11px;">System will automatically mint and consume an authentic 8-character activation code.</span>
+                </div>
+              </label>
+
+              <div id="admActCustomCodeWrap" style="display:none;margin-top:8px;padding-top:8px;border-top:1px dashed var(--line);">
+                <label class="tiny muted" style="display:block;font-weight:700;margin-bottom:4px;">ENTER CODE FROM VAULT</label>
+                <input type="text" id="admActCustomCodeInput" class="in" placeholder="8-CHAR CODE" maxlength="12" style="width:100%;text-transform:uppercase;font-family:ui-monospace,monospace;font-weight:800;letter-spacing:0.06em;" />
+              </div>
+            </div>
+          </div>
+
+          <button type="submit" class="btn btn-mint" id="btnSubmitAdminActivate"
+            style="width:100%;font-size:14.5px;font-weight:800;padding:13px;border-radius:10px;box-shadow:0 4px 16px rgba(15,122,69,0.35);">
+            ⚡ Activate Account &amp; Place in Tree ➔
+          </button>
+        </form>
       </div>
     </div>
   </div>
@@ -1284,9 +1395,9 @@
           return `
             <div class="tree-grandchild-branch">
               <div class="tree-grandchild-connector"></div>
-              <div class="tree-grandchild-node empty-slot">
+              <div class="tree-grandchild-node empty-slot clickable-adm-encode" data-parent-id="${child.id}" data-parent-mobile="${esc(child.mobile)}" data-pos="${pos}" style="cursor:pointer;" title="Click to encode and place a member here">
                 <span class="pill" style="font-size:8px;padding:1px 5px;margin-bottom:2px;background:#eee;color:var(--muted);">${pos === 'L' ? 'LEFT ◀' : 'RIGHT ▶'}</span>
-                <span style="font-size:10px;color:var(--muted);margin-top:2px;">Empty Slot</span>
+                <span style="font-size:10px;color:var(--jade);font-weight:700;margin-top:2px;">+ Encode</span>
               </div>
             </div>
           `;
@@ -1320,9 +1431,9 @@
           return `
             <div class="tree-subbranch">
               <div class="tree-branch-top-connector"></div>
-              <div class="tree-node empty-slot">
+              <div class="tree-node empty-slot clickable-adm-encode" data-parent-id="${root.id}" data-parent-mobile="${esc(root.mobile)}" data-pos="${posKey}" style="cursor:pointer;" title="Click to encode and place a member here">
                 <span class="pill" style="font-size:9px;margin-bottom:4px;background:#eee;color:var(--muted);">${posLabel}</span>
-                <p style="margin:2px 0 0;font-size:12px;color:var(--muted);">Empty Slot</p>
+                <p style="margin:2px 0 0;font-size:12px;color:var(--jade);font-weight:700;">+ Encode Slot</p>
               </div>
             </div>
           `;
@@ -1352,6 +1463,17 @@
             e.stopPropagation();
             const tid = el.dataset.admTree;
             if (tid) fetchAndRenderAdminTree(tid, currentAdminTreeDepth);
+          };
+        });
+
+        container.querySelectorAll('.clickable-adm-encode').forEach(el => {
+          el.onclick = (e) => {
+            e.stopPropagation();
+            openAdminActivateModal({
+              parentId: el.dataset.parentId,
+              parentMobile: el.dataset.parentMobile,
+              pos: el.dataset.pos
+            });
           };
         });
 
@@ -2525,6 +2647,15 @@
               ? '<span class="badge-tag tag-expired">Expired</span>'
               : '<span class="badge-tag tag-rejected">' + esc(u.status) + '</span>';
 
+        const isInactive = u.status === 'inactive';
+        const isAdminDirect = !u.sponsor_mobile || u.sponsor_mobile === 'Toshi' || u.sponsor_id === 1;
+        const activateBtn = isInactive
+          ? '<button type="button" data-act-id="' + u.id + '" data-act-mobile="' + esc(u.mobile_number) + '" data-act-sponsor="' + esc(u.sponsor_mobile || 'Admin') + '" class="btn-admin-action" style="padding:2px 7px;font-size:10.5px;font-weight:800;margin-right:4px;background:#0f7a45;color:#fff;border-radius:4px;" title="Activate & Place in Binary Tree">⚡ Activate</button>'
+          : '';
+        const adminDirectTag = (isInactive && isAdminDirect)
+          ? ' <span class="badge-tag" style="background:#e0f2fe;color:#0369a1;font-size:9px;padding:1px 5px;font-weight:800;">⭐ Admin Direct</span>'
+          : '';
+
         const roleBadge = u.role === 'admin' ? ' <span class="badge-tag" style="background:#0b4d2c;color:#fff">Admin</span>' : '';
         const sponsorText = u.sponsor_mobile ? esc(u.sponsor_mobile) : '<span class="muted">—</span>';
         const treeBtn = '<button type="button" data-tree-user-id="' + u.id + '" class="btn btn-ghost btn-sm" style="padding:2px 7px;font-size:10.5px;margin-right:4px;" title="View Genealogy Tree">🌳 Tree</button>';
@@ -2539,7 +2670,7 @@
         return '<tr>' +
           '<td><strong>#' + u.id + '</strong></td>' +
           '<td><strong>' + esc(u.mobile_number) + '</strong>' + roleBadge + '</td>' +
-          '<td>' + statusBadge + '</td>' +
+          '<td>' + statusBadge + adminDirectTag + '</td>' +
           '<td>' + sponsorText + '</td>' +
           '<td>' + (u.directs || 0) + '</td>' +
           '<td style="color:#0f7a45;font-weight:700">' + peso(u.total_binary_earnings) + '</td>' +
@@ -2547,12 +2678,14 @@
           '<td>' + peso(u.tradein_ref_balance) + '</td>' +
           '<td>' + peso(u.tradein_cycle_balance) + '</td>' +
           '<td class="tiny muted">' + fmtDate(u.created_at) + '</td>' +
-          '<td style="text-align:right">' + treeBtn + deleteBtn + '</td>' +
+          '<td style="text-align:right">' + activateBtn + treeBtn + deleteBtn + '</td>' +
           '</tr>';
       }).join('');
 
       if (mobCards) {
         mobCards.innerHTML = list.map((u) => {
+          const isInactive = u.status === 'active' ? false : u.status === 'inactive';
+          const isAdminDirect = !u.sponsor_mobile || u.sponsor_mobile === 'Toshi' || u.sponsor_id === 1;
           const statusBadge = u.status === 'active'
             ? '<span class="badge-tag tag-active">Active</span>'
             : u.status === 'inactive'
@@ -2562,7 +2695,13 @@
                 : '<span class="badge-tag tag-rejected">' + esc(u.status) + '</span>';
 
           const roleBadge = u.role === 'admin' ? ' <span class="badge-tag" style="background:#0b4d2c;color:#fff;font-size:9.5px;padding:1px 5px;">Admin</span>' : '';
+          const adminDirectTag = (isInactive && isAdminDirect)
+            ? ' <span class="badge-tag" style="background:#e0f2fe;color:#0369a1;font-size:9.5px;padding:1px 5px;font-weight:800;">⭐ Admin Direct</span>'
+            : '';
           const sponsorText = u.sponsor_mobile ? esc(u.sponsor_mobile) : '—';
+          const mobActivateBtn = isInactive
+            ? `<button type="button" data-act-id="${u.id}" data-act-mobile="${esc(u.mobile_number)}" data-act-sponsor="${esc(u.sponsor_mobile || 'Admin')}" class="btn btn-mint btn-sm" style="flex:1;padding:6px 10px;font-size:11px;font-weight:800;">⚡ Activate</button>`
+            : '';
           const treeBtn = '<button type="button" data-tree-user-id="' + u.id + '" class="btn btn-ghost btn-sm" style="flex:1;padding:6px 10px;font-size:11px;">🌳 Tree</button>';
           const deleteBtn = u.role === 'admin'
             ? '<span class="tiny muted" style="padding:6px;">Protected</span>'
@@ -2575,11 +2714,12 @@
           return `
             <div class="admin-mob-card">
               <div class="admin-mob-card-head">
-                <div style="display:flex;align-items:center;gap:6px;">
+                <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;">
                   <strong style="font-size:13.5px;color:#0b4d2c;">#${u.id}</strong>
                   <strong style="font-size:13.5px;">${esc(u.mobile_number)}</strong>
                   ${roleBadge}
                   ${statusBadge}
+                  ${adminDirectTag}
                 </div>
                 <span class="tiny muted">${fmtDate(u.created_at)}</span>
               </div>
@@ -2610,6 +2750,7 @@
                 </div>
               </div>
               <div class="admin-mob-card-actions">
+                ${mobActivateBtn}
                 ${treeBtn}
                 ${deleteBtn}
               </div>
@@ -2617,6 +2758,16 @@
           `;
         }).join('');
       }
+
+      document.querySelectorAll('button[data-act-id]').forEach((btn) => {
+        btn.onclick = () => {
+          openAdminActivateModal({
+            id: btn.dataset.actId,
+            mobile: btn.dataset.actMobile,
+            sponsor: btn.dataset.actSponsor
+          });
+        };
+      });
 
       document.querySelectorAll('button[data-tree-user-id]').forEach((btn) => {
         btn.onclick = () => {
@@ -2679,6 +2830,182 @@
         };
       });
     }
+
+    // =========================================================
+    // ADMIN MEMBER ACTIVATION & BINARY PLACEMENT LOGIC
+    // =========================================================
+    function openAdminActivateModal(opts = {}) {
+      const modal = document.getElementById('modalAdminActivateUser');
+      if (!modal) return;
+
+      const idInput = document.getElementById('admActUserIdInput');
+      const mobileText = document.getElementById('admActUserMobileText');
+      const sponsorText = document.getElementById('admActUserSponsorText');
+      const dropdownWrap = document.getElementById('admActMemberSelectWrap');
+      const dropdown = document.getElementById('admActMemberDropdown');
+      const parentInput = document.getElementById('admActParentMobileInput');
+      const posSelect = document.getElementById('admActPositionSelect');
+      const cardAuto = document.getElementById('cardPlaceAuto');
+      const cardManual = document.getElementById('cardPlaceManual');
+      const autoCodeCheck = document.getElementById('admActAutoCodeCheck');
+      const customCodeWrap = document.getElementById('admActCustomCodeWrap');
+      const customCodeInput = document.getElementById('admActCustomCodeInput');
+
+      if (autoCodeCheck) autoCodeCheck.checked = true;
+      if (customCodeWrap) customCodeWrap.style.display = 'none';
+      if (customCodeInput) customCodeInput.value = '';
+
+      // Populate inactive members dropdown
+      const inactiveList = globalUsers.filter(u => u.status === 'inactive');
+      if (dropdown) {
+        dropdown.innerHTML = '<option value="">-- Choose Inactive Member --</option>' +
+          inactiveList.map(u => {
+            const isDir = !u.sponsor_mobile || u.sponsor_mobile === 'Toshi' || u.sponsor_id === 1;
+            return `<option value="${u.id}" data-mobile="${esc(u.mobile_number)}" data-sponsor="${esc(u.sponsor_mobile || 'Admin')}">${esc(u.mobile_number)} (ID #${u.id}) ${isDir ? '★ Admin Direct' : '· Sponsor: ' + esc(u.sponsor_mobile)}</option>`;
+          }).join('');
+      }
+
+      if (opts.id) {
+        // Opened for specific member from Users table
+        idInput.value = opts.id;
+        mobileText.textContent = opts.mobile || '—';
+        sponsorText.textContent = opts.sponsor || 'Admin';
+        if (dropdownWrap) dropdownWrap.style.display = 'none';
+        if (cardAuto) cardAuto.click();
+      } else if (opts.parentId) {
+        // Opened by clicking an empty slot in Genealogy Tree
+        if (dropdownWrap) dropdownWrap.style.display = 'block';
+        mobileText.textContent = 'Select from dropdown';
+        sponsorText.textContent = 'Admin / Assigned';
+        idInput.value = '';
+
+        if (dropdown && dropdown.options.length > 1) {
+          dropdown.selectedIndex = 1;
+          const selectedOpt = dropdown.options[1];
+          idInput.value = selectedOpt.value;
+          mobileText.textContent = selectedOpt.dataset.mobile;
+          sponsorText.textContent = selectedOpt.dataset.sponsor;
+        }
+
+        // Set manual placement with clicked slot pre-selected
+        if (cardManual) cardManual.click();
+        if (parentInput) parentInput.value = opts.parentMobile || opts.parentId;
+        if (posSelect && opts.pos) posSelect.value = opts.pos;
+      } else {
+        idInput.value = '';
+        if (dropdownWrap) dropdownWrap.style.display = 'block';
+        mobileText.textContent = 'Select member';
+        sponsorText.textContent = '—';
+        if (cardAuto) cardAuto.click();
+      }
+
+      if (dropdown) {
+        dropdown.onchange = () => {
+          const sel = dropdown.options[dropdown.selectedIndex];
+          if (sel && sel.value) {
+            idInput.value = sel.value;
+            mobileText.textContent = sel.dataset.mobile;
+            sponsorText.textContent = sel.dataset.sponsor;
+          } else {
+            idInput.value = '';
+            mobileText.textContent = 'Select member';
+            sponsorText.textContent = '—';
+          }
+        };
+      }
+
+      modal.hidden = false;
+      document.body.classList.add('modal-open');
+    }
+
+    function closeAdminActivateModal() {
+      const modal = document.getElementById('modalAdminActivateUser');
+      if (modal) modal.hidden = true;
+      document.body.classList.remove('modal-open');
+    }
+
+    document.getElementById('btnCloseAdminActivateModal')?.addEventListener('click', closeAdminActivateModal);
+    document.getElementById('closeAdminActivateBackdrop')?.addEventListener('click', closeAdminActivateModal);
+
+    // Toggle Placement Mode Radio Cards
+    document.querySelectorAll('input[name="admPlacementMode"]').forEach(radio => {
+      radio.addEventListener('change', () => {
+        const isAuto = radio.value === 'auto';
+        document.getElementById('cardPlaceAuto')?.classList.toggle('active', isAuto);
+        document.getElementById('cardPlaceManual')?.classList.toggle('active', !isAuto);
+        const manualFields = document.getElementById('admManualPlacementFields');
+        if (manualFields) manualFields.style.display = isAuto ? 'none' : 'block';
+      });
+    });
+    document.getElementById('cardPlaceAuto')?.addEventListener('click', () => {
+      const r = document.querySelector('input[name="admPlacementMode"][value="auto"]');
+      if (r) { r.checked = true; r.dispatchEvent(new Event('change')); }
+    });
+    document.getElementById('cardPlaceManual')?.addEventListener('click', () => {
+      const r = document.querySelector('input[name="admPlacementMode"][value="manual"]');
+      if (r) { r.checked = true; r.dispatchEvent(new Event('change')); }
+    });
+
+    // Toggle Auto Code Checkbox
+    document.getElementById('admActAutoCodeCheck')?.addEventListener('change', (e) => {
+      const customWrap = document.getElementById('admActCustomCodeWrap');
+      if (customWrap) customWrap.style.display = e.target.checked ? 'none' : 'block';
+    });
+
+    // Submit Admin Activation Form
+    document.getElementById('formAdminActivateUser')?.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const userId = document.getElementById('admActUserIdInput').value;
+      if (!userId) {
+        flash('Please select an inactive member to activate.');
+        return;
+      }
+
+      const mode = document.querySelector('input[name="admPlacementMode"]:checked')?.value || 'auto';
+      const autoCode = document.getElementById('admActAutoCodeCheck')?.checked;
+      const customCode = document.getElementById('admActCustomCodeInput')?.value.trim();
+      const parentMobile = document.getElementById('admActParentMobileInput')?.value.trim();
+      const position = document.getElementById('admActPositionSelect')?.value;
+
+      const body = {
+        auto_generate_code: autoCode,
+        code: autoCode ? null : customCode,
+      };
+
+      if (mode === 'manual') {
+        if (!parentMobile) {
+          flash('Please enter a placement parent username or mobile number.');
+          return;
+        }
+        body.placement_mobile = parentMobile;
+        body.position = position;
+      }
+
+      const btn = document.getElementById('btnSubmitAdminActivate');
+      btn.disabled = true;
+      btn.textContent = 'Activating & Placing Member...';
+
+      try {
+        const res = await api(`/api/admin/users/${userId}/activate`, {
+          method: 'POST',
+          body: JSON.stringify(body)
+        });
+
+        closeAdminActivateModal();
+        flash(`🎉 ${res.message || 'Member activated successfully!'}`, true);
+        refreshAll();
+
+        // If genealogy tree is open, refresh it too
+        if (currentAdminTreeRootId) {
+          fetchAndRenderAdminTree(currentAdminTreeRootId);
+        }
+      } catch (err) {
+        flash(err.message || 'Failed to activate member.');
+      } finally {
+        btn.disabled = false;
+        btn.textContent = '⚡ Activate Account & Place in Tree ➔';
+      }
+    });
 
     function renderCodes() {
       let list = globalCodes;

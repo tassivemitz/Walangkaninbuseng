@@ -1876,6 +1876,156 @@ app.delete('/api/admin/users/:id', auth, adminOnly, async (req, res) => {
   }
 });
 
+// Admin Activate Inactive Member (e.g. Admin Directs or any pending downlines)
+app.post('/api/admin/users/:id/activate', auth, adminOnly, async (req, res) => {
+  const targetId = Number(req.params.id);
+  const rawPos = req.body.position ? String(req.body.position).trim().toUpperCase() : null;
+  const preferredPos = rawPos === 'R' ? 'R' : rawPos === 'L' ? 'L' : null;
+  const placementParentId = req.body.placement_parent_id ? Number(req.body.placement_parent_id) : null;
+  const placementMobile = req.body.placement_mobile ? normalizeUsername(req.body.placement_mobile) : null;
+  const codeParam = req.body.code ? normalizeCode(req.body.code) : null;
+  const autoCode = Boolean(req.body.auto_generate_code || !codeParam);
+
+  try {
+    const result = await db.tx((data) => {
+      const admin = data.users.find((u) => u.id === req.user.id);
+      if (!admin || admin.role !== 'admin') {
+        const err = new Error('Admin authorization required.');
+        err.status = 403;
+        throw err;
+      }
+
+      const target = data.users.find((u) => u.id === targetId);
+      if (!target) {
+        const err = new Error('Member not found.');
+        err.status = 404;
+        throw err;
+      }
+      if (target.status === 'active') {
+        const err = new Error(`Member "${target.username || target.mobile_number}" is already active.`);
+        err.status = 400;
+        throw err;
+      }
+      if (target.status === 'banned') {
+        const err = new Error('Cannot activate a banned account.');
+        err.status = 400;
+        throw err;
+      }
+
+      // Check member tree record
+      let targetTree = data.binary_tree.find((t) => t.user_id === target.id);
+      let sponsorId = targetTree && targetTree.sponsor_id ? targetTree.sponsor_id : admin.id;
+      if (!targetTree) {
+        targetTree = emptyTree(target.id, null, sponsorId, null);
+        data.binary_tree.push(targetTree);
+      }
+
+      // Placement parent starting node
+      let startNodeId = sponsorId;
+      let pUser = null;
+      if (placementParentId) {
+        pUser = data.users.find((x) => x.id === placementParentId && x.status === 'active');
+        if (!pUser) {
+          const err = new Error('Selected placement parent node was not found or is not active.');
+          err.status = 400;
+          throw err;
+        }
+        startNodeId = pUser.id;
+      } else if (placementMobile) {
+        pUser = data.users.find((x) => ((x.username && x.username.toLowerCase() === placementMobile.toLowerCase()) || (x.mobile_number && x.mobile_number.toLowerCase() === placementMobile.toLowerCase())) && x.status === 'active');
+        if (!pUser) {
+          const err = new Error(`Placement upline ${placementMobile} is not an active member.`);
+          err.status = 400;
+          throw err;
+        }
+        startNodeId = pUser.id;
+      }
+
+      // If specific parent & pos given, verify slot is open; else assignPlacement
+      let place;
+      if (pUser && preferredPos) {
+        const existingChild = data.binary_tree.find((t) => t.parent_id === pUser.id && t.position === preferredPos);
+        if (existingChild) {
+          const childUser = data.users.find((u) => u.id === existingChild.user_id);
+          const childName = childUser ? (childUser.username || childUser.mobile_number) : `#${existingChild.user_id}`;
+          const err = new Error(`Position ${preferredPos === 'L' ? 'Left' : 'Right'} of ${pUser.username || pUser.mobile_number} is already occupied by ${childName}.`);
+          err.status = 400;
+          throw err;
+        }
+        place = { parentId: pUser.id, position: preferredPos };
+      } else {
+        place = assignPlacement(startNodeId, preferredPos, data);
+      }
+
+      // Find code or mint new code
+      let vault = null;
+      if (codeParam) {
+        vault = data.code_vault.find((c) => normalizeCode(c.code) === codeParam && c.status !== 'used');
+        if (!vault) {
+          const err = new Error('Activation code is invalid or already used.');
+          err.status = 400;
+          throw err;
+        }
+      } else if (autoCode) {
+        let codeStr = generateRandomCode(8);
+        while (data.code_vault.some((c) => c.code === codeStr)) {
+          codeStr = generateRandomCode(8);
+        }
+        vault = db.insert('code_vault', {
+          code: codeStr,
+          status: 'assigned',
+          assigned_to: admin.id,
+          used_by: null,
+          created_at: nowIso(),
+          used_at: null,
+        });
+      }
+
+      // Set binary tree placement
+      targetTree.parent_id = place.parentId;
+      targetTree.position = place.position;
+      targetTree.sponsor_id = sponsorId;
+
+      // Mark code as used
+      vault.status = 'used';
+      vault.used_by = target.id;
+      vault.encoded_by = admin.id;
+      vault.used_at = nowIso();
+      vault.placement_parent_id = place.parentId;
+      vault.position = place.position;
+
+      // Activate target user
+      target.status = 'active';
+
+      // Commissions
+      paySponsorBinary(data, sponsorId, target.id);
+      processPairing(data, place.parentId, place.position, target.id);
+
+      return {
+        user: adminUserRow(target.id, data),
+        placement: {
+          parent_id: place.parentId,
+          parent_mobile: mobileOf(place.parentId, data),
+          position: place.position,
+        },
+        code_used: vault.code,
+      };
+    });
+
+    res.json({
+      ok: true,
+      message: `Account ${result.user.mobile_number} successfully activated and placed under ${result.placement.parent_mobile} (${result.placement.position === 'L' ? 'Left' : 'Right'} Leg)!`,
+      user: result.user,
+      placement: result.placement,
+      code_used: result.code_used,
+    });
+  } catch (err) {
+    if (err.status) return res.status(err.status).json({ error: err.message });
+    console.error('Admin activate user error:', err);
+    res.status(500).json({ error: 'Failed to activate member.' });
+  }
+});
+
 app.get('/api/admin/tradein', auth, adminOnly, (_req, res) => {
   const data = db.getStore();
   const packages = data.tradein_packages
