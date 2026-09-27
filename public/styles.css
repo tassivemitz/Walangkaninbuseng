@@ -9986,10 +9986,28 @@ textarea.in:focus,
 }
 
 .tag-assigned,
-.tag-pending {
+.tag-pending,
+.tag-welcome,
+.badge-tag.tag-welcome,
+.badge-tag.tag-assigned,
+.badge-tag.tag-pending {
   background: rgba(245, 166, 35, 0.16) !important;
   color: #fbbf24 !important;
   border-color: rgba(245, 166, 35, 0.3) !important;
+}
+
+.badge-tag.tag-approved,
+.badge-tag.tag-available {
+  background: rgba(46, 213, 158, 0.16) !important;
+  color: #2ed59e !important;
+  border-color: rgba(46, 213, 158, 0.3) !important;
+}
+
+.badge-tag.tag-rejected,
+.badge-tag.tag-expired {
+  background: rgba(239, 68, 68, 0.16) !important;
+  color: #f87171 !important;
+  border-color: rgba(239, 68, 68, 0.3) !important;
 }
 
 /* Glass Pill Selectors / Tab Strips */
@@ -10775,10 +10793,40 @@ textarea::placeholder {
   color: #3b604e !important;
 }
 
-[data-theme="light"] #codePageSizeSelect {
+[data-theme="light"] #codePageSizeSelect,
+[data-theme="light"] #memberPageSizeSelect {
   background: #ffffff !important;
   color: #0e291b !important;
   border: 1px solid rgba(15, 122, 69, 0.25) !important;
+}
+
+/* Light Theme Badges & Status Tags */
+[data-theme="light"] .badge-tag {
+  box-shadow: none !important;
+}
+
+[data-theme="light"] .tag-approved,
+[data-theme="light"] .tag-active,
+[data-theme="light"] .tag-available {
+  background: #dcfce7 !important;
+  color: #15803d !important;
+  border: 1px solid #bbf7d0 !important;
+}
+
+[data-theme="light"] .tag-pending,
+[data-theme="light"] .tag-assigned,
+[data-theme="light"] .tag-welcome {
+  background: #fef3c7 !important;
+  color: #b45309 !important;
+  border: 1px solid #fde68a !important;
+}
+
+[data-theme="light"] .tag-rejected,
+[data-theme="light"] .tag-expired,
+[data-theme="light"] .tag-used {
+  background: #fee2e2 !important;
+  color: #b91c1c !important;
+  border: 1px solid #fecaca !important;
 }
 
 /* Light Theme Modals */
@@ -12748,9 +12796,86 @@ textarea::placeholder {
 /* --- Tables, Modals, Forms in Light Theme --- */
 [data-theme="light"] .admin-table-wrap,
 [data-theme="light"] .table-wrap,
+[data-theme="light"] .admin-table-panel,
 [data-theme="light"] table {
   background: #ffffff !important;
   color: #0e291b !important;
+  border-color: rgba(15, 122, 69, 0.15) !important;
+}
+
+[data-theme="light"] .admin-table thead,
+[data-theme="light"] table thead,
+[data-theme="light"] th {
+  background: #f4faf6 !important;
+  color: #0b4d2c !important;
+  border-bottom: 1.5px solid rgba(15, 122, 69, 0.15) !important;
+  font-weight: 750 !important;
+}
+
+[data-theme="light"] td {
+  background: #ffffff !important;
+  color: #0e291b !important;
+  border-bottom: 1px solid rgba(15, 122, 69, 0.08) !important;
+}
+
+[data-theme="light"] tr:hover td {
+  background: #f0fbf5 !important;
+}
+
+/* Light Theme Badges & Tags Overrides */
+[data-theme="light"] .badge-tag,
+[data-theme="light"] .pill,
+[data-theme="light"] .m-pill-badge {
+  background: rgba(15, 122, 69, 0.08) !important;
+  color: #0b4d2c !important;
+  border: 1px solid rgba(15, 122, 69, 0.2) !important;
+  box-shadow: none !important;
+}
+
+[data-theme="light"] .tag-welcome,
+[data-theme="light"] .badge-tag.tag-welcome {
+  background: #fef3c7 !important;
+  color: #b45309 !important;
+  border: 1px solid #fde68a !important;
+  font-weight: 800 !important;
+}
+
+[data-theme="light"] .tag-approved,
+[data-theme="light"] .tag-available,
+[data-theme="light"] .tag-active,
+[data-theme="light"] .badge-tag.tag-approved,
+[data-theme="light"] .badge-tag.tag-available {
+  background: #dcfce7 !important;
+  color: #15803d !important;
+  border: 1px solid #bbf7d0 !important;
+  font-weight: 750 !important;
+}
+
+[data-theme="light"] .tag-expired,
+[data-theme="light"] .tag-rejected,
+[data-theme="light"] .tag-used,
+[data-theme="light"] .badge-tag.tag-expired,
+[data-theme="light"] .badge-tag.tag-rejected {
+  background: #fee2e2 !important;
+  color: #b91c1c !important;
+  border: 1px solid #fca5a5 !important;
+  font-weight: 750 !important;
+}
+
+[data-theme="light"] .tag-pending,
+[data-theme="light"] .tag-assigned,
+[data-theme="light"] .badge-tag.tag-pending {
+  background: #fef3c7 !important;
+  color: #b45309 !important;
+  border: 1px solid #fde68a !important;
+  font-weight: 750 !important;
+}
+
+[data-theme="light"] #codePageSizeSelect,
+[data-theme="light"] #memberPageSizeSelect {
+  background: #ffffff !important;
+  color: #0e291b !important;
+  border: 1px solid rgba(15, 122, 69, 0.25) !important;
 }
 
 [data-theme="light"] .ctrl-search {

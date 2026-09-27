@@ -804,7 +804,7 @@
             </div>
             <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
               <span class="tiny muted" id="loadWalletSummaryCount">0 Requests</span>
-              <button id="btnRefreshLoadWallet" class="btn btn-secondary btn-sm" style="font-weight:700;">🔄 Refresh Orders</button>
+              <button id="btnRefreshLoadWallet" class="btn btn-mint btn-sm" style="font-weight:700;padding:6px 14px;">🔄 Refresh Orders</button>
             </div>
           </div>
 
@@ -817,23 +817,23 @@
               <button class="ctrl-tab" data-loadfilter="rejected">Rejected (<span id="countLoadRejected">0</span>)</button>
             </div>
             <div style="display:flex;gap:8px;align-items:center;">
-              <input type="text" id="searchLoadWalletInput" class="in" placeholder="🔍 Search phone, member, ref#..." style="font-size:12.5px;padding:6px 12px;min-width:240px;" />
+              <input type="text" id="searchLoadWalletInput" class="ctrl-search" placeholder="🔍 Search phone, member, ref#..." style="font-size:12.5px;padding:6px 12px;min-width:240px;" />
             </div>
           </div>
 
           <!-- Orders Table Container -->
-          <div id="loadWalletTableWrap" class="admin-table-wrap" style="background:var(--surface);border-radius:12px;border:1px solid var(--border);overflow-x:auto;">
-            <table class="admin-table" style="width:100%;border-collapse:collapse;font-size:13px;">
+          <div id="loadWalletTableWrap" class="admin-table-panel table-wrap">
+            <table class="admin-table">
               <thead>
-                <tr style="border-bottom:1px solid var(--border);text-align:left;color:var(--muted);font-size:11px;letter-spacing:0.04em;text-transform:uppercase;">
-                  <th style="padding:12px 14px;">Order / Date</th>
-                  <th style="padding:12px 14px;">Member Account</th>
-                  <th style="padding:12px 14px;">Amount</th>
-                  <th style="padding:12px 14px;">Target Load Wallet</th>
-                  <th style="padding:12px 14px;">MOP / Ref #</th>
-                  <th style="padding:12px 14px;">Receipt</th>
-                  <th style="padding:12px 14px;">Status</th>
-                  <th style="padding:12px 14px;text-align:right;">Actions</th>
+                <tr>
+                  <th>Order / Date</th>
+                  <th>Member Account</th>
+                  <th>Amount</th>
+                  <th>Target Load Wallet</th>
+                  <th>MOP / Ref #</th>
+                  <th>Receipt</th>
+                  <th>Status</th>
+                  <th style="text-align:right;">Actions</th>
                 </tr>
               </thead>
               <tbody id="loadWalletTableBody">
@@ -845,6 +845,9 @@
               </tbody>
             </table>
           </div>
+
+          <!-- Mobile Touch-Friendly Card View (Screens <= 768px) -->
+          <div class="admin-mobile-cards-list" id="loadWalletMobileCards"></div>
         </section>
 
         <!-- =========================================================
@@ -1640,7 +1643,9 @@
     if (sidebarClose) sidebarClose.onclick = closeMobileDrawer;
     if (backdropEl) backdropEl.onclick = closeMobileDrawer;
 
-    function switchAdminView(targetId) {
+    function switchAdminView(targetId, updateHistory = true) {
+      if (!targetId || !document.getElementById(targetId)) targetId = 'viewHome';
+
       document.querySelectorAll('.admin-nav-item').forEach(btn => {
         btn.classList.toggle('active', btn.dataset.navTarget === targetId);
       });
@@ -1653,6 +1658,14 @@
       if (tag && viewTitles[targetId]) {
         tag.textContent = viewTitles[targetId];
       }
+
+      // Persist active view across browser refreshes / F5
+      try {
+        localStorage.setItem('admin_active_tab', targetId);
+        if (updateHistory && window.location.hash !== '#' + targetId) {
+          window.history.replaceState(null, '', '#' + targetId);
+        }
+      } catch (e) {}
 
       if (targetId === 'viewEarningsHistory') {
         loadAdminEarningsHistory('all');
@@ -1670,6 +1683,25 @@
         closeMobileDrawer();
       }
     }
+
+    function restoreInitialAdminView() {
+      const hashView = window.location.hash ? window.location.hash.substring(1) : '';
+      const savedView = localStorage.getItem('admin_active_tab') || '';
+      const targetView = (hashView && document.getElementById(hashView))
+        ? hashView
+        : (savedView && document.getElementById(savedView))
+          ? savedView
+          : 'viewHome';
+
+      switchAdminView(targetView, false);
+    }
+
+    window.addEventListener('hashchange', () => {
+      const h = window.location.hash ? window.location.hash.substring(1) : '';
+      if (h && document.getElementById(h)) {
+        switchAdminView(h, false);
+      }
+    });
 
     document.querySelectorAll('.admin-nav-item[data-nav-target]').forEach(btn => {
       btn.addEventListener('click', () => {
@@ -2483,6 +2515,7 @@
 
     function renderAdminLoadWallet() {
       const tbody = document.getElementById('loadWalletTableBody');
+      const mobCards = document.getElementById('loadWalletMobileCards');
       if (!tbody) return;
 
       const q = currentLoadWalletSearch.toLowerCase();
@@ -2527,6 +2560,9 @@
             </td>
           </tr>
         `;
+        if (mobCards) {
+          mobCards.innerHTML = '<div style="padding:24px;text-align:center;" class="muted">No load wallet requests found.</div>';
+        }
         return;
       }
 
@@ -2555,54 +2591,113 @@
           : `
             <div style="font-size:11px;color:var(--muted);text-align:right;">
               ${r.processed_at ? fmtDate(r.processed_at) : 'Processed'}
-              ${r.admin_notes ? `<div style="color:var(--text);font-style:italic;">"${esc(r.admin_notes)}"</div>` : ''}
+              ${r.admin_notes ? `<div class="tiny" style="color:var(--text);font-style:italic;margin-top:2px;">"${esc(r.admin_notes)}"</div>` : ''}
             </div>
           `;
 
         return `
-          <tr style="border-bottom:1px solid rgba(255,255,255,0.04);">
-            <td style="padding:12px 14px;">
+          <tr>
+            <td>
               <strong style="color:var(--text);">#LW${r.id}</strong>
-              <div class="tiny muted">${fmtDate(r.created_at)}</div>
+              <div class="tiny muted" style="margin-top:2px;">${fmtDate(r.created_at)}</div>
             </td>
-            <td style="padding:12px 14px;">
-              <strong>${esc(r.username || ('User #' + r.user_id))}</strong>
-              <div class="tiny muted">${esc(r.user_mobile || '')}</div>
+            <td>
+              <strong style="color:var(--text);">${esc(r.username || ('User #' + r.user_id))}</strong>
+              <div class="tiny muted" style="margin-top:2px;">${esc(r.user_mobile || '')}</div>
             </td>
-            <td style="padding:12px 14px;">
-              <strong style="color:var(--accent-mint);font-size:14px;">${peso(r.amount)}</strong>
+            <td>
+              <strong style="color:var(--jade);font-size:14px;font-weight:800;">${peso(r.amount)}</strong>
             </td>
-            <td style="padding:12px 14px;">
+            <td>
               <div style="display:flex;align-items:center;gap:6px;">
-                <code style="font-size:13px;font-weight:800;color:var(--text);">${esc(r.phone_number)}</code>
-                <button type="button" class="btn btn-ghost btn-sm" style="padding:2px 6px;font-size:10px;" onclick="navigator.clipboard.writeText('${esc(r.phone_number)}');flash('Copied phone number!', true);">📋</button>
+                <code style="font-size:12.5px;font-weight:800;color:var(--text);">${esc(r.phone_number)}</code>
+                <button type="button" class="btn btn-ghost btn-sm" style="padding:2px 6px;font-size:10px;" onclick="navigator.clipboard.writeText('${esc(r.phone_number)}');flash('Copied phone number!', true);" title="Copy Phone Number">📋</button>
               </div>
             </td>
-            <td style="padding:12px 14px;">
+            <td>
               ${r.is_welcome_claim ? `
-                <span class="badge-tag" style="background:#f59e0b;color:#000;font-size:10px;font-weight:800;">🎁 WELCOME CLAIM</span>
-                <div class="tiny" style="font-weight:800;color:var(--accent-mint);margin-top:2px;">Network: ${esc(r.network || 'SIM')}</div>
-                <div class="tiny muted" style="font-size:9.5px;">${r.claim_type === 'activate_and_claim' ? '⚡ Activate SIM & Claim' : '🔁 Multiple Acct / Active SIM'}</div>
+                <span class="badge-tag tag-welcome">🎁 WELCOME CLAIM</span>
+                <div class="tiny" style="font-weight:800;color:var(--jade);margin-top:3px;">Network: ${esc(r.network || 'SIM')}</div>
+                <div class="tiny muted" style="font-size:9.5px;margin-top:1px;">${r.claim_type === 'activate_and_claim' ? '⚡ Activate SIM & Claim' : '🔁 Multiple Acct / Active SIM'}</div>
               ` : `
                 <span class="badge-tag tag-available" style="font-size:10px;">${esc(r.payment_method || 'GCash')}</span>
                 ${r.reference_number ? `<div class="tiny muted" style="margin-top:2px;">Ref: <code>${esc(r.reference_number)}</code></div>` : ''}
               `}
             </td>
-            <td style="padding:12px 14px;">
+            <td>
               ${receiptThumb}
             </td>
-            <td style="padding:12px 14px;">
+            <td>
               ${statusBadge}
             </td>
-            <td style="padding:12px 14px;text-align:right;">
+            <td style="text-align:right;">
               ${actionButtons}
             </td>
           </tr>
         `;
       }).join('');
 
+      if (mobCards) {
+        mobCards.innerHTML = list.map(r => {
+          const isPending = r.status === 'pending';
+          const isApproved = r.status === 'approved';
+          const statusBadge = isPending
+            ? '<span class="badge-tag tag-expired" style="font-size:10.5px;font-weight:700;">⏳ Pending</span>'
+            : isApproved
+              ? '<span class="badge-tag tag-approved" style="font-size:10.5px;font-weight:700;">✓ Approved</span>'
+              : '<span class="badge-tag tag-rejected" style="font-size:10.5px;font-weight:700;">✕ Rejected</span>';
+
+          const receiptThumb = r.receipt_image
+            ? `<img src="${r.receipt_image}" class="receipt-thumb-img" alt="Receipt" style="width:44px;height:44px;object-fit:cover;border-radius:6px;border:1px solid var(--border);cursor:pointer;" data-zoom-receipt="${r.id}" title="Tap to inspect receipt in full view" />`
+            : '<span class="tiny muted">No receipt</span>';
+
+          return `
+            <div class="admin-mob-card ${isPending ? 'pending' : ''}">
+              <div class="admin-mob-card-head">
+                <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;">
+                  <strong style="color:var(--jade);font-size:13.5px;">#LW${r.id}</strong>
+                  <strong style="font-size:13.5px;">${esc(r.username || ('User #' + r.user_id))}</strong>
+                  ${statusBadge}
+                </div>
+                <span class="tiny muted">${fmtDate(r.created_at)}</span>
+              </div>
+              <div class="admin-mob-card-grid">
+                <div class="admin-mob-card-field">
+                  <span class="admin-mob-card-label">Amount</span>
+                  <span class="admin-mob-card-val" style="color:var(--jade);font-weight:800;">${peso(r.amount)}</span>
+                </div>
+                <div class="admin-mob-card-field">
+                  <span class="admin-mob-card-label">Target SIM / Phone</span>
+                  <span class="admin-mob-card-val"><code style="font-size:12px;font-weight:800;">${esc(r.phone_number)}</code></span>
+                </div>
+                <div class="admin-mob-card-field">
+                  <span class="admin-mob-card-label">Method / Type</span>
+                  <span class="admin-mob-card-val">
+                    ${r.is_welcome_claim
+                      ? `<span class="badge-tag tag-welcome" style="font-size:9.5px;">🎁 WELCOME CLAIM</span>`
+                      : `<span class="badge-tag tag-available" style="font-size:9.5px;">${esc(r.payment_method || 'GCash')}</span>`
+                    }
+                  </span>
+                </div>
+                <div class="admin-mob-card-field">
+                  <span class="admin-mob-card-label">Receipt Proof</span>
+                  <span class="admin-mob-card-val">${receiptThumb}</span>
+                </div>
+              </div>
+              ${r.admin_notes ? `<div class="tiny" style="color:var(--muted);font-style:italic;">Notes: "${esc(r.admin_notes)}"</div>` : ''}
+              ${isPending ? `
+                <div class="admin-mob-card-actions">
+                  <button type="button" class="btn btn-mint btn-sm" data-approve-load="${r.id}" style="flex:1;padding:6px 10px;font-size:11px;font-weight:800;">✓ Approve</button>
+                  <button type="button" class="btn btn-secondary btn-sm" data-reject-load="${r.id}" style="flex:1;padding:6px 10px;font-size:11px;color:#fca5a5;border-color:rgba(239,68,68,0.3);">✕ Reject</button>
+                </div>
+              ` : ''}
+            </div>
+          `;
+        }).join('');
+      }
+
       // Wire zoom receipt buttons
-      tbody.querySelectorAll('[data-zoom-receipt]').forEach(img => {
+      document.querySelectorAll('[data-zoom-receipt]').forEach(img => {
         img.onclick = () => {
           const id = Number(img.dataset.zoomReceipt);
           const req = globalLoadWallets.find(r => r.id === id);
@@ -2613,7 +2708,7 @@
       });
 
       // Wire Approve
-      tbody.querySelectorAll('[data-approve-load]').forEach(btn => {
+      document.querySelectorAll('[data-approve-load]').forEach(btn => {
         btn.onclick = () => {
           const id = Number(btn.dataset.approveLoad);
           const req = globalLoadWallets.find(r => r.id === id);
@@ -2648,7 +2743,7 @@
       });
 
       // Wire Reject
-      tbody.querySelectorAll('[data-reject-load]').forEach(btn => {
+      document.querySelectorAll('[data-reject-load]').forEach(btn => {
         btn.onclick = () => {
           const id = Number(btn.dataset.rejectLoad);
           const req = globalLoadWallets.find(r => r.id === id);
@@ -2683,6 +2778,27 @@
       currentLoadWalletSearch = e.target.value.trim();
       renderAdminLoadWallet();
     });
+
+    // Refresh button for Load Wallet
+    const btnRefreshLW = document.getElementById('btnRefreshLoadWallet');
+    if (btnRefreshLW) {
+      btnRefreshLW.onclick = async () => {
+        btnRefreshLW.disabled = true;
+        const origHtml = btnRefreshLW.innerHTML;
+        btnRefreshLW.innerHTML = '<span>⏳ Refreshing...</span>';
+        try {
+          await fetchAndRenderAdminLoadWallet();
+          flash('✓ Load wallet orders refreshed!', true);
+        } catch (e) {
+          flash('Error refreshing orders: ' + e.message);
+        } finally {
+          setTimeout(() => {
+            btnRefreshLW.disabled = false;
+            btnRefreshLW.innerHTML = origHtml;
+          }, 350);
+        }
+      };
+    }
 
     function renderUsers() {
       const query = document.getElementById('userSearch').value.trim().toLowerCase();
@@ -4676,6 +4792,7 @@
       };
     }
 
+    restoreInitialAdminView();
     randomizeSlots();
     refreshAll();
 
