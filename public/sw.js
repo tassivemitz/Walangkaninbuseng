@@ -1,5 +1,5 @@
 // Infinite Trading Service Worker
-const CACHE_NAME = 'it-cache-v1';
+const CACHE_NAME = 'it-cache-v2';
 const ASSETS_TO_CACHE = [
   '/',
   '/index.html',
@@ -42,19 +42,19 @@ self.addEventListener('activate', (event) => {
   self.clients.claim();
 });
 
-// Fetch Event - Network First with Cache Fallback for dynamic/HTML, Cache First for static images/fonts
+// Fetch Event - Safe Network & Cache handling
 self.addEventListener('fetch', (event) => {
   const request = event.request;
   const url = new URL(request.url);
 
-  // Skip non-GET or chrome-extension or external API requests
+  // Skip non-GET or non-HTTP requests
   if (request.method !== 'GET' || !url.protocol.startsWith('http')) return;
 
   // Don't cache dynamic API requests
   if (url.pathname.startsWith('/api/')) {
     event.respondWith(
       fetch(request).catch(() => {
-        return new Response(JSON.stringify({ error: 'Offline - Unable to connect to server' }), {
+        return new Response(JSON.stringify({ error: 'Unable to connect to server. Please check your network connection.' }), {
           headers: { 'Content-Type': 'application/json' },
           status: 503
         });
@@ -63,22 +63,35 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
-  // Stale-while-revalidate / Network-first strategy for navigation and static resources
+  // Network First for HTML navigation, Cache First with fallback for static assets
   event.respondWith(
     caches.match(request).then((cachedResponse) => {
-      const fetchPromise = fetch(request).then((networkResponse) => {
-        if (networkResponse && networkResponse.status === 200 && networkResponse.type === 'basic') {
-          const responseToCache = networkResponse.clone();
-          caches.open(CACHE_NAME).then((cache) => {
-            cache.put(request, responseToCache);
-          });
+      if (cachedResponse) {
+        // Fetch fresh in background to update cache
+        fetch(request).then((networkResponse) => {
+          if (networkResponse && networkResponse.status === 200) {
+            const clone = networkResponse.clone();
+            caches.open(CACHE_NAME).then((cache) => cache.put(request, clone));
+          }
+        }).catch(() => { /* silent fail when offline */ });
+        return cachedResponse;
+      }
+
+      // Not in cache: fetch from network
+      return fetch(request).then((networkResponse) => {
+        if (networkResponse && networkResponse.status === 200) {
+          const clone = networkResponse.clone();
+          caches.open(CACHE_NAME).then((cache) => cache.put(request, clone));
         }
         return networkResponse;
-      }).catch(() => {
-        return cachedResponse;
+      }).catch(async () => {
+        // Safe fallback: never return undefined
+        if (request.headers.get('accept')?.includes('text/html')) {
+          const indexFallback = await caches.match('/index.html');
+          if (indexFallback) return indexFallback;
+        }
+        return new Response('', { status: 408, statusText: 'Request Timed Out' });
       });
-
-      return cachedResponse || fetchPromise;
     })
   );
 });

@@ -2,7 +2,7 @@
 # ==============================================================================
 # Infinite Trading VPS Auto-Setup & Deployment Script (Hostinger VPS)
 # Target Domain: infinitetrading.site, www.infinitetrading.site
-# Target IP: 187.127.122.111
+# Target IP: 2.29.43.245
 # ==============================================================================
 
 set -e
