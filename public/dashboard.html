@@ -55,11 +55,11 @@
           <div class="side-nav-body">
             <button type="button" class="side-sub-btn" id="btnDirectRef">
               <span>↳ Direct Referral</span>
-              <span class="pill open" id="badgeDirectCount" style="margin-left:auto;font-size:10px;">0</span>
+              <span class="pill open" id="badgeDirectCount" style="margin-left:auto;font-size:10px;display:none;"></span>
             </button>
             <button type="button" class="side-sub-btn" id="btnIndirectRef">
               <span>↳ Indirect Referral</span>
-              <span class="pill open" id="badgeIndirectCount" style="margin-left:auto;font-size:10px;">0</span>
+              <span class="pill open" id="badgeIndirectCount" style="margin-left:auto;font-size:10px;display:none;"></span>
             </button>
             <button type="button" class="side-sub-btn" id="btnGenealogy">
               <span>🌳 Genealogy Tree</span>
@@ -76,11 +76,11 @@
           <div class="side-nav-body">
             <button type="button" class="side-nav-btn" id="btnCodesAvailable">
               <span>📦 Available</span>
-              <span class="pill open" id="badgeAvailCodes" style="margin-left:auto;font-size:10px;">0</span>
+              <span class="pill open" id="badgeAvailCodes" style="margin-left:auto;font-size:10px;display:none;"></span>
             </button>
             <button type="button" class="side-nav-btn" id="btnCodesUsed">
               <span>🧾 Used</span>
-              <span class="pill closed" id="badgeUsedCodes" style="margin-left:auto;font-size:10px;">0</span>
+              <span class="pill closed" id="badgeUsedCodes" style="margin-left:auto;font-size:10px;display:none;"></span>
             </button>
           </div>
         </div>
@@ -2389,15 +2389,27 @@
       document.getElementById('treeCounts').textContent = 'Left: ' + d.tree.left_count + ' · Right: ' + d.tree.right_count;
       document.getElementById('pairsTodayText').textContent = 'Pairs today: ' + (u.pairs_today || 0) + ' / 10';
 
-      // Sidebar badges
-      document.getElementById('badgeDirectCount').textContent = d.directs.length;
-      document.getElementById('badgeIndirectCount').textContent = (d.indirects || []).length;
+      // Sidebar badges (Hide if 0)
+      const setPillBadge = (id, count) => {
+        const el = document.getElementById(id);
+        if (!el) return;
+        const n = Number(count) || 0;
+        if (n > 0) {
+          el.textContent = n;
+          el.style.display = 'inline-block';
+        } else {
+          el.textContent = '';
+          el.style.display = 'none';
+        }
+      };
+      setPillBadge('badgeDirectCount', d.directs.length);
+      setPillBadge('badgeIndirectCount', (d.indirects || []).length);
 
       const cv = d.code_vault || {};
       const availList = cv.available_list || [];
       const usedList = cv.used_list || [];
-      document.getElementById('badgeAvailCodes').textContent = availList.length;
-      document.getElementById('badgeUsedCodes').textContent = usedList.length;
+      setPillBadge('badgeAvailCodes', availList.length);
+      setPillBadge('badgeUsedCodes', usedList.length);
       document.getElementById('countAvailCodes').textContent = availList.length;
       document.getElementById('countUsedCodes').textContent = usedList.length;
 

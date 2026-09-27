@@ -56,25 +56,25 @@
         <button type="button" class="admin-nav-item" data-nav-target="viewMembers">
           <span class="admin-nav-icon">👥</span>
           <span>Member List</span>
-          <span class="admin-nav-badge" id="badgeNavMembers">0</span>
+          <span class="admin-nav-badge" id="badgeNavMembers" style="display:none;"></span>
         </button>
 
         <button type="button" class="admin-nav-item" data-nav-target="viewVault">
           <span class="admin-nav-icon">🔒</span>
           <span>Code Vault</span>
-          <span class="admin-nav-badge" id="badgeNavCodes">0</span>
+          <span class="admin-nav-badge" id="badgeNavCodes" style="display:none;"></span>
         </button>
 
         <button type="button" class="admin-nav-item" data-nav-target="viewTradein">
           <span class="admin-nav-icon">📈</span>
           <span>Trade-In Deposit</span>
-          <span class="admin-nav-badge" id="badgeNavTradein">0</span>
+          <span class="admin-nav-badge" id="badgeNavTradein" style="display:none;"></span>
         </button>
 
         <button type="button" class="admin-nav-item" data-nav-target="viewWithdrawals">
           <span class="admin-nav-icon">💳</span>
           <span>Withdrawals</span>
-          <span class="admin-nav-badge" id="badgeNavWd">0</span>
+          <span class="admin-nav-badge" id="badgeNavWd" style="display:none;"></span>
         </button>
 
         <button type="button" class="admin-nav-item" data-nav-target="viewEarningsHistory">
@@ -85,13 +85,13 @@
         <button type="button" class="admin-nav-item" data-nav-target="viewMop">
           <span class="admin-nav-icon">📲</span>
           <span>Official MOP</span>
-          <span class="admin-nav-badge" id="badgeNavMop">0</span>
+          <span class="admin-nav-badge" id="badgeNavMop" style="display:none;"></span>
         </button>
 
         <button type="button" class="admin-nav-item" data-nav-target="viewLoadWallet">
           <span class="admin-nav-icon">📱</span>
           <span>Load Wallet</span>
-          <span class="admin-nav-badge" id="badgeNavLoadWallet">0</span>
+          <span class="admin-nav-badge" id="badgeNavLoadWallet" style="display:none;"></span>
         </button>
 
         <button type="button" class="admin-nav-item" data-nav-target="viewSettings">
@@ -1641,6 +1641,28 @@
       document.getElementById('codeSlot3').value = generateRandomCode();
     }
 
+    function setSidebarBadge(id, count, isAlert = false) {
+      const el = document.getElementById(id);
+      if (!el) return;
+      const n = Number(count) || 0;
+      if (n > 0) {
+        el.textContent = n;
+        el.style.display = 'inline-flex';
+        if (isAlert) {
+          el.style.background = 'rgba(239, 68, 68, 0.2)';
+          el.style.color = '#ef4444';
+          el.style.border = '1px solid rgba(239, 68, 68, 0.4)';
+        } else {
+          el.style.background = '';
+          el.style.color = '';
+          el.style.border = '';
+        }
+      } else {
+        el.textContent = '';
+        el.style.display = 'none';
+      }
+    }
+
     function renderHomeKPIs(overview) {
       payoutsEnabled = overview.weekly_payout_enabled;
 
@@ -1678,33 +1700,15 @@
         badgeKpiPendingWd.className = count > 0 ? 'badge-tag tag-expired' : 'badge-tag tag-available';
       }
 
-      // Sidebar & Mobile Badges for Codes & Cashout
-      const bCodes = document.getElementById('badgeNavCodes');
-      if (bCodes) bCodes.textContent = overview.available_codes || 0;
+      // Sidebar & Mobile Badges for Codes & Cashout (Hidden if 0)
+      setSidebarBadge('badgeNavCodes', overview.available_codes);
+      setSidebarBadge('badgeNavWd', overview.pending_withdrawals, true);
 
-      const bWd = document.getElementById('badgeNavWd');
-      if (bWd) {
-        const pendingWd = overview.pending_withdrawals || 0;
-        bWd.textContent = pendingWd;
-        if (pendingWd > 0) {
-          bWd.style.background = '#fee2e2';
-          bWd.style.color = '#b91c1c';
-        } else {
-          bWd.style.background = '';
-          bWd.style.color = '';
-        }
-      }
-
-      // Sidebar & Mobile Badges for Trade-In
-      const bTradein = document.getElementById('badgeNavTradein');
+      // Sidebar & Mobile Badges for Trade-In (Hidden if 0)
       const pTradeinCount = overview.pending_tradeins || 0;
-      if (bTradein) {
-        bTradein.textContent = pTradeinCount;
-        bTradein.style.background = pTradeinCount > 0 ? '#fee2e2' : '';
-        bTradein.style.color = pTradeinCount > 0 ? '#b91c1c' : '';
-      }
+      setSidebarBadge('badgeNavTradein', pTradeinCount, true);
 
-      // Pending Load Wallet KPI & Badges
+      // Pending Load Wallet KPI & Badges (Hidden if 0)
       const pLoadCount = overview.pending_load_wallets || 0;
       const elPendingLoad = document.getElementById('kpiPendingLoad');
       if (elPendingLoad) elPendingLoad.textContent = pLoadCount;
@@ -1715,12 +1719,7 @@
         badgeKpiPendingLoad.textContent = pLoadCount > 0 ? `${pLoadCount} Action Needed` : '0 Pending';
         badgeKpiPendingLoad.className = pLoadCount > 0 ? 'badge-tag tag-expired' : 'badge-tag tag-available';
       }
-      const bLoad = document.getElementById('badgeNavLoadWallet');
-      if (bLoad) {
-        bLoad.textContent = pLoadCount;
-        bLoad.style.background = pLoadCount > 0 ? '#fee2e2' : '';
-        bLoad.style.color = pLoadCount > 0 ? '#b91c1c' : '';
-      }
+      setSidebarBadge('badgeNavLoadWallet', pLoadCount, true);
 
       // Binary Cap in Admin Settings
       if (overview.binary_cap && document.getElementById('inputAdminBinaryCap')) {
@@ -1925,8 +1924,7 @@
 
     function updateMopBadgesAndHomeSummary() {
       const activeCount = globalMops.filter(m => m.is_active !== false).length;
-      const navBadge = document.getElementById('badgeNavMop');
-      if (navBadge) navBadge.textContent = activeCount;
+      setSidebarBadge('badgeNavMop', activeCount);
 
       const summaryText = document.getElementById('mopSummaryCount');
       if (summaryText) summaryText.textContent = `${activeCount} Active / ${globalMops.length} Total Channels`;
@@ -2385,13 +2383,7 @@
 
     function updateLoadWalletBadges() {
       const pendingCount = globalLoadWallets.filter(r => r.status === 'pending').length;
-      
-      const badgeNav = document.getElementById('badgeNavLoadWallet');
-      if (badgeNav) {
-        badgeNav.textContent = pendingCount;
-        badgeNav.style.background = pendingCount > 0 ? '#fee2e2' : '';
-        badgeNav.style.color = pendingCount > 0 ? '#b91c1c' : '';
-      }
+      setSidebarBadge('badgeNavLoadWallet', pendingCount, true);
 
       const kpiPendingLoad = document.getElementById('kpiPendingLoad');
       if (kpiPendingLoad) kpiPendingLoad.textContent = pendingCount;
@@ -2623,8 +2615,7 @@
       document.getElementById('userCountAll').textContent = globalUsers.length;
       document.getElementById('kpiTradeinCount').textContent = globalUsers.filter(u => u.status === 'active').length + ' Active accounts';
 
-      const bMembers = document.getElementById('badgeNavMembers');
-      if (bMembers) bMembers.textContent = globalUsers.length;
+      setSidebarBadge('badgeNavMembers', globalUsers.length);
 
       const dl = document.getElementById('memberDatalist');
       dl.innerHTML = globalUsers.map(u => '<option value="' + esc(u.mobile_number) + '">ID #' + u.id + ' (' + esc(u.status) + ')</option>').join('');
@@ -3029,6 +3020,7 @@
       if (countEl) {
         countEl.textContent = list.length + ' of ' + globalCodes.length + ' codes';
       }
+      setSidebarBadge('badgeNavCodes', globalCodes.filter((c) => c.status === 'available').length);
 
       const tbody = document.getElementById('codeTableBody');
       const mobCards = document.getElementById('codeMobileCards');
@@ -3212,16 +3204,7 @@
       document.getElementById('tradeinSummaryText').textContent = `${globalTradein.length} Total Packages (${pendingCount} Pending · ${activeCount} Active)`;
 
       const bTradein = document.getElementById('badgeNavTradein');
-      if (bTradein) {
-        bTradein.textContent = pendingCount > 0 ? pendingCount : activeCount;
-        if (pendingCount > 0) {
-          bTradein.style.background = '#fee2e2';
-          bTradein.style.color = '#b91c1c';
-        } else {
-          bTradein.style.background = '';
-          bTradein.style.color = '';
-        }
-      }
+      setSidebarBadge('badgeNavTradein', pendingCount, true);
 
       const badgePendingEl = document.getElementById('badgePendingTradein');
       if (badgePendingEl) badgePendingEl.textContent = pendingCount;
@@ -3856,6 +3839,7 @@
       if (elTradeRef) elTradeRef.textContent = countTradeRef;
       if (elCycle) elCycle.textContent = countCycle;
       if (elPending) elPending.textContent = countPending;
+      setSidebarBadge('badgeNavWd', countPending, true);
 
       // 2. Update 3 Category Summary Cards
       const binPendingList = globalWithdrawals.filter((w) => w.wallet_type === 'binary_ref' && w.status === 'pending');
@@ -4387,6 +4371,13 @@
 
     randomizeSlots();
     refreshAll();
+
+    // Auto-poll every 10 seconds for real-time live data
+    setInterval(() => {
+      if (document.visibilityState === 'visible') {
+        refreshAll();
+      }
+    }, 10000);
   </script>
 </body>
 
