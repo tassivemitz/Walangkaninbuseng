@@ -8,8 +8,7 @@
   <meta name="description"
     content="Create your Infinite Trading account. Enter your mobile number, password, and sponsor's mobile number to get started." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link
-    href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&display=swap"
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&display=swap"
     rel="stylesheet" />
   <script src="/theme.js"></script>
   <link rel="stylesheet" href="/styles.css?v=20260927fixscroll" />
@@ -25,8 +24,9 @@
 <body class="auth-page-body">
   <!-- Floating Theme Switcher -->
   <div style="position:fixed;top:16px;right:16px;z-index:999;">
-    <button class="btn-theme-toggle" type="button" data-theme-toggle aria-label="Toggle Light/Dark Theme" title="Toggle Light/Dark Theme">
-      <span class="theme-toggle-icon">☀️</span>
+    <button class="btn-theme-toggle" type="button" data-theme-toggle aria-label="Toggle Light/Dark Theme"
+      title="Toggle Light/Dark Theme">
+      <span class="theme-toggle-icon"></span>
       <span class="theme-toggle-text">Light</span>
     </button>
   </div>
@@ -44,10 +44,12 @@
     <!-- Left: Brand Artwork & Live Highlights -->
     <aside class="auth-art">
       <a class="auth-logo-interactive" href="/" title="Infinite Trading Home">
-        <img src="/images/site-logo.png?v=20260924gold" alt="Infinite Trading" style="max-width:320px;width:100%;height:auto;display:block;" />
+        <img src="/images/site-logo.png?v=20260924gold" alt="Infinite Trading"
+          style="max-width:320px;width:100%;height:auto;display:block;" />
       </a>
       <div class="auth-art-copy">
-        <span class="pill open" style="margin-bottom:8px;font-size:11px;letter-spacing:0.12em;font-weight:700;">● INSTANT REGISTRATION</span>
+        <span class="pill open" style="margin-bottom:8px;font-size:11px;letter-spacing:0.12em;font-weight:700;">●
+          INSTANT REGISTRATION</span>
         <h2 style="font-size:36px;margin:8px 0 10px;line-height:1.2;">Join the network today.</h2>
         <p class="muted" style="font-size:14px;max-width:38ch;margin:0 auto;line-height:1.6;">
           Binary earnings cap at ₱3,000. Earn referral bonuses, pair matching income, and 12-day Trade-In profit cycles.
@@ -55,16 +57,20 @@
       </div>
 
       <!-- 3 Key Stats Highlight Band -->
-      <div class="stats-band" style="grid-template-columns: repeat(3, 1fr); margin: 0; padding: 0; gap: 10px; width: 100%; max-width: 390px;">
-        <div class="stat" style="text-align: center; padding: 14px 10px; background:var(--card-bg); border:1px solid var(--line); backdrop-filter:blur(8px); border-radius:14px;">
+      <div class="stats-band"
+        style="grid-template-columns: repeat(3, 1fr); margin: 0; padding: 0; gap: 10px; width: 100%; max-width: 390px;">
+        <div class="stat"
+          style="text-align: center; padding: 14px 10px; background:var(--card-bg); border:1px solid var(--line); backdrop-filter:blur(8px); border-radius:14px;">
           <span class="tiny muted" style="font-weight:700;">ENTRY</span>
           <b style="font-size:22px;color:var(--jade);">₱399</b>
         </div>
-        <div class="stat" style="text-align: center; padding: 14px 10px; background:var(--card-bg); border:1px solid var(--line); backdrop-filter:blur(8px); border-radius:14px;">
+        <div class="stat"
+          style="text-align: center; padding: 14px 10px; background:var(--card-bg); border:1px solid var(--line); backdrop-filter:blur(8px); border-radius:14px;">
           <span class="tiny muted" style="font-weight:700;">CAP</span>
           <b style="font-size:22px;color:var(--gold);">₱3,000</b>
         </div>
-        <div class="stat" style="text-align: center; padding: 14px 10px; background:var(--card-bg); border:1px solid var(--line); backdrop-filter:blur(8px); border-radius:14px;">
+        <div class="stat"
+          style="text-align: center; padding: 14px 10px; background:var(--card-bg); border:1px solid var(--line); backdrop-filter:blur(8px); border-radius:14px;">
           <span class="tiny muted" style="font-weight:700;">TRADE-IN</span>
           <b style="font-size:22px;color:var(--cyan);">120%</b>
         </div>
@@ -89,9 +95,11 @@
 
         <p id="error" class="err" style="margin-bottom:14px;"></p>
 
-        <form id="form" autocomplete="off">
+        <form id="form" action="/api/auth/register" method="POST" autocomplete="off">
           <!-- Invisible dummy inputs to absorb aggressive browser autofill -->
-          <div style="position:absolute;left:-9999px;top:-9999px;width:0;height:0;opacity:0;pointer-events:none;overflow:hidden;" aria-hidden="true">
+          <div
+            style="position:absolute;left:-9999px;top:-9999px;width:0;height:0;opacity:0;pointer-events:none;overflow:hidden;"
+            aria-hidden="true">
             <input type="text" name="fake_username_trap" tabindex="-1" autocomplete="off" />
             <input type="password" name="fake_password_trap" tabindex="-1" autocomplete="new-password" />
           </div>
@@ -103,23 +111,11 @@
               <span class="auth-field-status" id="mobileStatusCheck">✓ Min 3 Chars</span>
             </label>
             <div class="auth-field-inner">
-              <span class="auth-field-icon">👤</span>
-              <input
-                id="mobile_input"
-                name="reg_username"
-                class="auth-input"
-                type="text"
-                autocomplete="chrome-off"
-                autocorrect="off"
-                autocapitalize="off"
-                spellcheck="false"
-                required
-                placeholder="Choose a username (e.g. johndoe)"
-                minlength="3"
-                maxlength="25"
-                readonly
-                onfocus="this.removeAttribute('readonly')"
-              />
+              <span class="auth-field-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg></span>
+              <input id="mobile_input" name="reg_username" class="auth-input" type="text" autocomplete="chrome-off"
+                autocorrect="off" autocapitalize="off" spellcheck="false" required
+                placeholder="Choose a username (e.g. johndoe)" minlength="3" maxlength="25" readonly
+                onfocus="this.removeAttribute('readonly')" />
             </div>
             <span class="tiny muted" id="mobileHelper" style="display:block;margin-top:4px;font-size:11px;">
               Enter a unique username (at least 3 characters).
@@ -130,28 +126,17 @@
           <div class="auth-field-group">
             <div class="auth-field-label">
               <label for="password_input">PASSWORD (MIN 6 CHARS) *</label>
-              <span id="capsNotice" class="tiny" style="color:var(--gold);display:none;font-weight:700;">⚠ CapsLock is ON</span>
+              <span id="capsNotice" class="tiny" style="color:var(--gold);display:none;font-weight:700;"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-1px;margin-right:2px;"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg> CapsLock is ON</span>
             </div>
             <div class="auth-field-inner">
-              <span class="auth-field-icon">🔒</span>
-              <input
-                id="password_input"
-                name="reg_secret_code"
-                class="auth-input"
-                type="password"
-                minlength="6"
-                autocomplete="new-password"
-                autocorrect="off"
-                autocapitalize="off"
-                spellcheck="false"
-                required
-                placeholder="Choose a secure password"
-                style="padding-right:42px;"
-                readonly
-                onfocus="this.removeAttribute('readonly')"
-              />
-              <button type="button" class="auth-toggle-pwd" id="btnTogglePwd" title="Show/Hide Password" aria-label="Toggle password visibility">
-                👁
+              <span class="auth-field-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg></span>
+              <input id="password_input" name="reg_secret_code" class="auth-input" type="password" minlength="6"
+                autocomplete="new-password" autocorrect="off" autocapitalize="off" spellcheck="false" required
+                placeholder="Choose a secure password" style="padding-right:42px;" readonly
+                onfocus="this.removeAttribute('readonly')" />
+              <button type="button" class="auth-toggle-pwd" id="btnTogglePwd" title="Show/Hide Password"
+                aria-label="Toggle password visibility" style="font-size:12px;font-weight:600;letter-spacing:0.02em;">
+                SHOW
               </button>
             </div>
             <!-- Dynamic Password Strength Bar -->
@@ -173,23 +158,15 @@
           <div class="auth-field-group">
             <label class="auth-field-label" for="sponsor_input">
               <span>SPONSOR USERNAME (OPTIONAL)</span>
-              <span class="auth-field-status show" id="sponsorStatusBadge" style="color:var(--jade);font-size:11px;">Default: System</span>
+              <span class="auth-field-status show" id="sponsorStatusBadge"
+                style="color:var(--jade);font-size:11px;">Default: System</span>
             </label>
             <div class="auth-field-inner">
-              <span class="auth-field-icon">🤝</span>
-              <input
-                id="sponsor_input"
-                name="reg_sponsor_code"
-                class="auth-input"
-                type="text"
-                autocomplete="chrome-off"
-                autocorrect="off"
-                autocapitalize="off"
-                spellcheck="false"
-                placeholder="Enter sponsor username (or leave blank for Admin)"
-                readonly
-                onfocus="this.removeAttribute('readonly')"
-              />
+              <span class="auth-field-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg></span>
+              <input id="sponsor_input" name="reg_sponsor_code" class="auth-input" type="text" autocomplete="chrome-off"
+                autocorrect="off" autocapitalize="off" spellcheck="false"
+                placeholder="Enter sponsor username (or leave blank for Admin)" readonly
+                onfocus="this.removeAttribute('readonly')" />
             </div>
           </div>
 
@@ -371,7 +348,7 @@
     btnToggle.addEventListener('click', () => {
       const isPwd = pwdInput.type === 'password';
       pwdInput.type = isPwd ? 'text' : 'password';
-      btnToggle.textContent = isPwd ? '🙈' : '👁';
+      btnToggle.textContent = isPwd ? 'HIDE' : 'SHOW';
       btnToggle.title = isPwd ? 'Hide Password' : 'Show Password';
       pwdInput.focus();
     });
@@ -420,7 +397,7 @@
 
       submitBtn.disabled = true;
       submitText.textContent = 'Creating account…';
-      submitArrow.textContent = '⏳';
+      submitArrow.textContent = '...';
 
       try {
         const res = await fetch('/api/auth/register', {

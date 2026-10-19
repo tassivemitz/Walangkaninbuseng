@@ -36,6 +36,7 @@ const WALLET_COLUMNS = {
   binary_ref: 'binary_ref_balance',
   tradein_ref: 'tradein_ref_balance',
   tradein_cycle: 'tradein_cycle_balance',
+  profit_sharing: 'profit_sharing_balance',
 };
 
 app.use(cors());
@@ -101,6 +102,7 @@ function emptyWallet(userId) {
     binary_ref_balance: 0,
     tradein_ref_balance: 0,
     tradein_cycle_balance: 0,
+    profit_sharing_balance: 0,
   };
 }
 
@@ -129,14 +131,20 @@ function adminUserRow(userId, data = db.getStore()) {
   const parent = u.parent_id ? data.users.find((x) => x.id === u.parent_id) : null;
   const sponsorName = sponsor ? (sponsor.username || sponsor.mobile_number) : '';
   const parentName = parent ? (parent.username || parent.mobile_number) : '';
+  const qual = db.getProfitShareQualification(userId, data);
   return {
     ...u,
     sponsor_username: sponsorName,
     parent_username: parentName,
     sponsor_mobile: sponsorName,
     parent_mobile: parentName,
+    parent_id: u.parent_id || (parent ? parent.id : null),
     directs: data.binary_tree.filter((t) => t.sponsor_id === userId).length,
     packages: data.tradein_packages.filter((p) => p.user_id === userId).length,
+    active_trade_in: qual.active_trade_in,
+    group_sale_trade_in: qual.group_sale_trade_in,
+    verified_income: qual.verified_income,
+    profit_shares: qual.shares,
   };
 }
 
@@ -159,7 +167,8 @@ function publicUser(userId, data = db.getStore()) {
     binary_ref_balance: w.binary_ref_balance,
     tradein_ref_balance: w.tradein_ref_balance,
     tradein_cycle_balance: w.tradein_cycle_balance,
-    parent_id: t.parent_id || null,
+    profit_sharing_balance: w.profit_sharing_balance || 0,
+    parent_id: u.parent_id || t.parent_id || null,
     sponsor_id: t.sponsor_id || null,
     sponsor_name: sponsorName,
     position: t.position || null,
@@ -568,15 +577,14 @@ function getPackageCycleInfo(pkg) {
   const isCycleMatured = elapsedInCycleMs >= TRADEIN_CYCLE_DURATION_MS;
 
   if (isCycleMatured) {
-    // 3 days have elapsed!
-    // Payout is ready to claim.
-    // PAUSED: The timer is FROZEN/STOPPED until the user claims!
+    const readyCycle = completed + 1;
+    const isFinalCycle = readyCycle >= totalPayouts;
     return {
-      current_cycle: completed + 1,
+      current_cycle: readyCycle,
       total_cycles: totalPayouts,
       payouts_completed: completed,
       is_completed: false,
-      is_paused: true, // NEXT CYCLE IS PAUSED UNTIL CLAIMED!
+      is_paused: !isFinalCycle,
       can_claim: true,
       claimable_payouts: 1,
       claimable_amount: installment,
@@ -587,7 +595,10 @@ function getPackageCycleInfo(pkg) {
       next_payout_date: null,
       next_payout_in_hours: 0,
       cycle_start_date: currentCycleStartIso,
-      status_label: `Cycle ${completed + 1} Ready to Claim! (Cycle ${completed + 2 <= totalPayouts ? completed + 2 : ''} Paused)`,
+      rollover_required: false,
+      status_label: isFinalCycle
+        ? 'Cycle 4 Ready to Claim — no rollover required'
+        : `Cycle ${readyCycle} Ready to Claim! (Cycle ${readyCycle + 1} Paused)`,
     };
   }
 
@@ -651,6 +662,7 @@ async function seedAdmin() {
         password: hash,
         role: 'admin',
         status: 'active',
+        parent_id: null,
         total_binary_earnings: 0,
         created_at: nowIso(),
       });
@@ -672,6 +684,7 @@ async function seedAdmin() {
         password: userHash,
         role: 'user',
         status: 'active',
+        parent_id: admin.id,
         total_binary_earnings: 250,
         created_at: nowIso(),
       });
@@ -680,6 +693,7 @@ async function seedAdmin() {
         binary_ref_balance: 150,
         tradein_ref_balance: 100,
         tradein_cycle_balance: 600,
+        profit_sharing_balance: 0,
       });
       data.binary_tree.push({
         user_id: demoUser.id,
@@ -791,6 +805,7 @@ app.post('/api/auth/register', async (req, res) => {
         password: hash,
         role: 'user',
         status: 'inactive',
+        parent_id: sponsorId,
         total_binary_earnings: 0,
         created_at: nowIso(),
       });
@@ -872,6 +887,7 @@ app.post('/api/binary/encode-downline', auth, async (req, res) => {
           password: passwordHash,
           role: 'user',
           status: 'active',
+          parent_id: encoder.id,
           total_binary_earnings: 0,
           created_at: nowIso(),
         });
@@ -964,6 +980,9 @@ app.post('/api/binary/encode-downline', auth, async (req, res) => {
 
       // Activate target user
       target.status = 'active';
+      target.parent_id = sponsorId;
+      db.ingestCodeActivationPool(data);
+      db.syncUserDownlineFields(target, data);
 
       // Commissions
       paySponsorBinary(data, sponsorId, target.id);
@@ -1017,6 +1036,7 @@ app.post('/api/account/renew', auth, async (req, res) => {
       vault.used_at = nowIso();
       u.status = 'active';
       u.total_binary_earnings = 0;
+      db.ingestCodeActivationPool(data);
       return publicUser(u.id, data);
     });
     res.json({ user });
@@ -1143,7 +1163,15 @@ app.get('/api/dashboard', auth, async (req, res) => {
     .filter((p) => p.cycle_status === 'active')
     .reduce((sum, p) => sum + (Number(p.capital) || 0), 0);
 
-  const total_balance = (Number(user.binary_ref_balance) || 0) + (Number(user.tradein_ref_balance) || 0) + (Number(user.tradein_cycle_balance) || 0);
+  const total_balance = (Number(user.binary_ref_balance) || 0) + (Number(user.tradein_ref_balance) || 0) + (Number(user.tradein_cycle_balance) || 0) + (Number(user.profit_sharing_balance) || 0);
+
+  const profitSharingPublic = {
+    pool_total: money((data.profit_sharing_pool && data.profit_sharing_pool.total_amount) || 0),
+    qualified_members: db.listQualifiedMembers(data).map((q) => ({
+      username: q.username,
+      shares: q.shares,
+    })),
+  };
 
   const enrichedPackages = packages.map((p) => ({
     ...p,
@@ -1190,6 +1218,7 @@ app.get('/api/dashboard', auth, async (req, res) => {
       used_list: used_codes,
     },
     official_mop: getOfficialMops(data).filter((m) => m.is_active !== false),
+    profit_sharing: profitSharingPublic,
     metrics: {
       binary: Number(user.binary_ref_balance) || 0,
       direct_earnings: money(directEarningsTotal),
@@ -1204,6 +1233,7 @@ app.get('/api/dashboard', auth, async (req, res) => {
       tradein_deposit: total_tradein_deposit,
       tradein_profit: Number(user.tradein_cycle_balance) || 0,
       tradein_ref: Number(user.tradein_ref_balance) || 0,
+      profit_sharing: Number(user.profit_sharing_balance) || 0,
     },
     tree: {
       left_count: countLeg(req.user.id, 'L', data),
@@ -1419,6 +1449,7 @@ app.post('/api/tradein/claim/:id', auth, async (req, res) => {
       if (pkg.payouts_completed >= TRADEIN_PAYOUTS) {
         pkg.cycle_status = 'completed';
         pkg.completed_at = nowIso();
+        // 4th cycle: funds can be claimed with no rollover into a new package.
       } else {
         // STRICT PAUSED CYCLE RULE:
         // THE NEXT 3-DAY CYCLE COUNTDOWN STARTS RIGHT HERE, ONLY AFTER CLAIMING!
@@ -1481,6 +1512,7 @@ app.get('/api/user/earnings-history', auth, (req, res) => {
     matching: money(allUserLogs.filter((e) => e.category === 'matching').reduce((s, e) => s + Number(e.amount || 0), 0)),
     tradein_referral: money(allUserLogs.filter((e) => e.category === 'tradein_referral').reduce((s, e) => s + Number(e.amount || 0), 0)),
     tradein_earnings: money(allUserLogs.filter((e) => e.category === 'tradein_earnings').reduce((s, e) => s + Number(e.amount || 0), 0)),
+    profit_sharing: money(allUserLogs.filter((e) => e.category === 'profit_sharing').reduce((s, e) => s + Number(e.amount || 0), 0)),
   };
 
   res.json({
@@ -1657,6 +1689,158 @@ function normalizePayoutMethod(m) {
 
 const VALID_PAYOUT_METHODS = ['GCash', 'Maya', 'GoTyme', 'MariBank', 'UB', 'UnionBank', 'UnionBank (UB)'];
 
+app.post('/api/account/password', auth, async (req, res) => {
+  const currentPassword = String(req.body.current_password || '');
+  const newPassword = String(req.body.new_password || req.body.password || '');
+  if (newPassword.length < 6) {
+    return res.status(400).json({ error: 'New password must be at least 6 characters.' });
+  }
+  try {
+    const userRow = db.find('users', (u) => u.id === req.user.id);
+    if (!userRow) return res.status(404).json({ error: 'Account not found.' });
+    const ok = await bcrypt.compare(currentPassword, userRow.password);
+    if (!ok) return res.status(401).json({ error: 'Current password is incorrect.' });
+    const hash = await bcrypt.hash(newPassword, 10);
+    await db.tx((data) => {
+      const u = data.users.find((x) => x.id === req.user.id);
+      if (!u) {
+        const err = new Error('Account not found.');
+        err.status = 404;
+        throw err;
+      }
+      u.password = hash;
+    });
+    res.json({ ok: true });
+  } catch (err) {
+    if (err.status) return res.status(err.status).json({ error: err.message });
+    console.error(err);
+    res.status(500).json({ error: 'Could not change password.' });
+  }
+});
+
+app.get('/api/profit-sharing', auth, (_req, res) => {
+  const data = db.getStore();
+  res.json({
+    pool_total: money((data.profit_sharing_pool && data.profit_sharing_pool.total_amount) || 0),
+    qualified_members: db.listQualifiedMembers(data).map((q) => ({
+      username: q.username,
+      shares: q.shares,
+    })),
+  });
+});
+
+app.get('/api/admin/profit-sharing', auth, adminOnly, (_req, res) => {
+  const data = db.getStore();
+  const qualified = db.listQualifiedMembers(data);
+  const totalShares = qualified.reduce((s, q) => s + q.shares, 0);
+  const pool = money((data.profit_sharing_pool && data.profit_sharing_pool.total_amount) || 0);
+  const rate = totalShares > 0 ? money(pool / totalShares) : 0;
+  res.json({
+    pool_total: pool,
+    total_qualified_shares: totalShares,
+    rate_per_share: rate,
+    qualified_members: qualified,
+    recent_disbursements: (data.profit_sharing_disbursements || []).slice().sort((a, b) => b.id - a.id).slice(0, 50),
+    tiers: db.PROFIT_SHARE_TIERS,
+  });
+});
+
+app.post('/api/admin/profit-sharing/release', auth, adminOnly, async (_req, res) => {
+  try {
+    const result = await db.tx((data) => {
+      db.ensureStoreShape(data);
+      const pool = money((data.profit_sharing_pool && data.profit_sharing_pool.total_amount) || 0);
+      if (pool <= 0) {
+        const err = new Error('Profit sharing pool is empty.');
+        err.status = 400;
+        throw err;
+      }
+      const qualified = db.listQualifiedMembers(data);
+      const totalShares = qualified.reduce((s, q) => s + q.shares, 0);
+      if (!qualified.length || totalShares <= 0) {
+        const err = new Error('No qualified members to receive profit sharing.');
+        err.status = 400;
+        throw err;
+      }
+      const rate = pool / totalShares;
+      const batchId = `ps_${Date.now()}`;
+      const payouts = [];
+      let distributed = 0;
+      qualified.forEach((q, idx) => {
+        let amount = money(q.shares * rate);
+        if (idx === qualified.length - 1) {
+          amount = money(pool - distributed);
+        }
+        distributed = money(distributed + amount);
+        let wallet = data.wallets.find((w) => Number(w.user_id) === Number(q.user_id));
+        if (!wallet) {
+          wallet = emptyWallet(q.user_id);
+          data.wallets.push(wallet);
+        }
+        wallet.profit_sharing_balance = money((Number(wallet.profit_sharing_balance) || 0) + amount);
+        logEarning(data, {
+          userId: q.user_id,
+          category: 'profit_sharing',
+          amount,
+          description: `Profit sharing release · ${q.shares} share(s) @ ₱${money(rate)}`,
+          refId: batchId,
+        });
+        const rec = db.insert('profit_sharing_disbursements', {
+          batch_id: batchId,
+          user_id: q.user_id,
+          username: q.username,
+          shares: q.shares,
+          rate_per_share: money(rate),
+          amount,
+          pool_total: pool,
+          total_shares: totalShares,
+          created_at: nowIso(),
+        });
+        payouts.push(rec);
+      });
+      data.profit_sharing_pool.total_amount = 0;
+      return {
+        batch_id: batchId,
+        pool_released: pool,
+        total_shares: totalShares,
+        rate_per_share: money(rate),
+        payouts,
+      };
+    });
+    res.json({ ok: true, ...result });
+  } catch (err) {
+    if (err.status) return res.status(err.status).json({ error: err.message });
+    console.error(err);
+    res.status(500).json({ error: 'Failed to release profit sharing.' });
+  }
+});
+
+app.post('/api/admin/users/:id/password', auth, adminOnly, async (req, res) => {
+  const id = Number(req.params.id);
+  const newPassword = String(req.body.new_password || req.body.password || '');
+  if (!id) return res.status(400).json({ error: 'Invalid user.' });
+  if (newPassword.length < 6) {
+    return res.status(400).json({ error: 'New password must be at least 6 characters.' });
+  }
+  try {
+    const hash = await bcrypt.hash(newPassword, 10);
+    await db.tx((data) => {
+      const u = data.users.find((x) => x.id === id);
+      if (!u) {
+        const err = new Error('User not found.');
+        err.status = 404;
+        throw err;
+      }
+      u.password = hash;
+    });
+    res.json({ ok: true });
+  } catch (err) {
+    if (err.status) return res.status(err.status).json({ error: err.message });
+    console.error(err);
+    res.status(500).json({ error: 'Could not change password.' });
+  }
+});
+
 app.post('/api/user/payout-account', auth, async (req, res) => {
   const rawMethod = String(req.body.method || '').trim();
   const normalizedMethod = normalizePayoutMethod(rawMethod);
@@ -1774,6 +1958,7 @@ async function requestWithdrawal(req, res, walletType) {
 app.post('/api/withdraw/binary-ref', auth, (req, res) => requestWithdrawal(req, res, 'binary_ref'));
 app.post('/api/withdraw/tradein-ref', auth, (req, res) => requestWithdrawal(req, res, 'tradein_ref'));
 app.post('/api/withdraw/tradein-cycle', auth, (req, res) => requestWithdrawal(req, res, 'tradein_cycle'));
+app.post('/api/withdraw/profit-sharing', auth, (req, res) => requestWithdrawal(req, res, 'profit_sharing'));
 
 app.get('/api/admin/overview', auth, adminOnly, async (_req, res) => {
   await processTradeinYields().catch(() => { });
@@ -1820,6 +2005,7 @@ app.get('/api/admin/overview', auth, adminOnly, async (_req, res) => {
     },
     weekly_payout_enabled: Boolean(data.settings.weekly_payout_enabled),
     binary_cap: getBinaryCap(data),
+    profit_sharing_pool: money((data.profit_sharing_pool && data.profit_sharing_pool.total_amount) || 0),
   });
 });
 
@@ -1996,6 +2182,9 @@ app.post('/api/admin/users/:id/activate', auth, adminOnly, async (req, res) => {
 
       // Activate target user
       target.status = 'active';
+      target.parent_id = sponsorId;
+      db.ingestCodeActivationPool(data);
+      db.syncUserDownlineFields(target, data);
 
       // Commissions
       paySponsorBinary(data, sponsorId, target.id);
@@ -2080,6 +2269,9 @@ app.post('/api/admin/tradein/:id/approve', auth, adminOnly, async (req, res) => 
       p.payouts_completed = 0;
       p.approved_at = nowIso();
       payTradeinReferrals(data, p.user_id, p.capital, p.id);
+      db.ingestTradeinEntryPool(data, p.capital);
+      const buyer = data.users.find((u) => u.id === p.user_id);
+      if (buyer) db.syncUserDownlineFields(buyer, data);
       return p;
     });
     res.json({ ok: true, package: { ...pkg, cycle_info: getPackageCycleInfo(pkg) } });
@@ -2237,22 +2429,10 @@ app.post('/api/admin/codes/send', auth, adminOnly, async (req, res) => {
 
   try {
     const sent = await db.tx((data) => {
-      // Find by numeric ID, username, or normalized mobile (stripping non-digits)
-      const cleanDigits = rawTarget.replace(/\D/g, '');
-      const user = data.users.find((u) => {
-        if (rawTarget.startsWith('#') && String(u.id) === rawTarget.slice(1).trim()) return true;
-        if (/^\d+$/.test(rawTarget) && String(u.id) === rawTarget) return true;
-        if (u.username && u.username.toLowerCase() === rawTarget.toLowerCase()) return true;
-        if (u.mobile_number && u.mobile_number.toLowerCase() === rawTarget.toLowerCase()) return true;
-        if (cleanDigits && u.mobile_number) {
-          const uDigits = u.mobile_number.replace(/\D/g, '');
-          if (uDigits && uDigits === cleanDigits) return true;
-        }
-        return false;
-      });
+      const user = db.findUserByExactUsername(data, rawTarget);
 
       if (!user) {
-        const err = new Error(`Member "${rawTarget}" was not found.`);
+        const err = new Error(`Member "${rawTarget}" was not found. Username must match exactly.`);
         err.status = 404;
         throw err;
       }
@@ -2288,7 +2468,7 @@ app.post('/api/admin/codes/send', auth, adminOnly, async (req, res) => {
       });
       return picked.map((c) => c.code);
     });
-    res.json({ codes: sent, mobile: rawTarget });
+    res.json({ codes: sent, mobile: rawTarget, username: rawTarget });
   } catch (err) {
     if (err.status) return res.status(err.status).json({ error: err.message });
     console.error(err);

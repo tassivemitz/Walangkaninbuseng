@@ -2866,7 +2866,7 @@ body[data-theme="light"].dash-terminal-body {
     backdrop-filter: blur(24px);
     -webkit-backdrop-filter: blur(24px);
     border-right: 1px solid rgba(15, 122, 69, 0.2);
-    padding: 18px 14px 24px;
+    padding: 18px 14px 85px;
     overflow-y: auto;
   }
 
@@ -3522,7 +3522,14 @@ body[data-theme="light"].dash-terminal-body {
 }
 
 .plan-modal[hidden] {
-  display: none;
+  display: none !important;
+  pointer-events: none !important;
+  visibility: hidden !important;
+  z-index: -1 !important;
+}
+
+.plan-modal[hidden] * {
+  pointer-events: none !important;
 }
 
 .plan-modal {

@@ -55,11 +55,13 @@
           <div class="side-nav-body">
             <button type="button" class="side-sub-btn" id="btnDirectRef">
               <span>↳ Direct Referral</span>
-              <span class="pill open" id="badgeDirectCount" style="margin-left:auto;font-size:10px;display:none;"></span>
+              <span class="pill open" id="badgeDirectCount"
+                style="margin-left:auto;font-size:10px;display:none;"></span>
             </button>
             <button type="button" class="side-sub-btn" id="btnIndirectRef">
               <span>↳ Indirect Referral</span>
-              <span class="pill open" id="badgeIndirectCount" style="margin-left:auto;font-size:10px;display:none;"></span>
+              <span class="pill open" id="badgeIndirectCount"
+                style="margin-left:auto;font-size:10px;display:none;"></span>
             </button>
             <button type="button" class="side-sub-btn" id="btnGenealogy">
               <span>🌳 Genealogy Tree</span>
@@ -80,7 +82,8 @@
             </button>
             <button type="button" class="side-nav-btn" id="btnCodesUsed">
               <span>🧾 Used</span>
-              <span class="pill closed" id="badgeUsedCodes" style="margin-left:auto;font-size:10px;display:none;"></span>
+              <span class="pill closed" id="badgeUsedCodes"
+                style="margin-left:auto;font-size:10px;display:none;"></span>
             </button>
           </div>
         </div>
@@ -120,6 +123,13 @@
         <button type="button" class="side-cta-btn side-cta-alt" id="btnOpenBuyLoadWallet">
           <span class="side-cta-icon">📱</span>
           <span>BUY LOAD WALLET</span>
+        </button>
+
+        <!-- 7. Profit Sharing Wallet CTA -->
+        <button type="button" class="side-cta-btn side-cta-alt" id="btnOpenProfitSharing"
+          style="border-color:rgba(46,213,158,0.35);">
+          <span class="side-cta-icon">💎</span>
+          <span>PROFIT SHARING</span>
         </button>
       </div>
 
@@ -174,7 +184,11 @@
             style="display:none;color:var(--gold);border-color:rgba(232,148,58,0.3);font-weight:700;">⚙ Admin Panel</a>
           <button id="logout" class="dash-logout-btn" title="Log out" aria-label="Log out">
             <span>Log out</span>
-            <svg class="logout-icon-svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18.36 6.64a9 9 0 1 1-12.73 0"></path><line x1="12" y1="2" x2="12" y2="12"></line></svg>
+            <svg class="logout-icon-svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+              stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M18.36 6.64a9 9 0 1 1-12.73 0"></path>
+              <line x1="12" y1="2" x2="12" y2="12"></line>
+            </svg>
           </button>
         </div>
       </header>
@@ -183,13 +197,38 @@
       <div class="dash-content-inner">
         <p id="banner" class="banner"></p>
 
+        <!-- Prominently Elevated Referral Link Card (Accessible on Mobile / CP & Desktop) -->
+        <div class="dash-ref-top-card" id="topRefBanner"
+          style="margin-bottom:16px;background:linear-gradient(135deg,rgba(46,213,158,0.12) 0%,rgba(14,165,233,0.08) 100%);border:1.5px solid rgba(46,213,158,0.35);border-radius:14px;padding:12px 16px;">
+          <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;">
+            <div style="display:flex;align-items:center;gap:10px;">
+              <span style="font-size:22px;">🔗</span>
+              <div>
+                <span class="tiny muted"
+                  style="font-weight:700;text-transform:uppercase;letter-spacing:0.04em;font-size:10px;color:var(--jade);">YOUR
+                  OFFICIAL REFERRAL LINK</span>
+                <p style="margin:2px 0 0;font-size:12.5px;color:var(--text);font-weight:700;">Share link to invite
+                  directs &amp; earn ₱50 per activation!</p>
+              </div>
+            </div>
+            <div style="display:flex;align-items:center;gap:8px;flex:1;max-width:440px;min-width:240px;">
+              <input id="refLinkTop" class="in" style="font-size:11.5px;padding:8px 12px;flex:1;background:var(--bg2);"
+                readonly placeholder="Generating referral link..." />
+              <button id="copyRefTop" type="button" class="btn btn-mint btn-sm"
+                style="padding:8px 14px;font-size:11.5px;font-weight:800;white-space:nowrap;">Copy Link</button>
+            </div>
+          </div>
+        </div>
+
         <!-- Inactive Account Pending Notice (Upline Activation Required) -->
         <div id="activationBox" class="panel card activation-panel"
           style="display:none; margin-bottom: 20px; border: 2px solid #f59e0b; background: var(--card-bg); border-radius:16px; padding:22px;">
           <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:14px;">
             <div style="max-width:680px;">
               <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">
-                <span class="pill closed" style="background:rgba(245,166,35,0.16);color:#fbbf24;border:1px solid rgba(245,166,35,0.35);">● Account
+                <span class="pill closed"
+                  style="background:rgba(245,166,35,0.16);color:#fbbf24;border:1px solid rgba(245,166,35,0.35);">●
+                  Account
                   Pending Activation</span>
                 <span
                   style="font-size:12px;font-weight:700;color:var(--jade);background:rgba(46,213,158,0.12);padding:2px 8px;border-radius:6px;">Upline
@@ -250,22 +289,29 @@
           style="display:none; margin-bottom: 20px; border: 2px solid #2ed59e; background: linear-gradient(135deg, rgba(46,213,158,0.14) 0%, rgba(15,122,69,0.18) 100%); border-radius:16px; padding:20px; box-shadow: 0 10px 30px rgba(46,213,158,0.15);">
           <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px;">
             <div style="display:flex; gap:14px; align-items:center; max-width:700px;">
-              <div style="width:50px;height:50px;border-radius:14px;background:rgba(46,213,158,0.22);display:grid;place-items:center;font-size:26px;flex-shrink:0;">
+              <div
+                style="width:50px;height:50px;border-radius:14px;background:rgba(46,213,158,0.22);display:grid;place-items:center;font-size:26px;flex-shrink:0;">
                 🎁
               </div>
               <div>
                 <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;">
-                  <span class="badge-tag tag-approved" style="font-weight:800;font-size:11px;">✓ Account Activated!</span>
-                  <span style="font-size:11px;font-weight:800;background:#f59e0b;color:#000;padding:2px 8px;border-radius:6px;">Claim 1x Only</span>
+                  <span class="badge-tag tag-approved" style="font-weight:800;font-size:11px;">✓ Account
+                    Activated!</span>
+                  <span
+                    style="font-size:11px;font-weight:800;background:#f59e0b;color:#000;padding:2px 8px;border-radius:6px;">Claim
+                    1x Only</span>
                 </div>
-                <h3 style="margin:2px 0 4px;font-size:18px;font-weight:800;color:var(--text);">Claim Your Free ₱100 Load Wallet</h3>
+                <h3 style="margin:2px 0 4px;font-size:18px;font-weight:800;color:var(--text);">Claim Your Free ₱100 Load
+                  Wallet</h3>
                 <p style="margin:0;font-size:13px;color:var(--text);opacity:0.9;line-height:1.45;">
-                  Congratulations! As a newly activated member, you are entitled to claim <strong>₱100 Load Wallet</strong> credit for your retailer SIM.
+                  Congratulations! As a newly activated member, you are entitled to claim <strong>₱100 Load
+                    Wallet</strong> credit for your retailer SIM.
                 </p>
               </div>
             </div>
             <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
-              <button type="button" id="btnOverviewClaim100" class="btn btn-mint" style="font-size:13.5px;font-weight:800;padding:11px 22px;border-radius:10px;box-shadow:0 4px 16px rgba(46,213,158,0.4);white-space:nowrap;">
+              <button type="button" id="btnOverviewClaim100" class="btn btn-mint"
+                style="font-size:13.5px;font-weight:800;padding:11px 22px;border-radius:10px;box-shadow:0 4px 16px rgba(46,213,158,0.4);white-space:nowrap;">
                 🎁 Claim 100 Load Wallet
               </button>
             </div>
@@ -838,7 +884,8 @@
             <div style="display:flex;align-items:center;gap:10px;">
               <span style="font-size:24px;">🎰</span>
               <div>
-                <h4 style="margin:0;font-size:14px;color:var(--jade);font-weight:800;letter-spacing:0.02em;">TRADE-IN SLOTS
+                <h4 style="margin:0;font-size:14px;color:var(--jade);font-weight:800;letter-spacing:0.02em;">TRADE-IN
+                  SLOTS
                   CAPACITY</h4>
                 <p class="tiny muted" style="margin:2px 0 0;">Each active package occupies 1 slot. Completed 4-cycle
                   packages free up slots.</p>
@@ -1257,6 +1304,45 @@
                 <div class="wd-payout-alert" id="alertCycle">Payouts closed.</div>
               </form>
             </article>
+
+            <!-- Wallet 4: Profit Sharing Dividend -->
+            <article class="wd-card theme-binary" style="border-color:rgba(46,213,158,0.35);">
+              <div class="wd-card-head">
+                <div class="wd-card-title-group">
+                  <span class="wd-icon-pill icon-binary">💎</span>
+                  <div>
+                    <span class="wd-card-label">Profit Sharing</span>
+                    <span class="wd-card-sub">Community Dividend Pool</span>
+                  </div>
+                </div>
+                <span class="wd-badge badge-binary">Dividend</span>
+              </div>
+
+              <div class="wd-card-bal-box">
+                <span class="wd-card-bal-title">Available Balance</span>
+                <div id="wProfitShareModal" class="wd-card-bal" style="color:var(--jade);">₱0.00</div>
+              </div>
+
+              <form data-wallet="profit-sharing" class="wd wd-card-form">
+                <div class="wd-input-wrapper">
+                  <span class="wd-curr-symbol">₱</span>
+                  <input class="wd-input-field in" id="amtProfitShare" name="amount" type="number" min="100" step="0.01"
+                    placeholder="100.00" required />
+                  <button type="button" class="wd-max-pill" data-fill-target="amtProfitShare"
+                    data-balance-key="profit_sharing">MAX</button>
+                </div>
+                <div class="wd-min-info">
+                  <span>Min: <strong>₱100.00</strong></span>
+                  <span class="wd-fee-rate-tag">Fee: 8%–12%</span>
+                </div>
+                <button type="submit" class="wd-btn-cashout btn-theme-binary">
+                  <span>Cash out</span>
+                  <span class="btn-arrow">➔</span>
+                </button>
+                <div class="wd-fee-preview" id="feeProfitShare"></div>
+                <div class="wd-payout-alert" id="alertProfitShare">Payouts closed.</div>
+              </form>
+            </article>
           </div>
         </fieldset>
 
@@ -1280,20 +1366,28 @@
       <div class="plan-modal-body">
 
         <!-- Newly Activated Account: Claim ₱100 Load Wallet Banner Card -->
-        <div id="claim100LoadBannerBox" style="display:none;background:linear-gradient(135deg,rgba(46,213,158,0.18) 0%,rgba(15,122,69,0.22) 100%);border:1.5px solid #2ed59e;border-radius:14px;padding:16px;margin-bottom:16px;box-shadow:0 8px 24px rgba(46,213,158,0.15);">
+        <div id="claim100LoadBannerBox"
+          style="display:none;background:linear-gradient(135deg,rgba(46,213,158,0.18) 0%,rgba(15,122,69,0.22) 100%);border:1.5px solid #2ed59e;border-radius:14px;padding:16px;margin-bottom:16px;box-shadow:0 8px 24px rgba(46,213,158,0.15);">
           <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;">
             <div style="display:flex;gap:12px;align-items:center;">
               <span style="font-size:32px;line-height:1;">🎁</span>
               <div>
                 <div style="display:flex;align-items:center;gap:6px;">
-                  <span class="badge-tag tag-approved" style="font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:0.05em;">New Account Privilege</span>
-                  <span style="background:#f59e0b;color:#000;font-size:10px;font-weight:800;padding:1px 6px;border-radius:4px;">Claim Once</span>
+                  <span class="badge-tag tag-approved"
+                    style="font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:0.05em;">New Account
+                    Privilege</span>
+                  <span
+                    style="background:#f59e0b;color:#000;font-size:10px;font-weight:800;padding:1px 6px;border-radius:4px;">Claim
+                    Once</span>
                 </div>
-                <h4 style="margin:4px 0 2px;font-size:16px;font-weight:800;color:var(--text);">Claim FREE ₱100 Load Wallet</h4>
-                <p class="tiny muted" style="margin:0;color:#94a3b8;">Welcome bonus for your newly activated retailer account. Choose your SIM network and claim now!</p>
+                <h4 style="margin:4px 0 2px;font-size:16px;font-weight:800;color:var(--text);">Claim FREE ₱100 Load
+                  Wallet</h4>
+                <p class="tiny muted" style="margin:0;color:#94a3b8;">Welcome bonus for your newly activated retailer
+                  account. Choose your SIM network and claim now!</p>
               </div>
             </div>
-            <button type="button" id="btnBuyLoadClaim100" class="btn btn-mint" style="font-size:13px;font-weight:800;padding:10px 18px;border-radius:10px;box-shadow:0 4px 14px rgba(46,213,158,0.4);white-space:nowrap;">
+            <button type="button" id="btnBuyLoadClaim100" class="btn btn-mint"
+              style="font-size:13px;font-weight:800;padding:10px 18px;border-radius:10px;box-shadow:0 4px 14px rgba(46,213,158,0.4);white-space:nowrap;">
               🎁 Claim 100 Load Wallet
             </button>
           </div>
@@ -1459,10 +1553,12 @@
       <div class="plan-modal-body">
 
         <!-- Privilege Notice Banner -->
-        <div style="background:linear-gradient(135deg,rgba(46,213,158,0.14) 0%,rgba(15,122,69,0.18) 100%);border:1.5px solid rgba(46,213,158,0.35);border-radius:12px;padding:12px 14px;margin-bottom:16px;display:flex;align-items:flex-start;gap:10px;">
+        <div
+          style="background:linear-gradient(135deg,rgba(46,213,158,0.14) 0%,rgba(15,122,69,0.18) 100%);border:1.5px solid rgba(46,213,158,0.35);border-radius:12px;padding:12px 14px;margin-bottom:16px;display:flex;align-items:flex-start;gap:10px;">
           <span style="font-size:24px;line-height:1;">🎉</span>
           <div style="font-size:12.5px;color:var(--text);line-height:1.45;">
-            <strong>Exclusively for newly activated accounts!</strong> This privilege will appear just once for your account. Once claimed, it will no longer be visible so you cannot claim it again.
+            <strong>Exclusively for newly activated accounts!</strong> This privilege will appear just once for your
+            account. Once claimed, it will no longer be visible so you cannot claim it again.
           </div>
         </div>
 
@@ -1527,9 +1623,11 @@
             </label>
             <div style="display:flex;flex-direction:column;gap:10px;">
               <label class="claim-type-card active" data-claim-type="activate_and_claim">
-                <input type="radio" name="claimActionType" value="activate_and_claim" checked style="margin-top:3px;accent-color:#2ed59e;transform:scale(1.15);" />
+                <input type="radio" name="claimActionType" value="activate_and_claim" checked
+                  style="margin-top:3px;accent-color:#2ed59e;transform:scale(1.15);" />
                 <div>
-                  <strong style="display:block;font-size:13.5px;color:var(--text);margin-bottom:3px;">Activate My Number and Claim 100 Load Wallet</strong>
+                  <strong style="display:block;font-size:13.5px;color:var(--text);margin-bottom:3px;">Activate My Number
+                    and Claim 100 Load Wallet</strong>
                   <span class="tiny muted" style="font-size:11.5px;line-height:1.35;display:block;">
                     Choose this if this is your primary SIM and needs retailer activation + initial ₱100 load wallet.
                   </span>
@@ -1537,11 +1635,14 @@
               </label>
 
               <label class="claim-type-card" data-claim-type="claim_only">
-                <input type="radio" name="claimActionType" value="claim_only" style="margin-top:3px;accent-color:#2ed59e;transform:scale(1.15);" />
+                <input type="radio" name="claimActionType" value="claim_only"
+                  style="margin-top:3px;accent-color:#2ed59e;transform:scale(1.15);" />
                 <div>
-                  <strong style="display:block;font-size:13.5px;color:var(--text);margin-bottom:3px;">Claim 100 Load Wallet (for users with multiple accounts who have already activated their number)</strong>
+                  <strong style="display:block;font-size:13.5px;color:var(--text);margin-bottom:3px;">Claim 100 Load
+                    Wallet (for users with multiple accounts who have already activated their number)</strong>
                   <span class="tiny muted" style="font-size:11.5px;line-height:1.35;display:block;">
-                    Choose this if you have multiple accounts and your SIM is already an activated retailer. The ₱100 load wallet will be credited directly.
+                    Choose this if you have multiple accounts and your SIM is already an activated retailer. The ₱100
+                    load wallet will be credited directly.
                   </span>
                 </div>
               </label>
@@ -1626,6 +1727,229 @@
       </header>
       <div class="plan-modal-body" id="platformInfoBody" style="line-height:1.65;font-size:13px;">
         <!-- Injected via JS -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal 8: Member Profile & Change Password Modal -->
+  <div class="plan-modal" id="modalUserProfile" hidden>
+    <div class="plan-modal-backdrop" data-close-modal></div>
+    <div class="plan-modal-sheet" style="max-width:460px;">
+      <header class="plan-modal-head">
+        <div>
+          <p class="kicker">Account Security</p>
+          <h2 style="font-size:22px;margin:2px 0 0;">👤 Member Profile</h2>
+        </div>
+        <button class="plan-close" type="button" data-close-modal>×</button>
+      </header>
+      <div class="plan-modal-body" style="padding:16px 22px 24px;">
+        <div
+          style="background:var(--bg2);border:1px solid var(--line);border-radius:14px;padding:14px 16px;margin-bottom:16px;">
+          <div style="display:flex;align-items:center;gap:12px;">
+            <div
+              style="width:48px;height:48px;border-radius:50%;background:rgba(46,213,158,0.15);border:1.5px solid var(--jade);display:flex;align-items:center;justify-content:center;font-size:22px;">
+              👤</div>
+            <div>
+              <div style="font-weight:800;font-size:16px;color:var(--text);" id="profUsernameDisplay">—</div>
+              <div class="tiny muted" id="profMobileDisplay">—</div>
+              <div style="margin-top:4px;"><span class="badge-tag tag-active" id="profStatusBadge">Active Account</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Change Password Form -->
+        <form id="formUserChangePassword" style="margin-top:0;">
+          <p class="kpi-label" style="font-size:11px;margin-bottom:10px;letter-spacing:0.04em;">CHANGE PASSWORD</p>
+          <div style="margin-bottom:12px;">
+            <label class="tiny muted" style="display:block;font-weight:700;margin-bottom:4px;">CURRENT PASSWORD
+              *</label>
+            <input type="password" id="userCurrentPwd" class="in" placeholder="Enter current password" required
+              style="width:100%;font-size:13.5px;" />
+          </div>
+          <div style="margin-bottom:12px;">
+            <label class="tiny muted" style="display:block;font-weight:700;margin-bottom:4px;">NEW PASSWORD * (MIN 6
+              CHARACTERS)</label>
+            <input type="password" id="userNewPwd" class="in" placeholder="Enter new password" minlength="6" required
+              style="width:100%;font-size:13.5px;" />
+          </div>
+          <div style="margin-bottom:16px;">
+            <label class="tiny muted" style="display:block;font-weight:700;margin-bottom:4px;">CONFIRM NEW PASSWORD
+              *</label>
+            <input type="password" id="userConfirmPwd" class="in" placeholder="Re-enter new password" minlength="6"
+              required style="width:100%;font-size:13.5px;" />
+          </div>
+          <button type="submit" class="btn btn-mint" id="btnSubmitUserPwd"
+            style="width:100%;font-weight:800;padding:12px;font-size:13.5px;box-shadow:0 4px 16px rgba(46,213,158,0.3);">
+            Update Password ➔
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal 9: Profit Sharing Wallet Modal -->
+  <div class="plan-modal" id="modalProfitSharing" hidden>
+    <div class="plan-modal-backdrop" data-close-modal></div>
+    <div class="plan-modal-sheet" style="max-width:780px;">
+      <header class="plan-modal-head">
+        <div>
+          <p class="kicker">Dividend Pool &amp; Community Shares</p>
+          <h2>💎 Profit Sharing Wallet</h2>
+        </div>
+        <button class="plan-close" type="button" data-close-modal>×</button>
+      </header>
+      <div class="plan-modal-body">
+        <!-- Overview Banner -->
+        <div class="metrics-row-1" style="margin-bottom:16px;">
+          <div class="metric-card" style="border-color:rgba(46,213,158,0.35);">
+            <span class="m-label">COMMUNITY PROFIT SHARING POOL</span>
+            <p class="m-val" id="psUserCommunityPool" style="color:var(--jade);font-size:26px;">₱0.00</p>
+            <span class="m-sub">Distributable pool across qualified shares</span>
+          </div>
+          <div class="metric-card">
+            <span class="m-label">YOUR PROFIT SHARING BALANCE</span>
+            <p class="m-val" id="psUserWalletBal" style="color:var(--cyan);font-size:26px;">₱0.00</p>
+            <div style="margin-top:6px;">
+              <button type="button" class="btn btn-mint btn-sm" id="btnPsCashout"
+                style="padding:4px 12px;font-size:11px;font-weight:800;">
+                Cash out Balance ➔
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Your Qualification Status -->
+        <div class="panel card"
+          style="background:var(--card-bg);border:1.5px solid var(--line);border-radius:14px;padding:16px;margin-bottom:16px;">
+          <div
+            style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-bottom:10px;">
+            <p class="kpi-label" style="font-size:11px;letter-spacing:0.04em;">YOUR QUALIFICATION STATUS</p>
+            <span class="badge-tag tag-available" id="psUserSharesBadge"
+              style="font-size:12px;font-weight:800;padding:4px 10px;">0 Qualified Shares</span>
+          </div>
+          <div class="metrics-row-1" style="margin-top:8px;">
+            <div style="background:var(--bg2);border:1px solid var(--line);border-radius:10px;padding:10px 14px;">
+              <span class="tiny muted" style="font-weight:700;display:block;">VERIFIED TOTAL INCOME</span>
+              <strong style="color:var(--jade);font-size:16px;" id="psUserVerifiedIncome">₱0.00</strong>
+            </div>
+            <div style="background:var(--bg2);border:1px solid var(--line);border-radius:10px;padding:10px 14px;">
+              <span class="tiny muted" style="font-weight:700;display:block;">DIRECT ACTIVE ACCOUNTS</span>
+              <strong style="color:var(--text);font-size:16px;" id="psUserDirectActive">0</strong>
+            </div>
+            <div style="background:var(--bg2);border:1px solid var(--line);border-radius:10px;padding:10px 14px;">
+              <span class="tiny muted" style="font-weight:700;display:block;">GROUP TRADE-IN SALES</span>
+              <strong style="color:var(--cyan);font-size:16px;" id="psUserGroupSales">₱0.00</strong>
+            </div>
+          </div>
+        </div>
+
+        <!-- Qualification Tiers Table -->
+        <div class="panel card"
+          style="background:var(--card-bg);border:1.5px solid var(--line);border-radius:14px;padding:16px;margin-bottom:16px;">
+          <h3 style="font-size:14px;font-weight:700;margin:0 0 4px;">Official Profit Sharing Requirements</h3>
+          <p class="tiny muted" style="margin:0 0 12px;line-height:1.5;">
+            To qualify for Profit Sharing, members must meet all three requirements: Total Verified Income, Direct
+            Active Accounts, and Group Trade-In Sales.
+          </p>
+          <div class="table-wrap">
+            <table class="admin-table" style="font-size:11.5px;">
+              <thead>
+                <tr>
+                  <th>Shares</th>
+                  <th>Verified Total Income*</th>
+                  <th>Direct Active Accounts</th>
+                  <th>Group Trade-In Sales</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>1 Share</strong></td>
+                  <td>₱8,000</td>
+                  <td>18</td>
+                  <td>₱88,000</td>
+                </tr>
+                <tr>
+                  <td><strong>2 Shares</strong></td>
+                  <td>₱28,000</td>
+                  <td>38</td>
+                  <td>₱188,000</td>
+                </tr>
+                <tr>
+                  <td><strong>3 Shares</strong></td>
+                  <td>₱48,000</td>
+                  <td>58</td>
+                  <td>₱288,000</td>
+                </tr>
+                <tr>
+                  <td><strong>4 Shares</strong></td>
+                  <td>₱88,000</td>
+                  <td>78</td>
+                  <td>₱388,000</td>
+                </tr>
+                <tr>
+                  <td><strong>5 Shares</strong></td>
+                  <td>₱128,000</td>
+                  <td>98</td>
+                  <td>₱588,000</td>
+                </tr>
+                <tr>
+                  <td><strong>6 Shares</strong></td>
+                  <td>₱168,000</td>
+                  <td>118</td>
+                  <td>₱788,000</td>
+                </tr>
+                <tr>
+                  <td><strong>7 Shares</strong></td>
+                  <td>₱208,000</td>
+                  <td>138</td>
+                  <td>₱988,000</td>
+                </tr>
+                <tr>
+                  <td><strong>8 Shares</strong></td>
+                  <td>₱258,000</td>
+                  <td>158</td>
+                  <td>₱1,188,000</td>
+                </tr>
+                <tr>
+                  <td><strong>9 Shares</strong></td>
+                  <td>₱308,000</td>
+                  <td>178</td>
+                  <td>₱1,388,000</td>
+                </tr>
+                <tr>
+                  <td><strong>10 Shares</strong></td>
+                  <td>₱368,000</td>
+                  <td>208</td>
+                  <td>₱1,588,000</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Qualified Members Roster -->
+        <div class="panel card"
+          style="background:var(--card-bg);border:1.5px solid var(--line);border-radius:14px;padding:16px;">
+          <h3 style="font-size:14px;font-weight:700;margin:0 0 4px;">Qualified Members Roster</h3>
+          <p class="tiny muted" style="margin:0 0 10px;">Members currently eligible for the upcoming profit-sharing pool
+            distribution</p>
+          <div class="table-wrap">
+            <table class="admin-table" style="font-size:12px;">
+              <thead>
+                <tr>
+                  <th>Member</th>
+                  <th style="text-align:right;">Qualified Shares</th>
+                </tr>
+              </thead>
+              <tbody id="psUserQualifiedTbody">
+                <tr>
+                  <td colspan="2" style="padding:16px;text-align:center" class="muted">Loading qualified members...</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -1740,8 +2064,9 @@
     wireFeePreview('amtBinary', 'feeBinary');
     wireFeePreview('amtTradeRef', 'feeTradeRef');
     wireFeePreview('amtCycle', 'feeCycle');
+    wireFeePreview('amtProfitShare', 'feeProfitShare');
 
-    let latestBalances = { binary: 0, tradeRef: 0, cycle: 0 };
+    let latestBalances = { binary: 0, tradeRef: 0, cycle: 0, profit_sharing: 0 };
 
     document.querySelectorAll('[data-fill-target]').forEach(btn => {
       btn.addEventListener('click', (e) => {
@@ -1757,6 +2082,108 @@
         }
       });
     });
+
+    // Top referral link copy handler
+    document.getElementById('copyRefTop')?.addEventListener('click', async () => {
+      const v = document.getElementById('refLinkTop').value || document.getElementById('refLink').value;
+      const btn = document.getElementById('copyRefTop');
+      try {
+        await navigator.clipboard.writeText(v);
+        toast('Referral link copied to clipboard!', true);
+        const prev = btn.textContent;
+        btn.textContent = 'Copied! ✓';
+        setTimeout(() => { btn.textContent = prev; }, 2000);
+      } catch {
+        toast('Copy failed.');
+      }
+    });
+
+    // Open User Profile & Change Password Modal
+    document.getElementById('whoWrapper')?.addEventListener('click', () => {
+      openModal('modalUserProfile');
+    });
+
+    // Handle User Change Password
+    document.getElementById('formUserChangePassword')?.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const currentPassword = document.getElementById('userCurrentPwd')?.value;
+      const newPassword = document.getElementById('userNewPwd')?.value;
+      const confirmPassword = document.getElementById('userConfirmPwd')?.value;
+      const btn = document.getElementById('btnSubmitUserPwd');
+
+      if (newPassword !== confirmPassword) {
+        toast('New passwords do not match.');
+        return;
+      }
+      if (newPassword.length < 6) {
+        toast('New password must be at least 6 characters.');
+        return;
+      }
+
+      try {
+        if (btn) { btn.disabled = true; btn.textContent = 'Updating...'; }
+        const res = await fetch('/api/account/password', {
+          method: 'POST',
+          headers,
+          body: JSON.stringify({ current_password: currentPassword, new_password: newPassword }),
+        });
+        const d = await res.json().catch(() => ({}));
+        if (!res.ok) throw new Error(d.error || 'Failed to update password.');
+        toast('Password updated successfully!', true);
+        document.getElementById('formUserChangePassword').reset();
+        closeModal('modalUserProfile');
+      } catch (err) {
+        toast(err.message || 'Error updating password.');
+      } finally {
+        if (btn) { btn.disabled = false; btn.textContent = 'Update Password ➔'; }
+      }
+    });
+
+    // Open Profit Sharing Modal
+    document.getElementById('btnOpenProfitSharing')?.addEventListener('click', () => {
+      openModal('modalProfitSharing');
+      loadUserProfitSharing();
+    });
+
+    // Cashout CTA from inside Profit Sharing modal
+    document.getElementById('btnPsCashout')?.addEventListener('click', () => {
+      openModal('modalWithdrawal');
+      setTimeout(() => {
+        document.getElementById('amtProfitShare')?.focus();
+      }, 100);
+    });
+
+    async function loadUserProfitSharing() {
+      try {
+        const res = await fetch('/api/user/profit-sharing', { headers });
+        const data = await res.json().catch(() => ({}));
+        if (!res.ok) return;
+
+        const poolEl = document.getElementById('psUserCommunityPool');
+        if (poolEl) poolEl.textContent = peso(data.pool_total || 0);
+
+        const tbody = document.getElementById('psUserQualifiedTbody');
+        if (tbody) {
+          const qualified = data.qualified_members || [];
+          if (!qualified.length) {
+            tbody.innerHTML = '<tr><td colspan="2" style="padding:16px;text-align:center" class="muted">No members have qualified yet.</td></tr>';
+          } else {
+            tbody.innerHTML = qualified.map((q) => `
+              <tr>
+                <td><strong>${esc(q.username)}</strong></td>
+                <td style="text-align:right;">
+                  <span class="badge-tag tag-available" style="font-size:11px;font-weight:800;">
+                    ⭐ ${q.shares} ${q.shares === 1 ? 'Share' : 'Shares'}
+                  </span>
+                </td>
+              </tr>
+            `).join('');
+          }
+        }
+      } catch (e) {
+        console.error('Failed to load user profit sharing data:', e);
+      }
+    }
 
     // Modal open/close helpers
     function openModal(id) {
@@ -2297,12 +2724,26 @@
       const wdNotice = document.getElementById('withdrawalBlockedNotice');
 
       // Always populate and enable referral link
-      if (refInput) refInput.value = location.origin + '/register.html?sponsor=' + encodeURIComponent(u.mobile_number || '');
+      const refUrl = location.origin + '/register.html?sponsor=' + encodeURIComponent(u.mobile_number || '');
+      if (refInput) refInput.value = refUrl;
+      const refTop = document.getElementById('refLinkTop');
+      if (refTop) refTop.value = refUrl;
       if (copyRefBtn) copyRefBtn.disabled = false;
       const refCardEl = document.getElementById('refCard');
       if (refCardEl) {
         refCardEl.style.opacity = '1';
         refCardEl.style.pointerEvents = 'auto';
+      }
+
+      // Populate User Profile Modal Details
+      const profUser = document.getElementById('profUsernameDisplay');
+      if (profUser) profUser.textContent = u.username ? `@${u.username}` : (u.mobile_number || 'Member');
+      const profMob = document.getElementById('profMobileDisplay');
+      if (profMob) profMob.textContent = `${u.mobile_number || ''} · Member ID #${u.id}`;
+      const profBadge = document.getElementById('profStatusBadge');
+      if (profBadge) {
+        profBadge.className = 'badge-tag ' + (u.status === 'active' ? 'tag-active' : 'tag-pending');
+        profBadge.textContent = u.status === 'active' ? 'Active Member' : (u.status || 'Inactive');
       }
 
       if (isInactive) {
@@ -2372,9 +2813,31 @@
       document.getElementById('wTradeRefModal').textContent = peso(u.tradein_ref_balance);
       document.getElementById('wCycleModal').textContent = peso(u.tradein_cycle_balance);
 
+      const psBal = Number(u.profit_sharing_balance || 0);
+      const wPsEl = document.getElementById('wProfitShareModal');
+      if (wPsEl) wPsEl.textContent = peso(psBal);
+      const psBalDisplay = document.getElementById('psUserWalletBal');
+      if (psBalDisplay) psBalDisplay.textContent = peso(psBal);
+
+      if (d.profit_sharing) {
+        const poolEl = document.getElementById('psUserCommunityPool');
+        if (poolEl) poolEl.textContent = peso(d.profit_sharing.pool_total || 0);
+      }
+
+      // Profit Sharing Qualification metrics on dashboard
+      const sharesBadge = document.getElementById('psUserSharesBadge');
+      if (sharesBadge) sharesBadge.textContent = `${u.profit_shares || 0} Qualified Shares`;
+      const incEl = document.getElementById('psUserVerifiedIncome');
+      if (incEl) incEl.textContent = peso(u.verified_income || 0);
+      const dirEl = document.getElementById('psUserDirectActive');
+      if (dirEl) dirEl.textContent = u.direct_active_accounts !== undefined ? u.direct_active_accounts : activeDirectsCount;
+      const grpEl = document.getElementById('psUserGroupSales');
+      if (grpEl) grpEl.textContent = peso(u.group_sale_trade_in || 0);
+
       latestBalances.binary = Number(u.binary_ref_balance || 0);
       latestBalances.tradeRef = Number(u.tradein_ref_balance || 0);
       latestBalances.cycle = Number(u.tradein_cycle_balance || 0);
+      latestBalances.profit_sharing = psBal;
 
       // Binary Cap Progress Bar (Matching Bonus Cap)
       const cap = d.binary_cap || (d.constants && d.constants.binaryCap) || 3000;
@@ -2685,7 +3148,10 @@
                       <span class="pill open" style="font-weight:700;font-size:11px;">Matured: 3 Days Complete ✓</span>
                     </div>
                     <div class="tradein-paused-alert">
-                      <span>⏸️ <strong>Action Required:</strong> Cycle ${(p.payouts_completed || 0) + 2 <= 4 ? (p.payouts_completed || 0) + 2 : ''} countdown is <strong>PAUSED</strong> until you claim. Claim now to receive <strong>${peso(ci.claimable_amount)}</strong> into your cashout wallet and start the next 3-day cycle!</span>
+                      ${(p.payouts_completed || 0) === 3
+                  ? `<span>✨ <strong>Cycle 4 (Final Cycle):</strong> Claim <strong>${peso(ci.claimable_amount)}</strong> now. No rollover is required before claiming this final cycle.</span>`
+                  : `<span>⏸️ <strong>Action Required:</strong> Cycle ${(p.payouts_completed || 0) + 2 <= 4 ? (p.payouts_completed || 0) + 2 : ''} countdown is <strong>PAUSED</strong> until you claim. Claim now to receive <strong>${peso(ci.claimable_amount)}</strong> into your cashout wallet and start the next 3-day cycle!</span>`
+                }
                     </div>
                   </div>
                 `;

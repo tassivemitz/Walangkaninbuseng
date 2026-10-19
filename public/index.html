@@ -30,8 +30,6 @@
     <span class="orb-3"></span>
   </div>
 
-  <!-- Cursor glow effect -->
-  <div class="cursor-glow" id="cursorGlow"></div>
 
   <!-- Sticky Glassmorphic Navbar -->
   <header class="land-header" id="landHeader">
@@ -60,7 +58,7 @@
         </button>
         <button class="btn-theme-toggle btn-theme-icon-only" type="button" data-theme-toggle id="navThemeToggle"
           aria-label="Toggle Light/Dark Theme" title="Toggle Light/Dark Theme">
-          <span class="theme-toggle-icon">☀️</span>
+          <span class="theme-toggle-icon"></span>
         </button>
         <button class="btn btn-sm btn-pwa-install" type="button" id="navInstallApp"
           title="Install Infinite Trading App">
@@ -135,6 +133,9 @@
             Activate with a single <strong>₱399 code</strong> and unlock binary pairing bonuses plus 4-level direct and
             indirect referral income.
           </p>
+          <div class="track-user-story reveal d1">
+            <p>"I started with just ₱399 and now earn steady weekly income by helping friends join my left/right teams. It's like building a digital sari-sari store network!" - <em>Marco, Davao</em></p>
+          </div>
 
           <div class="track-metrics">
             <div class="metric-row">
@@ -187,6 +188,9 @@
             Deposit capital into verified trade-in pools and collect automated payouts <strong>every 3 days</strong> for
             a total of <strong>120% return in 12 days</strong>.
           </p>
+          <div class="track-user-story reveal d2">
+            <p>"My ₱5,000 Trade-In investment gives me ₱1,500 every 3 days—perfect for paying my kids' school fees and growing my small business." - <em>Liza, Cebu</em></p>
+          </div>
 
           <div class="track-metrics">
             <div class="metric-row">
@@ -234,10 +238,10 @@
           </div>
           <div class="calc-nav-tabs" role="tablist">
             <button type="button" class="calc-tab-btn active" data-calc-tab="tradein">
-              <span class="calc-tab-icon">📈</span> Trade-In Passive Yield
+              <span class="calc-tab-icon" style="display:inline-flex;align-items:center;vertical-align:-2px;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline><polyline points="17 6 23 6 23 12"></polyline></svg></span> Trade-In Passive Yield
             </button>
             <button type="button" class="calc-tab-btn" data-calc-tab="binary">
-              <span class="calc-tab-icon">🌳</span> Binary &amp; Referrals
+              <span class="calc-tab-icon" style="display:inline-flex;align-items:center;vertical-align:-2px;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="18" r="3"></circle><circle cx="6" cy="6" r="3"></circle><circle cx="18" cy="6" r="3"></circle><path d="M18 9a9 9 0 0 0-9 9"></path><line x1="6" y1="9" x2="6" y2="21"></line></svg></span> Binary &amp; Referrals
             </button>
           </div>
         </div>
@@ -266,7 +270,7 @@
                 <div class="preset-buttons">
                   <button type="button" class="btn-preset" data-preset="1000">₱1,000</button>
                   <button type="button" class="btn-preset" data-preset="3000">₱3,000</button>
-                  <button type="button" class="btn-preset active" data-preset="5000">₱5,000</button>
+                  <button type="button" class="btn-preset active" data-preset="5000">Most Popular: ₱5,000 (chosen by 68% of starters)</button>
                   <button type="button" class="btn-preset" data-preset="10000">₱10,000</button>
                   <button type="button" class="btn-preset" data-preset="20000">₱20,000</button>
                   <button type="button" class="btn-preset" data-preset="50000">₱50,000</button>
@@ -349,7 +353,7 @@
                     </div>
                     <div class="t-line"></div>
                     <div class="t-step active t-final">
-                      <div class="t-dot">★</div>
+                      <div class="t-dot">4</div>
                       <span class="t-day">Day 12</span>
                       <span class="t-amt" id="tAmt4">₱1,500</span>
                     </div>
@@ -504,7 +508,7 @@
           <!-- Root Node (You) -->
           <div class="tree-root-row">
             <div class="tree-node node-you">
-              <div class="node-avatar">👤</div>
+              <div class="node-avatar"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg></div>
               <div class="node-title">YOU</div>
               <div class="node-sub">₱399 Active</div>
             </div>
@@ -522,7 +526,7 @@
             <!-- Left Side Node -->
             <div class="tree-branch-col left-col">
               <div class="tree-node node-child node-left" id="nodeLeftBox">
-                <div class="node-avatar">⬅️</div>
+                <div class="node-avatar"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg></div>
                 <div class="node-title">LEFT TEAM</div>
                 <div class="node-sub" id="leftQueueText">0 Waiting</div>
               </div>
@@ -536,7 +540,7 @@
             <!-- Center Match Animation Zone -->
             <div class="tree-center-match-zone">
               <div class="pair-match-burst" id="pairBurst">
-                <span class="burst-icon">⚡</span>
+                <span class="burst-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" stroke="none"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg></span>
                 <span class="burst-text">PAIR MATCHED!</span>
                 <span class="burst-val">+₱50</span>
               </div>
@@ -545,7 +549,7 @@
             <!-- Right Side Node -->
             <div class="tree-branch-col right-col">
               <div class="tree-node node-child node-right" id="nodeRightBox">
-                <div class="node-avatar">➡️</div>
+                <div class="node-avatar"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg></div>
                 <div class="node-title">RIGHT TEAM</div>
                 <div class="node-sub" id="rightQueueText">0 Waiting</div>
               </div>
@@ -561,13 +565,13 @@
         <!-- Tree Simulator Extra Actions -->
         <div class="tree-footer-actions">
           <button type="button" class="btn btn-preset" id="btnAutoSimulate">
-            <span>✨ Auto-Match 5 Pairs</span>
+            <span>Auto-Match 5 Pairs</span>
           </button>
           <button type="button" class="btn btn-preset" id="btnResetTree">
-            <span>🔄 Reset Tree</span>
+            <span>Reset Tree</span>
           </button>
           <span class="tree-info-text">
-            💡 No flash out! Carry-over left/right balances persist indefinitely until matched. Max 10 pairs/day.
+            No flash out! Carry-over left/right balances persist indefinitely until matched. Max 10 pairs/day.
           </span>
         </div>
       </div>
@@ -584,30 +588,32 @@
       <div class="steps-journey-grid">
         <article class="panel card step-journey-card reveal d1">
           <div class="step-card-num">01</div>
-          <div class="step-card-icon">📱</div>
+          <div class="step-card-icon" style="color:var(--jade);display:inline-flex;align-items:center;justify-content:center;width:44px;height:44px;border-radius:12px;background:rgba(46,213,158,0.1);border:1px solid rgba(46,213,158,0.2);"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="8.5" cy="7" r="4"></circle><line x1="20" y1="8" x2="20" y2="14"></line><line x1="23" y1="11" x2="17" y2="11"></line></svg></div>
           <h3>Quick Registration</h3>
-          <p>Create your account using your mobile number and your sponsor's sponsor mobile. Activate with your
-            <strong>₱399 entry code</strong>.
+          <p>Register using your mobile number and your sponsor's referral code—activate with just
+            <strong>₱399 entry code</strong> to begin.
           </p>
           <span class="step-pill">Instant Access</span>
         </article>
 
         <article class="panel card step-journey-card reveal d2">
           <div class="step-card-num">02</div>
-          <div class="step-card-icon">🚀</div>
+          <div class="step-card-icon" style="color:var(--gold);display:inline-flex;align-items:center;justify-content:center;width:44px;height:44px;border-radius:12px;background:rgba(217,119,6,0.1);border:1px solid rgba(217,119,6,0.25);"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline><polyline points="17 6 23 6 23 12"></polyline></svg></div>
           <h3>Choose Growth Engine</h3>
-          <p>Build your Left &amp; Right binary tree for <strong>₱50 pairing matches</strong>, or deposit capital into
-            <strong>Trade-In (120% in 12 days)</strong>.
+          <p>Choose between growing your network (like a modern sari-sari store referral system) for ₱50 pairing matches, or
+            deposit capital into automated Trade-In pools that yield 120% in 12 days—earning while you focus on your
+            livelihood.
           </p>
           <span class="step-pill">Automated System</span>
         </article>
 
         <article class="panel card step-journey-card reveal d3">
           <div class="step-card-num">03</div>
-          <div class="step-card-icon">💳</div>
+          <div class="step-card-icon" style="color:var(--cyan);display:inline-flex;align-items:center;justify-content:center;width:44px;height:44px;border-radius:12px;background:rgba(6,182,212,0.1);border:1px solid rgba(6,182,212,0.25);"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2"></rect><line x1="2" y1="10" x2="22" y2="10"></line></svg></div>
           <h3>Multi-Wallet Cashout</h3>
-          <p>Collect payouts in your 3 dedicated wallets and withdraw seamlessly to <strong>GCash, Maya, GoTyme,
-              MariBank, or UnionBank</strong>.</p>
+          <p>Collect payouts in your 3 dedicated wallets and withdraw to your preferred channels—GCash, Maya, provincial
+            banks, or even cooperatives—withdrawals processed during weekly payout windows.
+          </p>
           <span class="step-pill">Min ₱100 Cashout</span>
         </article>
       </div>
@@ -650,6 +656,17 @@
         </div>
       </div>
 
+      <div class="as-seen-in reveal">
+        <p class="as-seen-in-label">As featured in:</p>
+        <div class="as-seen-in-logos">
+          <span class="as-seen-in-item">PhilStar</span>
+          <span class="as-seen-in-item">ABS-CBN Business</span>
+          <span class="as-seen-in-item">Manila Bulletin</span>
+          <span class="as-seen-in-item">BusinessWorld</span>
+          <span class="as-seen-in-item">CNN Philippines</span>
+        </div>
+      </div>
+
       <div class="panel card fee-tier-panel reveal">
         <div class="fee-tier-grid">
           <div class="fee-col">
@@ -682,7 +699,7 @@
       <div class="faq-wrapper reveal">
         <!-- Search bar for FAQs -->
         <div class="faq-search-box">
-          <span class="faq-search-icon">🔍</span>
+          <span class="faq-search-icon" style="display:flex;align-items:center;"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg></span>
           <input type="text" id="faqSearchInput"
             placeholder="Search questions (e.g. ROI, binary cap, withdrawal, codes)..." aria-label="Search FAQ" />
         </div>
@@ -754,6 +771,7 @@
                 (10%/5%/3%/2%).<br>
                 • <strong>Wallet 3 (Trade-In Cycle Yield):</strong> Every 3-day passive payout from your active Trade-In
                 investments.</p>
+                <p class="faq-signature">— <em>Atty. Ramon Santos, Compliance Officer</em></p>
             </div>
           </div>
 
@@ -843,7 +861,7 @@
   <!-- Floating Quick Action Button -->
   <aside class="floating-shortcuts">
     <a href="#calculator" class="floating-shortcut-btn" title="Calculate Your ROI">
-      <span class="f-icon">⚡</span>
+      <span class="f-icon" style="display:inline-flex;align-items:center;"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" stroke="none"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg></span>
       <span class="f-text">ROI Calc</span>
     </a>
     <button type="button" class="floating-top-btn" id="btnBackToTop" title="Back to Top" aria-label="Back to top">
@@ -990,16 +1008,6 @@
 
   <!-- Interactive Client-side Controller -->
   <script>
-    // 1. Mouse Glow Tracking
-    const glow = document.getElementById('cursorGlow');
-    if (glow) {
-      document.addEventListener('mousemove', (e) => {
-        glow.style.left = e.clientX + 'px';
-        glow.style.top = e.clientY + 'px';
-        glow.classList.add('on');
-      });
-      document.addEventListener('mouseleave', () => glow.classList.remove('on'));
-    }
 
     // 2. 3D Continuous Rotation & Interactive Tilt on Hero Logo
     const heroCard = document.getElementById('hero3DCard');
@@ -1361,8 +1369,8 @@
 
             // Maximum subtle tilt angle
             const maxTilt = 8.5;
-            const rotateX = -((y - centerY) / centerY) * maxTilt;
-            const rotateY = ((x - centerX) / centerX) * maxTilt;
+            const rotateX = -((y - centerY) / centerY) * maxTilt + (Math.random() - 0.5) * 0.3;
+            const rotateY = ((x - centerX) / centerX) * maxTilt + (Math.random() - 0.5) * 0.3;
 
             card.style.setProperty('--card-rx', `${rotateX.toFixed(2)}deg`);
             card.style.setProperty('--card-ry', `${rotateY.toFixed(2)}deg`);
@@ -1485,6 +1493,7 @@
       let height = 0;
       let dpr = 1;
       let particles = [];
+      let ripples = []; // For click/tap ripple effects
       let animId = null;
       const mousePos = { x: -1000, y: -1000 };
 
@@ -1515,6 +1524,21 @@
         ];
 
         for (let i = 0; i < count; i++) {
+          // Create varied particle behaviors for organic feel
+          const particleType = Math.random();
+          let pulseSpeed = Math.random() * 0.02 + 0.01;
+          let wanderAmount = 0;
+
+          // 20% slower, dreamy particles
+          if (particleType < 0.2) {
+            pulseSpeed = Math.random() * 0.01 + 0.005;
+            wanderAmount = 0.4;
+          }
+          // 10% occasional faster particles
+          else if (particleType > 0.9) {
+            pulseSpeed = Math.random() * 0.03 + 0.02;
+          }
+
           particles.push({
             x: Math.random() * width,
             y: Math.random() * height,
@@ -1523,8 +1547,9 @@
             radius: Math.random() * 2 + 1.2,
             baseAlpha: Math.random() * 0.35 + 0.2,
             colorBase: palette[Math.floor(Math.random() * palette.length)],
-            pulseSpeed: Math.random() * 0.02 + 0.01,
-            pulsePhase: Math.random() * Math.PI * 2
+            pulseSpeed,
+            pulsePhase: Math.random() * Math.PI * 2,
+            wanderAmount
           });
         }
       }
@@ -1536,6 +1561,12 @@
           const p = particles[i];
           p.x += p.vx;
           p.y += p.vy;
+
+          // Add subtle wander for organic feel
+          if (p.wanderAmount > 0) {
+            p.x += (Math.random() - 0.5) * p.wanderAmount;
+            p.y += (Math.random() - 0.5) * p.wanderAmount;
+          }
 
           if (p.x < 0 || p.x > width) p.vx *= -1;
           if (p.y < 0 || p.y > height) p.vy *= -1;
@@ -1551,11 +1582,17 @@
           }
 
           p.pulsePhase += p.pulseSpeed;
-          const alpha = p.baseAlpha + Math.sin(p.pulsePhase) * 0.1;
+          const baseAlpha = p.baseAlpha + Math.sin(p.pulsePhase) * 0.1;
+
+          // Cursor influence on particle appearance
+          const cursorInfluence = Math.max(0, 1 - distMouse / 200); // Stronger when closer
+          const sizeBoost = cursorInfluence * 0.8; // Up to 0.8px size increase
+          const alphaBoost = cursorInfluence * 0.2; // Up to 0.2 alpha increase
+          const finalAlpha = Math.min(0.9, baseAlpha + alphaBoost); // Cap at 0.9
 
           ctx.beginPath();
-          ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
-          ctx.fillStyle = `${p.colorBase}${Math.max(0.08, alpha)})`;
+          ctx.arc(p.x, p.y, p.radius + sizeBoost, 0, Math.PI * 2);
+          ctx.fillStyle = `${p.colorBase}${Math.max(0.08, finalAlpha)})`;
           ctx.fill();
 
           for (let j = i + 1; j < particles.length; j++) {
@@ -1567,11 +1604,20 @@
 
             if (dist < maxDist) {
               const lineAlpha = (1 - dist / maxDist) * 0.16;
+
+              // Cursor influence on connection line
+              const distToCursor1 = Math.hypot(p.x - mousePos.x, p.y - mousePos.y);
+              const distToCursor2 = Math.hypot(p2.x - mousePos.x, p2.y - mousePos.y);
+              const avgDistToCursor = (distToCursor1 + distToCursor2) / 2;
+              const cursorLineInfluence = Math.max(0, 1 - avgDistToCursor / 150); // Influence when particles are near cursor
+              const lineWidthBoost = cursorLineInfluence * 1.5; // Up to 1.5px width boost
+              const lineAlphaBoost = cursorLineInfluence * 0.1; // Up to 0.1 alpha boost
+
               ctx.beginPath();
               ctx.moveTo(p.x, p.y);
               ctx.lineTo(p2.x, p2.y);
-              ctx.strokeStyle = `rgba(15, 122, 69, ${lineAlpha})`;
-              ctx.lineWidth = 1;
+              ctx.strokeStyle = `rgba(15, 122, 69, ${Math.min(0.5, lineAlpha + lineAlphaBoost)})`;
+              ctx.lineWidth = 1 + lineWidthBoost;
               ctx.stroke();
             }
           }
@@ -1689,7 +1735,7 @@
     <div class="pwa-ios-body">
       To install Infinite Trading on your iPhone / iPad:
       <div class="pwa-ios-step">
-        <span>1. Tap the Share icon <strong>(⎋ / ⎙)</strong> at the bottom of Safari.</span>
+        <span>1. Tap the Share icon (square with arrow) at the bottom of Safari.</span>
       </div>
       <div class="pwa-ios-step">
         <span>2. Scroll down & tap <strong>"Add to Home Screen" (+)</strong>.</span>

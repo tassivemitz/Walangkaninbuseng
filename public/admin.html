@@ -6,8 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Admin Portal · Infinite Trading</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link
-    href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&display=swap"
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&display=swap"
     rel="stylesheet" />
   <script src="/theme.js"></script>
   <link rel="stylesheet" href="/styles.css?v=20260927fixscroll" />
@@ -94,6 +93,11 @@
           <span class="admin-nav-badge" id="badgeNavLoadWallet" style="display:none;"></span>
         </button>
 
+        <button type="button" class="admin-nav-item" data-nav-target="viewProfitSharing">
+          <span class="admin-nav-icon">💎</span>
+          <span>Profit Sharing</span>
+        </button>
+
         <button type="button" class="admin-nav-item" data-nav-target="viewSettings">
           <span class="admin-nav-icon">⚙️</span>
           <span>System Settings</span>
@@ -111,8 +115,7 @@
         </div>
         <div style="display:flex;gap:6px;margin-top:6px;">
           <input id="adminSideRefLink" class="in"
-            style="font-size:11px;padding:8px 10px;flex:1;min-width:0;font-weight:600;"
-            readonly value="Loading..." />
+            style="font-size:11px;padding:8px 10px;flex:1;min-width:0;font-weight:600;" readonly value="Loading..." />
           <button id="copyAdminSideRef" type="button" class="btn btn-ghost btn-sm"
             style="padding:6px 12px;font-size:11px;white-space:nowrap;">Copy</button>
         </div>
@@ -122,7 +125,12 @@
       <div class="admin-sidebar-footer">
         <button type="button" id="logoutSideBtn" class="admin-side-logout-btn" title="Sign Out" aria-label="Sign Out">
           <span>Sign Out</span>
-          <svg class="logout-icon-svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="margin-left:6px;"><path d="M18.36 6.64a9 9 0 1 1-12.73 0"></path><line x1="12" y1="2" x2="12" y2="12"></line></svg>
+          <svg class="logout-icon-svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+            stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"
+            style="margin-left:6px;">
+            <path d="M18.36 6.64a9 9 0 1 1-12.73 0"></path>
+            <line x1="12" y1="2" x2="12" y2="12"></line>
+          </svg>
         </button>
       </div>
     </aside>
@@ -149,7 +157,8 @@
         </div>
 
         <div class="admin-top-right">
-          <button class="btn-theme-toggle" type="button" data-theme-toggle aria-label="Toggle Light/Dark Theme" title="Toggle Light/Dark Theme">
+          <button class="btn-theme-toggle" type="button" data-theme-toggle aria-label="Toggle Light/Dark Theme"
+            title="Toggle Light/Dark Theme">
             <span class="theme-toggle-icon">☀️</span>
             <span class="theme-toggle-text">Light</span>
           </button>
@@ -161,7 +170,11 @@
             style="font-size:11px;padding:6px 12px;">Payouts: Loading...</button>
           <button id="logoutTopBtn" class="dash-logout-btn" title="Sign out" aria-label="Sign out">
             <span>Sign out</span>
-            <svg class="logout-icon-svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18.36 6.64a9 9 0 1 1-12.73 0"></path><line x1="12" y1="2" x2="12" y2="12"></line></svg>
+            <svg class="logout-icon-svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+              stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M18.36 6.64a9 9 0 1 1-12.73 0"></path>
+              <line x1="12" y1="2" x2="12" y2="12"></line>
+            </svg>
           </button>
         </div>
       </header>
@@ -235,7 +248,8 @@
             </div>
 
             <!-- 6. TOTAL CASHOUT -->
-            <div class="admin-card mint" style="border:1.5px solid var(--jade);cursor:pointer;" id="cardKpiTotalCashout" title="Click to view approved cashouts">
+            <div class="admin-card mint" style="border:1.5px solid var(--jade);cursor:pointer;" id="cardKpiTotalCashout"
+              title="Click to view approved cashouts">
               <div>
                 <div style="display:flex;align-items:center;gap:6px;margin-bottom:3px;flex-wrap:wrap;">
                   <p class="kpi-label" style="color:var(--jade);margin:0;">TOTAL CASHOUT (RELEASED)</p>
@@ -248,11 +262,13 @@
             </div>
 
             <!-- 7. PENDING CASHOUT -->
-            <div class="admin-card gold" style="border:1.5px solid var(--gold);cursor:pointer;" id="cardKpiPendingCashout" title="Click to review pending cashouts">
+            <div class="admin-card gold" style="border:1.5px solid var(--gold);cursor:pointer;"
+              id="cardKpiPendingCashout" title="Click to review pending cashouts">
               <div>
                 <div style="display:flex;align-items:center;gap:6px;margin-bottom:3px;flex-wrap:wrap;">
                   <p class="kpi-label" style="color:var(--gold);margin:0;">PENDING CASHOUT</p>
-                  <span class="badge-tag tag-expired" id="badgeKpiPendingWd" style="font-size:9.5px;padding:1px 6px;">0 Pending</span>
+                  <span class="badge-tag tag-expired" id="badgeKpiPendingWd" style="font-size:9.5px;padding:1px 6px;">0
+                    Pending</span>
                 </div>
                 <p class="kpi-val" id="kpiPendingCashout" style="color:var(--gold);">₱0.00</p>
                 <p class="kpi-sub" id="kpiPendingCashoutSub">0 Pending review</p>
@@ -261,11 +277,13 @@
             </div>
 
             <!-- 8. PENDING LOAD WALLET -->
-            <div class="admin-card" style="border:1.5px solid var(--accent-mint);cursor:pointer;" id="cardKpiPendingLoad" title="Click to review load wallet orders">
+            <div class="admin-card" style="border:1.5px solid var(--accent-mint);cursor:pointer;"
+              id="cardKpiPendingLoad" title="Click to review load wallet orders">
               <div>
                 <div style="display:flex;align-items:center;gap:6px;margin-bottom:3px;flex-wrap:wrap;">
                   <p class="kpi-label" style="color:var(--accent-mint);margin:0;">BUY LOAD WALLET REQUESTS</p>
-                  <span class="badge-tag tag-expired" id="badgeKpiPendingLoad" style="font-size:9.5px;padding:1px 6px;">0 Pending</span>
+                  <span class="badge-tag tag-expired" id="badgeKpiPendingLoad"
+                    style="font-size:9.5px;padding:1px 6px;">0 Pending</span>
                 </div>
                 <p class="kpi-val" id="kpiPendingLoad" style="color:var(--accent-mint);">0</p>
                 <p class="kpi-sub" id="kpiPendingLoadSub">Retailer wallet orders</p>
@@ -292,18 +310,25 @@
 
           <!-- Admin Home: Quick Pending Approvals Action Center -->
           <div class="admin-card" style="margin-top:20px;grid-column:1/-1;">
-            <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:14px;border-bottom:1px solid rgba(15,122,69,0.12);padding-bottom:10px;">
+            <div
+              style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:14px;border-bottom:1px solid rgba(15,122,69,0.12);padding-bottom:10px;">
               <div>
                 <div style="display:flex;align-items:center;gap:8px;">
                   <span style="font-size:20px;">⚡</span>
-                  <h3 style="margin:0;font-size:16px;font-weight:800;letter-spacing:-0.02em;">Pending Approvals Quick Center</h3>
+                  <h3 style="margin:0;font-size:16px;font-weight:800;letter-spacing:-0.02em;">Pending Approvals Quick
+                    Center</h3>
                 </div>
-                <p class="tiny muted" style="margin:3px 0 0;">Immediate action queue for pending Trade-in deposits &amp; Cashout disbursements (Mobile &amp; Desktop)</p>
+                <p class="tiny muted" style="margin:3px 0 0;">Immediate action queue for pending Trade-in deposits &amp;
+                  Cashout disbursements (Mobile &amp; Desktop)</p>
               </div>
               <div style="display:flex;gap:8px;align-items:center;">
-                <button type="button" class="btn btn-ghost btn-sm" id="btnQuickGoTradein" style="font-size:11.5px;font-weight:700;">Trade-In Tab ➔</button>
-                <button type="button" class="btn btn-ghost btn-sm" id="btnQuickGoWd" style="font-size:11.5px;font-weight:700;">Cashout Tab ➔</button>
-                <button type="button" class="btn btn-ghost btn-sm" id="btnQuickGoLoadWallet" style="font-size:11.5px;font-weight:700;color:var(--accent-mint);border-color:rgba(46,213,158,0.3);">Load Wallet ➔</button>
+                <button type="button" class="btn btn-ghost btn-sm" id="btnQuickGoTradein"
+                  style="font-size:11.5px;font-weight:700;">Trade-In Tab ➔</button>
+                <button type="button" class="btn btn-ghost btn-sm" id="btnQuickGoWd"
+                  style="font-size:11.5px;font-weight:700;">Cashout Tab ➔</button>
+                <button type="button" class="btn btn-ghost btn-sm" id="btnQuickGoLoadWallet"
+                  style="font-size:11.5px;font-weight:700;color:var(--accent-mint);border-color:rgba(46,213,158,0.3);">Load
+                  Wallet ➔</button>
               </div>
             </div>
             <div id="homePendingQueue" style="display:flex;flex-direction:column;gap:10px;">
@@ -322,7 +347,8 @@
               <p class="admin-sec-sub">COMPLETE MEMBER PROFILES · ACTIVATION · PERMISSIONS</p>
             </div>
             <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
-              <input id="userSearch" class="ctrl-search" type="search" placeholder="Search by username, ID, or sponsor..." />
+              <input id="userSearch" class="ctrl-search" type="search"
+                placeholder="Search by username, ID, or sponsor..." />
               <div class="ctrl-tabs">
                 <button class="ctrl-tab active" data-userfilter="all">All (<span id="userCountAll">0</span>)</button>
                 <button class="ctrl-tab" data-userfilter="active">Active</button>
@@ -333,16 +359,19 @@
           </div>
 
           <!-- Member Directory Inventory Header with Live Counters & Minimize -->
-          <div class="member-inventory-head-bar" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;margin:18px 0 14px;padding:12px 16px;border-radius:12px;">
+          <div class="member-inventory-head-bar"
+            style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;margin:18px 0 14px;padding:12px 16px;border-radius:12px;">
             <div style="display:flex;align-items:center;gap:10px;">
               <span style="font-size:18px;">👥</span>
               <div>
                 <strong style="font-size:13.5px;color:var(--text);letter-spacing:0.02em;">MEMBER DIRECTORY LIST</strong>
-                <span class="tiny muted" id="memberInventorySummaryTag" style="display:block;margin-top:2px;">Loading directory...</span>
+                <span class="tiny muted" id="memberInventorySummaryTag" style="display:block;margin-top:2px;">Loading
+                  directory...</span>
               </div>
             </div>
             <div style="display:flex;align-items:center;gap:8px;">
-              <button type="button" id="btnToggleMemberList" class="btn btn-sm btn-ghost" style="padding:6px 14px;font-size:11.5px;font-weight:700;">
+              <button type="button" id="btnToggleMemberList" class="btn btn-sm btn-ghost"
+                style="padding:6px 14px;font-size:11.5px;font-weight:700;">
                 <span id="toggleMemberListIcon">▾</span> <span id="toggleMemberListText">Hide List</span>
               </button>
             </div>
@@ -358,14 +387,15 @@
                     <th>Member Info</th>
                     <th>Status</th>
                     <th>Sponsor &amp; Directs</th>
-                    <th>Binary Earned</th>
+                    <th>Active Trade-in</th>
+                    <th>Group Sale Trade-in</th>
                     <th>Wallet Balances</th>
                     <th style="text-align:right">Actions</th>
                   </tr>
                 </thead>
                 <tbody id="userTableBody">
                   <tr>
-                    <td colspan="7" style="padding:20px;text-align:center" class="muted">Loading members...</td>
+                    <td colspan="8" style="padding:20px;text-align:center" class="muted">Loading members...</td>
                   </tr>
                 </tbody>
               </table>
@@ -375,12 +405,14 @@
             <div class="admin-mobile-cards-list" id="userMobileCards"></div>
 
             <!-- Member Directory Pagination Bar (Both Desktop & Mobile) -->
-            <div id="memberPaginationBar" class="table-pagination-bar" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;margin-top:14px;padding:10px 14px;border-radius:10px;">
+            <div id="memberPaginationBar" class="table-pagination-bar"
+              style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;margin-top:14px;padding:10px 14px;border-radius:10px;">
               <div style="display:flex;align-items:center;gap:10px;font-size:12px;" class="muted">
                 <span id="memberPageRangeText">Showing 1–10 of 0 members</span>
                 <div style="display:flex;align-items:center;gap:6px;">
                   <span>Per page:</span>
-                  <select id="memberPageSizeSelect" class="in" style="padding:3px 8px;font-size:12px;border-radius:6px;width:auto;">
+                  <select id="memberPageSizeSelect" class="in"
+                    style="padding:3px 8px;font-size:12px;border-radius:6px;width:auto;">
                     <option value="10" selected>10</option>
                     <option value="25">25</option>
                     <option value="50">50</option>
@@ -389,9 +421,11 @@
                 </div>
               </div>
               <div style="display:flex;align-items:center;gap:6px;" id="memberPageButtons">
-                <button type="button" id="btnMemberPrevPage" class="btn btn-sm btn-ghost" style="padding:4px 10px;font-size:11.5px;">◀ Prev</button>
+                <button type="button" id="btnMemberPrevPage" class="btn btn-sm btn-ghost"
+                  style="padding:4px 10px;font-size:11.5px;">◀ Prev</button>
                 <div id="memberPageNumbers" style="display:flex;align-items:center;gap:4px;"></div>
-                <button type="button" id="btnMemberNextPage" class="btn btn-sm btn-ghost" style="padding:4px 10px;font-size:11.5px;">Next ▶</button>
+                <button type="button" id="btnMemberNextPage" class="btn btn-sm btn-ghost"
+                  style="padding:4px 10px;font-size:11.5px;">Next ▶</button>
               </div>
             </div>
           </div>
@@ -476,16 +510,19 @@
           </div>
 
           <!-- Code Vault Inventory Section Header with Collapse & Counter -->
-          <div class="code-inventory-head-bar" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;margin:24px 0 14px;padding:12px 16px;border-radius:12px;">
+          <div class="code-inventory-head-bar"
+            style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;margin:24px 0 14px;padding:12px 16px;border-radius:12px;">
             <div style="display:flex;align-items:center;gap:10px;">
               <span style="font-size:18px;">📦</span>
               <div>
                 <strong style="font-size:13.5px;color:var(--text);letter-spacing:0.02em;">CODE INVENTORY LIST</strong>
-                <span class="tiny muted" id="codeInventorySummaryTag" style="display:block;margin-top:2px;">Loading code inventory...</span>
+                <span class="tiny muted" id="codeInventorySummaryTag" style="display:block;margin-top:2px;">Loading code
+                  inventory...</span>
               </div>
             </div>
             <div style="display:flex;align-items:center;gap:8px;">
-              <button type="button" id="btnToggleCodeList" class="btn btn-sm btn-ghost" style="padding:6px 14px;font-size:11.5px;font-weight:700;">
+              <button type="button" id="btnToggleCodeList" class="btn btn-sm btn-ghost"
+                style="padding:6px 14px;font-size:11.5px;font-weight:700;">
                 <span id="toggleCodeListIcon">▾</span> <span id="toggleCodeListText">Hide List</span>
               </button>
             </div>
@@ -541,12 +578,14 @@
             <div class="admin-mobile-cards-list" id="codeMobileCards"></div>
 
             <!-- Code Inventory Pagination Bar (Both Desktop & Mobile) -->
-            <div id="codePaginationBar" class="table-pagination-bar" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;margin-top:14px;padding:10px 14px;border-radius:10px;">
+            <div id="codePaginationBar" class="table-pagination-bar"
+              style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;margin-top:14px;padding:10px 14px;border-radius:10px;">
               <div style="display:flex;align-items:center;gap:10px;font-size:12px;" class="muted">
                 <span id="codePageRangeText">Showing 1–10 of 0 codes</span>
                 <div style="display:flex;align-items:center;gap:6px;">
                   <span>Per page:</span>
-                  <select id="codePageSizeSelect" class="in" style="padding:3px 8px;font-size:12px;border-radius:6px;width:auto;">
+                  <select id="codePageSizeSelect" class="in"
+                    style="padding:3px 8px;font-size:12px;border-radius:6px;width:auto;">
                     <option value="10" selected>10</option>
                     <option value="25">25</option>
                     <option value="50">50</option>
@@ -555,9 +594,11 @@
                 </div>
               </div>
               <div style="display:flex;align-items:center;gap:6px;" id="codePageButtons">
-                <button type="button" id="btnCodePrevPage" class="btn btn-sm btn-ghost" style="padding:4px 10px;font-size:11.5px;">◀ Prev</button>
+                <button type="button" id="btnCodePrevPage" class="btn btn-sm btn-ghost"
+                  style="padding:4px 10px;font-size:11.5px;">◀ Prev</button>
                 <div id="codePageNumbers" style="display:flex;align-items:center;gap:4px;"></div>
-                <button type="button" id="btnCodeNextPage" class="btn btn-sm btn-ghost" style="padding:4px 10px;font-size:11.5px;">Next ▶</button>
+                <button type="button" id="btnCodeNextPage" class="btn btn-sm btn-ghost"
+                  style="padding:4px 10px;font-size:11.5px;">Next ▶</button>
               </div>
             </div>
           </div>
@@ -579,19 +620,22 @@
           </div>
 
           <!-- Trade-In Filter Tabs & Search Bar -->
-          <div class="ctrl-bar" style="margin-bottom:14px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;">
+          <div class="ctrl-bar"
+            style="margin-bottom:14px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;">
             <div class="ctrl-tabs" id="tradeinFilterTabs">
               <button class="ctrl-tab active" data-tradeinfilter="all">All Packages</button>
               <button class="ctrl-tab" data-tradeinfilter="pending">
                 <span>Pending Verification</span>
-                <span class="badge-tag tag-expired" id="badgePendingTradein" style="font-size:9.5px;padding:1px 6px;margin-left:4px;">0</span>
+                <span class="badge-tag tag-expired" id="badgePendingTradein"
+                  style="font-size:9.5px;padding:1px 6px;margin-left:4px;">0</span>
               </button>
               <button class="ctrl-tab" data-tradeinfilter="active">Active</button>
               <button class="ctrl-tab" data-tradeinfilter="completed">Completed</button>
               <button class="ctrl-tab" data-tradeinfilter="rejected">Rejected</button>
             </div>
             <div style="display:flex;gap:8px;align-items:center;">
-              <input id="tradeinSearch" class="ctrl-search" type="search" placeholder="Search user, ref #, or method..." style="min-width:240px;" />
+              <input id="tradeinSearch" class="ctrl-search" type="search" placeholder="Search user, ref #, or method..."
+                style="min-width:240px;" />
             </div>
           </div>
 
@@ -718,10 +762,12 @@
           <div class="view-header-bar">
             <div>
               <h2 class="view-title">Platform Earnings &amp; Commission Audit</h2>
-              <p class="view-sub">Comprehensive audit trail of Referral, Indirect, Matching, and Trade-In commissions paid out.</p>
+              <p class="view-sub">Comprehensive audit trail of Referral, Indirect, Matching, and Trade-In commissions
+                paid out.</p>
             </div>
             <div style="text-align:right;">
-              <span class="pill open" style="font-size:12px;padding:6px 14px;font-weight:700;" id="adminTotalEarningsPaid">Total Paid: ₱0.00</span>
+              <span class="pill open" style="font-size:12px;padding:6px 14px;font-weight:700;"
+                id="adminTotalEarningsPaid">Total Paid: ₱0.00</span>
             </div>
           </div>
 
@@ -748,7 +794,8 @@
               </thead>
               <tbody id="adminEarningsTbody">
                 <tr>
-                  <td colspan="6" style="padding:20px;text-align:center" class="muted">Loading earnings audit records...</td>
+                  <td colspan="6" style="padding:20px;text-align:center" class="muted">Loading earnings audit records...
+                  </td>
                 </tr>
               </tbody>
             </table>
@@ -769,16 +816,20 @@
             </div>
             <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
               <span class="tiny muted" id="mopSummaryCount">0 Payment Channels</span>
-              <button id="btnOpenAddMopModal" class="btn btn-mint btn-sm" style="font-weight:700;">＋ Add Payment Method</button>
+              <button id="btnOpenAddMopModal" class="btn btn-mint btn-sm" style="font-weight:700;">＋ Add Payment
+                Method</button>
             </div>
           </div>
 
           <!-- MOP Filter & Notification Bar -->
-          <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;margin-bottom:16px;">
+          <div
+            style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;margin-bottom:16px;">
             <div class="ctrl-tabs" id="mopFilterTabs">
-              <button class="ctrl-tab active" data-mopfilter="all">All Channels (<span id="countMopAll">0</span>)</button>
+              <button class="ctrl-tab active" data-mopfilter="all">All Channels (<span
+                  id="countMopAll">0</span>)</button>
               <button class="ctrl-tab" data-mopfilter="active">Active (<span id="countMopActive">0</span>)</button>
-              <button class="ctrl-tab" data-mopfilter="inactive">Disabled (<span id="countMopInactive">0</span>)</button>
+              <button class="ctrl-tab" data-mopfilter="inactive">Disabled (<span
+                  id="countMopInactive">0</span>)</button>
             </div>
             <div style="font-size:12px;color:var(--muted);">
               💡 <em>Active channels and uploaded QR codes appear on members' Trade-In deposit screens.</em>
@@ -786,7 +837,8 @@
           </div>
 
           <!-- MOP Cards Grid -->
-          <div id="mopCardsGrid" style="display:grid;grid-template-columns:repeat(auto-fill, minmax(320px, 1fr));gap:16px;">
+          <div id="mopCardsGrid"
+            style="display:grid;grid-template-columns:repeat(auto-fill, minmax(320px, 1fr));gap:16px;">
             <div style="padding:28px;text-align:center;color:var(--muted);grid-column:1/-1;">
               Loading payment channels...
             </div>
@@ -804,20 +856,27 @@
             </div>
             <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
               <span class="tiny muted" id="loadWalletSummaryCount">0 Requests</span>
-              <button id="btnRefreshLoadWallet" class="btn btn-mint btn-sm" style="font-weight:700;padding:6px 14px;">🔄 Refresh Orders</button>
+              <button id="btnRefreshLoadWallet" class="btn btn-mint btn-sm" style="font-weight:700;padding:6px 14px;">🔄
+                Refresh Orders</button>
             </div>
           </div>
 
           <!-- Filter Tabs & Search Bar -->
-          <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;margin-bottom:16px;">
+          <div
+            style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;margin-bottom:16px;">
             <div class="ctrl-tabs" id="loadWalletFilterTabs">
-              <button class="ctrl-tab active" data-loadfilter="all">All Orders (<span id="countLoadAll">0</span>)</button>
+              <button class="ctrl-tab active" data-loadfilter="all">All Orders (<span
+                  id="countLoadAll">0</span>)</button>
               <button class="ctrl-tab" data-loadfilter="pending">Pending (<span id="countLoadPending">0</span>)</button>
-              <button class="ctrl-tab" data-loadfilter="approved">Approved (<span id="countLoadApproved">0</span>)</button>
-              <button class="ctrl-tab" data-loadfilter="rejected">Rejected (<span id="countLoadRejected">0</span>)</button>
+              <button class="ctrl-tab" data-loadfilter="approved">Approved (<span
+                  id="countLoadApproved">0</span>)</button>
+              <button class="ctrl-tab" data-loadfilter="rejected">Rejected (<span
+                  id="countLoadRejected">0</span>)</button>
             </div>
             <div style="display:flex;gap:8px;align-items:center;">
-              <input type="text" id="searchLoadWalletInput" class="ctrl-search" placeholder="🔍 Search phone, member, ref#..." style="font-size:12.5px;padding:6px 12px;min-width:240px;" />
+              <input type="text" id="searchLoadWalletInput" class="ctrl-search"
+                placeholder="🔍 Search phone, member, ref#..."
+                style="font-size:12.5px;padding:6px 12px;min-width:240px;" />
             </div>
           </div>
 
@@ -862,36 +921,174 @@
           </div>
 
           <div class="admin-card" style="margin-top:20px;">
-            <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;width:100%;">
+            <div
+              style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;width:100%;">
               <div>
                 <p class="kpi-label" style="font-size:11px;letter-spacing:0.05em;">BINARY MATCHING RULES</p>
-                <p style="margin:2px 0 0;font-size:15px;color:var(--text);font-weight:700;">Global Binary Matching Cap Limit</p>
+                <p style="margin:2px 0 0;font-size:15px;color:var(--text);font-weight:700;">Global Binary Matching Cap
+                  Limit</p>
                 <p class="tiny muted" style="margin:4px 0 0;max-width:550px;">
-                  Set the maximum gross binary pairing earnings limit per activation code. Once reached, account binary matching ceases until code renewal. Direct (₱50) and Indirect (₱5) bonuses are unlimited.
+                  Set the maximum gross binary pairing earnings limit per activation code. Once reached, account binary
+                  matching ceases until code renewal. Direct (₱50) and Indirect (₱5) bonuses are unlimited.
                 </p>
               </div>
-              <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;background:rgba(15,122,69,0.08);padding:12px 18px;border-radius:12px;border:1px solid rgba(15,122,69,0.25);">
+              <div
+                style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;background:rgba(15,122,69,0.08);padding:12px 18px;border-radius:12px;border:1px solid rgba(15,122,69,0.25);">
                 <div>
-                  <span class="tiny muted" style="text-transform:uppercase;font-weight:700;font-size:10.5px;letter-spacing:0.04em;">System Binary Cap</span>
+                  <span class="tiny muted"
+                    style="text-transform:uppercase;font-weight:700;font-size:10.5px;letter-spacing:0.04em;">System
+                    Binary Cap</span>
                   <div style="font-size:18px;font-weight:800;color:var(--jade);">₱3,000.00</div>
                 </div>
-                <span class="badge-tag tag-available" style="font-size:11px;padding:4px 10px;font-weight:700;">Fixed System Rule</span>
+                <span class="badge-tag tag-available" style="font-size:11px;padding:4px 10px;font-weight:700;">Fixed
+                  System Rule</span>
               </div>
             </div>
 
-            <div style="margin-top:20px;padding-top:16px;border-top:1px dashed rgba(15,122,69,0.2);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;">
+            <div
+              style="margin-top:20px;padding-top:16px;border-top:1px dashed rgba(15,122,69,0.2);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;">
               <div>
                 <p style="margin:0;font-size:13px;font-weight:700;color:var(--jade);">Official Mode of Payment (MOP)</p>
                 <p class="tiny muted" style="margin:2px 0 0;" id="homeMopSummary">Loading payment channels...</p>
               </div>
-              <button type="button" class="btn btn-ghost btn-sm" id="btnGoOfficialMop" style="font-size:12px;font-weight:700;">
+              <button type="button" class="btn btn-ghost btn-sm" id="btnGoOfficialMop"
+                style="font-size:12px;font-weight:700;">
                 📲 Manage Official MOP ➔
               </button>
             </div>
           </div>
         </section>
+
+        <!-- Section: Profit Sharing Management -->
+        <section class="admin-view-panel" id="viewProfitSharing">
+          <div class="admin-sec-header"
+            style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;">
+            <div>
+              <h2 class="admin-sec-title">💎 Profit Sharing Pool &amp; Release</h2>
+              <p class="admin-sec-sub">COMMUNITY POOL AUDIT · QUALIFIED MEMBERS &amp; DIVIDEND DISBURSEMENTS</p>
+            </div>
+            <button type="button" class="btn btn-secondary btn-sm" id="btnRefreshProfitSharing"
+              style="font-size:12px;font-weight:700;">
+              🔄 Refresh Pool Data
+            </button>
+          </div>
+
+          <!-- Pool Metrics -->
+          <div class="metrics-row-1" style="margin-top:16px;">
+            <div class="metric-card">
+              <span class="m-label">DISTRIBUTABLE POOL TOTAL</span>
+              <p class="m-val" id="psAdminPoolTotal" style="color:var(--jade);font-size:26px;">₱0.00</p>
+              <span class="m-sub">P20 / activation + 5% trade-in entry</span>
+            </div>
+            <div class="metric-card">
+              <span class="m-label">QUALIFIED MEMBERS</span>
+              <p class="m-val" id="psAdminQualifiedCount">0</p>
+              <span class="m-sub">Members meeting tier rules</span>
+            </div>
+            <div class="metric-card">
+              <span class="m-label">TOTAL QUALIFIED SHARES</span>
+              <p class="m-val" id="psAdminTotalShares" style="color:var(--gold);">0</p>
+              <span class="m-sub">Sum of all qualified shares</span>
+            </div>
+            <div class="metric-card">
+              <span class="m-label">EST. PAYOUT PER SHARE</span>
+              <p class="m-val" id="psAdminRatePerShare" style="color:var(--cyan);">₱0.00</p>
+              <span class="m-sub">Pool ÷ Total Qualified Shares</span>
+            </div>
+          </div>
+
+          <!-- Release Action Card -->
+          <div class="admin-card"
+            style="margin-top:20px;background:linear-gradient(135deg,rgba(46,213,158,0.1) 0%,rgba(14,165,233,0.08) 100%);border:1.5px solid rgba(46,213,158,0.35);">
+            <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;">
+              <div style="max-width:650px;">
+                <p class="kpi-label" style="font-size:11px;letter-spacing:0.06em;color:var(--jade);">ONE-CLICK DIVIDEND
+                  RELEASE</p>
+                <h3 style="margin:2px 0 6px;font-size:18px;color:var(--text);font-weight:800;">Release Profit Sharing
+                  Pool</h3>
+                <p class="tiny muted" style="margin:0;line-height:1.5;">
+                  Distributes 100% of the active profit-sharing pool across all currently qualified members proportional
+                  to their shares. Funds are credited directly to their Profit Sharing Wallet balance with a verifiable
+                  ledger entry.
+                </p>
+              </div>
+              <div>
+                <button type="button" class="btn btn-mint" id="btnReleaseProfitSharing"
+                  style="font-weight:800;font-size:13.5px;padding:12px 20px;border-radius:10px;box-shadow:0 6px 20px rgba(46,213,158,0.35);">
+                  💎 Release Profit Sharing ➔
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Qualified Members List -->
+          <div class="admin-card" style="margin-top:20px;">
+            <div
+              style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:14px;">
+              <div>
+                <h3 style="margin:0;font-size:15px;font-weight:700;">Qualified Members Roster</h3>
+                <p class="tiny muted" style="margin:2px 0 0;">Members currently eligible based on verified income,
+                  direct active accounts, and group sales</p>
+              </div>
+              <span class="badge-tag tag-available" id="psAdminQualifiedBadge">0 Qualified</span>
+            </div>
+
+            <div class="admin-table-panel table-wrap">
+              <table class="admin-table">
+                <thead>
+                  <tr>
+                    <th>Member</th>
+                    <th>Verified Total Income</th>
+                    <th>Direct Active Accounts</th>
+                    <th>Group Trade-In Sales</th>
+                    <th>Active Trade-In</th>
+                    <th>Qualified Shares</th>
+                    <th style="text-align:right;">Est. Payout</th>
+                  </tr>
+                </thead>
+                <tbody id="psAdminQualifiedTbody">
+                  <tr>
+                    <td colspan="7" style="padding:20px;text-align:center" class="muted">Loading qualified members...
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Recent Disbursements History -->
+          <div class="admin-card" style="margin-top:20px;">
+            <div style="margin-bottom:14px;">
+              <h3 style="margin:0;font-size:15px;font-weight:700;">Recent Profit Sharing Disbursements</h3>
+              <p class="tiny muted" style="margin:2px 0 0;">Historical record of profit sharing payouts released by
+                admin</p>
+            </div>
+
+            <div class="admin-table-panel table-wrap">
+              <table class="admin-table">
+                <thead>
+                  <tr>
+                    <th>Batch / Date</th>
+                    <th>Recipient</th>
+                    <th>Shares Held</th>
+                    <th>Rate / Share</th>
+                    <th>Total Disbursed</th>
+                    <th style="text-align:right;">Status</th>
+                  </tr>
+                </thead>
+                <tbody id="psAdminDisbursementsTbody">
+                  <tr>
+                    <td colspan="6" style="padding:20px;text-align:center" class="muted">No disbursement history yet.
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
       </div>
     </div>
+  </div>
 
   <!-- Modal: Add / Edit Official Mode of Payment (MOP) -->
   <div class="plan-modal" id="modalEditMop" hidden>
@@ -910,7 +1107,8 @@
 
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;">
             <div>
-              <label class="tiny muted" style="display:block;font-weight:700;margin-bottom:4px;">PAYMENT PROVIDER / METHOD *</label>
+              <label class="tiny muted" style="display:block;font-weight:700;margin-bottom:4px;">PAYMENT PROVIDER /
+                METHOD *</label>
               <select class="in" id="mopMethodSelect" style="width:100%;font-size:13px;font-weight:600;">
                 <option value="GCash">GCash</option>
                 <option value="Maya">Maya</option>
@@ -924,24 +1122,30 @@
               </select>
             </div>
             <div id="mopCustomMethodWrap" style="display:none;">
-              <label class="tiny muted" style="display:block;font-weight:700;margin-bottom:4px;">CUSTOM METHOD NAME *</label>
-              <input class="in" id="mopCustomMethodInput" placeholder="e.g. RCBC / Coins.ph" style="width:100%;font-size:13px;font-weight:600;" />
+              <label class="tiny muted" style="display:block;font-weight:700;margin-bottom:4px;">CUSTOM METHOD NAME
+                *</label>
+              <input class="in" id="mopCustomMethodInput" placeholder="e.g. RCBC / Coins.ph"
+                style="width:100%;font-size:13px;font-weight:600;" />
             </div>
           </div>
 
           <div style="margin-bottom:12px;">
             <label class="tiny muted" style="display:block;font-weight:700;margin-bottom:4px;">ACCOUNT NAME *</label>
-            <input class="in" id="mopAccountNameInput" placeholder="e.g. Infinite Trading Treasury / Maria Santos" required style="width:100%;font-size:13.5px;font-weight:700;" />
+            <input class="in" id="mopAccountNameInput" placeholder="e.g. Infinite Trading Treasury / Maria Santos"
+              required style="width:100%;font-size:13.5px;font-weight:700;" />
           </div>
 
           <div style="margin-bottom:12px;">
-            <label class="tiny muted" style="display:block;font-weight:700;margin-bottom:4px;">ACCOUNT / MOBILE NUMBER *</label>
-            <input class="in" id="mopAccountNumberInput" placeholder="e.g. 0917 123 4567 or 1092 8472 9182" required style="width:100%;font-size:14px;font-weight:700;letter-spacing:0.04em;" />
+            <label class="tiny muted" style="display:block;font-weight:700;margin-bottom:4px;">ACCOUNT / MOBILE NUMBER
+              *</label>
+            <input class="in" id="mopAccountNumberInput" placeholder="e.g. 0917 123 4567 or 1092 8472 9182" required
+              style="width:100%;font-size:14px;font-weight:700;letter-spacing:0.04em;" />
           </div>
 
           <!-- QR Code Upload Dropzone -->
           <div style="margin-bottom:12px;">
-            <label class="tiny muted" style="display:block;font-weight:700;margin-bottom:4px;">OFFICIAL QR CODE IMAGE (CLICK OR DRAG TO UPLOAD)</label>
+            <label class="tiny muted" style="display:block;font-weight:700;margin-bottom:4px;">OFFICIAL QR CODE IMAGE
+              (CLICK OR DRAG TO UPLOAD)</label>
             <input type="file" id="mopQrInput" accept="image/*" style="display:none;" />
             <div class="receipt-dropzone" id="mopQrDropzone" style="margin:4px 0 8px;cursor:pointer;">
               <span class="receipt-drop-icon">📲</span>
@@ -950,23 +1154,33 @@
             </div>
             <!-- Preview Box -->
             <div id="mopQrPreviewBox" class="receipt-preview-box" style="display:none;">
-              <img src="" id="mopQrPreviewImg" class="receipt-preview-img" alt="QR Preview" style="width:68px;height:68px;object-fit:contain;background:#fff;border-radius:8px;border:1px solid #ddd;cursor:pointer;" title="Click to zoom in lightbox" />
+              <img src="" id="mopQrPreviewImg" class="receipt-preview-img" alt="QR Preview"
+                style="width:68px;height:68px;object-fit:contain;background:#fff;border-radius:8px;border:1px solid #ddd;cursor:pointer;"
+                title="Click to zoom in lightbox" />
               <div style="flex:1;min-width:0;">
-                <p id="mopQrFileName" style="font-size:12px;font-weight:700;margin:0;color:var(--text);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">QR_Code.png</p>
+                <p id="mopQrFileName"
+                  style="font-size:12px;font-weight:700;margin:0;color:var(--text);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">
+                  QR_Code.png</p>
                 <p id="mopQrFileSize" class="tiny muted" style="margin:2px 0 0;">Attached</p>
               </div>
-              <button type="button" class="btn btn-ghost btn-sm" id="btnRemoveMopQr" style="color:#ef4444;font-size:11px;">✕ Remove</button>
+              <button type="button" class="btn btn-ghost btn-sm" id="btnRemoveMopQr"
+                style="color:#ef4444;font-size:11px;">✕ Remove</button>
             </div>
           </div>
 
           <div style="margin-bottom:14px;">
-            <label class="tiny muted" style="display:block;font-weight:700;margin-bottom:4px;">PAYMENT INSTRUCTIONS / NOTES</label>
-            <textarea class="in" id="mopInstructionsInput" rows="2" placeholder="e.g. Scan the QR code or send payment to this number. Make sure the reference number is clear in your screenshot." style="width:100%;font-size:12.5px;resize:vertical;"></textarea>
+            <label class="tiny muted" style="display:block;font-weight:700;margin-bottom:4px;">PAYMENT INSTRUCTIONS /
+              NOTES</label>
+            <textarea class="in" id="mopInstructionsInput" rows="2"
+              placeholder="e.g. Scan the QR code or send payment to this number. Make sure the reference number is clear in your screenshot."
+              style="width:100%;font-size:12.5px;resize:vertical;"></textarea>
           </div>
 
-          <div style="display:flex;gap:16px;margin-bottom:16px;padding:10px 14px;background:var(--bg2);border-radius:10px;border:1px solid var(--line);">
+          <div
+            style="display:flex;gap:16px;margin-bottom:16px;padding:10px 14px;background:var(--bg2);border-radius:10px;border:1px solid var(--line);">
             <label style="display:flex;align-items:center;gap:6px;font-size:12.5px;font-weight:700;cursor:pointer;">
-              <input type="checkbox" id="mopIsActiveCheck" checked style="width:16px;height:16px;accent-color:var(--jade);" />
+              <input type="checkbox" id="mopIsActiveCheck" checked
+                style="width:16px;height:16px;accent-color:var(--jade);" />
               <span>Active Channel (Visible to Members)</span>
             </label>
             <label style="display:flex;align-items:center;gap:6px;font-size:12.5px;font-weight:700;cursor:pointer;">
@@ -1004,17 +1218,21 @@
               <button type="button" class="depth-btn" data-depth="4">4L</button>
               <button type="button" class="depth-btn" data-depth="5">5L</button>
             </div>
-            <button type="button" class="btn btn-secondary btn-sm" id="btnAdminGenealogyUp" style="padding:5px 10px;font-size:11.5px;font-weight:700;">
+            <button type="button" class="btn btn-secondary btn-sm" id="btnAdminGenealogyUp"
+              style="padding:5px 10px;font-size:11.5px;font-weight:700;">
               ⬆ Up 1 Level
             </button>
-            <button type="button" class="btn btn-secondary btn-sm" id="btnAdminGenealogyRoot" style="padding:5px 10px;font-size:11.5px;font-weight:700;">
+            <button type="button" class="btn btn-secondary btn-sm" id="btnAdminGenealogyRoot"
+              style="padding:5px 10px;font-size:11.5px;font-weight:700;">
               🏠 Target Root
             </button>
           </div>
         </div>
         <div class="genealogy-canvas-wrap" id="adminGenealogyContainer" style="min-height:300px;"></div>
-        <div style="margin-top:12px;padding:8px 12px;background:var(--bg2);border:1px solid var(--line);border-radius:10px;font-size:11px;color:var(--muted);">
-          💡 <strong>Tip:</strong> Click any member node to drill down and explore their subtree &amp; spilled accounts. Click <strong>+ Encode Slot</strong> on any open slot to place a member.
+        <div
+          style="margin-top:12px;padding:8px 12px;background:var(--bg2);border:1px solid var(--line);border-radius:10px;font-size:11px;color:var(--muted);">
+          💡 <strong>Tip:</strong> Click any member node to drill down and explore their subtree &amp; spilled accounts.
+          Click <strong>+ Encode Slot</strong> on any open slot to place a member.
         </div>
       </div>
     </div>
@@ -1036,13 +1254,17 @@
           <input type="hidden" id="admActUserIdInput" value="" />
 
           <!-- Target Member Info Banner -->
-          <div style="background:rgba(46,213,158,0.1);border:1.5px solid rgba(46,213,158,0.25);border-radius:12px;padding:12px 14px;margin-bottom:14px;">
+          <div
+            style="background:rgba(46,213,158,0.1);border:1.5px solid rgba(46,213,158,0.25);border-radius:12px;padding:12px 14px;margin-bottom:14px;">
             <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;">
               <div>
                 <span class="tiny muted" style="font-weight:700;display:block;">MEMBER TO ACTIVATE</span>
                 <div style="display:flex;align-items:center;gap:6px;margin-top:2px;">
-                  <strong id="admActUserMobileText" style="font-size:16px;color:var(--text);letter-spacing:0.02em;">—</strong>
-                  <span id="admActUserRoleTag" class="badge-tag" style="background:rgba(14,165,233,0.18);color:#38bdf8;border:1px solid rgba(14,165,233,0.3);font-weight:800;font-size:9.5px;">Inactive Member</span>
+                  <strong id="admActUserMobileText"
+                    style="font-size:16px;color:var(--text);letter-spacing:0.02em;">—</strong>
+                  <span id="admActUserRoleTag" class="badge-tag"
+                    style="background:rgba(14,165,233,0.18);color:#38bdf8;border:1px solid rgba(14,165,233,0.3);font-weight:800;font-size:9.5px;">Inactive
+                    Member</span>
                 </div>
               </div>
               <div style="text-align:right;">
@@ -1052,8 +1274,10 @@
             </div>
 
             <!-- Inactive User Selector (Visible when launched from Tree or when multiple exist) -->
-            <div id="admActMemberSelectWrap" style="display:none;margin-top:10px;padding-top:10px;border-top:1px dashed rgba(15,122,69,0.2);">
-              <label class="tiny muted" style="display:block;font-weight:700;margin-bottom:4px;">CHOOSE INACTIVE MEMBER TO PLACE *</label>
+            <div id="admActMemberSelectWrap"
+              style="display:none;margin-top:10px;padding-top:10px;border-top:1px dashed rgba(15,122,69,0.2);">
+              <label class="tiny muted" style="display:block;font-weight:700;margin-bottom:4px;">CHOOSE INACTIVE MEMBER
+                TO PLACE *</label>
               <select id="admActMemberDropdown" class="in" style="width:100%;font-size:13px;font-weight:700;">
                 <option value="">-- Choose member --</option>
               </select>
@@ -1066,7 +1290,8 @@
               BINARY TREE PLACEMENT MODE *
             </label>
             <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px;">
-              <label class="placement-mode-card active" id="cardPlaceAuto" style="cursor:pointer;border:2px solid var(--jade);background:rgba(15,122,69,0.08);border-radius:10px;padding:10px 12px;display:flex;align-items:center;gap:8px;">
+              <label class="placement-mode-card active" id="cardPlaceAuto"
+                style="cursor:pointer;border:2px solid var(--jade);background:rgba(15,122,69,0.08);border-radius:10px;padding:10px 12px;display:flex;align-items:center;gap:8px;">
                 <input type="radio" name="admPlacementMode" value="auto" checked style="accent-color:var(--jade);" />
                 <div>
                   <strong style="font-size:12.5px;display:block;color:var(--text);">⚡ Auto-Placement</strong>
@@ -1074,7 +1299,8 @@
                 </div>
               </label>
 
-              <label class="placement-mode-card" id="cardPlaceManual" style="cursor:pointer;border:2px solid var(--line);background:var(--bg2);border-radius:10px;padding:10px 12px;display:flex;align-items:center;gap:8px;">
+              <label class="placement-mode-card" id="cardPlaceManual"
+                style="cursor:pointer;border:2px solid var(--line);background:var(--bg2);border-radius:10px;padding:10px 12px;display:flex;align-items:center;gap:8px;">
                 <input type="radio" name="admPlacementMode" value="manual" style="accent-color:var(--jade);" />
                 <div>
                   <strong style="font-size:12.5px;display:block;color:var(--text);">🎯 Specific Slot</strong>
@@ -1084,14 +1310,18 @@
             </div>
 
             <!-- Manual Parent & Leg Fields (Toggled) -->
-            <div id="admManualPlacementFields" style="display:none;background:var(--bg2);border:1px solid var(--line);border-radius:10px;padding:12px;margin-top:8px;">
+            <div id="admManualPlacementFields"
+              style="display:none;background:var(--bg2);border:1px solid var(--line);border-radius:10px;padding:12px;margin-top:8px;">
               <div style="display:grid;grid-template-columns:2fr 1fr;gap:10px;">
                 <div>
-                  <label class="tiny muted" style="display:block;font-weight:700;margin-bottom:4px;">PLACEMENT PARENT (UPLINE) *</label>
-                  <input type="text" id="admActParentMobileInput" class="in" placeholder="Username or Mobile" style="width:100%;font-size:13px;font-weight:700;" />
+                  <label class="tiny muted" style="display:block;font-weight:700;margin-bottom:4px;">PLACEMENT PARENT
+                    (UPLINE) *</label>
+                  <input type="text" id="admActParentMobileInput" class="in" placeholder="Username or Mobile"
+                    style="width:100%;font-size:13px;font-weight:700;" />
                 </div>
                 <div>
-                  <label class="tiny muted" style="display:block;font-weight:700;margin-bottom:4px;">LEG POSITION *</label>
+                  <label class="tiny muted" style="display:block;font-weight:700;margin-bottom:4px;">LEG POSITION
+                    *</label>
                   <select id="admActPositionSelect" class="in" style="width:100%;font-size:13px;font-weight:700;">
                     <option value="L">LEFT (L)</option>
                     <option value="R">RIGHT (R)</option>
@@ -1108,16 +1338,21 @@
             </label>
             <div style="background:var(--bg2);border:1px solid var(--line);border-radius:10px;padding:12px;">
               <label style="display:flex;align-items:center;gap:8px;cursor:pointer;margin-bottom:8px;">
-                <input type="checkbox" id="admActAutoCodeCheck" checked style="accent-color:var(--jade);transform:scale(1.2);" />
+                <input type="checkbox" id="admActAutoCodeCheck" checked
+                  style="accent-color:var(--jade);transform:scale(1.2);" />
                 <div>
                   <strong style="font-size:13px;color:var(--text);">✨ Auto-generate &amp; apply new Admin Code</strong>
-                  <span class="tiny muted" style="display:block;font-size:11px;">System will automatically mint and consume an authentic 8-character activation code.</span>
+                  <span class="tiny muted" style="display:block;font-size:11px;">System will automatically mint and
+                    consume an authentic 8-character activation code.</span>
                 </div>
               </label>
 
-              <div id="admActCustomCodeWrap" style="display:none;margin-top:8px;padding-top:8px;border-top:1px dashed var(--line);">
-                <label class="tiny muted" style="display:block;font-weight:700;margin-bottom:4px;">ENTER CODE FROM VAULT</label>
-                <input type="text" id="admActCustomCodeInput" class="in" placeholder="8-CHAR CODE" maxlength="12" style="width:100%;text-transform:uppercase;font-family:ui-monospace,monospace;font-weight:800;letter-spacing:0.06em;" />
+              <div id="admActCustomCodeWrap"
+                style="display:none;margin-top:8px;padding-top:8px;border-top:1px dashed var(--line);">
+                <label class="tiny muted" style="display:block;font-weight:700;margin-bottom:4px;">ENTER CODE FROM
+                  VAULT</label>
+                <input type="text" id="admActCustomCodeInput" class="in" placeholder="8-CHAR CODE" maxlength="12"
+                  style="width:100%;text-transform:uppercase;font-family:ui-monospace,monospace;font-weight:800;letter-spacing:0.06em;" />
               </div>
             </div>
           </div>
@@ -1126,6 +1361,41 @@
             style="width:100%;font-size:14.5px;font-weight:800;padding:13px;border-radius:10px;box-shadow:0 4px 16px rgba(15,122,69,0.35);">
             ⚡ Activate Account &amp; Place in Tree ➔
           </button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: Admin Change User Password -->
+  <div class="plan-modal" id="modalAdminChangePassword" hidden>
+    <div class="plan-modal-backdrop" data-close-admin-pwd></div>
+    <div class="plan-modal-sheet" style="max-width:440px;">
+      <header class="plan-modal-head">
+        <div>
+          <p class="kicker">Security Control</p>
+          <h2 style="font-size:20px;margin:2px 0 0;">🔑 Change User Password</h2>
+        </div>
+        <button class="plan-close" type="button" data-close-admin-pwd>×</button>
+      </header>
+      <div class="plan-modal-body" style="padding:16px 22px 24px;">
+        <form id="formAdminChangePassword" style="margin-top:0;">
+          <input type="hidden" id="adminPwdUserId" />
+          <div style="margin-bottom:12px;">
+            <label class="tiny muted" style="display:block;font-weight:700;margin-bottom:4px;">TARGET MEMBER</label>
+            <input type="text" id="adminPwdUserName" class="in" readonly
+              style="width:100%;font-weight:700;opacity:0.85;background:var(--bg2);" />
+          </div>
+          <div style="margin-bottom:18px;">
+            <label class="tiny muted" style="display:block;font-weight:700;margin-bottom:4px;">NEW PASSWORD * (MIN 6
+              CHARACTERS)</label>
+            <input type="password" id="adminPwdNew" class="in" placeholder="Enter new password" minlength="6" required
+              style="width:100%;font-size:14px;font-weight:600;" />
+          </div>
+          <div style="display:flex;gap:8px;justify-content:flex-end;">
+            <button type="button" class="btn btn-secondary btn-sm" data-close-admin-pwd>Cancel</button>
+            <button type="submit" class="btn btn-mint btn-sm" id="btnAdminSubmitPwd" style="font-weight:800;">Save
+              Password ➔</button>
+          </div>
         </form>
       </div>
     </div>
@@ -1142,7 +1412,8 @@
         </div>
       </div>
       <div class="confirm-body">
-        <div id="confirmModalSummary" style="font-size:13px;color:var(--text);margin-bottom:12px;line-height:1.5;"></div>
+        <div id="confirmModalSummary" style="font-size:13px;color:var(--text);margin-bottom:12px;line-height:1.5;">
+        </div>
         <table class="confirm-details-table" id="confirmModalTable" style="display:none;">
           <tbody id="confirmModalTableBody"></tbody>
         </table>
@@ -1160,12 +1431,20 @@
       <div class="receipt-lightbox-head">
         <div style="display:flex;align-items:center;gap:8px;min-width:0;flex:1;">
           <span style="font-size:18px;">🧾</span>
-          <strong id="receiptLightboxTitle" style="font-size:13.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">Receipt Inspection</strong>
+          <strong id="receiptLightboxTitle"
+            style="font-size:13.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">Receipt
+            Inspection</strong>
         </div>
         <div style="display:flex;align-items:center;gap:6px;">
-          <button type="button" class="btn btn-ghost btn-sm" id="btnZoomToggleReceipt" style="padding:4px 8px;font-size:11px;color:#a7f3d0;border:1px solid rgba(167,243,208,0.3);">🔍 Zoom</button>
-          <button type="button" class="btn btn-ghost btn-sm" id="btnFullSizeReceipt" style="padding:4px 8px;font-size:11px;color:#a7f3d0;border:1px solid rgba(167,243,208,0.3);">↗ Full Screen</button>
-          <button type="button" class="plan-close" id="btnCloseReceiptLightbox" style="background:none;border:none;color:#fff;font-size:22px;cursor:pointer;line-height:1;" aria-label="Close">×</button>
+          <button type="button" class="btn btn-ghost btn-sm" id="btnZoomToggleReceipt"
+            style="padding:4px 8px;font-size:11px;color:#a7f3d0;border:1px solid rgba(167,243,208,0.3);">🔍
+            Zoom</button>
+          <button type="button" class="btn btn-ghost btn-sm" id="btnFullSizeReceipt"
+            style="padding:4px 8px;font-size:11px;color:#a7f3d0;border:1px solid rgba(167,243,208,0.3);">↗ Full
+            Screen</button>
+          <button type="button" class="plan-close" id="btnCloseReceiptLightbox"
+            style="background:none;border:none;color:#fff;font-size:22px;cursor:pointer;line-height:1;"
+            aria-label="Close">×</button>
         </div>
       </div>
       <div class="receipt-lightbox-body" id="receiptLightboxBody">
@@ -1619,6 +1898,7 @@
       viewEarningsHistory: 'EARNINGS AUDIT',
       viewMop: 'OFFICIAL MOP CHANNELS',
       viewLoadWallet: 'BUY LOAD WALLET REQUESTS',
+      viewProfitSharing: 'PROFIT SHARING POOL & RELEASE',
       viewSettings: 'SYSTEM SETTINGS',
     };
 
@@ -1665,7 +1945,7 @@
         if (updateHistory && window.location.hash !== '#' + targetId) {
           window.history.replaceState(null, '', '#' + targetId);
         }
-      } catch (e) {}
+      } catch (e) { }
 
       if (targetId === 'viewEarningsHistory') {
         loadAdminEarningsHistory('all');
@@ -1677,6 +1957,10 @@
 
       if (targetId === 'viewLoadWallet') {
         fetchAndRenderAdminLoadWallet();
+      }
+
+      if (targetId === 'viewProfitSharing') {
+        loadAdminProfitSharing();
       }
 
       if (window.innerWidth <= 900) {
@@ -2542,7 +2826,7 @@
       else if (currentLoadWalletFilter === 'rejected') list = list.filter(r => r.status === 'rejected');
 
       if (q) {
-        list = list.filter(r => 
+        list = list.filter(r =>
           String(r.id).includes(q) ||
           (r.phone_number && r.phone_number.toLowerCase().includes(q)) ||
           (r.username && r.username.toLowerCase().includes(q)) ||
@@ -2674,9 +2958,9 @@
                   <span class="admin-mob-card-label">Method / Type</span>
                   <span class="admin-mob-card-val">
                     ${r.is_welcome_claim
-                      ? `<span class="badge-tag tag-welcome" style="font-size:9.5px;">🎁 WELCOME CLAIM</span>`
-                      : `<span class="badge-tag tag-available" style="font-size:9.5px;">${esc(r.payment_method || 'GCash')}</span>`
-                    }
+              ? `<span class="badge-tag tag-welcome" style="font-size:9.5px;">🎁 WELCOME CLAIM</span>`
+              : `<span class="badge-tag tag-available" style="font-size:9.5px;">${esc(r.payment_method || 'GCash')}</span>`
+            }
                   </span>
                 </div>
                 <div class="admin-mob-card-field">
@@ -2903,6 +3187,7 @@
         const roleBadge = u.role === 'admin' ? ' <span class="badge-tag" style="background:rgba(46,213,158,0.18);color:var(--jade);border:1px solid rgba(46,213,158,0.35);font-size:9.5px;padding:1px 5px;">Admin</span>' : '';
         const sponsorText = u.sponsor_mobile ? esc(u.sponsor_mobile) : '<span class="muted">—</span>';
         const treeBtn = '<button type="button" data-tree-user-id="' + u.id + '" class="btn btn-ghost btn-sm" style="padding:3px 8px;font-size:11px;" title="View Genealogy Tree">🌳 Tree</button>';
+        const pwdBtn = '<button type="button" data-pwd-id="' + u.id + '" data-pwd-user="' + esc(u.username || u.mobile_number) + '" class="btn btn-ghost btn-sm" style="padding:3px 8px;font-size:11px;" title="Change User Password">🔑 Pwd</button>';
         const deleteBtn = u.role === 'admin'
           ? '<span class="tiny muted" style="padding:4px 6px;font-weight:700;">Protected</span>'
           : '<button data-del-id="' + u.id + '" data-del-mobile="' + esc(u.mobile_number) + '" class="btn-admin-del" style="padding:3px 8px;font-size:11px;">Delete</button>' +
@@ -2914,26 +3199,28 @@
         return '<tr>' +
           '<td><strong style="color:var(--jade);font-size:13px;">#' + u.id + '</strong></td>' +
           '<td>' +
-            '<div style="font-weight:700;font-size:13px;display:flex;align-items:center;gap:6px;">' + esc(u.mobile_number) + roleBadge + '</div>' +
-            '<div class="tiny muted" style="margin-top:2px;">Joined ' + fmtDate(u.created_at) + '</div>' +
+          '<div style="font-weight:700;font-size:13px;display:flex;align-items:center;gap:6px;">' + esc(u.mobile_number) + roleBadge + '</div>' +
+          '<div class="tiny muted" style="margin-top:2px;">Joined ' + fmtDate(u.created_at) + '</div>' +
           '</td>' +
           '<td><div style="display:flex;align-items:center;gap:4px;flex-wrap:wrap;">' + statusBadge + adminDirectTag + '</div></td>' +
           '<td>' +
-            '<div style="font-weight:600;font-size:12.5px;">' + sponsorText + '</div>' +
-            '<div class="tiny muted" style="margin-top:2px;">Directs: <strong>' + (u.directs || 0) + '</strong></div>' +
+          '<div style="font-weight:600;font-size:12.5px;">' + sponsorText + '</div>' +
+          '<div class="tiny muted" style="margin-top:2px;">Directs: <strong>' + (u.directs || 0) + '</strong></div>' +
           '</td>' +
-          '<td><span style="color:var(--jade);font-weight:800;font-size:13.5px;">' + peso(u.total_binary_earnings) + '</span></td>' +
+          '<td><strong style="color:var(--jade);font-weight:800;font-size:13px;">' + peso(u.active_trade_in || 0) + '</strong></td>' +
+          '<td><span style="color:var(--cyan);font-weight:700;font-size:13px;">' + peso(u.group_sale_trade_in || 0) + '</span></td>' +
           '<td>' +
-            '<div class="tiny" style="display:flex;flex-direction:column;gap:2px;font-family:ui-monospace,monospace;">' +
-              '<span class="muted">Bin Ref: <strong style="color:var(--text);">' + peso(u.binary_ref_balance) + '</strong></span>' +
-              '<span class="muted">Trade Ref: <strong style="color:var(--text);">' + peso(u.tradein_ref_balance) + '</strong></span>' +
-              '<span class="muted">Cycle: <strong style="color:var(--text);">' + peso(u.tradein_cycle_balance) + '</strong></span>' +
-            '</div>' +
+          '<div class="tiny" style="display:flex;flex-direction:column;gap:2px;font-family:ui-monospace,monospace;">' +
+          '<span class="muted">Bin Ref: <strong style="color:var(--text);">' + peso(u.binary_ref_balance) + '</strong></span>' +
+          '<span class="muted">Trade Ref: <strong style="color:var(--text);">' + peso(u.tradein_ref_balance) + '</strong></span>' +
+          '<span class="muted">Cycle: <strong style="color:var(--text);">' + peso(u.tradein_cycle_balance) + '</strong></span>' +
+          '<span class="muted">PS Bal: <strong style="color:var(--jade);">' + peso(u.profit_sharing_balance || 0) + '</strong></span>' +
+          '</div>' +
           '</td>' +
           '<td style="text-align:right;">' +
-            '<div style="display:inline-flex;align-items:center;gap:5px;justify-content:flex-end;flex-wrap:nowrap;">' +
-              activateBtn + treeBtn + deleteBtn +
-            '</div>' +
+          '<div style="display:inline-flex;align-items:center;gap:4px;justify-content:flex-end;flex-wrap:nowrap;">' +
+          activateBtn + pwdBtn + treeBtn + deleteBtn +
+          '</div>' +
           '</td>' +
           '</tr>';
       }).join('');
@@ -2959,6 +3246,7 @@
             ? `<button type="button" data-act-id="${u.id}" data-act-mobile="${esc(u.mobile_number)}" data-act-sponsor="${esc(u.sponsor_mobile || 'Admin')}" class="btn btn-mint btn-sm" style="flex:1;padding:6px 10px;font-size:11px;font-weight:800;">⚡ Activate</button>`
             : '';
           const treeBtn = '<button type="button" data-tree-user-id="' + u.id + '" class="btn btn-ghost btn-sm" style="flex:1;padding:6px 10px;font-size:11px;">🌳 Tree</button>';
+          const mobPwdBtn = '<button type="button" data-pwd-id="' + u.id + '" data-pwd-user="' + esc(u.username || u.mobile_number) + '" class="btn btn-ghost btn-sm" style="flex:1;padding:6px 10px;font-size:11px;">🔑 Pwd</button>';
           const deleteBtn = u.role === 'admin'
             ? '<span class="tiny muted" style="padding:6px;">Protected</span>'
             : '<button data-del-id="' + u.id + '" data-del-mobile="' + esc(u.mobile_number) + '" class="btn-admin-del" style="flex:1;padding:6px 10px;font-size:11px;">Delete</button>' +
@@ -2989,16 +3277,16 @@
                   <span class="admin-mob-card-val"><strong>${u.directs || 0}</strong></span>
                 </div>
                 <div class="admin-mob-card-field">
-                  <span class="admin-mob-card-label">Binary Earned</span>
-                  <span class="admin-mob-card-val" style="color:var(--jade);font-weight:700;">${peso(u.total_binary_earnings)}</span>
+                  <span class="admin-mob-card-label">Active Trade-In</span>
+                  <span class="admin-mob-card-val" style="color:var(--jade);font-weight:700;">${peso(u.active_trade_in || 0)}</span>
+                </div>
+                <div class="admin-mob-card-field">
+                  <span class="admin-mob-card-label">Group Sale Trade-In</span>
+                  <span class="admin-mob-card-val" style="color:var(--cyan);font-weight:700;">${peso(u.group_sale_trade_in || 0)}</span>
                 </div>
                 <div class="admin-mob-card-field">
                   <span class="admin-mob-card-label">Binary Ref Bal</span>
                   <span class="admin-mob-card-val">${peso(u.binary_ref_balance)}</span>
-                </div>
-                <div class="admin-mob-card-field">
-                  <span class="admin-mob-card-label">Trade-In Ref Bal</span>
-                  <span class="admin-mob-card-val">${peso(u.tradein_ref_balance)}</span>
                 </div>
                 <div class="admin-mob-card-field">
                   <span class="admin-mob-card-label">Cycle Yield Bal</span>
@@ -3007,6 +3295,7 @@
               </div>
               <div class="admin-mob-card-actions">
                 ${mobActivateBtn}
+                ${mobPwdBtn}
                 ${treeBtn}
                 ${deleteBtn}
               </div>
@@ -3022,6 +3311,12 @@
             mobile: btn.dataset.actMobile,
             sponsor: btn.dataset.actSponsor
           });
+        };
+      });
+
+      document.querySelectorAll('button[data-pwd-id]').forEach((btn) => {
+        btn.onclick = () => {
+          openAdminChangePasswordModal(btn.dataset.pwdId, btn.dataset.pwdUser);
         };
       });
 
@@ -3261,6 +3556,196 @@
         btn.disabled = false;
         btn.textContent = '⚡ Activate Account & Place in Tree ➔';
       }
+    });
+
+    // Admin Change User Password Modal Logic
+    function openAdminChangePasswordModal(userId, username) {
+      const modal = document.getElementById('modalAdminChangePassword');
+      if (!modal) return;
+      document.getElementById('adminPwdUserId').value = userId;
+      document.getElementById('adminPwdUserName').value = `${username || ''} (#${userId})`;
+      document.getElementById('adminPwdNew').value = '';
+      modal.hidden = false;
+      document.body.classList.add('modal-open');
+      setTimeout(() => document.getElementById('adminPwdNew')?.focus(), 50);
+    }
+
+    function closeAdminChangePasswordModal() {
+      const modal = document.getElementById('modalAdminChangePassword');
+      if (modal) modal.hidden = true;
+      document.body.classList.remove('modal-open');
+    }
+
+    document.querySelectorAll('[data-close-admin-pwd]').forEach(el => {
+      el.addEventListener('click', closeAdminChangePasswordModal);
+    });
+
+    document.getElementById('formAdminChangePassword')?.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const userId = document.getElementById('adminPwdUserId')?.value;
+      const newPassword = document.getElementById('adminPwdNew')?.value;
+      const btn = document.getElementById('btnAdminSubmitPwd');
+      if (!userId || !newPassword) return;
+      if (newPassword.length < 6) {
+        flash('Password must be at least 6 characters.');
+        return;
+      }
+      try {
+        if (btn) { btn.disabled = true; btn.textContent = 'Saving...'; }
+        await api(`/api/admin/users/${userId}/password`, {
+          method: 'POST',
+          body: JSON.stringify({ new_password: newPassword }),
+        });
+        flash('Password updated successfully for member #' + userId, true);
+        closeAdminChangePasswordModal();
+      } catch (err) {
+        flash(err.message || 'Failed to update password.');
+      } finally {
+        if (btn) { btn.disabled = false; btn.textContent = 'Save Password ➔'; }
+      }
+    });
+
+    // Profit Sharing Admin Logic
+    let globalProfitSharing = null;
+
+    async function loadAdminProfitSharing() {
+      try {
+        const data = await api('/api/admin/profit-sharing');
+        globalProfitSharing = data;
+        renderAdminProfitSharing(data);
+      } catch (e) {
+        console.error('Failed to load profit sharing data:', e);
+      }
+    }
+
+    function renderAdminProfitSharing(data) {
+      if (!data) return;
+      const pool = Number(data.pool_total || 0);
+      const totalShares = Number(data.total_qualified_shares || 0);
+      const rate = totalShares > 0 ? (pool / totalShares) : 0;
+      const qualified = data.qualified_members || [];
+      const disbursements = data.recent_disbursements || [];
+
+      const poolEl = document.getElementById('psAdminPoolTotal');
+      if (poolEl) poolEl.textContent = peso(pool);
+
+      const countEl = document.getElementById('psAdminQualifiedCount');
+      if (countEl) countEl.textContent = qualified.length;
+
+      const badgeEl = document.getElementById('psAdminQualifiedBadge');
+      if (badgeEl) badgeEl.textContent = `${qualified.length} Qualified`;
+
+      const sharesEl = document.getElementById('psAdminTotalShares');
+      if (sharesEl) sharesEl.textContent = `${totalShares} Share${totalShares === 1 ? '' : 's'}`;
+
+      const rateEl = document.getElementById('psAdminRatePerShare');
+      if (rateEl) rateEl.textContent = totalShares > 0 ? `${peso(rate)} / share` : '₱0.00 / share';
+
+      // Render Qualified Members Table
+      const qTbody = document.getElementById('psAdminQualifiedTbody');
+      if (qTbody) {
+        if (!qualified.length) {
+          qTbody.innerHTML = '<tr><td colspan="7" style="padding:20px;text-align:center" class="muted">No members have qualified for profit sharing yet.</td></tr>';
+        } else {
+          qTbody.innerHTML = qualified.map((q, idx) => {
+            const estPayout = totalShares > 0 ? (q.shares * rate) : 0;
+            return `
+              <tr>
+                <td>
+                  <div style="font-weight:700;font-size:13.5px;color:var(--text);">
+                    <strong style="color:var(--jade);">#${q.user_id}</strong> ${esc(q.username)}
+                  </div>
+                  <span class="tiny muted">Rank #${idx + 1} Qualified</span>
+                </td>
+                <td><strong style="color:var(--jade);">${peso(q.verified_income)}</strong></td>
+                <td><strong style="color:var(--text);">${q.direct_active_accounts}</strong> active</td>
+                <td><span style="color:var(--cyan);font-weight:700;">${peso(q.group_sale_trade_in)}</span></td>
+                <td><span style="color:var(--text);font-weight:600;">${peso(q.active_trade_in)}</span></td>
+                <td>
+                  <span class="badge-tag tag-available" style="font-size:12px;font-weight:800;padding:3px 10px;">
+                    ⭐ ${q.shares} ${q.shares === 1 ? 'Share' : 'Shares'}
+                  </span>
+                </td>
+                <td style="text-align:right;">
+                  <strong style="color:var(--jade);font-size:14px;">${peso(estPayout)}</strong>
+                </td>
+              </tr>
+            `;
+          }).join('');
+        }
+      }
+
+      // Render Recent Disbursements Table
+      const dTbody = document.getElementById('psAdminDisbursementsTbody');
+      if (dTbody) {
+        if (!disbursements.length) {
+          dTbody.innerHTML = '<tr><td colspan="6" style="padding:20px;text-align:center" class="muted">No past dividend disbursements recorded yet.</td></tr>';
+        } else {
+          dTbody.innerHTML = disbursements.map((d) => `
+            <tr>
+              <td>
+                <span style="font-family:ui-monospace,monospace;font-size:11.5px;color:var(--cyan);font-weight:700;">${esc(d.batch_id || '—')}</span>
+                <div class="tiny muted">${fmtDate(d.created_at)}</div>
+              </td>
+              <td>
+                <strong>#${d.user_id}</strong> ${esc(d.username || '—')}
+              </td>
+              <td><span class="badge-tag tag-maya" style="font-size:11px;">${d.shares} Share(s)</span></td>
+              <td><span class="tiny muted">${peso(d.rate_per_share)}</span></td>
+              <td><strong style="color:var(--jade);font-size:13px;">${peso(d.amount)}</strong></td>
+              <td style="text-align:right;">
+                <span class="badge-tag tag-active" style="font-size:10.5px;">✓ Credited</span>
+              </td>
+            </tr>
+          `).join('');
+        }
+      }
+    }
+
+    document.getElementById('btnRefreshProfitSharing')?.addEventListener('click', () => {
+      loadAdminProfitSharing();
+      flash('Profit sharing pool refreshed.', true);
+    });
+
+    document.getElementById('btnReleaseProfitSharing')?.addEventListener('click', () => {
+      if (!globalProfitSharing) return;
+      const pool = Number(globalProfitSharing.pool_total || 0);
+      const totalShares = Number(globalProfitSharing.total_qualified_shares || 0);
+      const qualified = globalProfitSharing.qualified_members || [];
+
+      if (pool <= 0) {
+        flash('Profit sharing pool is currently empty.');
+        return;
+      }
+      if (!qualified.length || totalShares <= 0) {
+        flash('No qualified members currently eligible to receive profit sharing.');
+        return;
+      }
+
+      showAdminConfirm({
+        title: 'Release Profit Sharing Dividends',
+        subtitle: 'Disburse pool proportionally across all qualified members.',
+        icon: '💎',
+        summary: `You are about to release the full available pool of <strong>${peso(pool)}</strong> to <strong>${qualified.length} qualified member(s)</strong> (${totalShares} total shares). This action immediately credits their wallets.`,
+        details: [
+          { label: 'Pool Amount', val: peso(pool), highlight: true },
+          { label: 'Qualified Members', val: String(qualified.length) },
+          { label: 'Total Shares', val: String(totalShares) },
+          { label: 'Rate Per Share', val: `${peso(pool / totalShares)} / share` },
+        ],
+        confirmText: 'Confirm & Disburse Dividends ➔',
+        confirmClass: 'btn-mint',
+        onConfirm: async () => {
+          try {
+            const res = await api('/api/admin/profit-sharing/release', { method: 'POST' });
+            flash(`Successfully disbursed ${peso(res.pool_released)} across ${res.payouts?.length || 0} members!`, true);
+            loadAdminProfitSharing();
+            refreshAll();
+          } catch (err) {
+            flash(err.message || 'Failed to release profit sharing dividends.');
+          }
+        }
+      });
     });
 
     function renderCodes() {
@@ -3576,7 +4061,7 @@
 
         const actions = isPending
           ? `<button type="button" class="btn-admin-action btn-admin-approve" data-tradein-approve="${p.id}" data-pkg-user="${esc(p.mobile_number)}" data-pkg-cap="${p.capital}" style="margin-right:6px;">✓ Approve</button>` +
-            `<button type="button" class="btn-admin-action btn-admin-reject" data-tradein-reject="${p.id}" data-pkg-user="${esc(p.mobile_number)}">✕ Reject</button>`
+          `<button type="button" class="btn-admin-action btn-admin-reject" data-tradein-reject="${p.id}" data-pkg-user="${esc(p.mobile_number)}">✕ Reject</button>`
           : `<span class="tiny muted">${esc(p.cycle_status)}</span>`;
 
         return `<tr>
@@ -4495,6 +4980,7 @@
         renderAdminMops();
         renderAdminLoadWallet();
         updateLoadWalletBadges();
+        loadAdminProfitSharing();
       } catch (err) {
         flash(err.message);
       }
