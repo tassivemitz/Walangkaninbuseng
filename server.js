@@ -156,6 +156,7 @@ function publicUser(userId, data = db.getStore()) {
   const identifier = u.username || u.mobile_number;
   const sponsorUser = t.sponsor_id ? data.users.find((x) => x.id === t.sponsor_id) : null;
   const sponsorName = sponsorUser ? (sponsorUser.username || sponsorUser.mobile_number) : 'Admin';
+  const qual = db.getProfitShareQualification(userId, data);
   return {
     id: u.id,
     username: identifier,
@@ -178,6 +179,11 @@ function publicUser(userId, data = db.getStore()) {
     load_wallet_claimed: Boolean(u.load_wallet_claimed),
     load_wallet_claimed_at: u.load_wallet_claimed_at || null,
     load_wallet_claim_info: u.load_wallet_claim_info || null,
+    verified_income: qual.verified_income,
+    group_sale_trade_in: qual.group_sale_trade_in,
+    direct_active_accounts: qual.direct_active_accounts,
+    active_trade_in: qual.active_trade_in,
+    profit_shares: qual.shares,
   };
 }
 
