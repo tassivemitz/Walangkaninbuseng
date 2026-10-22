@@ -54,7 +54,7 @@ let queue = Promise.resolve();
 function getActiveTradeInAmount(userId, data = store) {
   return money(
     (data.tradein_packages || [])
-      .filter((p) => Number(p.user_id) === Number(userId) && p.cycle_status === 'active')
+      .filter((p) => Number(p.user_id) === Number(userId) && p.cycle_status === 'active' && !p.rolled_over_package_id)
       .reduce((sum, p) => sum + Number(p.capital || 0), 0)
   );
 }

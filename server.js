@@ -526,11 +526,24 @@ function payTradeinReferrals(data, buyerId, capital, packageId = null) {
   }
 }
 
+function isRolloverTradein(pkg) {
+  return Boolean(pkg && (pkg.is_rollover || pkg.rolled_from_package_id));
+}
+
+function tradeinOccupiesSlot(pkg) {
+  if (!pkg) return false;
+  if (pkg.cycle_status !== 'active' && pkg.cycle_status !== 'pending') return false;
+  // Source package that already submitted a rollover no longer uses a slot.
+  if (pkg.rolled_over_package_id) return false;
+  return true;
+}
+
 function getPackageCycleInfo(pkg) {
   const isCompleted = pkg.cycle_status === 'completed';
   const totalPayouts = TRADEIN_PAYOUTS; // 4 cycles
   const completed = Number(pkg.payouts_completed || 0);
   const installment = money(Number(pkg.total_return || (pkg.capital * TRADEIN_ROI)) / totalPayouts);
+  const capitalRolledOver = Boolean(pkg.capital_rolled_over);
 
   if (pkg.cycle_status !== 'active' && !isCompleted) {
     return {
@@ -549,7 +562,15 @@ function getPackageCycleInfo(pkg) {
       next_payout_date: null,
       next_payout_in_hours: null,
       cycle_start_date: null,
-      status_label: pkg.cycle_status === 'pending' ? 'Pending Approval' : 'Inactive',
+      rollover_required: false,
+      can_rollover: false,
+      rollover_pending: false,
+      rollover_capital: money(pkg.capital),
+      capital_rolled_over: capitalRolledOver,
+      is_rollover: isRolloverTradein(pkg),
+      status_label: pkg.cycle_status === 'pending'
+        ? (isRolloverTradein(pkg) ? 'Rollover Pending Approval' : 'Pending Approval')
+        : 'Inactive',
     };
   }
 
@@ -585,15 +606,17 @@ function getPackageCycleInfo(pkg) {
   if (isCycleMatured) {
     const readyCycle = completed + 1;
     const isFinalCycle = readyCycle >= totalPayouts;
+    const rolloverPending = isFinalCycle && Boolean(pkg.rolled_over_package_id) && !capitalRolledOver;
+    const rolloverRequired = isFinalCycle && !capitalRolledOver;
     return {
       current_cycle: readyCycle,
       total_cycles: totalPayouts,
       payouts_completed: completed,
       is_completed: false,
-      is_paused: !isFinalCycle,
-      can_claim: true,
-      claimable_payouts: 1,
-      claimable_amount: installment,
+      is_paused: !isFinalCycle || rolloverRequired,
+      can_claim: !rolloverRequired,
+      claimable_payouts: rolloverRequired ? 0 : 1,
+      claimable_amount: rolloverRequired ? 0 : installment,
       installment_amount: installment,
       elapsed_days: Math.round(((completed * TRADEIN_PAYOUT_EVERY) + TRADEIN_PAYOUT_EVERY) * 10) / 10,
       total_days: TRADEIN_DAYS,
@@ -601,10 +624,19 @@ function getPackageCycleInfo(pkg) {
       next_payout_date: null,
       next_payout_in_hours: 0,
       cycle_start_date: currentCycleStartIso,
-      rollover_required: false,
-      status_label: isFinalCycle
-        ? 'Cycle 4 Ready to Claim — no rollover required'
-        : `Cycle ${readyCycle} Ready to Claim! (Cycle ${readyCycle + 1} Paused)`,
+      rollover_required: rolloverRequired,
+      can_rollover: isFinalCycle && !pkg.rolled_over_package_id && !capitalRolledOver,
+      rollover_pending: rolloverPending,
+      rollover_capital: money(pkg.capital),
+      capital_rolled_over: capitalRolledOver,
+      is_rollover: isRolloverTradein(pkg),
+      status_label: rolloverPending
+        ? 'Cycle 4 Ready — rollover pending admin approval'
+        : rolloverRequired
+          ? 'Cycle 4 Ready — roll over full capital to claim'
+          : isFinalCycle
+            ? 'Cycle 4 Ready to Claim'
+            : `Cycle ${readyCycle} Ready to Claim! (Cycle ${readyCycle + 1} Paused)`,
     };
   }
 
@@ -631,6 +663,12 @@ function getPackageCycleInfo(pkg) {
     next_payout_date: nextPayoutDate,
     next_payout_in_hours: remainingHours,
     cycle_start_date: currentCycleStartIso,
+    rollover_required: false,
+    can_rollover: completed === totalPayouts - 1 && !pkg.rolled_over_package_id && !capitalRolledOver,
+    rollover_pending: completed === totalPayouts - 1 && Boolean(pkg.rolled_over_package_id) && !capitalRolledOver,
+    rollover_capital: money(pkg.capital),
+    capital_rolled_over: capitalRolledOver,
+    is_rollover: isRolloverTradein(pkg),
     status_label: `Cycle ${completed + 1} Running (${remainingHours}h remaining)`,
   };
 }
@@ -1160,9 +1198,7 @@ app.get('/api/dashboard', auth, async (req, res) => {
 
   // Trade-In active capital and slots capacity
   const maxTradeinSlots = Number(data.settings && data.settings.max_tradein_slots) || MAX_TRADEIN_SLOTS;
-  const occupiedTradeinCount = packages.filter(
-    (p) => p.cycle_status === 'active' || p.cycle_status === 'pending'
-  ).length;
+  const occupiedTradeinCount = packages.filter((p) => tradeinOccupiesSlot(p)).length;
   const availableTradeinSlots = Math.max(0, maxTradeinSlots - occupiedTradeinCount);
 
   const total_tradein_deposit = packages
@@ -1181,6 +1217,7 @@ app.get('/api/dashboard', auth, async (req, res) => {
 
   const enrichedPackages = packages.map((p) => ({
     ...p,
+    occupies_slot: tradeinOccupiesSlot(p),
     cycle_info: getPackageCycleInfo(p),
   }));
 
@@ -1366,7 +1403,7 @@ app.post('/api/tradein/purchase', auth, async (req, res) => {
 
       const maxSlots = Number(data.settings && data.settings.max_tradein_slots) || MAX_TRADEIN_SLOTS;
       const occupied = data.tradein_packages.filter(
-        (p) => p.user_id === req.user.id && (p.cycle_status === 'active' || p.cycle_status === 'pending')
+        (p) => p.user_id === req.user.id && tradeinOccupiesSlot(p)
       );
       if (occupied.length >= maxSlots) {
         const err = new Error(`Trade-In Slots Full: You have reached the maximum capacity of ${maxSlots} active trade-in slots. Please complete an existing 4-cycle package before opening a new slot.`);
@@ -1423,6 +1460,16 @@ app.post('/api/tradein/claim/:id', auth, async (req, res) => {
       }
 
       const cycleInfo = getPackageCycleInfo(pkg);
+      if (cycleInfo.rollover_pending) {
+        const err = new Error('Your rollover is waiting for admin approval. Cycle 4 can be claimed after the rollover is approved.');
+        err.status = 400;
+        throw err;
+      }
+      if (cycleInfo.rollover_required) {
+        const err = new Error(`Roll over the full capital of ₱${money(pkg.capital).toLocaleString('en-PH')} and wait for admin approval before claiming Cycle 4.`);
+        err.status = 400;
+        throw err;
+      }
       if (!cycleInfo.can_claim || cycleInfo.claimable_amount <= 0) {
         const remainingHours = cycleInfo.next_payout_in_hours !== null ? ` (next payout in ~${cycleInfo.next_payout_in_hours}h)` : '';
         const err = new Error(`Payout for Cycle ${Number(pkg.payouts_completed || 0) + 1} is not yet ready to claim${remainingHours}. Each cycle takes 3 full days.`);
@@ -1455,7 +1502,6 @@ app.post('/api/tradein/claim/:id', auth, async (req, res) => {
       if (pkg.payouts_completed >= TRADEIN_PAYOUTS) {
         pkg.cycle_status = 'completed';
         pkg.completed_at = nowIso();
-        // 4th cycle: funds can be claimed with no rollover into a new package.
       } else {
         // STRICT PAUSED CYCLE RULE:
         // THE NEXT 3-DAY CYCLE COUNTDOWN STARTS RIGHT HERE, ONLY AFTER CLAIMING!
@@ -1474,6 +1520,101 @@ app.post('/api/tradein/claim/:id', auth, async (req, res) => {
     if (err.status) return res.status(err.status).json({ error: err.message });
     console.error(err);
     res.status(500).json({ error: 'Failed to claim trade-in payout.' });
+  }
+});
+
+// Roll over full package capital into a new cycle (required before Cycle 4 claim)
+app.post('/api/tradein/rollover/:id', auth, async (req, res) => {
+  const id = Number(req.params.id);
+  if (!id) return res.status(400).json({ error: 'Invalid package ID.' });
+
+  try {
+    const result = await db.tx((data) => {
+      const pkg = data.tradein_packages.find((p) => p.id === id);
+      if (!pkg) {
+        const err = new Error('Trade-in package not found.');
+        err.status = 404;
+        throw err;
+      }
+      if (Number(pkg.user_id) !== Number(req.user.id) && req.user.role !== 'admin') {
+        const err = new Error('Access denied.');
+        err.status = 403;
+        throw err;
+      }
+      if (pkg.cycle_status !== 'active') {
+        const err = new Error(`Package is ${pkg.cycle_status}, capital cannot be rolled over.`);
+        err.status = 400;
+        throw err;
+      }
+      if (pkg.capital_rolled_over) {
+        const err = new Error('Full capital has already been rolled over for this package.');
+        err.status = 400;
+        throw err;
+      }
+      if (pkg.rolled_over_package_id) {
+        const pending = data.tradein_packages.find((p) => p.id === pkg.rolled_over_package_id);
+        if (pending && pending.cycle_status === 'pending') {
+          const err = new Error('A rollover is already pending admin approval for this package.');
+          err.status = 400;
+          throw err;
+        }
+        const err = new Error('Full capital has already been rolled over for this package.');
+        err.status = 400;
+        throw err;
+      }
+      const completed = Number(pkg.payouts_completed || 0);
+      if (completed !== TRADEIN_PAYOUTS - 1) {
+        const err = new Error(`Rollover is only available on Cycle 4 (after claiming Cycle ${TRADEIN_PAYOUTS - 1}). Currently at ${completed}/${TRADEIN_PAYOUTS} payouts claimed.`);
+        err.status = 400;
+        throw err;
+      }
+
+      const receipt_url = req.body.receipt_url || req.body.receipt_image || req.body.receipt || req.body.proof_image || req.body.receiptSrc || null;
+      if (!receipt_url) {
+        const err = new Error('Upload a payment receipt to submit this rollover.');
+        err.status = 400;
+        throw err;
+      }
+      const ref_number = String(req.body.ref_number || '').trim();
+      const payment_method = String(req.body.payment_method || 'GCash').trim() || 'GCash';
+
+      const capital = money(pkg.capital);
+      const now = nowIso();
+      const rolled = db.insert('tradein_packages', {
+        user_id: pkg.user_id,
+        capital,
+        total_return: money(capital * TRADEIN_ROI),
+        start_date: null,
+        cycle_start_date: null,
+        cycle_status: 'pending',
+        payouts_completed: 0,
+        is_rollover: true,
+        rolled_from_package_id: pkg.id,
+        payment_method,
+        ref_number,
+        receipt_url,
+        receipt_image: receipt_url,
+        created_at: now,
+      });
+
+      pkg.rolled_over_package_id = rolled.id;
+      pkg.rollover_submitted_at = now;
+
+      const buyer = data.users.find((u) => u.id === pkg.user_id);
+      if (buyer) db.syncUserDownlineFields(buyer, data);
+
+      return {
+        package: { ...pkg, cycle_info: getPackageCycleInfo(pkg) },
+        rolled_package: { ...rolled, cycle_info: getPackageCycleInfo(rolled) },
+        rolled_capital: capital,
+      };
+    });
+
+    res.json({ ok: true, ...result });
+  } catch (err) {
+    if (err.status) return res.status(err.status).json({ error: err.message });
+    console.error(err);
+    res.status(500).json({ error: 'Failed to roll over trade-in capital.' });
   }
 });
 
@@ -2274,6 +2415,14 @@ app.post('/api/admin/tradein/:id/approve', auth, adminOnly, async (req, res) => 
       p.cycle_start_date = nowIso(); // Initialize Cycle 1 countdown timer
       p.payouts_completed = 0;
       p.approved_at = nowIso();
+      if (isRolloverTradein(p) && p.rolled_from_package_id) {
+        const source = data.tradein_packages.find((x) => x.id === p.rolled_from_package_id);
+        if (source) {
+          source.capital_rolled_over = true;
+          source.rolled_over_at = nowIso();
+          source.rolled_over_package_id = p.id;
+        }
+      }
       payTradeinReferrals(data, p.user_id, p.capital, p.id);
       db.ingestTradeinEntryPool(data, p.capital);
       const buyer = data.users.find((u) => u.id === p.user_id);
@@ -2308,6 +2457,13 @@ app.post('/api/admin/tradein/:id/reject', auth, adminOnly, async (req, res) => {
       p.rejected_at = nowIso();
       p.reject_reason = reason || 'Payment could not be verified.';
       p.rejection_reason = p.reject_reason;
+      if (isRolloverTradein(p) && p.rolled_from_package_id) {
+        const source = data.tradein_packages.find((x) => x.id === p.rolled_from_package_id);
+        if (source && source.rolled_over_package_id === p.id && !source.capital_rolled_over) {
+          source.rolled_over_package_id = null;
+          source.rollover_submitted_at = null;
+        }
+      }
       return p;
     });
     res.json({ ok: true, package: pkg });

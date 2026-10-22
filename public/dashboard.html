@@ -3046,7 +3046,7 @@
       }
 
       if (elGrid) {
-        const activePkgs = d.packages.filter(p => p.cycle_status === 'active' || p.cycle_status === 'pending');
+        const activePkgs = d.packages.filter(p => p.occupies_slot || ((p.cycle_status === 'active' || p.cycle_status === 'pending') && !p.rolled_over_package_id));
         let slotsHtml = '';
         for (let i = 0; i < slots.max; i++) {
           const pkg = activePkgs[i];
@@ -3102,8 +3102,16 @@
             next_payout_in_hours: 0,
           };
 
+          const isRolloverPkg = Boolean(p.is_rollover || p.rolled_from_package_id);
+          const rolloverLabel = isRolloverPkg
+            ? `<span class="badge-tag tag-rollover">🔁 Rollover</span>`
+            : '';
           const statusClass = isActive ? (ci.can_claim ? 'badge-tag tag-maya' : 'open') : isCompleted ? 'open' : isPending ? 'badge-tag tag-available' : 'closed';
-          const statusLabel = isPending ? '⏳ Pending Verification' : isActive ? (ci.can_claim ? '🎁 Payout Ready to Claim' : `Active · Cycle ${(p.payouts_completed || 0) + 1}/4`) : isCompleted ? '✓ Completed' : '✕ Rejected';
+          const statusLabel = isPending
+            ? (isRolloverPkg ? '⏳ Rollover Pending Approval' : '⏳ Pending Verification')
+            : isActive
+              ? (ci.can_claim ? '🎁 Payout Ready to Claim' : `Active · Cycle ${(p.payouts_completed || 0) + 1}/4`)
+              : isCompleted ? '✓ Completed' : '✕ Rejected';
 
           const receiptBtn = (p.receipt_image || p.receipt_url)
             ? `<button type="button" class="receipt-view-btn" data-tradein-receipt-pkg="${p.id}" style="margin-top:6px;">🧾 View Receipt</button>`
@@ -3138,7 +3146,69 @@
           // Payout Actions & Strict Paused State Alert
           let actionHtml = '';
           if (isActive) {
-            if (ci.can_claim) {
+            const needsRollover = Boolean(ci.can_rollover) && !p.capital_rolled_over && !p.rolled_over_package_id;
+            const rolloverAmt = ci.rollover_capital || p.capital;
+            if (ci.rollover_pending) {
+              actionHtml = `
+                  <div style="margin-top:12px;padding-top:12px;border-top:1px dashed rgba(15,122,69,0.25);">
+                    <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;">
+                      <span class="badge-tag tag-rollover">🔁 Rollover Submitted</span>
+                      <span class="pill" style="font-weight:700;font-size:11px;background:rgba(245,166,35,0.16);color:#fbbf24;">Waiting for admin approval</span>
+                    </div>
+                    <div class="tradein-paused-alert">
+                      <span>⏸️ Cycle 4 claim stays locked until admin approves your <strong>Rollover</strong> of <strong>${peso(rolloverAmt)}</strong> in Trade-In.</span>
+                    </div>
+                  </div>
+                `;
+            } else if (needsRollover) {
+              actionHtml = `
+                  <div style="margin-top:12px;padding-top:12px;border-top:1px dashed rgba(15,122,69,0.25);">
+                    <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-bottom:10px;">
+                      <span class="badge-tag tag-rollover">🔁 Rollover Required</span>
+                      <span class="pill" style="font-weight:700;font-size:11px;background:rgba(245,166,35,0.16);color:#fbbf24;">Cycle 4 claim locked</span>
+                    </div>
+                    <div class="tradein-paused-alert" style="margin-bottom:10px;">
+                      <span>⏸️ Upload a receipt to roll over the full capital of <strong>${peso(rolloverAmt)}</strong>. Cycle 4 (${peso(ci.installment_amount || 0)}) unlocks only after admin approval.</span>
+                    </div>
+                    <div class="rollover-submit-box">
+                      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px;">
+                        <div>
+                          <label class="tiny muted" style="display:block;font-weight:700;margin-bottom:4px;">PAYMENT METHOD</label>
+                          <select class="in rollover-method" data-rollover-pkg="${p.id}" style="width:100%;font-size:13px;font-weight:600;">
+                            <option value="GCash">GCash</option>
+                            <option value="Maya">Maya</option>
+                            <option value="GoTyme">GoTyme</option>
+                            <option value="MariBank">MariBank</option>
+                            <option value="UnionBank">UnionBank</option>
+                          </select>
+                        </div>
+                        <div>
+                          <label class="tiny muted" style="display:block;font-weight:700;margin-bottom:4px;">REF / TRANSACTION NO.</label>
+                          <input class="in rollover-ref" data-rollover-pkg="${p.id}" placeholder="e.g. 1002 9948 1234" style="width:100%;font-size:13px;font-weight:600;" />
+                        </div>
+                      </div>
+                      <label class="tiny muted" style="display:block;font-weight:700;margin-bottom:4px;">ATTACH ROLLOVER RECEIPT *</label>
+                      <div class="receipt-dropzone rollover-dropzone" data-rollover-pkg="${p.id}">
+                        <input type="file" class="rollover-receipt-input" data-rollover-pkg="${p.id}" accept="image/*" style="display:none;" />
+                        <span class="receipt-drop-icon">🧾</span>
+                        <p class="receipt-drop-title">Tap to upload rollover receipt</p>
+                        <p class="receipt-drop-hint">PNG, JPG, JPEG, WEBP (Max 15MB)</p>
+                      </div>
+                      <div class="receipt-preview-box rollover-preview" data-rollover-pkg="${p.id}" style="display:none;">
+                        <img src="" class="receipt-preview-img rollover-preview-img" data-rollover-pkg="${p.id}" alt="Rollover receipt preview" />
+                        <div class="receipt-preview-meta">
+                          <p class="receipt-preview-filename rollover-preview-name">receipt.png</p>
+                          <p class="receipt-preview-size rollover-preview-size">0 KB</p>
+                        </div>
+                        <button type="button" class="receipt-remove-btn rollover-receipt-remove" data-rollover-pkg="${p.id}">✕ Remove</button>
+                      </div>
+                      <button type="button" class="tradein-claim-btn-glowing tradein-rollover-btn" data-rollover-pkg="${p.id}" data-rollover-amt="${rolloverAmt}" style="width:100%;justify-content:center;margin-top:10px;">
+                        🔁 Submit Rollover (${peso(rolloverAmt)}) ➔
+                      </button>
+                    </div>
+                  </div>
+                `;
+            } else if (ci.can_claim) {
               actionHtml = `
                   <div style="margin-top:12px;padding-top:12px;border-top:1px dashed rgba(15,122,69,0.25);">
                     <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;">
@@ -3149,7 +3219,7 @@
                     </div>
                     <div class="tradein-paused-alert">
                       ${(p.payouts_completed || 0) === 3
-                  ? `<span>✨ <strong>Cycle 4 (Final Cycle):</strong> Claim <strong>${peso(ci.claimable_amount)}</strong> now. No rollover is required before claiming this final cycle.</span>`
+                  ? `<span>✨ <strong>Cycle 4 (Final Cycle):</strong> Rollover approved. Claim <strong>${peso(ci.claimable_amount)}</strong> now.</span>`
                   : `<span>⏸️ <strong>Action Required:</strong> Cycle ${(p.payouts_completed || 0) + 2 <= 4 ? (p.payouts_completed || 0) + 2 : ''} countdown is <strong>PAUSED</strong> until you claim. Claim now to receive <strong>${peso(ci.claimable_amount)}</strong> into your cashout wallet and start the next 3-day cycle!</span>`
                 }
                     </div>
@@ -3181,6 +3251,7 @@
                       <span style="color:var(--muted);font-size:12px;">➔</span>
                       <span style="color:var(--jade);font-weight:800;font-size:15px;">${peso(p.total_return)}</span>
                       ${methodTag}
+                      ${rolloverLabel}
                     </div>
                     <p class="tiny" style="margin:4px 0 0;color:var(--muted);">
                       Status: <strong style="color:var(--text);">${esc(p.cycle_status)}</strong> · Payouts Claimed: <strong>${p.payouts_completed || 0}/4</strong> ${refTag}
@@ -3246,6 +3317,118 @@
               } finally {
                 btn.disabled = false;
                 btn.textContent = `🎁 Claim Payout (${peso(claimAmt)})`;
+              }
+            }
+          });
+        };
+      });
+
+      const rolloverReceipts = {};
+      document.querySelectorAll('#packagesList .rollover-dropzone').forEach(zone => {
+        const pkgId = zone.dataset.rolloverPkg;
+        const input = zone.querySelector('.rollover-receipt-input');
+        zone.onclick = () => input && input.click();
+        if (input) {
+          input.onclick = (e) => e.stopPropagation();
+          input.onchange = async () => {
+            const file = input.files && input.files[0];
+            if (!file) return;
+            if (!file.type.startsWith('image/')) {
+              toast('Please select an image file (PNG, JPG, WEBP).');
+              return;
+            }
+            try {
+              const compressed = await compressReceiptImage(file);
+              rolloverReceipts[pkgId] = { name: file.name, size: compressed.size, base64: compressed.base64 };
+            } catch (err) {
+              const reader = new FileReader();
+              await new Promise((resolve) => {
+                reader.onload = (e) => {
+                  rolloverReceipts[pkgId] = {
+                    name: file.name,
+                    size: (file.size / 1024).toFixed(1) + ' KB',
+                    base64: e.target.result
+                  };
+                  resolve();
+                };
+                reader.readAsDataURL(file);
+              });
+            }
+            const preview = document.querySelector(`#packagesList .rollover-preview[data-rollover-pkg="${pkgId}"]`);
+            const img = preview && preview.querySelector('.rollover-preview-img');
+            const nameEl = preview && preview.querySelector('.rollover-preview-name');
+            const sizeEl = preview && preview.querySelector('.rollover-preview-size');
+            if (img) img.src = rolloverReceipts[pkgId].base64;
+            if (nameEl) nameEl.textContent = rolloverReceipts[pkgId].name;
+            if (sizeEl) sizeEl.textContent = rolloverReceipts[pkgId].size;
+            zone.style.display = 'none';
+            if (preview) preview.style.display = 'flex';
+          };
+        }
+      });
+      document.querySelectorAll('#packagesList .rollover-receipt-remove').forEach(btn => {
+        btn.onclick = (e) => {
+          e.stopPropagation();
+          const pkgId = btn.dataset.rolloverPkg;
+          delete rolloverReceipts[pkgId];
+          const zone = document.querySelector(`#packagesList .rollover-dropzone[data-rollover-pkg="${pkgId}"]`);
+          const preview = document.querySelector(`#packagesList .rollover-preview[data-rollover-pkg="${pkgId}"]`);
+          const input = document.querySelector(`#packagesList .rollover-receipt-input[data-rollover-pkg="${pkgId}"]`);
+          if (input) input.value = '';
+          if (preview) preview.style.display = 'none';
+          if (zone) zone.style.display = 'block';
+        };
+      });
+      document.querySelectorAll('#packagesList .tradein-rollover-btn').forEach(btn => {
+        btn.onclick = () => {
+          const pkgId = btn.dataset.rolloverPkg;
+          const rollAmt = Number(btn.dataset.rolloverAmt || 0);
+          const receipt = rolloverReceipts[pkgId];
+          const methodEl = document.querySelector(`#packagesList .rollover-method[data-rollover-pkg="${pkgId}"]`);
+          const refEl = document.querySelector(`#packagesList .rollover-ref[data-rollover-pkg="${pkgId}"]`);
+          if (!receipt || !receipt.base64) {
+            toast('Upload a rollover receipt first.');
+            return;
+          }
+
+          showConfirmPopup({
+            title: 'Submit Capital Rollover',
+            subtitle: 'This creates a pending Trade-In rollover. Cycle 4 claim unlocks only after admin approval.',
+            icon: '🔁',
+            details: [
+              { label: 'Type', val: 'Rollover' },
+              { label: 'Source Package', val: '#' + pkgId },
+              { label: 'Rollover Capital', val: peso(rollAmt), highlight: true },
+              { label: 'Payment Method', val: methodEl ? methodEl.value : 'GCash' },
+              { label: 'Ref Number', val: refEl && refEl.value.trim() ? refEl.value.trim() : '—' }
+            ],
+            confirmText: 'Submit for Approval ➔',
+            confirmClass: 'btn-mint',
+            onConfirm: async () => {
+              btn.disabled = true;
+              btn.textContent = 'Submitting...';
+              try {
+                const res = await fetch(`/api/tradein/rollover/${pkgId}`, {
+                  method: 'POST',
+                  headers,
+                  body: JSON.stringify({
+                    payment_method: methodEl ? methodEl.value : 'GCash',
+                    ref_number: refEl ? refEl.value.trim() : '',
+                    receipt_image: receipt.base64,
+                  }),
+                });
+                const data = await res.json();
+                if (!res.ok) {
+                  toast(data.error || 'Rollover failed.');
+                  return;
+                }
+                toast(`🔁 Rollover of ${peso(data.rolled_capital)} submitted. Cycle 4 claim unlocks after admin approval.`, true);
+                load();
+              } catch (err) {
+                toast(err.message || 'Rollover error.');
+              } finally {
+                btn.disabled = false;
+                btn.textContent = `🔁 Submit Rollover (${peso(rollAmt)}) ➔`;
               }
             }
           });
