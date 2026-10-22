@@ -9,10 +9,10 @@
     content="Infinite Trading — Join the Binary Program with a ₱399 entry, or invest in the Trade-In Program for 120% ROI in 12 days. Earn referral commissions on 4 levels." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&display=swap"
+  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap"
     rel="stylesheet" />
   <script src="/theme.js"></script>
-  <link rel="stylesheet" href="/styles.css?v=20260927fixscroll" />
+  <link rel="stylesheet" href="/styles.css?v=20261022landv2" />
   <link rel="manifest" href="/manifest.json" />
   <meta name="theme-color" content="#131a22" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -91,14 +91,48 @@
           </div>
         </div>
 
-        <!-- Centered Hero Title -->
         <div class="hero-centered-content reveal d2">
+          <p class="kicker">HYBRID BINARY + TRADE-IN PLATFORM</p>
           <h1 class="hero-title text-center">
             Building Your Future,<br>
             <span class="gradient-text">Beyond Limits.</span>
           </h1>
+          <p class="hero-lede">Start with a ₱399 binary code, or grow capital with 120% Trade-In return in 12 days.
+            Pairing bonuses, referral commissions, and cashout to GCash, Maya, and banks.</p>
+          <div class="hero-cta-row">
+            <a href="/register.html" class="btn btn-primary-glow btn-lg">
+              <span>Get Started — ₱399</span>
+              <span class="btn-arrow">➔</span>
+            </a>
+            <a href="#calculator" class="btn btn-ghost btn-lg">Try ROI Calculator</a>
+          </div>
+          <div class="hero-kpi-row">
+            <div class="hero-kpi">
+              <b data-count="399" data-prefix="₱">₱399</b>
+              <span>Binary entry</span>
+            </div>
+            <div class="hero-kpi">
+              <b data-count="120" data-suffix="%">120%</b>
+              <span>12-day Trade-In</span>
+            </div>
+            <div class="hero-kpi">
+              <b data-count="50" data-prefix="₱">₱50</b>
+              <span>Per pairing match</span>
+            </div>
+            <div class="hero-kpi">
+              <b data-count="100" data-prefix="₱">₱100</b>
+              <span>Min. cashout</span>
+            </div>
+          </div>
         </div>
 
+        <div class="hero-live-ticker reveal d3" aria-live="polite">
+          <span class="live-stream-badge"><span class="live-indicator"></span> LIVE</span>
+          <div class="live-stream-content">
+            <span class="stream-msg" id="streamMessage">0917***892 earned ₱50 pairing bonus in Binary Tree</span>
+            <span class="stream-time" id="streamTime">Just now</span>
+          </div>
+        </div>
       </div>
     </section>
 
@@ -113,7 +147,7 @@
 
       <div class="dual-track-grid">
         <!-- Track 1: Binary Matrix -->
-        <article class="panel card track-card reveal d1">
+        <article class="panel card track-card reveal d1" data-program="binary" tabindex="0">
           <div class="track-header">
             <div class="track-icon-wrap icon-binary">
               <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -170,7 +204,7 @@
         </article>
 
         <!-- Track 2: Trade-In Capital Yield -->
-        <article class="panel card track-card track-card-featured reveal d2">
+        <article class="panel card track-card track-card-featured reveal d2 is-picked" data-program="tradein" tabindex="0">
           <div class="featured-ribbon">POPULAR &amp; PASSIVE</div>
           <div class="track-header">
             <div class="track-icon-wrap icon-tradein">
@@ -270,7 +304,7 @@
                 <div class="preset-buttons">
                   <button type="button" class="btn-preset" data-preset="1000">₱1,000</button>
                   <button type="button" class="btn-preset" data-preset="3000">₱3,000</button>
-                  <button type="button" class="btn-preset active" data-preset="5000">Most Popular: ₱5,000 (chosen by 68% of starters)</button>
+                  <button type="button" class="btn-preset active" data-preset="5000">₱5,000 <span class="preset-hot">Popular</span></button>
                   <button type="button" class="btn-preset" data-preset="10000">₱10,000</button>
                   <button type="button" class="btn-preset" data-preset="20000">₱20,000</button>
                   <button type="button" class="btn-preset" data-preset="50000">₱50,000</button>
@@ -629,57 +663,71 @@
       </div>
 
       <div class="gateways-grid reveal">
-        <div class="gateway-card">
-          <img src="/images/GCash.png" alt="GCash" class="gw-logo" />
+        <button type="button" class="gateway-card is-active" data-channel="GCash">
+          <img src="/images/GCash.png" alt="" class="gw-logo" />
           <span class="gw-name">GCash</span>
           <span class="gw-badge">Instant E-Wallet</span>
-        </div>
-        <div class="gateway-card">
-          <img src="/images/Maya.png" alt="Maya" class="gw-logo" />
+        </button>
+        <button type="button" class="gateway-card" data-channel="Maya">
+          <img src="/images/Maya.png" alt="" class="gw-logo" />
           <span class="gw-name">Maya</span>
           <span class="gw-badge">Digital Bank</span>
-        </div>
-        <div class="gateway-card">
-          <img src="/images/Gotyme.png" alt="GoTyme Bank" class="gw-logo" />
+        </button>
+        <button type="button" class="gateway-card" data-channel="GoTyme Bank">
+          <img src="/images/Gotyme.png" alt="" class="gw-logo" />
           <span class="gw-name">GoTyme Bank</span>
           <span class="gw-badge">Fast Settlement</span>
-        </div>
-        <div class="gateway-card">
-          <img src="/images/Maribank.png" alt="MariBank" class="gw-logo" />
+        </button>
+        <button type="button" class="gateway-card" data-channel="MariBank">
+          <img src="/images/Maribank.png" alt="" class="gw-logo" />
           <span class="gw-name">MariBank</span>
           <span class="gw-badge">Zero Hassle</span>
-        </div>
-        <div class="gateway-card">
-          <img src="/images/UnionBank.png" alt="UnionBank" class="gw-logo" />
+        </button>
+        <button type="button" class="gateway-card" data-channel="UnionBank">
+          <img src="/images/UnionBank.png" alt="" class="gw-logo" />
           <span class="gw-name">UnionBank</span>
           <span class="gw-badge">Commercial Bank</span>
-        </div>
-      </div>
-
-      <div class="as-seen-in reveal">
-        <p class="as-seen-in-label">As featured in:</p>
-        <div class="as-seen-in-logos">
-          <span class="as-seen-in-item">PhilStar</span>
-          <span class="as-seen-in-item">ABS-CBN Business</span>
-          <span class="as-seen-in-item">Manila Bulletin</span>
-          <span class="as-seen-in-item">BusinessWorld</span>
-          <span class="as-seen-in-item">CNN Philippines</span>
-        </div>
+        </button>
       </div>
 
       <div class="panel card fee-tier-panel reveal">
+        <div class="cashout-playground">
+          <div class="cashout-playground-head">
+            <p class="kicker" style="margin:0;">LIVE CASHOUT PREVIEW</p>
+            <p class="cashout-hint">Pick a channel, drag the amount, and see your net payout instantly.</p>
+          </div>
+          <div class="cashout-amount-row">
+            <label for="cashoutSlider">Withdrawal amount</label>
+            <span class="calc-value-pill" id="cashoutAmount">₱5,000</span>
+          </div>
+          <input type="range" id="cashoutSlider" class="custom-range" min="100" max="20000" step="100" value="5000" />
+          <div class="cashout-result-grid">
+            <div>
+              <span class="tiny muted">Channel</span>
+              <strong id="cashoutChannel">GCash</strong>
+            </div>
+            <div>
+              <span class="tiny muted">Processing fee</span>
+              <strong id="cashoutFee">₱500</strong>
+            </div>
+            <div>
+              <span class="tiny muted">You receive</span>
+              <strong class="text-green" id="cashoutNet">₱4,500</strong>
+            </div>
+          </div>
+        </div>
         <div class="fee-tier-grid">
-          <div class="fee-col">
+          <div class="fee-col" data-fee-tier="12">
             <span class="fee-range">₱100 – ₱1,000</span>
             <b class="fee-pct text-gold">12% Fee</b>
             <span class="fee-sub">Standard Processing</span>
           </div>
-          <div class="fee-col">
+          <div class="fee-col is-active" data-fee-tier="10">
             <span class="fee-range">₱1,001 – ₱5,000</span>
             <b class="fee-pct text-green">10% Fee</b>
             <span class="fee-sub">Growth Tier</span>
           </div>
-          <div class="fee-col">
+          <div class="fee-col" data-fee-tier="8">
             <span class="fee-range">₱5,001 &amp; Above</span>
             <b class="fee-pct text-green font-bold">8% Fee</b>
             <span class="fee-sub">VIP Lowest Fee</span>
@@ -704,6 +752,7 @@
             placeholder="Search questions (e.g. ROI, binary cap, withdrawal, codes)..." aria-label="Search FAQ" />
         </div>
 
+        <p class="faq-empty" id="faqEmpty" hidden>No matching questions. Try “ROI”, “pairing”, or “withdrawal”.</p>
         <div class="faq-accordion" id="faqAccordion">
           <!-- Item 1 -->
           <div class="faq-item" data-keywords="entry code binary activation register 399">
@@ -1098,12 +1147,10 @@
 
     calcTabs.forEach((tab) => {
       tab.addEventListener('click', () => {
-        calcTabs.forEach((t) => t.classList.remove('active'));
-        calcPanes.forEach((p) => p.classList.remove('active'));
-        tab.classList.add('active');
-        const target = tab.dataset.calcTab;
-        if (target === 'tradein') document.getElementById('calcPaneTradein')?.classList.add('active');
-        if (target === 'binary') document.getElementById('calcPaneBinary')?.classList.add('active');
+        switchCalcTab(tab.dataset.calcTab);
+        document.querySelectorAll('.track-card[data-program]').forEach((c) => {
+          c.classList.toggle('is-picked', c.dataset.program === tab.dataset.calcTab);
+        });
       });
     });
 
@@ -1218,6 +1265,81 @@
     updateTradeInCalc();
     updateBinaryCalc();
 
+    function switchCalcTab(target) {
+      calcTabs.forEach((t) => t.classList.toggle('active', t.dataset.calcTab === target));
+      calcPanes.forEach((p) => p.classList.remove('active'));
+      if (target === 'tradein') document.getElementById('calcPaneTradein')?.classList.add('active');
+      if (target === 'binary') document.getElementById('calcPaneBinary')?.classList.add('active');
+    }
+
+    document.querySelectorAll('.track-card[data-program]').forEach((card) => {
+      card.addEventListener('click', (e) => {
+        if (e.target.closest('a, button')) return;
+        const program = card.dataset.program;
+        document.querySelectorAll('.track-card[data-program]').forEach((c) => c.classList.remove('is-picked'));
+        card.classList.add('is-picked');
+        switchCalcTab(program);
+        document.getElementById('calculator')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+      card.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          card.click();
+        }
+      });
+    });
+
+    const cashoutSlider = document.getElementById('cashoutSlider');
+    const cashoutAmount = document.getElementById('cashoutAmount');
+    const cashoutChannel = document.getElementById('cashoutChannel');
+    const cashoutFee = document.getElementById('cashoutFee');
+    const cashoutNet = document.getElementById('cashoutNet');
+    let selectedChannel = 'GCash';
+
+    function cashoutFeeRate(amount) {
+      if (amount <= 1000) return 0.12;
+      if (amount <= 5000) return 0.10;
+      return 0.08;
+    }
+
+    function updateCashout() {
+      const amount = Number(cashoutSlider?.value || 5000);
+      const rate = cashoutFeeRate(amount);
+      const fee = Math.round(amount * rate);
+      const net = amount - fee;
+      if (cashoutAmount) cashoutAmount.textContent = fmtMoney(amount);
+      if (cashoutChannel) cashoutChannel.textContent = selectedChannel;
+      if (cashoutFee) cashoutFee.textContent = fmtMoney(fee);
+      if (cashoutNet) cashoutNet.textContent = fmtMoney(net);
+      document.querySelectorAll('.fee-col[data-fee-tier]').forEach((col) => {
+        col.classList.toggle('is-active', Number(col.dataset.feeTier) === Math.round(rate * 100));
+      });
+    }
+
+    cashoutSlider?.addEventListener('input', updateCashout);
+
+    document.querySelectorAll('.gateway-card[data-channel]').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.gateway-card[data-channel]').forEach((g) => g.classList.remove('is-active'));
+        btn.classList.add('is-active');
+        selectedChannel = btn.dataset.channel;
+        updateCashout();
+      });
+    });
+
+    document.querySelectorAll('.fee-col[data-fee-tier]').forEach((col) => {
+      col.addEventListener('click', () => {
+        const tier = Number(col.dataset.feeTier);
+        if (!cashoutSlider) return;
+        if (tier === 12) cashoutSlider.value = 500;
+        else if (tier === 10) cashoutSlider.value = 3000;
+        else cashoutSlider.value = 8000;
+        updateCashout();
+      });
+    });
+
+    updateCashout();
+
     // 6. Interactive Binary Tree Simulator
     let treeLeft = 0;
     let treeRight = 0;
@@ -1313,17 +1435,18 @@
     });
 
     const faqSearchInput = document.getElementById('faqSearchInput');
+    const faqEmpty = document.getElementById('faqEmpty');
     faqSearchInput?.addEventListener('input', (e) => {
       const query = e.target.value.toLowerCase().trim();
+      let visible = 0;
       faqItems.forEach((item) => {
         const text = item.textContent.toLowerCase();
         const keywords = item.dataset.keywords || '';
-        if (!query || text.includes(query) || keywords.includes(query)) {
-          item.style.display = 'block';
-        } else {
-          item.style.display = 'none';
-        }
+        const match = !query || text.includes(query) || keywords.includes(query);
+        item.style.display = match ? 'block' : 'none';
+        if (match) visible += 1;
       });
+      if (faqEmpty) faqEmpty.hidden = visible > 0;
     });
 
     // 8. Compensation Plan Modal
@@ -1653,6 +1776,37 @@
     initScrollReveals();
     initKpiCounters();
     initKineticCanvas();
+
+    document.querySelectorAll('a[href^="#"]').forEach((link) => {
+      link.addEventListener('click', (e) => {
+        const id = link.getAttribute('href');
+        if (!id || id === '#') return;
+        const target = document.querySelector(id);
+        if (!target) return;
+        e.preventDefault();
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+    });
+
+    const sectionIds = ['programs', 'calculator', 'binary-demo', 'how-it-works', 'gateways', 'faq'];
+    const navLinks = document.querySelectorAll('.land-nav-menu a.nav-link');
+    const spySections = sectionIds
+      .map((id) => document.getElementById(id))
+      .filter(Boolean);
+
+    function updateActiveNav() {
+      const y = window.scrollY + 120;
+      let current = sectionIds[0];
+      spySections.forEach((sec) => {
+        if (sec.offsetTop <= y) current = sec.id;
+      });
+      navLinks.forEach((link) => {
+        link.classList.toggle('is-current', link.getAttribute('href') === '#' + current);
+      });
+    }
+
+    window.addEventListener('scroll', updateActiveNav, { passive: true });
+    updateActiveNav();
 
     // 10. Check if already logged in -> redirect
     const token = localStorage.getItem('it_token');
