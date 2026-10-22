@@ -532,10 +532,7 @@ function isRolloverTradein(pkg) {
 
 function tradeinOccupiesSlot(pkg) {
   if (!pkg) return false;
-  if (pkg.cycle_status !== 'active' && pkg.cycle_status !== 'pending') return false;
-  // Source package that already submitted a rollover no longer uses a slot.
-  if (pkg.rolled_over_package_id) return false;
-  return true;
+  return pkg.cycle_status === 'active' || pkg.cycle_status === 'pending';
 }
 
 function getPackageCycleInfo(pkg) {
@@ -1577,6 +1574,16 @@ app.post('/api/tradein/rollover/:id', auth, async (req, res) => {
       }
       const ref_number = String(req.body.ref_number || '').trim();
       const payment_method = String(req.body.payment_method || 'GCash').trim() || 'GCash';
+
+      const maxSlots = Number(data.settings && data.settings.max_tradein_slots) || MAX_TRADEIN_SLOTS;
+      const occupied = data.tradein_packages.filter(
+        (p) => p.user_id === pkg.user_id && tradeinOccupiesSlot(p)
+      );
+      if (occupied.length >= maxSlots) {
+        const err = new Error(`Trade-In Slots Full: Rollover is a new paid entry and needs an open slot. You have ${occupied.length}/${maxSlots} slots in use. Complete a package first.`);
+        err.status = 400;
+        throw err;
+      }
 
       const capital = money(pkg.capital);
       const now = nowIso();

@@ -887,8 +887,8 @@
                 <h4 style="margin:0;font-size:14px;color:var(--jade);font-weight:800;letter-spacing:0.02em;">TRADE-IN
                   SLOTS
                   CAPACITY</h4>
-                <p class="tiny muted" style="margin:2px 0 0;">Each active package occupies 1 slot. Completed 4-cycle
-                  packages free up slots.</p>
+                <p class="tiny muted" style="margin:2px 0 0;">Each active or pending package occupies 1 slot. A rollover
+                  is a new paid entry and takes a new slot.</p>
               </div>
             </div>
             <div class="slots-pill-badge" id="tradeinSlotsBadge">
@@ -3046,7 +3046,10 @@
       }
 
       if (elGrid) {
-        const activePkgs = d.packages.filter(p => p.occupies_slot || ((p.cycle_status === 'active' || p.cycle_status === 'pending') && !p.rolled_over_package_id));
+        const activePkgs = d.packages
+          .filter(p => p.occupies_slot || p.cycle_status === 'active' || p.cycle_status === 'pending')
+          .slice()
+          .sort((a, b) => a.id - b.id);
         let slotsHtml = '';
         for (let i = 0; i < slots.max; i++) {
           const pkg = activePkgs[i];
@@ -3055,11 +3058,14 @@
             const isPending = pkg.cycle_status === 'pending';
             const cardClass = isClaimable ? 'tradein-slot-card slot-claimable' : isPending ? 'tradein-slot-card slot-pending' : 'tradein-slot-card slot-active';
             const badgeClass = isClaimable ? 'slot-badge slot-badge-claim' : isPending ? 'slot-badge slot-badge-pending' : 'slot-badge slot-badge-active';
-            const badgeText = isClaimable ? '🎁 CLAIM READY' : isPending ? '⏳ PENDING' : `CYCLE ${(pkg.payouts_completed || 0) + 1}/4`;
+            const isRolloverSlot = Boolean(pkg.is_rollover || pkg.rolled_from_package_id);
+            const badgeText = isRolloverSlot
+              ? (isPending ? '🔁 ROLLOVER PENDING' : '🔁 ROLLOVER')
+              : isClaimable ? '🎁 CLAIM READY' : isPending ? '⏳ PENDING' : `CYCLE ${(pkg.payouts_completed || 0) + 1}/4`;
 
             slotsHtml += `
               <div class="${cardClass}">
-                <span class="slot-num">SLOT ${i + 1}</span>
+                <span class="slot-num">SLOT ${i + 1}${isRolloverSlot ? ' · ROLLOVER' : ''}</span>
                 <p class="slot-capital">${peso(pkg.capital)}</p>
                 <span class="${badgeClass}">${badgeText}</span>
               </div>
@@ -3168,8 +3174,11 @@
                       <span class="pill" style="font-weight:700;font-size:11px;background:rgba(245,166,35,0.16);color:#fbbf24;">Cycle 4 claim locked</span>
                     </div>
                     <div class="tradein-paused-alert" style="margin-bottom:10px;">
-                      <span>⏸️ Upload a receipt to roll over the full capital of <strong>${peso(rolloverAmt)}</strong>. Cycle 4 (${peso(ci.installment_amount || 0)}) unlocks only after admin approval.</span>
+                      <span>⏸️ Pay again to open a <strong>new entry</strong> of <strong>${peso(rolloverAmt)}</strong> in a <strong>new slot</strong>. Cycle 4 (${peso(ci.installment_amount || 0)}) unlocks after admin approval. When that new entry reaches Cycle 4, you roll over again.</span>
                     </div>
+                    ${slots.available === 0
+                  ? `<div class="tradein-paused-alert" style="margin-bottom:10px;"><span>⛔ All slots are full. Free a slot before submitting this rollover as a new entry.</span></div>`
+                  : ''}
                     <div class="rollover-submit-box">
                       <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px;">
                         <div>
@@ -3202,8 +3211,8 @@
                         </div>
                         <button type="button" class="receipt-remove-btn rollover-receipt-remove" data-rollover-pkg="${p.id}">✕ Remove</button>
                       </div>
-                      <button type="button" class="tradein-claim-btn-glowing tradein-rollover-btn" data-rollover-pkg="${p.id}" data-rollover-amt="${rolloverAmt}" style="width:100%;justify-content:center;margin-top:10px;">
-                        🔁 Submit Rollover (${peso(rolloverAmt)}) ➔
+                      <button type="button" class="tradein-claim-btn-glowing tradein-rollover-btn" data-rollover-pkg="${p.id}" data-rollover-amt="${rolloverAmt}" ${slots.available === 0 ? 'disabled' : ''} style="width:100%;justify-content:center;margin-top:10px;${slots.available === 0 ? 'opacity:0.55;cursor:not-allowed;' : ''}">
+                        ${slots.available === 0 ? '⛔ No Open Slot for New Entry' : `🔁 Submit Rollover (${peso(rolloverAmt)}) ➔`}
                       </button>
                     </div>
                   </div>
@@ -3393,12 +3402,13 @@
 
           showConfirmPopup({
             title: 'Submit Capital Rollover',
-            subtitle: 'This creates a pending Trade-In rollover. Cycle 4 claim unlocks only after admin approval.',
+            subtitle: 'This is a new paid Trade-In entry. It occupies a new slot. Cycle 4 claim unlocks only after admin approval.',
             icon: '🔁',
             details: [
-              { label: 'Type', val: 'Rollover' },
+              { label: 'Type', val: '🔁 Rollover · New Entry' },
               { label: 'Source Package', val: '#' + pkgId },
-              { label: 'Rollover Capital', val: peso(rollAmt), highlight: true },
+              { label: 'New Entry Capital', val: peso(rollAmt), highlight: true },
+              { label: 'Slot', val: 'Occupies a new Trade-In slot' },
               { label: 'Payment Method', val: methodEl ? methodEl.value : 'GCash' },
               { label: 'Ref Number', val: refEl && refEl.value.trim() ? refEl.value.trim() : '—' }
             ],
