@@ -37,7 +37,7 @@ function cycleLabel(pkg) {
 
 async function main() {
   const username = String(arg('--user', 'Asd53'));
-  const ref = arg('--ref') === true ? null : arg('--ref', '25AeH57');
+  const ref = arg('--ref') === true ? null : arg('--ref', null);
   const packageId = arg('--id') === true ? null : arg('--id');
   const apply = process.argv.includes('--apply');
 
@@ -63,9 +63,10 @@ async function main() {
       const needle = String(ref).toLowerCase();
       target = cycle4.find((p) => String(p.ref_number || '').toLowerCase() === needle)
         || pkgs.find((p) => String(p.ref_number || '').toLowerCase() === needle);
-    } else if (cycle4.length === 1) {
+    }
+    if (!target && cycle4.length === 1) {
       target = cycle4[0];
-    } else if (cycle4.length > 1) {
+    } else if (!target && cycle4.length > 1) {
       target = cycle4.find((p) => Number(p.capital) === 10000) || cycle4[0];
     }
 
