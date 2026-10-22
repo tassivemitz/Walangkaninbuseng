@@ -647,9 +647,6 @@
             </tbody>
           </table>
         </div>
-        <div class="mobile-referral-cards" id="mobileDirects">
-          <div class="center muted" style="padding:20px;">Loading directs...</div>
-        </div>
       </div>
     </div>
   </div>
@@ -685,9 +682,6 @@
               </tr>
             </tbody>
           </table>
-        </div>
-        <div class="mobile-referral-cards" id="mobileIndirects">
-          <div class="center muted" style="padding:20px;">Loading indirects...</div>
         </div>
       </div>
     </div>
@@ -3179,40 +3173,6 @@
         }).join('')
         : '<tr><td colspan="4" class="center muted" style="padding:16px;">No direct referrals yet.</td></tr>';
 
-      // Render Mobile Cards for Direct Referrals
-      document.getElementById('mobileDirects').innerHTML = d.directs.length
-        ? d.directs.map(x => {
-          const encodeBtn = x.status !== 'active'
-            ? `<button type="button" class="btn btn-mint btn-sm" data-encode-direct="${esc(x.mobile_number)}" style="font-size:11px;padding:6px 12px;white-space:nowrap;">⚡ Encode</button>`
-            : '';
-          const posBadge = x.position
-            ? `<span class="pill ${x.position === 'L' ? 'open' : ''}">${x.position === 'L' ? 'LEFT' : 'RIGHT'}</span>`
-            : '<span class="pill closed">Not Placed</span>';
-          return `
-            <div class="referral-mobile-card">
-              <div class="referral-card-header">
-                <span class="referral-card-username">${esc(x.mobile_number)}</span>
-                ${encodeBtn}
-              </div>
-              <div class="referral-card-body">
-                <div class="referral-card-field">
-                  <span class="referral-card-label">Position</span>
-                  <span class="referral-card-value">${posBadge}</span>
-                </div>
-                <div class="referral-card-field">
-                  <span class="referral-card-label">Status</span>
-                  <span class="referral-card-value"><span class="pill ${x.status === 'active' ? 'open' : 'closed'}">${esc(x.status)}</span></span>
-                </div>
-                <div class="referral-card-field full">
-                  <span class="referral-card-label">Joined Date</span>
-                  <span class="referral-card-value">${new Date(x.created_at).toLocaleDateString()}</span>
-                </div>
-              </div>
-            </div>
-            `;
-        }).join('')
-        : '<div class="center muted" style="padding:20px;">No direct referrals yet.</div>';
-
       document.querySelectorAll('button[data-encode-direct]').forEach(btn => {
         btn.onclick = () => {
           const mob = btn.dataset.encodeDirect;
@@ -3236,32 +3196,6 @@
             </tr>
           `).join('')
         : '<tr><td colspan="5" class="center muted" style="padding:16px;">No indirect downlines yet.</td></tr>';
-
-      // Render Mobile Cards for Indirect Referrals
-      document.getElementById('mobileIndirects').innerHTML = indirects.length
-        ? indirects.map(x => `
-            <div class="referral-mobile-card">
-              <div class="referral-card-header">
-                <span class="referral-card-username">${esc(x.mobile_number)}</span>
-                <span class="pill open" style="font-weight:700;">L${x.level}</span>
-              </div>
-              <div class="referral-card-body">
-                <div class="referral-card-field">
-                  <span class="referral-card-label">Sponsor</span>
-                  <span class="referral-card-value">${esc(x.sponsor_mobile)}</span>
-                </div>
-                <div class="referral-card-field">
-                  <span class="referral-card-label">Status</span>
-                  <span class="referral-card-value"><span class="pill ${x.status === 'active' ? 'open' : 'closed'}">${esc(x.status)}</span></span>
-                </div>
-                <div class="referral-card-field full">
-                  <span class="referral-card-label">Joined Date</span>
-                  <span class="referral-card-value">${new Date(x.created_at).toLocaleDateString()}</span>
-                </div>
-              </div>
-            </div>
-          `).join('')
-        : '<div class="center muted" style="padding:20px;">No indirect downlines yet.</div>';
 
       // Render Code Vault Lists
       document.getElementById('viewCodesAvail').innerHTML = availList.length
