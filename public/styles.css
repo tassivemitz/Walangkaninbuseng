@@ -10252,6 +10252,21 @@ body[data-theme="light"].auth-page-body {
     display: none;
   }
 
+  /* Mobile: Hide table, show mobile cards */
+  @media (max-width: 768px) {
+    .plan-modal .mobile-referral-cards {
+      display: flex !important;
+      flex-direction: column !important;
+      gap: 12px !important;
+      margin-top: 10px !important;
+      width: 100% !important;
+      box-sizing: border-box !important;
+    }
+    .plan-modal .table-wrap {
+      display: none !important;
+    }
+  }
+
   /* Desktop: Show table, hide mobile cards */
   @media (min-width: 769px) {
     .plan-modal .mobile-referral-cards {
@@ -10259,16 +10274,6 @@ body[data-theme="light"].auth-page-body {
     }
     .plan-modal .table-wrap {
       display: block !important;
-    }
-  }
-
-  /* Mobile: Hide table, show mobile cards */
-  @media (max-width: 768px) {
-    .plan-modal .mobile-referral-cards {
-      display: flex !important;
-    }
-    .plan-modal .table-wrap {
-      display: none !important;
     }
   }
 
