@@ -1581,37 +1581,59 @@
             <label class="tiny muted" style="display:block;font-weight:700;margin-bottom:6px;letter-spacing:0.02em;">
               2. SELECT NETWORK *
             </label>
-            <div id="claimNetworkGrid" style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;">
-              <!-- Globe -->
+            <div id="claimNetworkGrid" style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;">
               <label class="network-choice-card active" data-network="Globe">
                 <input type="radio" name="claimNetwork" value="Globe" checked style="display:none;" />
-                <span style="font-size:22px;">🔵</span>
-                <strong style="font-size:13px;color:var(--text);">Globe</strong>
-                <span class="tiny muted" style="font-size:9.5px;">Globe / TM</span>
+                <span class="network-choice-logo-wrap">
+                  <img class="network-choice-logo" src="/images/Globe.png" alt="Globe" />
+                </span>
+                <strong>Globe</strong>
+                <span class="tiny muted">Globe Telecom</span>
               </label>
 
-              <!-- Smart -->
+              <label class="network-choice-card" data-network="TM">
+                <input type="radio" name="claimNetwork" value="TM" style="display:none;" />
+                <span class="network-choice-logo-wrap">
+                  <img class="network-choice-logo" src="/images/TM.png" alt="TM" />
+                </span>
+                <strong>TM</strong>
+                <span class="tiny muted">Touch Mobile</span>
+              </label>
+
+              <label class="network-choice-card" data-network="GOMO">
+                <input type="radio" name="claimNetwork" value="GOMO" style="display:none;" />
+                <span class="network-choice-logo-wrap">
+                  <img class="network-choice-logo network-choice-logo-wide" src="/images/GOMO.svg" alt="GOMO" />
+                </span>
+                <strong>GOMO</strong>
+                <span class="tiny muted">GOMO PH</span>
+              </label>
+
               <label class="network-choice-card" data-network="Smart">
                 <input type="radio" name="claimNetwork" value="Smart" style="display:none;" />
-                <span style="font-size:22px;">🟢</span>
-                <strong style="font-size:13px;color:var(--text);">Smart</strong>
-                <span class="tiny muted" style="font-size:9.5px;">Smart Prepaid</span>
+                <span class="network-choice-logo-wrap">
+                  <img class="network-choice-logo" src="/images/Smart.png" alt="Smart" />
+                </span>
+                <strong>Smart</strong>
+                <span class="tiny muted">Smart Prepaid</span>
               </label>
 
-              <!-- TNT -->
               <label class="network-choice-card" data-network="TNT">
                 <input type="radio" name="claimNetwork" value="TNT" style="display:none;" />
-                <span style="font-size:22px;">🟠</span>
-                <strong style="font-size:13px;color:var(--text);">TNT</strong>
-                <span class="tiny muted" style="font-size:9.5px;">Talk 'N Text</span>
+                <span class="network-choice-logo-wrap">
+                  <img class="network-choice-logo" src="/images/TNT.png" alt="TNT" />
+                </span>
+                <strong>TNT</strong>
+                <span class="tiny muted">Talk 'N Text</span>
               </label>
 
-              <!-- DITO -->
               <label class="network-choice-card" data-network="DITO">
                 <input type="radio" name="claimNetwork" value="DITO" style="display:none;" />
-                <span style="font-size:22px;">🔴</span>
-                <strong style="font-size:13px;color:var(--text);">DITO</strong>
-                <span class="tiny muted" style="font-size:9.5px;">DITO Telecom</span>
+                <span class="network-choice-logo-wrap">
+                  <img class="network-choice-logo" src="/images/DITO.png" alt="DITO" />
+                </span>
+                <strong>DITO</strong>
+                <span class="tiny muted">DITO Telecom</span>
               </label>
             </div>
           </div>

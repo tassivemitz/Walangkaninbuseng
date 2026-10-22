@@ -2709,9 +2709,9 @@ app.post('/api/load-wallet/claim-100', auth, async (req, res) => {
   const network = String(req.body.network || '').trim();
   const actionType = String(req.body.action_type || '').trim(); // 'activate_and_claim' | 'claim_only'
 
-  const allowedNetworks = ['Globe', 'Smart', 'TNT', 'DITO'];
+  const allowedNetworks = ['Globe', 'TM', 'GOMO', 'Smart', 'TNT', 'DITO'];
   if (!allowedNetworks.includes(network)) {
-    return res.status(400).json({ error: 'Please select a valid network (Globe, Smart, TNT, or DITO).' });
+    return res.status(400).json({ error: 'Please select a valid network (Globe, TM, GOMO, Smart, TNT, or DITO).' });
   }
 
   const cleanPhone = phoneNumber.replace(/\D/g, '');
