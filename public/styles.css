@@ -1425,6 +1425,96 @@ body[data-theme="light"].admin-terminal-body {
   background: rgba(46, 213, 158, 0.06);
 }
 
+/* Generic Table Styles for Member List Modals */
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+  text-align: left;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.table thead {
+  background: #233240;
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.table th {
+  padding: 14px 16px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #8e9fae;
+  white-space: nowrap;
+}
+
+.table td {
+  padding: 14px 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  color: #ffffff;
+  white-space: nowrap;
+  transition: background-color 0.2s ease;
+}
+
+.table tbody tr {
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  cursor: pointer;
+}
+
+.table tbody tr:hover {
+  background: rgba(46, 213, 158, 0.12);
+  transform: scale(1.01);
+  box-shadow: 0 4px 12px rgba(46, 213, 158, 0.15);
+}
+
+.table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.table .center {
+  text-align: center;
+}
+
+.table .tiny {
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.table strong {
+  color: var(--jade);
+  font-weight: 700;
+}
+
+/* Light Theme Table Overrides */
+[data-theme="light"] .table thead {
+  background: #f4faf6;
+  border-bottom: 1.5px solid rgba(15, 122, 69, 0.15);
+}
+
+[data-theme="light"] .table th {
+  color: #0b4d2c;
+}
+
+[data-theme="light"] .table td {
+  color: #0e291b;
+  border-bottom: 1px solid rgba(15, 122, 69, 0.08);
+}
+
+[data-theme="light"] .table tbody tr:hover {
+  background: rgba(15, 122, 69, 0.06);
+}
+
+[data-theme="light"] .table strong {
+  color: #0f7a45;
+}
+
 /* Filters & Search */
 .ctrl-tabs {
   display: inline-flex;
@@ -10074,11 +10164,21 @@ body[data-theme="light"].auth-page-body {
   }
 
   /* 5. Tables Swapped to Mobile Cards on <= 768px */
-  .admin-table-panel.table-wrap {
+  .admin-table-panel.table-wrap,
+  .plan-modal .table-wrap {
     display: none !important;
   }
 
   .admin-mobile-cards-list {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 12px !important;
+    margin-top: 10px !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  .plan-modal .mobile-referral-cards {
     display: flex !important;
     flex-direction: column !important;
     gap: 12px !important;
@@ -10145,6 +10245,118 @@ body[data-theme="light"].auth-page-body {
     font-size: 13px;
     color: var(--text, #ffffff);
     word-break: break-word;
+  }
+
+  /* Mobile Referral Cards for Member List Modals */
+  .plan-modal .mobile-referral-cards {
+    display: none;
+  }
+
+  /* Desktop: Show table, hide mobile cards */
+  @media (min-width: 769px) {
+    .plan-modal .mobile-referral-cards {
+      display: none !important;
+    }
+    .plan-modal .table-wrap {
+      display: block !important;
+    }
+  }
+
+  /* Mobile: Hide table, show mobile cards */
+  @media (max-width: 768px) {
+    .plan-modal .mobile-referral-cards {
+      display: flex !important;
+    }
+    .plan-modal .table-wrap {
+      display: none !important;
+    }
+  }
+
+  .plan-modal .referral-mobile-card {
+    background: var(--card-bg, #1c2732);
+    border: 1px solid var(--line, rgba(255, 255, 255, 0.08));
+    border-radius: 14px;
+    padding: 14px 16px;
+    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.25);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    box-sizing: border-box;
+    width: 100%;
+    color: var(--text, #ffffff);
+    transition: all 0.2s ease;
+  }
+
+  .plan-modal .referral-mobile-card:hover {
+    border-color: rgba(46, 213, 158, 0.3);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 22px rgba(0, 0, 0, 0.35);
+  }
+
+  .plan-modal .referral-card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--line, rgba(255, 255, 255, 0.08));
+    padding-bottom: 8px;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+
+  .plan-modal .referral-card-username {
+    font-size: 15px;
+    font-weight: 800;
+    color: var(--jade);
+  }
+
+  .plan-modal .referral-card-body {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px 12px;
+    font-size: 12.5px;
+  }
+
+  .plan-modal .referral-card-field {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .plan-modal .referral-card-field.full {
+    grid-column: 1 / -1;
+  }
+
+  .plan-modal .referral-card-label {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+
+  .plan-modal .referral-card-value {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text);
+  }
+
+  /* Light theme mobile cards */
+  [data-theme="light"] .plan-modal .referral-mobile-card {
+    background: #ffffff;
+    border-color: rgba(15, 122, 69, 0.15);
+    color: #0e291b;
+  }
+
+  [data-theme="light"] .plan-modal .referral-card-username {
+    color: #0f7a45;
+  }
+
+  [data-theme="light"] .plan-modal .referral-card-label {
+    color: #567264;
+  }
+
+  [data-theme="light"] .plan-modal .referral-card-value {
+    color: #0e291b;
   }
 
   .admin-mob-card-actions {
