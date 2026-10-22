@@ -10178,15 +10178,6 @@ body[data-theme="light"].auth-page-body {
     box-sizing: border-box !important;
   }
 
-  .plan-modal .mobile-referral-cards {
-    display: flex !important;
-    flex-direction: column !important;
-    gap: 12px !important;
-    margin-top: 10px !important;
-    width: 100% !important;
-    box-sizing: border-box !important;
-  }
-
   .admin-mob-card {
     background: var(--card-bg, #1c2732);
     border: 1px solid var(--line, rgba(255, 255, 255, 0.08));
@@ -10247,9 +10238,9 @@ body[data-theme="light"].auth-page-body {
     word-break: break-word;
   }
 
-  /* Mobile Referral Cards for Member List Modals */
+  /* Mobile Referral Cards for Member List Modals - Hidden by default */
   .plan-modal .mobile-referral-cards {
-    display: none;
+    display: none !important;
   }
 
   /* Mobile: Hide table, show mobile cards */
