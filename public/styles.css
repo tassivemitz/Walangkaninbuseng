@@ -10238,9 +10238,13 @@ body[data-theme="light"].auth-page-body {
     word-break: break-word;
   }
 
-  /* Mobile Referral Cards for Member List Modals - Hidden by default */
+  /* Mobile Referral Cards for Member List Modals - Hidden by default on desktop */
   .plan-modal .mobile-referral-cards {
     display: none !important;
+  }
+
+  .plan-modal .table-wrap {
+    display: block !important;
   }
 
   /* Mobile: Hide table, show mobile cards */
