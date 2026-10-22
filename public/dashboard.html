@@ -8,7 +8,8 @@
   <meta name="description"
     content="Infinite Trading member dashboard — Member list, Code vault, Trade-in deposit, Wallet dashboard, and TradingView chart." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&display=swap"
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap"
     rel="stylesheet" />
   <script src="/theme.js"></script>
   <link rel="stylesheet" href="/styles.css?v=20260927fixscroll" />
@@ -49,22 +50,32 @@
         <!-- 1. Member List (Collapsed by default) -->
         <div class="side-nav-card collapsed" id="sideCardMembers">
           <div class="side-nav-header" data-toggle-target="sideCardMembers">
-            <span class="side-title">👥 Member List</span>
+            <div style="display:flex;align-items:center;gap:8px;flex:1;">
+              <span class="side-nav-icon">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                  <circle cx="9" cy="7" r="4"/>
+                  <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+                  <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                </svg>
+              </span>
+              <span class="side-title">Member List</span>
+            </div>
             <span class="accordion-caret">▼</span>
           </div>
           <div class="side-nav-body">
             <button type="button" class="side-sub-btn" id="btnDirectRef">
-              <span>↳ Direct Referral</span>
+              <span>Direct Referral</span>
               <span class="pill open" id="badgeDirectCount"
                 style="margin-left:auto;font-size:10px;display:none;"></span>
             </button>
             <button type="button" class="side-sub-btn" id="btnIndirectRef">
-              <span>↳ Indirect Referral</span>
+              <span>Indirect Referral</span>
               <span class="pill open" id="badgeIndirectCount"
                 style="margin-left:auto;font-size:10px;display:none;"></span>
             </button>
             <button type="button" class="side-sub-btn" id="btnGenealogy">
-              <span>🌳 Genealogy Tree</span>
+              <span>Genealogy Tree</span>
             </button>
           </div>
         </div>
@@ -72,16 +83,24 @@
         <!-- 2. Code Vault (Collapsed by default) -->
         <div class="side-nav-card collapsed" id="sideCardVault">
           <div class="side-nav-header" data-toggle-target="sideCardVault">
-            <span class="side-title">🔒 Code Vault</span>
+            <div style="display:flex;align-items:center;gap:8px;flex:1;">
+              <span class="side-nav-icon">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+                  <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+                </svg>
+              </span>
+              <span class="side-title">Code Vault</span>
+            </div>
             <span class="accordion-caret">▼</span>
           </div>
           <div class="side-nav-body">
             <button type="button" class="side-nav-btn" id="btnCodesAvailable">
-              <span>📦 Available</span>
+              <span>Available</span>
               <span class="pill open" id="badgeAvailCodes" style="margin-left:auto;font-size:10px;display:none;"></span>
             </button>
             <button type="button" class="side-nav-btn" id="btnCodesUsed">
-              <span>🧾 Used</span>
+              <span>Used</span>
               <span class="pill closed" id="badgeUsedCodes"
                 style="margin-left:auto;font-size:10px;display:none;"></span>
             </button>
@@ -91,13 +110,21 @@
         <!-- 3. Trade In (Collapsed by default) -->
         <div class="side-nav-card collapsed" id="sideCardTradein">
           <div class="side-nav-header" data-toggle-target="sideCardTradein">
-            <span class="side-title">⇄ TRADE IN</span>
+            <div style="display:flex;align-items:center;gap:8px;flex:1;">
+              <span class="side-nav-icon">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/>
+                  <polyline points="17 6 23 6 23 12"/>
+                </svg>
+              </span>
+              <span class="side-title">TRADE IN</span>
+            </div>
             <span class="accordion-caret">▼</span>
           </div>
           <div class="side-nav-body">
             <button type="button" class="side-nav-btn" id="btnTradeinDeposit"
               style="color:var(--jade);font-weight:700;">
-              <span>⬆ Deposit Package</span>
+              <span>Deposit Package</span>
             </button>
             <div class="side-info-card">
               <p style="margin:0 0 4px;"><strong>*Every 3 days cycle*</strong> — 120% ROI in 12 days (payouts every 3
@@ -109,26 +136,46 @@
 
         <!-- 4. Wallet Withdrawal CTA -->
         <button type="button" class="side-cta-btn" id="btnOpenWithdrawal">
-          <span class="side-cta-icon">💳</span>
+          <span class="side-cta-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="1" y="4" width="22" height="16" rx="2" ry="2"/>
+              <line x1="1" y1="10" x2="23" y2="10"/>
+            </svg>
+          </span>
           <span>WALLET WITHDRAWAL</span>
         </button>
 
         <!-- 5. Earnings History CTA -->
         <button type="button" class="side-cta-btn side-cta-alt" id="btnOpenEarningsHistory">
-          <span class="side-cta-icon">📊</span>
+          <span class="side-cta-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="18" y1="20" x2="18" y2="10"/>
+              <line x1="12" y1="20" x2="12" y2="4"/>
+              <line x1="6" y1="20" x2="6" y2="14"/>
+            </svg>
+          </span>
           <span>EARNINGS HISTORY</span>
         </button>
 
         <!-- 6. Buy Load Wallet CTA -->
         <button type="button" class="side-cta-btn side-cta-alt" id="btnOpenBuyLoadWallet">
-          <span class="side-cta-icon">📱</span>
+          <span class="side-cta-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="5" y="2" width="14" height="20" rx="2" ry="2"/>
+              <line x1="12" y1="18" x2="12.01" y2="18"/>
+            </svg>
+          </span>
           <span>BUY LOAD WALLET</span>
         </button>
 
         <!-- 7. Profit Sharing Wallet CTA -->
         <button type="button" class="side-cta-btn side-cta-alt" id="btnOpenProfitSharing"
           style="border-color:rgba(46,213,158,0.35);">
-          <span class="side-cta-icon">💎</span>
+          <span class="side-cta-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+            </svg>
+          </span>
           <span>PROFIT SHARING</span>
         </button>
       </div>
@@ -169,11 +216,28 @@
         <div class="dash-top-right">
           <button class="btn-theme-toggle" type="button" data-theme-toggle aria-label="Toggle Light/Dark Theme"
             title="Toggle Light/Dark Theme">
-            <span class="theme-toggle-icon">☀️</span>
+            <span class="theme-toggle-icon">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="5"/>
+                <line x1="12" y1="1" x2="12" y2="3"/>
+                <line x1="12" y1="21" x2="12" y2="23"/>
+                <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+                <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+                <line x1="1" y1="12" x2="3" y2="12"/>
+                <line x1="21" y1="12" x2="23" y2="12"/>
+                <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+                <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+              </svg>
+            </span>
             <span class="theme-toggle-text">Light</span>
           </button>
           <div class="user-badge" id="whoWrapper">
-            <span class="user-avatar-icon">👤</span>
+            <span class="user-avatar-icon">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                <circle cx="12" cy="7" r="4"/>
+              </svg>
+            </span>
             <div class="user-badge-info">
               <span id="who" class="user-badge-name">Loading...</span>
               <span class="user-badge-status"><span class="user-status-dot" id="userStatusDot"></span> <span
@@ -181,7 +245,13 @@
             </div>
           </div>
           <a id="adminLink" class="btn btn-ghost btn-sm" href="/admin.html"
-            style="display:none;color:var(--gold);border-color:rgba(232,148,58,0.3);font-weight:700;">⚙ Admin Panel</a>
+            style="display:none;color:var(--gold);border-color:rgba(232,148,58,0.3);font-weight:700;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:text-bottom;margin-right:4px;">
+              <circle cx="12" cy="12" r="3"/>
+              <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+            </svg>
+            Admin Panel
+          </a>
           <button id="logout" class="dash-logout-btn" title="Log out" aria-label="Log out">
             <span>Log out</span>
             <svg class="logout-icon-svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
@@ -196,29 +266,6 @@
       <!-- Scrollable Inner Content -->
       <div class="dash-content-inner">
         <p id="banner" class="banner"></p>
-
-        <!-- Prominently Elevated Referral Link Card (Accessible on Mobile / CP & Desktop) -->
-        <div class="dash-ref-top-card" id="topRefBanner"
-          style="margin-bottom:16px;background:linear-gradient(135deg,rgba(46,213,158,0.12) 0%,rgba(14,165,233,0.08) 100%);border:1.5px solid rgba(46,213,158,0.35);border-radius:14px;padding:12px 16px;">
-          <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;">
-            <div style="display:flex;align-items:center;gap:10px;">
-              <span style="font-size:22px;">🔗</span>
-              <div>
-                <span class="tiny muted"
-                  style="font-weight:700;text-transform:uppercase;letter-spacing:0.04em;font-size:10px;color:var(--jade);">YOUR
-                  OFFICIAL REFERRAL LINK</span>
-                <p style="margin:2px 0 0;font-size:12.5px;color:var(--text);font-weight:700;">Share link to invite
-                  directs &amp; earn ₱50 per activation!</p>
-              </div>
-            </div>
-            <div style="display:flex;align-items:center;gap:8px;flex:1;max-width:440px;min-width:240px;">
-              <input id="refLinkTop" class="in" style="font-size:11.5px;padding:8px 12px;flex:1;background:var(--bg2);"
-                readonly placeholder="Generating referral link..." />
-              <button id="copyRefTop" type="button" class="btn btn-mint btn-sm"
-                style="padding:8px 14px;font-size:11.5px;font-weight:800;white-space:nowrap;">Copy Link</button>
-            </div>
-          </div>
-        </div>
 
         <!-- Inactive Account Pending Notice (Upline Activation Required) -->
         <div id="activationBox" class="panel card activation-panel"
@@ -260,7 +307,11 @@
 
               <div
                 style="display:flex; align-items:center; gap:10px; padding:10px 14px; background:rgba(245,158,11,0.08); border-radius:10px; border:1px solid rgba(245,158,11,0.25);">
-                <span style="font-size:18px;">💡</span>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:#f59e0b;">
+                  <circle cx="12" cy="12" r="10"/>
+                  <line x1="12" y1="16" x2="12" y2="12"/>
+                  <line x1="12" y1="8" x2="12.01" y2="8"/>
+                </svg>
                 <span class="tiny" style="color:var(--text); line-height:1.4;">
                   Please coordinate with your sponsor/upline to activate your slot with a ₱399 code via their genealogy
                   tree. Once activated, your binary pairing and trade-in features will unlock automatically.
@@ -290,13 +341,23 @@
           <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px;">
             <div style="display:flex; gap:14px; align-items:center; max-width:700px;">
               <div
-                style="width:50px;height:50px;border-radius:14px;background:rgba(46,213,158,0.22);display:grid;place-items:center;font-size:26px;flex-shrink:0;">
-                🎁
+                style="width:50px;height:50px;border-radius:14px;background:rgba(46,213,158,0.22);display:grid;place-items:center;flex-shrink:0;">
+                <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:var(--jade);">
+                  <polyline points="20 12 20 22 4 22 4 12"/>
+                  <rect x="2" y="7" width="20" height="5"/>
+                  <line x1="12" y1="22" x2="12" y2="7"/>
+                  <path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/>
+                  <path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/>
+                </svg>
               </div>
               <div>
                 <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;">
-                  <span class="badge-tag tag-approved" style="font-weight:800;font-size:11px;">✓ Account
-                    Activated!</span>
+                  <span class="badge-tag tag-approved" style="font-weight:800;font-size:11px;">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:text-bottom;">
+                      <polyline points="20 6 9 17 4 12"/>
+                    </svg>
+                    Account Activated!
+                  </span>
                   <span
                     style="font-size:11px;font-weight:800;background:#f59e0b;color:#000;padding:2px 8px;border-radius:6px;">Claim
                     1x Only</span>
@@ -312,7 +373,14 @@
             <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
               <button type="button" id="btnOverviewClaim100" class="btn btn-mint"
                 style="font-size:13.5px;font-weight:800;padding:11px 22px;border-radius:10px;box-shadow:0 4px 16px rgba(46,213,158,0.4);white-space:nowrap;">
-                🎁 Claim 100 Load Wallet
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:text-bottom;margin-right:4px;">
+                  <polyline points="20 12 20 22 4 22 4 12"/>
+                  <rect x="2" y="7" width="20" height="5"/>
+                  <line x1="12" y1="22" x2="12" y2="7"/>
+                  <path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/>
+                  <path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/>
+                </svg>
+                Claim 100 Load Wallet
               </button>
             </div>
           </div>
@@ -326,7 +394,12 @@
           <div class="m-card-hero">
             <div class="m-hero-left">
               <div class="m-hero-icon-stack">
-                <span class="hero-coin-icon">💰</span>
+                <svg class="hero-coin-icon" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="12" cy="12" r="10"/>
+                  <path d="M12 6v12"/>
+                  <path d="M8 10h8"/>
+                  <path d="M8 14h8"/>
+                </svg>
               </div>
               <div class="m-hero-content">
                 <span class="m-label">TOTAL BALANCE</span>
@@ -335,7 +408,6 @@
               </div>
             </div>
             <div class="m-hero-right">
-              <span class="m-corner-icon">🪙</span>
               <svg class="sparkline-svg" viewBox="0 0 130 40" fill="none">
                 <path d="M0 32 Q 28 34, 52 20 T 90 15 T 130 5" stroke="#2ed59e" stroke-width="2.5"
                   stroke-linecap="round" fill="none" />
@@ -355,7 +427,14 @@
           <div class="m-card-std m-card-binary">
             <div class="m-card-top">
               <span class="m-label">DIRECT EARNINGS</span>
-              <span class="m-badge-icon" style="color:var(--jade);">👥</span>
+              <span class="m-badge-icon" style="color:var(--jade);">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                  <circle cx="9" cy="7" r="4"/>
+                  <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+                  <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                </svg>
+              </span>
             </div>
             <div class="m-card-center">
               <p class="m-val" id="mBinary">₱0.00</p>
@@ -395,6 +474,14 @@
             <div class="m-card-top">
               <span class="m-label">IN-PPT (INDIRECT)</span>
               <span class="m-pill-badge badge-purple">PPT</span>
+              <span class="m-badge-icon" style="color:#a855f7;">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                  <circle cx="9" cy="7" r="4"/>
+                  <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+                  <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                </svg>
+              </span>
             </div>
             <div class="m-card-center">
               <p class="m-val" id="mInPPT">₱0.00</p>
@@ -407,7 +494,13 @@
           <div class="m-card-std m-card-trade-dep">
             <div class="m-card-top">
               <span class="m-label">TRADE-IN DEPOSIT</span>
-              <span class="m-badge-icon" style="color:var(--gold);">👤</span>
+              <span class="m-badge-icon" style="color:var(--gold);">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
+                  <polyline points="3.27 6.96 12 12.01 20.73 6.96"/>
+                  <line x1="12" y1="22.08" x2="12" y2="12"/>
+                </svg>
+              </span>
             </div>
             <div class="m-card-center">
               <p class="m-val" id="mTradeDeposit">₱0.00</p>
@@ -420,7 +513,12 @@
           <div class="m-card-std m-card-trade-profit">
             <div class="m-card-top">
               <span class="m-label">TRADE-IN PROFIT</span>
-              <span class="m-badge-icon" style="color:var(--mint);">📈</span>
+              <span class="m-badge-icon" style="color:var(--mint);">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/>
+                  <polyline points="17 6 23 6 23 12"/>
+                </svg>
+              </span>
             </div>
             <div class="m-card-center-spark">
               <div>
@@ -438,7 +536,11 @@
           <div class="m-card-std m-card-trade-ref">
             <div class="m-card-top">
               <span class="m-label">TRADE-IN REF</span>
-              <span class="m-badge-icon" style="color:#eab308;">💛</span>
+              <span class="m-badge-icon" style="color:#eab308;">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+                </svg>
+              </span>
             </div>
             <div class="m-card-center">
               <p class="m-val" id="mTradeRef">₱0.00</p>
@@ -629,7 +731,9 @@
         <!-- Unactivated Directs Alert Banner -->
         <div class="unactivated-directs-banner" id="treeUnactivatedBanner" style="display:none;">
           <div style="display:flex;align-items:center;gap:8px;">
-            <span style="font-size:18px;">⚡</span>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:#fbbf24;">
+              <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+            </svg>
             <div>
               <strong style="color:#fbbf24;font-size:12.5px;" id="treeUnactivatedTitle">You have pending directs waiting
                 for activation!</strong>
@@ -663,7 +767,11 @@
             </div>
             <button type="button" class="btn btn-secondary btn-sm" id="btnGenealogyReset"
               style="padding:5px 10px;font-size:11.5px;font-weight:700;">
-              🏠 My Account
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:text-bottom;margin-right:4px;">
+                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+                <polyline points="9 22 9 12 15 12 15 22"/>
+              </svg>
+              My Account
             </button>
             <button type="button" class="btn btn-secondary btn-sm" id="btnGenealogyUp"
               style="padding:5px 10px;font-size:11.5px;font-weight:700;">
@@ -678,7 +786,14 @@
 
         <div
           style="display:flex;justify-content:space-between;align-items:center;margin-top:12px;padding:8px 12px;background:var(--bg2);border:1px solid var(--line);border-radius:10px;font-size:11px;color:var(--muted);flex-wrap:wrap;gap:8px;">
-          <span>💡 <strong>Tip:</strong> Click any active member card to drill down and explore deeper branches.</span>
+          <span>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:text-bottom;margin-right:4px;">
+              <circle cx="12" cy="12" r="10"/>
+              <line x1="12" y1="16" x2="12" y2="12"/>
+              <line x1="12" y1="8" x2="12.01" y2="8"/>
+            </svg>
+            <strong>Tip:</strong> Click any active member card to drill down and explore deeper branches.
+          </span>
           <span>Click any <strong>+ Encode Slot</strong> to place an account directly in that slot.</span>
         </div>
       </div>
@@ -699,7 +814,10 @@
       <div class="plan-modal-body">
         <div
           style="padding:8px 12px;background:rgba(245,166,35,0.14);border:1px solid rgba(245,166,35,0.3);border-radius:10px;font-size:11.5px;color:#fbbf24;margin-bottom:14px;line-height:1.45;">
-          🛡️ <strong>Placement Rule:</strong> Bawal mapunta sa upline o crossline. Ang downline ay dapat ilagay sa
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:text-bottom;margin-right:4px;">
+            <path d="M12 22s8-4 8-10V5l-8-3v8c0 6 8 10 8 10z"/>
+          </svg>
+          <strong>Placement Rule:</strong> Bawal mapunta sa upline o crossline. Ang downline ay dapat ilagay sa
           ilalim mo o ng kahit sinong downline sa loob ng sarili mong network tree.
         </div>
 
@@ -724,10 +842,17 @@
         <!-- Mode Selector: Register & Place vs Activate Existing -->
         <div class="encode-mode-tabs" id="encodeModeTabs">
           <button type="button" class="encode-mode-btn active" id="btnModeNewUser" data-mode="new">
-            ⚡ Register &amp; Place New Member
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:text-bottom;margin-right:4px;">
+              <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+            </svg>
+            Register &amp; Place New Member
           </button>
           <button type="button" class="encode-mode-btn" id="btnModeExistingUser" data-mode="existing">
-            👤 Activate Existing Downline
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:text-bottom;margin-right:4px;">
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+              <circle cx="12" cy="7" r="4"/>
+            </svg>
+            Activate Existing Downline
           </button>
         </div>
 
@@ -765,8 +890,12 @@
             <!-- Quick Selector for Sponsor's Pending Directs -->
             <div id="unactivatedDirectsPickerWrap"
               style="display:none;margin-bottom:12px;background:var(--bg2);padding:10px 12px;border-radius:10px;border:1px solid var(--line);">
-              <label class="tiny" style="font-weight:800;color:var(--jade);display:block;margin-bottom:4px;">⚡ PICK FROM
-                YOUR PENDING DIRECTS:</label>
+              <label class="tiny" style="font-weight:800;color:var(--jade);display:block;margin-bottom:4px;">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:text-bottom;margin-right:4px;">
+                  <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+                </svg>
+                PICK FROM YOUR PENDING DIRECTS:
+              </label>
               <select class="in" id="selectPendingDirect" style="width:100%;font-size:13px;font-weight:600;">
                 <option value="">-- Or enter username manually below --</option>
               </select>
@@ -875,14 +1004,22 @@
       </header>
       <div class="plan-modal-body">
         <div id="tradeinBlockedNotice" class="tradein-blocked-notice">
-          ⚠ Activate your account first to access Trade-In packages.
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:text-bottom;margin-right:4px;">
+            <circle cx="12" cy="12" r="10"/>
+            <line x1="12" y1="8" x2="12" y2="12"/>
+            <line x1="12" y1="16" x2="12.01" y2="16"/>
+          </svg>
+          Activate your account first to access Trade-In packages.
         </div>
 
         <!-- Trade-In Slots Capacity Widget -->
         <div class="tradein-slots-card" id="tradeinSlotsCard">
           <div class="tradein-slots-header">
             <div style="display:flex;align-items:center;gap:10px;">
-              <span style="font-size:24px;">🎰</span>
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:var(--jade);">
+                <rect x="2" y="7" width="20" height="14" rx="2" ry="2"/>
+                <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/>
+              </svg>
               <div>
                 <h4 style="margin:0;font-size:14px;color:var(--jade);font-weight:800;letter-spacing:0.02em;">TRADE-IN
                   SLOTS
@@ -941,7 +1078,12 @@
                   <span id="mopActiveMethodBadge" class="badge-tag tag-available"
                     style="font-size:11px;padding:2px 8px;font-weight:800;background:var(--jade);color:#0c131c;">GCash</span>
                   <span id="mopActivePrimaryBadge" class="badge-tag tag-approved"
-                    style="font-size:9.5px;padding:1px 6px;display:none;">★ Official</span>
+                    style="font-size:9.5px;padding:1px 6px;display:none;">
+                    <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor" stroke="none" style="vertical-align:text-bottom;">
+                      <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+                    </svg>
+                    Official
+                  </span>
                 </div>
 
                 <div>
@@ -1062,7 +1204,12 @@
       </header>
       <div class="plan-modal-body">
         <div id="withdrawalBlockedNotice" class="tradein-blocked-notice">
-          ⚠ Activate your account with a ₱399 code to enable wallet withdrawals.
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:text-bottom;margin-right:4px;">
+            <circle cx="12" cy="12" r="10"/>
+            <line x1="12" y1="8" x2="12" y2="12"/>
+            <line x1="12" y1="16" x2="12.01" y2="16"/>
+          </svg>
+          Activate your account with a ₱399 code to enable wallet withdrawals.
         </div>
 
         <div
@@ -1116,7 +1263,10 @@
             <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
               <p class="tiny"
                 style="font-weight:700;color:var(--jade);margin:0;text-transform:uppercase;letter-spacing:0.04em;">
-                ⚡ Select Payment Provider:
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:text-bottom;margin-right:4px;">
+                  <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+                </svg>
+                Select Payment Provider:
               </p>
               <span class="tiny muted">Click icon to choose provider</span>
             </div>
@@ -1231,7 +1381,11 @@
             <article class="wd-card theme-ref">
               <div class="wd-card-head">
                 <div class="wd-card-title-group">
-                  <span class="wd-icon-pill icon-ref">★</span>
+                  <span class="wd-icon-pill icon-ref">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" stroke="none">
+                      <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+                    </svg>
+                  </span>
                   <div>
                     <span class="wd-card-label">Trade-In Referral</span>
                     <span class="wd-card-sub">5% Direct Sponsor</span>
@@ -1270,7 +1424,11 @@
             <article class="wd-card theme-cycle">
               <div class="wd-card-head">
                 <div class="wd-card-title-group">
-                  <span class="wd-icon-pill icon-cycle">⚡</span>
+                  <span class="wd-icon-pill icon-cycle">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+                    </svg>
+                  </span>
                   <div>
                     <span class="wd-card-label">Trade-In Cycle</span>
                     <span class="wd-card-sub">10-Day Profit Yield</span>
@@ -1309,7 +1467,11 @@
             <article class="wd-card theme-binary" style="border-color:rgba(46,213,158,0.35);">
               <div class="wd-card-head">
                 <div class="wd-card-title-group">
-                  <span class="wd-icon-pill icon-binary">💎</span>
+                  <span class="wd-icon-pill icon-binary">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+                    </svg>
+                  </span>
                   <div>
                     <span class="wd-card-label">Profit Sharing</span>
                     <span class="wd-card-sub">Community Dividend Pool</span>
@@ -1370,7 +1532,13 @@
           style="display:none;background:linear-gradient(135deg,rgba(46,213,158,0.18) 0%,rgba(15,122,69,0.22) 100%);border:1.5px solid #2ed59e;border-radius:14px;padding:16px;margin-bottom:16px;box-shadow:0 8px 24px rgba(46,213,158,0.15);">
           <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;">
             <div style="display:flex;gap:12px;align-items:center;">
-              <span style="font-size:32px;line-height:1;">🎁</span>
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:var(--jade);">
+                <polyline points="20 12 20 22 4 22 4 12"/>
+                <rect x="2" y="7" width="20" height="5"/>
+                <line x1="12" y1="22" x2="12" y2="7"/>
+                <path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/>
+                <path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/>
+              </svg>
               <div>
                 <div style="display:flex;align-items:center;gap:6px;">
                   <span class="badge-tag tag-approved"
@@ -1388,7 +1556,14 @@
             </div>
             <button type="button" id="btnBuyLoadClaim100" class="btn btn-mint"
               style="font-size:13px;font-weight:800;padding:10px 18px;border-radius:10px;box-shadow:0 4px 14px rgba(46,213,158,0.4);white-space:nowrap;">
-              🎁 Claim 100 Load Wallet
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:text-bottom;margin-right:4px;">
+                <polyline points="20 12 20 22 4 22 4 12"/>
+                <rect x="2" y="7" width="20" height="5"/>
+                <line x1="12" y1="22" x2="12" y2="7"/>
+                <path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/>
+                <path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/>
+              </svg>
+              Claim 100 Load Wallet
             </button>
           </div>
         </div>
@@ -1398,7 +1573,11 @@
           <div
             style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-bottom:12px;">
             <div style="display:flex;align-items:center;gap:6px;">
-              <span style="font-size:18px;">🏛️</span>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:var(--jade);">
+                <rect x="3" y="21" width="18" height="2" rx="1" ry="1"/>
+                <path d="M5 21V7l8-4 8 4v14"/>
+                <path d="M17 21v-8.5a2.5 2.5 0 0 0-5 0V21"/>
+              </svg>
               <strong class="mop-box-title">Official Payment Channels</strong>
             </div>
             <span class="mop-box-sub">Send exact payment &amp; keep screenshot receipt</span>
@@ -1460,7 +1639,10 @@
             <input type="tel" id="loadWalletPhoneInput" class="in" placeholder="e.g. 0917 123 4567" required
               style="width:100%;font-size:15px;font-weight:800;letter-spacing:0.04em;" />
             <div style="display:flex;align-items:center;gap:6px;margin-top:4px;">
-              <span style="font-size:13px;">📲</span>
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:#d97706;">
+                <rect x="5" y="2" width="14" height="20" rx="2" ry="2"/>
+                <line x1="12" y1="18" x2="12.01" y2="18"/>
+              </svg>
               <span class="tiny muted" style="color:#d97706;font-weight:700;">Double-check this phone number! The load
                 wallet credits will be sent directly to this SIM.</span>
             </div>
@@ -1545,7 +1727,16 @@
     <div class="plan-modal-sheet" style="max-width:560px;">
       <header class="plan-modal-head">
         <div>
-          <p class="kicker">🎁 Welcome Privilege</p>
+          <p class="kicker">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:text-bottom;margin-right:4px;">
+              <polyline points="20 12 20 22 4 22 4 12"/>
+              <rect x="2" y="7" width="20" height="5"/>
+              <line x1="12" y1="22" x2="12" y2="7"/>
+              <path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/>
+              <path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/>
+            </svg>
+            Welcome Privilege
+          </p>
           <h2>Claim ₱100 Load Wallet</h2>
         </div>
         <button class="plan-close" type="button" data-close-modal>×</button>
@@ -1555,7 +1746,10 @@
         <!-- Privilege Notice Banner -->
         <div
           style="background:linear-gradient(135deg,rgba(46,213,158,0.14) 0%,rgba(15,122,69,0.18) 100%);border:1.5px solid rgba(46,213,158,0.35);border-radius:12px;padding:12px 14px;margin-bottom:16px;display:flex;align-items:flex-start;gap:10px;">
-          <span style="font-size:24px;line-height:1;">🎉</span>
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:var(--jade);">
+            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+            <polyline points="22 4 12 14.01 9 11.01"/>
+          </svg>
           <div style="font-size:12.5px;color:var(--text);line-height:1.45;">
             <strong>Exclusively for newly activated accounts!</strong> This privilege will appear just once for your
             account. Once claimed, it will no longer be visible so you cannot claim it again.
@@ -1724,9 +1918,28 @@
           <button type="button" class="earnings-filter-btn active" data-cat="all">🌐 All Records</button>
           <button type="button" class="earnings-filter-btn" data-cat="referral">🎯 Direct Referral</button>
           <button type="button" class="earnings-filter-btn" data-cat="indirect">👥 Indirect</button>
-          <button type="button" class="earnings-filter-btn" data-cat="matching">⚖ Matching</button>
-          <button type="button" class="earnings-filter-btn" data-cat="tradein_referral">🔄 Trade-In Ref</button>
-          <button type="button" class="earnings-filter-btn" data-cat="tradein_earnings">📈 Trade-In Yield</button>
+          <button type="button" class="earnings-filter-btn" data-cat="matching">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:text-bottom;margin-right:4px;">
+              <path d="M12 3v6"/>
+              <path d="M14 10h-4"/>
+              <path d="M5 20a7 7 0 0 1 14 0"/>
+            </svg>
+            Matching
+          </button>
+          <button type="button" class="earnings-filter-btn" data-cat="tradein_referral">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:text-bottom;margin-right:4px;">
+              <polyline points="23 4 23 10 17 10"/>
+              <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/>
+            </svg>
+            Trade-In Ref
+          </button>
+          <button type="button" class="earnings-filter-btn" data-cat="tradein_earnings">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:text-bottom;margin-right:4px;">
+              <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/>
+              <polyline points="17 6 23 6 23 12"/>
+            </svg>
+            Trade-In Yield
+          </button>
         </div>
 
         <div id="earningsHistoryList" style="max-height:480px;overflow-y:auto;">
@@ -1760,7 +1973,13 @@
       <header class="plan-modal-head">
         <div>
           <p class="kicker">Account Security</p>
-          <h2 style="font-size:22px;margin:2px 0 0;">👤 Member Profile</h2>
+          <h2 style="font-size:22px;margin:2px 0 0;">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:text-bottom;margin-right:6px;">
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+              <circle cx="12" cy="7" r="4"/>
+            </svg>
+            Member Profile
+          </h2>
         </div>
         <button class="plan-close" type="button" data-close-modal>×</button>
       </header>
@@ -1817,7 +2036,12 @@
       <header class="plan-modal-head">
         <div>
           <p class="kicker">Dividend Pool &amp; Community Shares</p>
-          <h2>💎 Profit Sharing Wallet</h2>
+          <h2>
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:text-bottom;margin-right:6px;">
+              <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+            </svg>
+            Profit Sharing Wallet
+          </h2>
         </div>
         <button class="plan-close" type="button" data-close-modal>×</button>
       </header>
@@ -1980,7 +2204,13 @@
   <div class="modal-confirm-overlay" id="modalConfirmAction" style="display:none;">
     <div class="modal-confirm-card" role="dialog" aria-modal="true">
       <div class="confirm-head">
-        <div class="confirm-icon-circle" id="confirmModalIcon">⚠️</div>
+        <div class="confirm-icon-circle" id="confirmModalIcon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"/>
+            <line x1="12" y1="8" x2="12" y2="12"/>
+            <line x1="12" y1="16" x2="12.01" y2="16"/>
+          </svg>
+        </div>
         <div>
           <h3 class="confirm-title" id="confirmModalTitle">Confirm Action</h3>
           <p class="confirm-sub" id="confirmModalSubtitle">Please review the details below before proceeding.</p>
@@ -2105,21 +2335,6 @@
       });
     });
 
-    // Top referral link copy handler
-    document.getElementById('copyRefTop')?.addEventListener('click', async () => {
-      const v = document.getElementById('refLinkTop').value || document.getElementById('refLink').value;
-      const btn = document.getElementById('copyRefTop');
-      try {
-        await navigator.clipboard.writeText(v);
-        toast('Referral link copied to clipboard!', true);
-        const prev = btn.textContent;
-        btn.textContent = 'Copied! ✓';
-        setTimeout(() => { btn.textContent = prev; }, 2000);
-      } catch {
-        toast('Copy failed.');
-      }
-    });
-
     // Open User Profile & Change Password Modal
     document.getElementById('whoWrapper')?.addEventListener('click', () => {
       openModal('modalUserProfile');
@@ -2228,7 +2443,14 @@
     }
     function closeModal(id) {
       const el = typeof id === 'string' ? document.getElementById(id) : id.closest('.plan-modal');
-      if (el) { el.hidden = true; document.body.classList.remove('modal-open'); }
+      if (el) {
+        el.classList.add('closing');
+        setTimeout(() => {
+          el.hidden = true;
+          el.classList.remove('closing');
+          document.body.classList.remove('modal-open');
+        }, 200);
+      }
       document.querySelectorAll('.mobile-bottom-nav .bnav-item, .mobile-bottom-nav .bnav-center-action').forEach(btn => {
         btn.classList.toggle('active', btn.id === 'bnavHome');
       });
@@ -2748,8 +2970,6 @@
       // Always populate and enable referral link
       const refUrl = location.origin + '/register.html?sponsor=' + encodeURIComponent(u.mobile_number || '');
       if (refInput) refInput.value = refUrl;
-      const refTop = document.getElementById('refLinkTop');
-      if (refTop) refTop.value = refUrl;
       if (copyRefBtn) copyRefBtn.disabled = false;
       const refCardEl = document.getElementById('refCard');
       if (refCardEl) {
@@ -5014,12 +5234,20 @@
     </button>
     <button type="button" class="bnav-center-action" id="bnavTradein" onclick="switchMobileBottomTab('bnavTradein');">
       <div class="bnav-center-bubble">
-        <span>📈</span>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/>
+          <polyline points="17 6 23 6 23 12"/>
+        </svg>
       </div>
       <span style="font-size:10px;font-weight:800;color:var(--jade);margin-top:2px;">TRADE-IN</span>
     </button>
     <button type="button" class="bnav-item" id="bnavLoad" onclick="switchMobileBottomTab('bnavLoad');">
-      <span class="bnav-icon">📱</span>
+      <span class="bnav-icon">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="5" y="2" width="14" height="20" rx="2" ry="2"/>
+          <line x1="12" y1="18" x2="12.01" y2="18"/>
+        </svg>
+      </span>
       <span>LOAD</span>
     </button>
     <button type="button" class="bnav-item" id="bnavCashout" onclick="switchMobileBottomTab('bnavCashout');">

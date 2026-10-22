@@ -97,41 +97,6 @@
             Building Your Future,<br>
             <span class="gradient-text">Beyond Limits.</span>
           </h1>
-          <p class="hero-lede">Start with a ₱399 binary code, or grow capital with 120% Trade-In return in 12 days.
-            Pairing bonuses, referral commissions, and cashout to GCash, Maya, and banks.</p>
-          <div class="hero-cta-row">
-            <a href="/register.html" class="btn btn-primary-glow btn-lg">
-              <span>Get Started — ₱399</span>
-              <span class="btn-arrow">➔</span>
-            </a>
-            <a href="#calculator" class="btn btn-ghost btn-lg">Try ROI Calculator</a>
-          </div>
-          <div class="hero-kpi-row">
-            <div class="hero-kpi">
-              <b data-count="399" data-prefix="₱">₱399</b>
-              <span>Binary entry</span>
-            </div>
-            <div class="hero-kpi">
-              <b data-count="120" data-suffix="%">120%</b>
-              <span>12-day Trade-In</span>
-            </div>
-            <div class="hero-kpi">
-              <b data-count="50" data-prefix="₱">₱50</b>
-              <span>Per pairing match</span>
-            </div>
-            <div class="hero-kpi">
-              <b data-count="100" data-prefix="₱">₱100</b>
-              <span>Min. cashout</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="hero-live-ticker reveal d3" aria-live="polite">
-          <span class="live-stream-badge"><span class="live-indicator"></span> LIVE</span>
-          <div class="live-stream-content">
-            <span class="stream-msg" id="streamMessage">0917***892 earned ₱50 pairing bonus in Binary Tree</span>
-            <span class="stream-time" id="streamTime">Just now</span>
-          </div>
         </div>
       </div>
     </section>
@@ -569,6 +534,8 @@
                   <span>+ Add Left (₱399)</span>
                 </button>
               </div>
+              <!-- Dynamic Left Members Container -->
+              <div class="tree-members-container" id="leftMembersContainer"></div>
             </div>
 
             <!-- Center Match Animation Zone -->
@@ -592,6 +559,8 @@
                   <span>+ Add Right (₱399)</span>
                 </button>
               </div>
+              <!-- Dynamic Right Members Container -->
+              <div class="tree-members-container" id="rightMembersContainer"></div>
             </div>
           </div>
         </div>
@@ -1345,6 +1314,9 @@
     let treeRight = 0;
     let treePairs = 0;
     let treeBalance = 0;
+    let leftMembers = [];
+    let rightMembers = [];
+    let memberCounter = 1;
 
     const treeLeftCount = document.getElementById('treeLeftCount');
     const treeRightCount = document.getElementById('treeRightCount');
@@ -1355,6 +1327,25 @@
     const pairBurst = document.getElementById('pairBurst');
     const nodeLeftBox = document.getElementById('nodeLeftBox');
     const nodeRightBox = document.getElementById('nodeRightBox');
+    const leftMembersContainer = document.getElementById('leftMembersContainer');
+    const rightMembersContainer = document.getElementById('rightMembersContainer');
+
+    function createMemberNode(side, id) {
+      const member = document.createElement('div');
+      member.className = 'tree-node node-member node-member-new';
+      member.innerHTML = `
+        <div class="node-avatar">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+            <circle cx="12" cy="7" r="4"></circle>
+          </svg>
+        </div>
+        <div class="node-title">M${id}</div>
+        <div class="node-sub">₱399</div>
+      `;
+      setTimeout(() => member.classList.remove('node-member-new'), 500);
+      return member;
+    }
 
     function triggerPairCelebration() {
       if (!pairBurst) return;
@@ -1379,6 +1370,20 @@
         treeRight -= 1;
         treePairs += 1;
         treeBalance += 50;
+
+        // Match one left and one right member
+        const leftMember = leftMembers.shift();
+        const rightMember = rightMembers.shift();
+
+        if (leftMember && leftMembersContainer) {
+          leftMember.classList.add('node-matched');
+          setTimeout(() => leftMember.remove(), 300);
+        }
+        if (rightMember && rightMembersContainer) {
+          rightMember.classList.add('node-matched');
+          setTimeout(() => rightMember.remove(), 300);
+        }
+
         triggerPairCelebration();
         refreshTreeUI();
       }
@@ -1388,16 +1393,26 @@
       treeLeft += 1;
       nodeLeftBox?.classList.add('node-pulse');
       setTimeout(() => nodeLeftBox?.classList.remove('node-pulse'), 300);
+
+      const memberNode = createMemberNode('left', memberCounter++);
+      leftMembers.push(memberNode);
+      leftMembersContainer?.appendChild(memberNode);
+
       refreshTreeUI();
-      setTimeout(checkTreeMatch, 300);
+      setTimeout(checkTreeMatch, 1500);
     });
 
     document.getElementById('btnAddRight')?.addEventListener('click', () => {
       treeRight += 1;
       nodeRightBox?.classList.add('node-pulse');
       setTimeout(() => nodeRightBox?.classList.remove('node-pulse'), 300);
+
+      const memberNode = createMemberNode('right', memberCounter++);
+      rightMembers.push(memberNode);
+      rightMembersContainer?.appendChild(memberNode);
+
       refreshTreeUI();
-      setTimeout(checkTreeMatch, 300);
+      setTimeout(checkTreeMatch, 1500);
     });
 
     document.getElementById('btnAutoSimulate')?.addEventListener('click', () => {
@@ -1409,10 +1424,19 @@
         }
         treeLeft += 1;
         treeRight += 1;
+
+        const leftMember = createMemberNode('left', memberCounter++);
+        leftMembers.push(leftMember);
+        leftMembersContainer?.appendChild(leftMember);
+
+        const rightMember = createMemberNode('right', memberCounter++);
+        rightMembers.push(rightMember);
+        rightMembersContainer?.appendChild(rightMember);
+
         refreshTreeUI();
-        setTimeout(checkTreeMatch, 150);
+        setTimeout(checkTreeMatch, 1500);
         simulated += 1;
-      }, 350);
+      }, 2000);
     });
 
     document.getElementById('btnResetTree')?.addEventListener('click', () => {
@@ -1420,6 +1444,11 @@
       treeRight = 0;
       treePairs = 0;
       treeBalance = 0;
+      leftMembers = [];
+      rightMembers = [];
+      memberCounter = 1;
+      if (leftMembersContainer) leftMembersContainer.innerHTML = '';
+      if (rightMembersContainer) rightMembersContainer.innerHTML = '';
       refreshTreeUI();
     });
 

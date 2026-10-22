@@ -22,8 +22,10 @@
   --accent-mint: #2ed59e;
   --ink: #131a22;
   --radius: 16px;
-  --font: "Sora", system-ui, -apple-system, sans-serif;
-  --display: "Sora", system-ui, -apple-system, sans-serif;
+  --font: "Inter", system-ui, "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --display: "Inter", system-ui, "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --serif: "EB Garamond", "Iowan Old Style", "Palatino Linotype", Georgia, serif;
+  --mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
 
   /* === ADVANCED DARK SLATE & ELECTRIC MINT DESIGN TOKENS === */
   --glass-bg-primary: rgba(28, 39, 50, 0.88);
@@ -69,8 +71,10 @@
   --accent-mint: #0f7a45;
   --ink: #0e291b;
   --radius: 16px;
-  --font: "Sora", system-ui, -apple-system, sans-serif;
-  --display: "Sora", system-ui, -apple-system, sans-serif;
+  --font: "Inter", system-ui, "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --display: "Inter", system-ui, "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --serif: "EB Garamond", "Iowan Old Style", "Palatino Linotype", Georgia, serif;
+  --mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
 
   /* Glass tokens - Light Mode */
   --glass-bg-primary: rgba(255, 255, 255, 0.88);
@@ -788,6 +792,11 @@ body.admin-body {
    ADMIN TERMINAL SUITE & SIDEBAR DRAWER
    ========================================================= */
 .admin-terminal-body {
+  --font: "Inter", system-ui, "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --display: "Inter", system-ui, "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --serif: "EB Garamond", "Iowan Old Style", "Palatino Linotype", Georgia, serif;
+  --mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-family: var(--font);
   background:
     radial-gradient(1200px 700px at 50% -10%, rgba(46, 213, 158, 0.12), transparent 70%),
     radial-gradient(900px 500px at 85% 25%, rgba(30, 161, 242, 0.08), transparent 60%),
@@ -798,12 +807,16 @@ body.admin-body {
   margin: 0;
   padding: 0;
   min-height: 100vh;
-  font-family: var(--font);
   overflow-x: clip;
 }
 
 [data-theme="light"] .admin-terminal-body,
 body[data-theme="light"].admin-terminal-body {
+  --font: "Inter", system-ui, "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --display: "Inter", system-ui, "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --serif: "EB Garamond", "Iowan Old Style", "Palatino Linotype", Georgia, serif;
+  --mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-family: var(--font);
   background:
     radial-gradient(1200px 700px at 50% -10%, rgba(15, 122, 69, 0.08), transparent 70%),
     radial-gradient(900px 500px at 85% 25%, rgba(14, 165, 233, 0.06), transparent 60%),
@@ -925,6 +938,15 @@ body[data-theme="light"].admin-terminal-body {
 .admin-nav-icon {
   font-size: 16px;
   flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--jade);
+}
+
+.admin-nav-icon svg {
+  width: 18px;
+  height: 18px;
 }
 
 .admin-nav-badge {
@@ -1991,6 +2013,11 @@ body.dash-terminal-body {
   margin: 0;
   padding: 0;
   min-height: 100vh;
+  --font: "Inter", system-ui, "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --display: "Inter", system-ui, "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --serif: "EB Garamond", "Iowan Old Style", "Palatino Linotype", Georgia, serif;
+  --mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-family: var(--font);
   background:
     radial-gradient(1200px 700px at 50% -10%, rgba(46, 213, 158, 0.12), transparent 70%),
     radial-gradient(900px 500px at 85% 25%, rgba(30, 161, 242, 0.08), transparent 60%),
@@ -2003,6 +2030,11 @@ body.dash-terminal-body {
 
 [data-theme="light"] body.dash-terminal-body,
 body[data-theme="light"].dash-terminal-body {
+  --font: "Inter", system-ui, "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --display: "Inter", system-ui, "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --serif: "EB Garamond", "Iowan Old Style", "Palatino Linotype", Georgia, serif;
+  --mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-family: var(--font);
   background:
     radial-gradient(1200px 700px at 50% -10%, rgba(15, 122, 69, 0.08), transparent 70%),
     radial-gradient(900px 500px at 85% 25%, rgba(14, 165, 233, 0.06), transparent 60%),
@@ -2099,6 +2131,19 @@ body[data-theme="light"].dash-terminal-body {
   align-items: center;
   gap: 8px;
   letter-spacing: 0.01em;
+  flex: 1;
+}
+
+.side-nav-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--jade);
+}
+
+.side-nav-icon svg {
+  width: 18px;
+  height: 18px;
 }
 
 .side-nav-header .accordion-caret {
@@ -2212,6 +2257,16 @@ body[data-theme="light"].dash-terminal-body {
 
 .side-cta-btn .side-cta-icon {
   font-size: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 8px;
+  color: var(--jade);
+}
+
+.side-cta-btn .side-cta-icon svg {
+  width: 18px;
+  height: 18px;
 }
 
 /* Light Mode Sidebar CTAs */
@@ -2309,6 +2364,14 @@ body[data-theme="light"].dash-terminal-body {
 
 .user-avatar-icon {
   font-size: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.user-avatar-icon svg {
+  width: 16px;
+  height: 16px;
 }
 
 .user-badge-info {
@@ -2478,6 +2541,10 @@ body[data-theme="light"].dash-terminal-body {
   flex-shrink: 0;
 }
 
+.m-hero-icon-stack svg {
+  color: var(--jade);
+}
+
 .m-hero-content {
   display: flex;
   flex-direction: column;
@@ -2552,6 +2619,14 @@ body[data-theme="light"].dash-terminal-body {
 .m-badge-icon {
   font-size: 14px;
   opacity: 0.85;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.m-badge-icon svg {
+  width: 18px;
+  height: 18px;
 }
 
 .m-pill-badge {
@@ -3489,6 +3564,8 @@ body[data-theme="light"].dash-terminal-body {
   .plan-modal-sheet {
     max-height: 92vh;
     border-radius: 18px;
+    max-width: 95vw;
+    margin: 0 auto;
   }
 
   .plan-modal-head {
@@ -3496,20 +3573,69 @@ body[data-theme="light"].dash-terminal-body {
   }
 
   .plan-modal-head h2 {
-    font-size: 22px;
+    font-size: 18px;
   }
 
   .plan-tabs {
     padding: 0 12px 10px;
+    flex-wrap: wrap;
+    gap: 6px;
   }
 
   .plan-tab {
     padding: 6px 10px;
-    font-size: 12px;
+    font-size: 11px;
+    flex: 1 1 auto;
+    min-width: calc(50% - 6px);
   }
 
   .plan-modal-body {
     padding: 6px 16px 18px;
+  }
+
+  /* Mobile Modal Animations - Faster for better UX */
+  .plan-modal-sheet {
+    animation: modalSlideUpMobile 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  @keyframes modalSlideUpMobile {
+    from {
+      opacity: 0;
+      transform: translateY(20px) scale(0.98);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+  }
+
+  .plan-modal.closing .plan-modal-sheet {
+    animation: modalSlideDownMobile 0.15s ease-in forwards;
+  }
+
+  @keyframes modalSlideDownMobile {
+    from {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+    to {
+      opacity: 0;
+      transform: translateY(15px) scale(0.98);
+    }
+  }
+
+  /* Touch-friendly tap targets on mobile */
+  .plan-modal .btn {
+    min-height: 44px;
+  }
+
+  .plan-modal .btn-sm {
+    min-height: 36px;
+  }
+
+  /* Better touch feedback on mobile */
+  .plan-modal .btn:active {
+    transform: scale(0.97);
   }
 
   .admin-sec-head {
@@ -3648,6 +3774,11 @@ body[data-theme="light"].dash-terminal-body {
   display: grid;
   place-items: center;
   padding: 20px;
+}
+
+.plan-modal.closing {
+  opacity: 0;
+  transition: opacity 0.15s ease-out;
 }
 
 .plan-modal-backdrop {
@@ -3860,6 +3991,165 @@ body[data-theme="light"].dash-terminal-body {
 .plan-modal-body {
   overflow: auto;
   padding: 8px 22px 24px;
+}
+
+/* Interactive Button States in Modals */
+.plan-modal .btn {
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.plan-modal .btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(46, 213, 158, 0.3);
+}
+
+.plan-modal .btn:active {
+  transform: translateY(0);
+  box-shadow: 0 4px 12px rgba(46, 213, 158, 0.2);
+}
+
+.plan-modal .btn:focus {
+  outline: 2px solid var(--jade);
+  outline-offset: 2px;
+}
+
+/* Interactive Card States in Modals */
+.plan-modal .card,
+.plan-modal .panel {
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.plan-modal .card:hover,
+.plan-modal .panel:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.25);
+  border-color: rgba(46, 213, 158, 0.4);
+}
+
+/* Interactive Input States */
+.plan-modal input,
+.plan-modal select,
+.plan-modal textarea {
+  transition: all 0.2s ease;
+}
+
+.plan-modal input:focus,
+.plan-modal select:focus,
+.plan-modal textarea:focus {
+  transform: translateY(-1px);
+  box-shadow: 0 8px 24px rgba(46, 213, 158, 0.2);
+}
+
+/* Tab Button Hover Effects */
+.plan-tab {
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.plan-tab:hover {
+  transform: translateY(-1px);
+}
+
+.plan-tab.active {
+  animation: tabPulse 0.3s ease-out;
+}
+
+@keyframes tabPulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* Interactive Table Row States */
+.plan-modal .table tbody tr {
+  transition: all 0.2s ease;
+}
+
+.plan-modal .table tbody tr:hover {
+  background: rgba(46, 213, 158, 0.08);
+  transform: scale(1.01);
+}
+
+/* Interactive Filter Tab Buttons */
+.earnings-filter-btn,
+.ctrl-tab {
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.earnings-filter-btn:hover,
+.ctrl-tab:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(46, 213, 158, 0.2);
+}
+
+.earnings-filter-btn.active,
+.ctrl-tab.active {
+  animation: filterTabPulse 0.3s ease-out;
+}
+
+@keyframes filterTabPulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* Interactive Badge Tags */
+.badge-tag {
+  transition: all 0.2s ease;
+}
+
+.badge-tag:hover {
+  transform: scale(1.05);
+}
+
+/* Interactive Code Cards */
+.code-card,
+.member-card {
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.code-card:hover,
+.member-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.2);
+  border-color: rgba(46, 213, 158, 0.4);
+}
+
+/* Interactive Withdrawal Cards */
+.wd-card {
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.wd-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.2);
+}
+
+.wd-card.active {
+  animation: cardGlow 0.3s ease-out;
+}
+
+@keyframes cardGlow {
+  0% {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
+  50% {
+    box-shadow: 0 8px 24px rgba(46, 213, 158, 0.3);
+  }
+  100% {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
 }
 
 .plan-pane {
@@ -6208,6 +6498,92 @@ body.modal-open {
   gap: 10px;
   flex: 1;
   min-width: 0;
+}
+
+.tree-members-container {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 8px;
+  width: 100%;
+  max-height: 280px;
+  overflow-y: auto;
+  padding: 4px;
+}
+
+.node-member {
+  background: linear-gradient(135deg, #1c2732 0%, #17222c 100%);
+  border: 1.5px solid rgba(46, 213, 158, 0.3);
+  border-radius: 12px;
+  padding: 8px 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 100px;
+  max-width: 140px;
+  transition: all 0.3s ease;
+  opacity: 1;
+  transform: scale(1);
+}
+
+.node-member .node-avatar {
+  font-size: 16px;
+  line-height: 1;
+  color: var(--jade);
+}
+
+.node-member .node-title {
+  font-size: 11px;
+  font-weight: 700;
+  color: #ffffff;
+  margin-top: 4px;
+}
+
+.node-member .node-sub {
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--muted);
+  background: rgba(19, 26, 34, 0.8);
+  padding: 2px 8px;
+  border-radius: 6px;
+  margin-top: 4px;
+}
+
+.node-member-new {
+  animation: memberAppear 0.5s ease-out;
+}
+
+@keyframes memberAppear {
+  from {
+    opacity: 0;
+    transform: scale(0.5) translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+.node-matched {
+  animation: memberMatch 0.3s ease-out forwards;
+}
+
+@keyframes memberMatch {
+  0% {
+    opacity: 1;
+    transform: scale(1);
+    border-color: var(--gold);
+  }
+  50% {
+    opacity: 0.5;
+    transform: scale(1.1);
+    border-color: var(--gold);
+    box-shadow: 0 0 20px rgba(217, 119, 6, 0.6);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0);
+  }
 }
 
 .node-child {
@@ -10739,8 +11115,15 @@ textarea::placeholder {
 .theme-toggle-icon {
   font-size: 14px;
   line-height: 1;
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.theme-toggle-icon svg {
+  width: 16px;
+  height: 16px;
 }
 
 .btn-theme-toggle:hover .theme-toggle-icon {
