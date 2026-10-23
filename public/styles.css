@@ -1198,14 +1198,7 @@ body[data-theme="light"].admin-terminal-body {
 }
 
 .admin-card::before {
-  content: "";
-  position: absolute;
-  left: 0;
-  top: 0;
-  bottom: 0;
-  width: 4px;
-  border-radius: 14px 0 0 14px;
-  background: #0f7a45;
+  display: none;
 }
 
 .admin-card.gold::before {
@@ -1866,6 +1859,9 @@ select:-webkit-autofill {
   text-transform: uppercase;
   color: var(--muted, #8e9fae);
   margin: 0 0 3px;
+  white-space: normal;
+  word-wrap: break-word;
+  hyphens: auto;
 }
 
 .wt-card .wt-card-val {
@@ -2749,6 +2745,34 @@ body[data-theme="light"].dash-terminal-body {
   font-weight: 500;
 }
 
+/* Profit Sharing Metric Cards */
+.metric-card {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.82) 0%, rgba(255, 255, 255, 0.58) 100%);
+  backdrop-filter: blur(24px) saturate(180%);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.85);
+  border-radius: 18px;
+  padding: 16px 20px;
+  box-shadow: 0 8px 24px rgba(11, 55, 33, 0.06), inset 0 1px 1px rgba(255, 255, 255, 0.9);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+:root:not([data-theme="light"]) .metric-card,
+[data-theme="dark"] .metric-card {
+  background: linear-gradient(135deg, rgba(28, 39, 50, 0.95) 0%, rgba(22, 32, 41, 0.92) 100%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25) !important;
+}
+
+[data-theme="light"] .metric-card {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.96) 0%, rgba(244, 251, 247, 0.92) 100%) !important;
+  border: 1px solid rgba(15, 122, 69, 0.15) !important;
+  box-shadow: 0 4px 14px rgba(11, 55, 33, 0.04) !important;
+}
+
 /* PPT CARD WITH CIRCULAR PROGRESS DIAL */
 .m-card-ppt {
   flex-direction: row;
@@ -3052,6 +3076,11 @@ body[data-theme="light"].dash-terminal-body {
     display: block;
   }
 
+  .admin-terminal-layout {
+    grid-template-columns: 1fr;
+    display: block;
+  }
+
   .dash-burger-btn {
     display: flex;
   }
@@ -3078,7 +3107,7 @@ body[data-theme="light"].dash-terminal-body {
     pointer-events: auto;
   }
 
-  /* Off-canvas Sliding Drawer Sidebar */
+  /* Off-canvas Sliding Drawer Sidebar (User Dashboard) */
   .dash-sidebar {
     position: fixed !important;
     top: 0;
@@ -3098,7 +3127,34 @@ body[data-theme="light"].dash-terminal-body {
     overflow-y: auto;
   }
 
-  .dash-sidebar.open {
+  /* Off-canvas Sliding Drawer Sidebar (Admin Dashboard) */
+  .admin-sidebar {
+    position: fixed !important;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: min(310px, 86vw);
+    height: 100vh;
+    z-index: 99;
+    transform: translateX(-105%);
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: 6px 0 32px rgba(10, 40, 25, 0.25);
+    background: rgba(255, 255, 255, 0.98) !important;
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    border-right: 1px solid rgba(15, 122, 69, 0.2);
+    padding: 18px 14px 85px;
+    overflow-y: auto;
+  }
+
+  /* Fix referral link being covered by bottom nav on mobile */
+  .side-ref-card,
+  .admin-side-ref-box {
+    margin-bottom: 80px;
+  }
+
+  .dash-sidebar.open,
+  .admin-sidebar.open {
     transform: translateX(0);
   }
 
@@ -9899,15 +9955,15 @@ body[data-theme="light"].auth-page-body {
 
 /* Home Pending Action Center Items */
 .home-pending-card {
-  background: var(--card-bg, #1c2732);
-  border: 1px solid var(--line, rgba(255, 255, 255, 0.08));
+  background: linear-gradient(135deg, rgba(28, 39, 50, 0.95) 0%, rgba(22, 32, 41, 0.92) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.08);
   border-left: 4px solid #f59e0b;
-  border-radius: 12px;
-  padding: 12px 14px;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+  border-radius: 14px;
+  padding: 14px 16px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 10px;
 }
 
 [data-theme="light"] .home-pending-card {
@@ -9930,7 +9986,7 @@ body[data-theme="light"].auth-page-body {
   /* 1. Global Viewport & Layout Reset to Prevent Horizontal Overflow */
   html,
   body.admin-terminal-body {
-    overflow-x: clip !important;
+    overflow-x: hidden !important;
     width: 100% !important;
     max-width: 100%;
   }
@@ -9940,6 +9996,7 @@ body[data-theme="light"].auth-page-body {
     width: 100% !important;
     max-width: 100vw !important;
     overflow-x: hidden !important;
+    overflow-y: visible !important;
   }
 
   .admin-main-area {
@@ -9947,15 +10004,17 @@ body[data-theme="light"].auth-page-body {
     max-width: 100vw !important;
     min-width: 0 !important;
     overflow-x: hidden !important;
+    overflow-y: visible !important;
   }
 
   .admin-content-inner {
-    padding: 12px 10px 48px !important;
+    padding: 16px 14px 80px !important;
     width: 100% !important;
     max-width: 100vw !important;
     box-sizing: border-box !important;
     overflow-x: hidden !important;
-    gap: 14px !important;
+    overflow-y: auto !important;
+    gap: 18px !important;
   }
 
   .admin-view-panel {
@@ -9963,15 +10022,16 @@ body[data-theme="light"].auth-page-body {
     max-width: 100% !important;
     box-sizing: border-box !important;
     overflow-x: hidden !important;
+    overflow-y: visible !important;
   }
 
   /* 2. Top Navigation Bar - Single Sleek Mobile Header Row */
   .admin-top-bar {
-    padding: 0 12px !important;
-    height: 56px !important;
-    min-height: 56px !important;
-    max-height: 56px !important;
-    gap: 8px !important;
+    padding: 0 14px !important;
+    height: 58px !important;
+    min-height: 58px !important;
+    max-height: 58px !important;
+    gap: 10px !important;
     flex-wrap: nowrap !important;
     display: flex !important;
     align-items: center !important;
@@ -9981,6 +10041,11 @@ body[data-theme="light"].auth-page-body {
     position: sticky !important;
     top: 0 !important;
     z-index: 50 !important;
+    background: linear-gradient(135deg, rgba(19, 26, 34, 0.96) 0%, rgba(22, 32, 41, 0.94) 100%) !important;
+    backdrop-filter: blur(20px) saturate(180%) !important;
+    -webkit-backdrop-filter: blur(20px) saturate(180%) !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.35) !important;
   }
 
   .admin-top-tag {
@@ -9991,7 +10056,7 @@ body[data-theme="light"].auth-page-body {
   .admin-top-left {
     display: flex !important;
     align-items: center !important;
-    gap: 8px !important;
+    gap: 10px !important;
     flex-shrink: 0 !important;
   }
 
@@ -10106,16 +10171,22 @@ body[data-theme="light"].auth-page-body {
   .admin-sec-head {
     flex-direction: column !important;
     align-items: flex-start !important;
-    gap: 8px !important;
-    margin-bottom: 12px !important;
+    gap: 10px !important;
+    margin-bottom: 16px !important;
+    padding: 4px 0 !important;
   }
 
   .admin-sec-title {
-    font-size: 18px !important;
+    font-size: 19px !important;
+    font-weight: 800 !important;
+    letter-spacing: -0.02em !important;
   }
 
   .admin-sec-sub {
-    font-size: 10px !important;
+    font-size: 10.5px !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.12em !important;
+    color: var(--jade) !important;
   }
 
   .admin-sec-head>div {
@@ -10408,81 +10479,132 @@ body[data-theme="light"].auth-page-body {
   .kpi-row-2 {
     display: grid !important;
     grid-template-columns: repeat(2, 1fr) !important;
-    gap: 10px !important;
-    margin-bottom: 12px !important;
+    gap: 12px !important;
+    margin-bottom: 16px !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+    overflow: hidden !important;
   }
 
   .admin-card {
-    padding: 12px 12px !important;
-    border-radius: 14px !important;
+    padding: 14px 12px !important;
+    border-radius: 16px !important;
     position: relative !important;
     display: flex !important;
     flex-direction: column !important;
     justify-content: space-between !important;
     align-items: flex-start !important;
-    min-height: 102px !important;
+    min-height: 110px !important;
     box-sizing: border-box !important;
+    background: linear-gradient(135deg, rgba(28, 39, 50, 0.95) 0%, rgba(22, 32, 41, 0.92) 100%) !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25) !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    overflow: hidden !important;
+  }
+
+  .admin-card.gold {
+    background: linear-gradient(135deg, rgba(46, 213, 158, 0.12) 0%, rgba(217, 119, 6, 0.08) 100%) !important;
+    border-color: rgba(217, 119, 6, 0.25) !important;
+  }
+
+  .admin-card.mint {
+    background: linear-gradient(135deg, rgba(46, 213, 158, 0.15) 0%, rgba(22, 163, 74, 0.1) 100%) !important;
+    border-color: rgba(46, 213, 158, 0.3) !important;
   }
 
   .admin-card > div:first-child {
     width: 100% !important;
-    padding-right: 32px !important;
+    padding-right: 36px !important;
     box-sizing: border-box !important;
   }
 
   .admin-card .kpi-label {
-    font-size: 9.5px !important;
+    font-size: 10px !important;
     font-weight: 700 !important;
-    letter-spacing: 0.03em !important;
-    line-height: 1.25 !important;
-    margin: 0 0 3px !important;
+    letter-spacing: 0.04em !important;
+    line-height: 1.3 !important;
+    margin: 0 0 4px !important;
     text-transform: uppercase !important;
     white-space: nowrap !important;
     overflow: hidden !important;
     text-overflow: ellipsis !important;
     display: block !important;
+    color: var(--muted) !important;
   }
 
   .admin-card .kpi-val {
-    font-size: 19px !important;
-    font-weight: 700 !important;
-    line-height: 1.2 !important;
-    margin: 3px 0 2px !important;
+    font-size: 22px !important;
+    font-weight: 800 !important;
+    line-height: 1.15 !important;
+    margin: 2px 0 4px !important;
     white-space: nowrap !important;
     overflow: hidden !important;
     text-overflow: ellipsis !important;
+    color: var(--text) !important;
+  }
+
+  .admin-card.gold .kpi-val {
+    color: var(--gold) !important;
+  }
+
+  .admin-card.mint .kpi-val {
+    color: var(--jade) !important;
   }
 
   .admin-card .kpi-sub {
-    font-size: 9.5px !important;
-    line-height: 1.2 !important;
+    font-size: 10px !important;
+    line-height: 1.3 !important;
     white-space: nowrap !important;
     overflow: hidden !important;
     text-overflow: ellipsis !important;
+    color: var(--muted) !important;
   }
 
   .admin-card .kpi-icon {
     position: absolute !important;
-    top: 10px !important;
-    right: 10px !important;
-    width: 28px !important;
-    height: 28px !important;
-    font-size: 14px !important;
-    border-radius: 8px !important;
+    top: 12px !important;
+    right: 12px !important;
+    width: 32px !important;
+    height: 32px !important;
+    font-size: 16px !important;
+    border-radius: 10px !important;
     display: grid !important;
     place-items: center !important;
+    background: rgba(46, 213, 158, 0.12) !important;
+    border: 1px solid rgba(46, 213, 158, 0.25) !important;
+  }
+
+  /* Remove colored left border line on mobile */
+  .admin-card::before {
+    display: none !important;
   }
 
   .wallet-totals-bar {
     grid-template-columns: repeat(3, 1fr) !important;
-    gap: 8px !important;
-    margin-top: 12px !important;
+    gap: 10px !important;
+    margin-top: 16px !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+    overflow: hidden !important;
   }
 
   .wt-card {
-    padding: 10px 8px !important;
-    border-radius: 12px !important;
-    text-align: center !important;
+    padding: 12px 10px !important;
+    border-radius: 14px !important;
+    text-align: left !important;
+    background: linear-gradient(135deg, rgba(28, 39, 50, 0.92) 0%, rgba(22, 32, 41, 0.88) 100%) !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.2) !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    box-sizing: border-box !important;
+    overflow: hidden !important;
   }
 
   .wt-card .wt-card-label {
@@ -10490,15 +10612,146 @@ body[data-theme="light"].auth-page-body {
     letter-spacing: 0.02em !important;
     line-height: 1.2 !important;
     display: block !important;
-    margin-bottom: 2px !important;
-    white-space: nowrap !important;
-    overflow: hidden !important;
-    text-overflow: ellipsis !important;
+    margin-bottom: 4px !important;
+    white-space: normal !important;
+    overflow: visible !important;
+    text-overflow: clip !important;
+    color: var(--muted) !important;
+    font-weight: 700 !important;
+    text-transform: uppercase !important;
+    word-wrap: break-word !important;
+    hyphens: auto !important;
   }
 
   .wt-card .wt-card-val {
-    font-size: 13.5px !important;
+    font-size: 15px !important;
+    font-weight: 800 !important;
+    color: var(--jade) !important;
+  }
+
+  /* Pending Approvals Quick Center - Mobile Optimization */
+  .admin-card[style*="grid-column:1/-1"] {
+    grid-column: 1 / -1 !important;
+    padding: 16px 14px !important;
+  }
+
+  .admin-card[style*="grid-column:1/-1"] > div:first-child {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 12px !important;
+  }
+
+  .admin-card[style*="grid-column:1/-1"] > div:first-child h3 {
+    font-size: 15px !important;
+  }
+
+  .admin-card[style*="grid-column:1/-1"] > div:first-child p {
+    font-size: 10px !important;
+  }
+
+  .admin-card[style*="grid-column:1/-1"] > div:first-child > div:last-child {
+    width: 100% !important;
+    flex-wrap: wrap !important;
+  }
+
+  .admin-card[style*="grid-column:1/-1"] > div:first-child > div:last-child button {
+    flex: 1 !important;
+    min-width: 0 !important;
+    font-size: 11px !important;
+    padding: 8px 10px !important;
+    white-space: nowrap !important;
+  }
+
+  /* Profit Sharing Mobile Optimizations */
+  #viewProfitSharing .metrics-row-1 {
+    grid-template-columns: 1fr !important;
+    gap: 12px !important;
+  }
+
+  #viewProfitSharing .metric-card {
+    padding: 16px 14px !important;
+    border-radius: 16px !important;
+    background: linear-gradient(135deg, rgba(28, 39, 50, 0.95) 0%, rgba(22, 32, 41, 0.92) 100%) !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25) !important;
+    min-height: 120px !important;
+  }
+
+  #viewProfitSharing .metric-card .m-label {
+    font-size: 10px !important;
+    letter-spacing: 0.04em !important;
+    color: var(--muted) !important;
     font-weight: 700 !important;
+    text-transform: uppercase !important;
+    margin-bottom: 8px !important;
+    display: block !important;
+    white-space: normal !important;
+    word-wrap: break-word !important;
+  }
+
+  #viewProfitSharing .metric-card .m-val {
+    font-size: 32px !important;
+    font-weight: 800 !important;
+    line-height: 1.1 !important;
+    margin: 4px 0 6px !important;
+    color: var(--jade) !important;
+  }
+
+  #viewProfitSharing .metric-card .m-sub {
+    font-size: 10px !important;
+    color: var(--muted) !important;
+    line-height: 1.4 !important;
+    white-space: normal !important;
+    word-wrap: break-word !important;
+  }
+
+  /* Profit Sharing Release Card */
+  #viewProfitSharing .admin-card[style*="rgba(46,213,158,0.1)"] {
+    padding: 18px 16px !important;
+    border-radius: 16px !important;
+  }
+
+  #viewProfitSharing .admin-card[style*="rgba(46,213,158,0.1)"] > div {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 14px !important;
+  }
+
+  #viewProfitSharing .admin-card[style*="rgba(46,213,158,0.1)"] h3 {
+    font-size: 17px !important;
+  }
+
+  #viewProfitSharing .admin-card[style*="rgba(46,213,158,0.1)"] button {
+    width: 100% !important;
+    font-size: 13px !important;
+    padding: 12px 16px !important;
+  }
+
+  /* Qualified Members Table Mobile */
+  .admin-table-panel {
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+  }
+
+  .admin-table {
+    min-width: 600px !important;
+  }
+
+  /* Badge tags mobile */
+  .badge-tag {
+    font-size: 10px !important;
+    padding: 4px 10px !important;
+  }
+
+  /* Admin section header mobile */
+  .admin-sec-header {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 10px !important;
+  }
+
+  .admin-sec-header button {
+    width: 100% !important;
   }
 
   /* 7. Panel 3: Code Vault Responsive */
@@ -11221,8 +11474,15 @@ textarea::placeholder {
     padding-bottom: env(safe-area-inset-bottom, 0);
   }
 
-  body.dash-terminal-body {
+  body.dash-terminal-body,
+  body.admin-terminal-body {
     padding-bottom: 74px !important;
+  }
+
+  /* Fix referral link being covered by bottom nav on mobile */
+  .side-ref-card,
+  .admin-side-ref-box {
+    margin-bottom: 80px;
   }
 }
 
