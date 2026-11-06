@@ -158,18 +158,7 @@
           <span>EARNINGS HISTORY</span>
         </button>
 
-        <!-- 6. Buy Load Wallet CTA -->
-        <button type="button" class="side-cta-btn side-cta-alt" id="btnOpenBuyLoadWallet">
-          <span class="side-cta-icon">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <rect x="5" y="2" width="14" height="20" rx="2" ry="2"/>
-              <line x1="12" y1="18" x2="12.01" y2="18"/>
-            </svg>
-          </span>
-          <span>BUY LOAD WALLET</span>
-        </button>
-
-        <!-- 7. Profit Sharing Wallet CTA -->
+        <!-- 6. Profit Sharing Wallet CTA -->
         <button type="button" class="side-cta-btn side-cta-alt" id="btnOpenProfitSharing"
           style="border-color:rgba(46,213,158,0.35);">
           <span class="side-cta-icon">
@@ -336,7 +325,56 @@
           </form>
         </div>
 
-        <!-- Newly Activated Account: Claim ₱100 Load Wallet Notice -->
+        <!-- Reward Countdown Banner -->
+        <div id="rewardCountdownBox" class="panel card"
+          style="margin-bottom: 20px; border: 2px solid #f59e0b; background: linear-gradient(135deg, rgba(245,158,11,0.12) 0%, rgba(180,83,9,0.16) 100%); border-radius:16px; padding:20px; box-shadow: 0 10px 30px rgba(245,158,11,0.2);">
+          <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px;">
+            <div style="display:flex; gap:14px; align-items:center; max-width:700px;">
+              <div
+                style="width:50px;height:50px;border-radius:14px;background:rgba(245,158,11,0.22);display:grid;place-items:center;flex-shrink:0;">
+                <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:#f59e0b;">
+                  <circle cx="12" cy="12" r="10"/>
+                  <polyline points="12 6 12 12 16 14"/>
+                </svg>
+              </div>
+              <div>
+                <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;">
+                  <span class="badge-tag" style="font-weight:800;font-size:11px;background:#f59e0b;color:#000;">
+                    🔥 REWARD COUNTDOWN
+                  </span>
+                </div>
+                <h3 style="margin:2px 0 4px;font-size:18px;font-weight:800;color:var(--text);">Claim Your Rewards of ₱2,888</h3>
+                <p style="margin:0;font-size:13px;color:var(--text);opacity:0.9;line-height:1.45;">
+                  <strong style="color:#f59e0b;">Countdown:</strong> <span id="countdownTimer">188 Days : 00 Hours : 00 Seconds</span>
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Details Section -->
+          <div style="margin-top:16px;padding-top:16px;border-top:1px solid rgba(245,158,11,0.3);">
+            <div style="display:grid;gap:12px;">
+              <div style="display:flex;align-items:center;gap:8px;">
+                <span style="font-size:12px;font-weight:700;color:var(--text);">✅ Status:</span>
+                <span style="font-size:12px;color:#2ed59e;font-weight:700;">Cashback claimed!</span>
+              </div>
+              <div style="display:flex;align-items:center;gap:8px;">
+                <span style="font-size:12px;font-weight:700;color:var(--text);">🎁 Next Reward:</span>
+                <span style="font-size:12px;color:#f59e0b;font-weight:700;">₱2,888 Extra Bonus</span>
+              </div>
+              <div style="margin-top:8px;">
+                <span style="font-size:12px;font-weight:700;color:var(--text);display:block;margin-bottom:6px;">📋 How It Works:</span>
+                <ul style="margin:0;padding-left:20px;font-size:11.5px;color:var(--text);opacity:0.85;line-height:1.6;">
+                  <li style="margin-bottom:4px;"><strong>Wait for the timeline:</strong> Wait 188 days from today.</li>
+                  <li style="margin-bottom:4px;"><strong>Monitor the Countdown:</strong> You will see the remaining Days, Hours, and Seconds at the top of your dashboard.</li>
+                  <li><strong>Claim the Bonus:</strong> When the countdown reaches 0:00:00, the ₱2,888 Reward will automatically unlock and you can claim it immediately!</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Newly Activated Account: Claim ₱100 Cashback Notice -->
         <div id="welcomeClaim100Box" class="panel card"
           style="display:none; margin-bottom: 20px; border: 2px solid #2ed59e; background: linear-gradient(135deg, rgba(46,213,158,0.14) 0%, rgba(15,122,69,0.18) 100%); border-radius:16px; padding:20px; box-shadow: 0 10px 30px rgba(46,213,158,0.15);">
           <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px;">
@@ -363,11 +401,9 @@
                     style="font-size:11px;font-weight:800;background:#f59e0b;color:#000;padding:2px 8px;border-radius:6px;">Claim
                     1x Only</span>
                 </div>
-                <h3 style="margin:2px 0 4px;font-size:18px;font-weight:800;color:var(--text);">Claim Your Free ₱100 Load
-                  Wallet</h3>
+                <h3 style="margin:2px 0 4px;font-size:18px;font-weight:800;color:var(--text);">Claim Your Free ₱100 Cashback</h3>
                 <p style="margin:0;font-size:13px;color:var(--text);opacity:0.9;line-height:1.45;">
-                  Congratulations! As a newly activated member, you are entitled to claim <strong>₱100 Load
-                    Wallet</strong> credit for your retailer SIM.
+                  Congratulations! As a newly activated member, you are entitled to claim <strong>₱100 Cashback</strong>.
                 </p>
               </div>
             </div>
@@ -381,7 +417,7 @@
                   <path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/>
                   <path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/>
                 </svg>
-                Claim 100 Load Wallet
+                Claim 100 Cashback
               </button>
             </div>
           </div>
@@ -1464,7 +1500,54 @@
               </form>
             </article>
 
-            <!-- Wallet 4: Profit Sharing Dividend -->
+            <!-- Wallet 4: Cashback -->
+            <article class="wd-card theme-cashback">
+              <div class="wd-card-head">
+                <div class="wd-card-title-group">
+                  <span class="wd-icon-pill icon-cashback">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <polyline points="20 12 20 22 4 22 4 12"/>
+                      <rect x="2" y="7" width="20" height="5"/>
+                      <line x1="12" y1="22" x2="12" y2="7"/>
+                      <path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/>
+                      <path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/>
+                    </svg>
+                  </span>
+                  <div>
+                    <span class="wd-card-label">Cashback</span>
+                    <span class="wd-card-sub">Bonus Rewards</span>
+                  </div>
+                </div>
+                <span class="wd-badge badge-cashback">Cashback</span>
+              </div>
+
+              <div class="wd-card-bal-box">
+                <span class="wd-card-bal-title">Available Balance</span>
+                <div id="wCashbackModal" class="wd-card-bal">₱0.00</div>
+              </div>
+
+              <form data-wallet="cashback" class="wd wd-card-form">
+                <div class="wd-input-wrapper">
+                  <span class="wd-curr-symbol">₱</span>
+                  <input class="wd-input-field in" id="amtCashback" name="amount" type="number" min="100" step="0.01"
+                    placeholder="100.00" required />
+                  <button type="button" class="wd-max-pill" data-fill-target="amtCashback"
+                    data-balance-key="cashback">MAX</button>
+                </div>
+                <div class="wd-min-info">
+                  <span>Min: <strong>₱100.00</strong></span>
+                  <span class="wd-fee-rate-tag">Fee: 8%–12%</span>
+                </div>
+                <button type="submit" class="wd-btn-cashout btn-theme-cashback">
+                  <span>Cash out</span>
+                  <span class="btn-arrow">➔</span>
+                </button>
+                <div class="wd-fee-preview" id="feeCashback"></div>
+                <div class="wd-payout-alert" id="alertCashback">Payouts closed.</div>
+              </form>
+            </article>
+
+            <!-- Wallet 5: Profit Sharing Dividend -->
             <article class="wd-card theme-binary" style="border-color:rgba(46,213,158,0.35);">
               <div class="wd-card-head">
                 <div class="wd-card-title-group">
@@ -1515,215 +1598,8 @@
     </div>
   </div>
 
-  <!-- Modal 7B: Buy Load Wallet Modal (Retailer SIM Top-Up) -->
-  <div class="plan-modal" id="modalBuyLoadWallet" hidden>
-    <div class="plan-modal-backdrop" data-close-modal></div>
-    <div class="plan-modal-sheet" style="max-width:680px;">
-      <header class="plan-modal-head">
-        <div>
-          <p class="kicker">Retailer Wallet Top-Up</p>
-          <h2>Buy Load Wallet</h2>
-        </div>
-        <button class="plan-close" type="button" data-close-modal>×</button>
-      </header>
-      <div class="plan-modal-body">
-
-        <!-- Newly Activated Account: Claim ₱100 Load Wallet Banner Card -->
-        <div id="claim100LoadBannerBox"
-          style="display:none;background:linear-gradient(135deg,rgba(46,213,158,0.18) 0%,rgba(15,122,69,0.22) 100%);border:1.5px solid #2ed59e;border-radius:14px;padding:16px;margin-bottom:16px;box-shadow:0 8px 24px rgba(46,213,158,0.15);">
-          <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;">
-            <div style="display:flex;gap:12px;align-items:center;">
-              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:var(--jade);">
-                <polyline points="20 12 20 22 4 22 4 12"/>
-                <rect x="2" y="7" width="20" height="5"/>
-                <line x1="12" y1="22" x2="12" y2="7"/>
-                <path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/>
-                <path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/>
-              </svg>
-              <div>
-                <div style="display:flex;align-items:center;gap:6px;">
-                  <span class="badge-tag tag-approved"
-                    style="font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:0.05em;">New Account
-                    Privilege</span>
-                  <span
-                    style="background:#f59e0b;color:#000;font-size:10px;font-weight:800;padding:1px 6px;border-radius:4px;">Claim
-                    Once</span>
-                </div>
-                <h4 style="margin:4px 0 2px;font-size:16px;font-weight:800;color:var(--text);">Claim FREE ₱100 Load
-                  Wallet</h4>
-                <p class="tiny muted" style="margin:0;color:#94a3b8;">Welcome bonus for your newly activated retailer
-                  account. Choose your SIM network and claim now!</p>
-              </div>
-            </div>
-            <button type="button" id="btnBuyLoadClaim100" class="btn btn-mint"
-              style="font-size:13px;font-weight:800;padding:10px 18px;border-radius:10px;box-shadow:0 4px 14px rgba(46,213,158,0.4);white-space:nowrap;">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:text-bottom;margin-right:4px;">
-                <polyline points="20 12 20 22 4 22 4 12"/>
-                <rect x="2" y="7" width="20" height="5"/>
-                <line x1="12" y1="22" x2="12" y2="7"/>
-                <path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/>
-                <path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/>
-              </svg>
-              Claim 100 Load Wallet
-            </button>
-          </div>
-        </div>
-
-        <!-- Official Mode of Payment (MOP) Channel Box -->
-        <div id="loadWalletMopBox" class="modal-mop-box">
-          <div
-            style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-bottom:12px;">
-            <div style="display:flex;align-items:center;gap:6px;">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:var(--jade);">
-                <rect x="3" y="21" width="18" height="2" rx="1" ry="1"/>
-                <path d="M5 21V7l8-4 8 4v14"/>
-                <path d="M17 21v-8.5a2.5 2.5 0 0 0-5 0V21"/>
-              </svg>
-              <strong class="mop-box-title">Official Payment Channels</strong>
-            </div>
-            <span class="mop-box-sub">Send exact payment &amp; keep screenshot receipt</span>
-          </div>
-
-          <div id="loadWalletMopTabs" style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px;"></div>
-
-          <div id="loadWalletMopContent" class="mop-channel-content-card"
-            style="display:flex;gap:14px;align-items:flex-start;flex-wrap:wrap;border-radius:10px;padding:12px;">
-            <div style="text-align:center;flex-shrink:0;" id="loadWalletQrWrap">
-              <img id="loadWalletActiveQrImg" src="" alt="Official QR Code"
-                style="display:none;width:100px;height:100px;object-fit:contain;background:#fff;border-radius:8px;padding:4px;cursor:pointer;"
-                title="Tap to zoom QR Code" />
-              <button type="button" id="btnZoomLoadWalletQr" class="btn btn-ghost btn-sm btn-mop-copy"
-                style="display:none;width:100%;font-size:10px;padding:2px 4px;margin-top:4px;">🔍 Zoom QR</button>
-            </div>
-            <div style="flex:1;min-width:180px;">
-              <div style="margin-bottom:6px;">
-                <span class="mop-field-label">Account Name</span>
-                <strong id="loadWalletActiveAccName" class="mop-field-val">Infinite Trading Treasury</strong>
-              </div>
-              <div style="margin-bottom:6px;">
-                <span class="mop-field-label">Account Number</span>
-                <div style="display:flex;align-items:center;gap:6px;">
-                  <code id="loadWalletActiveAccNum" class="mop-acc-num">0917 000 0000</code>
-                  <button type="button" id="btnCopyLoadWalletAccNum" class="btn btn-ghost btn-sm btn-mop-copy"
-                    style="padding:2px 8px;font-size:11px;">📋 Copy</button>
-                </div>
-              </div>
-              <div id="loadWalletActiveInstructions" class="mop-instructions">Scan or transfer then upload your receipt
-                below.</div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Buy Load Wallet Order Form -->
-        <form id="formBuyLoadWallet" style="margin-top:0;">
-
-          <!-- 1. Amount with Preset Quick Chips -->
-          <div style="margin-bottom:14px;">
-            <label class="tiny muted" style="display:block;font-weight:700;margin-bottom:6px;">1. AMOUNT TO BUY (₱)
-              *</label>
-            <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px;">
-              <button type="button" class="btn load-preset-btn" data-preset="300">₱300</button>
-              <button type="button" class="btn load-preset-btn" data-preset="500">₱500</button>
-              <button type="button" class="btn load-preset-btn" data-preset="1000">₱1,000</button>
-              <button type="button" class="btn load-preset-btn" data-preset="2000">₱2,000</button>
-              <button type="button" class="btn load-preset-btn" data-preset="5000">₱5,000</button>
-            </div>
-            <input type="number" id="loadWalletAmountInput" class="in load-amount-in"
-              placeholder="Enter amount (min ₱100)" min="100" max="100000" step="50" required
-              style="width:100%;font-size:15px;font-weight:700;" />
-          </div>
-
-          <!-- 2. Target Load Wallet Phone Number -->
-          <div style="margin-bottom:14px;">
-            <label class="tiny muted" style="display:block;font-weight:700;margin-bottom:4px;">2. RECIPIENT PHONE NUMBER
-              (WHERE LOAD WALLET WILL BE SENT) *</label>
-            <input type="tel" id="loadWalletPhoneInput" class="in" placeholder="e.g. 0917 123 4567" required
-              style="width:100%;font-size:15px;font-weight:800;letter-spacing:0.04em;" />
-            <div style="display:flex;align-items:center;gap:6px;margin-top:4px;">
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:#d97706;">
-                <rect x="5" y="2" width="14" height="20" rx="2" ry="2"/>
-                <line x1="12" y1="18" x2="12.01" y2="18"/>
-              </svg>
-              <span class="tiny muted" style="color:#d97706;font-weight:700;">Double-check this phone number! The load
-                wallet credits will be sent directly to this SIM.</span>
-            </div>
-          </div>
-
-          <!-- 3. Payment Method & Reference Number -->
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px;">
-            <div>
-              <label class="tiny muted" style="display:block;font-weight:700;margin-bottom:4px;">3. PAYMENT METHOD USED
-                *</label>
-              <select id="loadWalletMethodSelect" class="in" style="width:100%;font-size:13px;font-weight:600;">
-                <option value="GCash">GCash</option>
-                <option value="Maya">Maya</option>
-                <option value="GoTyme">GoTyme Bank</option>
-                <option value="MariBank">MariBank</option>
-                <option value="UnionBank">UnionBank</option>
-                <option value="BDO">BDO Unibank</option>
-                <option value="BPI">BPI</option>
-                <option value="SeaBank">SeaBank</option>
-                <option value="Other">Other Bank / E-Wallet</option>
-              </select>
-            </div>
-            <div>
-              <label class="tiny muted" style="display:block;font-weight:700;margin-bottom:4px;">REFERENCE NUMBER
-                (OPTIONAL)</label>
-              <input type="text" id="loadWalletRefInput" class="in" placeholder="e.g. 10928374928"
-                style="width:100%;font-size:13px;font-weight:600;" />
-            </div>
-          </div>
-
-          <!-- 4. Upload Receipt (Proof of Payment) -->
-          <div style="margin-bottom:16px;">
-            <label class="tiny muted" style="display:block;font-weight:700;margin-bottom:4px;">4. UPLOAD PROOF OF
-              PAYMENT / RECEIPT *</label>
-            <input type="file" id="loadWalletReceiptInput" accept="image/*" style="display:none;" />
-            <div class="receipt-dropzone" id="loadWalletReceiptDropzone" style="margin:4px 0 8px;cursor:pointer;">
-              <span class="receipt-drop-icon">🧾</span>
-              <p class="receipt-drop-title">Tap here to choose screenshot receipt</p>
-              <p class="receipt-drop-hint">PNG, JPG, JPEG, WEBP (Auto-compressed for fast upload)</p>
-            </div>
-            <!-- Receipt Preview Box -->
-            <div id="loadWalletReceiptPreviewBox" class="receipt-preview-box" style="display:none;">
-              <img src="" id="loadWalletReceiptPreviewImg" class="receipt-preview-img" alt="Receipt Preview"
-                style="width:68px;height:68px;object-fit:cover;border-radius:8px;border:1px solid #444;cursor:pointer;"
-                title="Click to preview" />
-              <div style="flex:1;min-width:0;">
-                <p id="loadWalletReceiptFileName" class="receipt-file-name"
-                  style="font-size:12px;font-weight:700;margin:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">
-                  Receipt.jpg</p>
-                <p id="loadWalletReceiptFileSize" class="tiny muted" style="margin:2px 0 0;">Attached</p>
-              </div>
-              <button type="button" class="btn btn-ghost btn-sm" id="btnRemoveLoadWalletReceipt"
-                style="color:#ef4444;font-size:11px;">✕ Remove</button>
-            </div>
-          </div>
-
-          <button type="submit" class="btn btn-mint" id="btnSubmitBuyLoadWallet"
-            style="width:100%;font-size:14px;font-weight:700;padding:12px;border-radius:10px;">
-            Submit Load Wallet Request ➔
-          </button>
-        </form>
-
-        <!-- User Past Load Wallet Orders -->
-        <div style="margin-top:24px;border-top:1px solid rgba(255,255,255,0.08);padding-top:16px;">
-          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
-            <h3 style="font-size:14px;font-weight:700;margin:0;color:var(--text);">My Recent Load Wallet Orders</h3>
-            <button type="button" class="btn btn-ghost btn-sm" id="btnRefreshMyLoadWallet"
-              style="font-size:11px;padding:2px 8px;">🔄 Refresh</button>
-          </div>
-          <div id="myLoadWalletOrdersList" style="display:flex;flex-direction:column;gap:8px;">
-            <p class="tiny muted" style="text-align:center;padding:12px;">Loading your orders...</p>
-          </div>
-        </div>
-
-      </div>
-    </div>
-  </div>
-
-  <!-- Modal 7C: Claim ₱100 Load Wallet (Newly Activated Accounts Privilege) -->
-  <div class="plan-modal" id="modalClaim100Load" hidden>
+  <!-- Modal 7B: Claim ₱100 Cashback (Newly Activated Accounts Privilege) -->
+  <div class="plan-modal" id="modalClaim100Cashback" hidden>
     <div class="plan-modal-backdrop" data-close-modal></div>
     <div class="plan-modal-sheet" style="max-width:560px;">
       <header class="plan-modal-head">
@@ -1738,7 +1614,7 @@
             </svg>
             Welcome Privilege
           </p>
-          <h2>Claim ₱100 Load Wallet</h2>
+          <h2>Claim ₱100 Cashback</h2>
         </div>
         <button class="plan-close" type="button" data-close-modal>×</button>
       </header>
@@ -1757,118 +1633,97 @@
           </div>
         </div>
 
-        <form id="formClaim100Load" style="margin-top:0;">
+        <form id="formClaim100Cashback" style="margin-top:0;">
 
-          <!-- 1. Phone Number Input -->
+          <!-- 1. Account Name Input -->
           <div style="margin-bottom:14px;">
             <label class="tiny muted" style="display:block;font-weight:700;margin-bottom:6px;letter-spacing:0.02em;">
-              1. FILL OUT NUMBER *
+              1. ACCOUNT NAME *
             </label>
-            <input type="tel" id="claim100PhoneInput" class="in" placeholder="e.g. 0917 123 4567" required
-              style="width:100%;font-size:16px;font-weight:800;letter-spacing:0.04em;" />
+            <input type="text" id="claim100NameInput" class="in" placeholder="e.g. Juan Dela Cruz" required
+              style="width:100%;font-size:16px;font-weight:800;" />
             <span class="tiny muted" style="display:block;margin-top:4px;">
-              Enter the 11-digit mobile number where your ₱100 load wallet credits will be loaded.
+              Enter the account holder's name.
             </span>
           </div>
 
-          <!-- 2. Select Network -->
+          <!-- 2. Account Number Input -->
+          <div style="margin-bottom:14px;">
+            <label class="tiny muted" style="display:block;font-weight:700;margin-bottom:6px;letter-spacing:0.02em;">
+              2. ACCOUNT NUMBER *
+            </label>
+            <input type="text" id="claim100AccountInput" class="in" placeholder="e.g. IT123456789" required
+              style="width:100%;font-size:16px;font-weight:800;letter-spacing:0.04em;" />
+            <span class="tiny muted" style="display:block;margin-top:4px;">
+              Enter your account number linked to your account.
+            </span>
+          </div>
+
+          <!-- 3. Select Mode of Payment -->
           <div style="margin-bottom:16px;">
             <label class="tiny muted" style="display:block;font-weight:700;margin-bottom:6px;letter-spacing:0.02em;">
-              2. SELECT NETWORK *
+              3. SELECT MODE OF PAYMENT *
             </label>
-            <div id="claimNetworkGrid" style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;">
-              <label class="network-choice-card active" data-network="Globe">
-                <input type="radio" name="claimNetwork" value="Globe" checked style="display:none;" />
-                <span class="network-choice-logo-wrap">
-                  <img class="network-choice-logo" src="/images/Globe.png" alt="Globe" />
+            <div id="claimPaymentGrid" style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;">
+              <label class="network-choice-card active" data-payment="GCash" style="flex-direction:column;align-items:center;justify-content:center;padding:16px;">
+                <input type="radio" name="claimPayment" value="GCash" checked style="display:none;" />
+                <span class="network-choice-logo-wrap" style="display:flex;align-items:center;justify-content:center;">
+                  <img class="network-choice-logo" src="/images/GCash.png" alt="GCash" style="width:60px;height:60px;object-fit:contain;" />
                 </span>
-                <strong>Globe</strong>
-                <span class="tiny muted">Globe Telecom</span>
               </label>
 
-              <label class="network-choice-card" data-network="TM">
-                <input type="radio" name="claimNetwork" value="TM" style="display:none;" />
-                <span class="network-choice-logo-wrap">
-                  <img class="network-choice-logo" src="/images/TM.png" alt="TM" />
+              <label class="network-choice-card" data-payment="Maya" style="flex-direction:column;align-items:center;justify-content:center;padding:16px;">
+                <input type="radio" name="claimPayment" value="Maya" style="display:none;" />
+                <span class="network-choice-logo-wrap" style="display:flex;align-items:center;justify-content:center;">
+                  <img class="network-choice-logo" src="/images/Maya.png" alt="Maya" style="width:60px;height:60px;object-fit:contain;" />
                 </span>
-                <strong>TM</strong>
-                <span class="tiny muted">TM Tambayan</span>
               </label>
 
-              <label class="network-choice-card" data-network="GOMO">
-                <input type="radio" name="claimNetwork" value="GOMO" style="display:none;" />
-                <span class="network-choice-logo-wrap">
-                  <img class="network-choice-logo network-choice-logo-wide" src="/images/GOMO.svg" alt="GOMO" />
+              <label class="network-choice-card" data-payment="GoTyme" style="flex-direction:column;align-items:center;justify-content:center;padding:16px;">
+                <input type="radio" name="claimPayment" value="GoTyme" style="display:none;" />
+                <span class="network-choice-logo-wrap" style="display:flex;align-items:center;justify-content:center;">
+                  <img class="network-choice-logo" src="/images/Gotyme.png" alt="GoTyme" style="width:60px;height:60px;object-fit:contain;" />
                 </span>
-                <strong>GOMO</strong>
-                <span class="tiny muted">GOMO PH</span>
               </label>
 
-              <label class="network-choice-card" data-network="Smart">
-                <input type="radio" name="claimNetwork" value="Smart" style="display:none;" />
-                <span class="network-choice-logo-wrap">
-                  <img class="network-choice-logo" src="/images/Smart.png" alt="Smart" />
+              <label class="network-choice-card" data-payment="Maribank" style="flex-direction:column;align-items:center;justify-content:center;padding:16px;">
+                <input type="radio" name="claimPayment" value="Maribank" style="display:none;" />
+                <span class="network-choice-logo-wrap" style="display:flex;align-items:center;justify-content:center;">
+                  <img class="network-choice-logo" src="/images/Maribank.png" alt="Maribank" style="width:60px;height:60px;object-fit:contain;" />
                 </span>
-                <strong>Smart</strong>
-                <span class="tiny muted">Smart Prepaid</span>
               </label>
 
-              <label class="network-choice-card" data-network="TNT">
-                <input type="radio" name="claimNetwork" value="TNT" style="display:none;" />
-                <span class="network-choice-logo-wrap">
-                  <img class="network-choice-logo" src="/images/TNT.png" alt="TNT" />
+              <label class="network-choice-card" data-payment="BDO" style="flex-direction:column;align-items:center;justify-content:center;padding:16px;">
+                <input type="radio" name="claimPayment" value="BDO" style="display:none;" />
+                <span class="network-choice-logo-wrap" style="display:flex;align-items:center;justify-content:center;">
+                  <img class="network-choice-logo" src="/images/BDO.svg" alt="BDO" style="width:60px;height:60px;object-fit:contain;" />
                 </span>
-                <strong>TNT</strong>
-                <span class="tiny muted">Talk 'N Text</span>
               </label>
 
-              <label class="network-choice-card" data-network="DITO">
-                <input type="radio" name="claimNetwork" value="DITO" style="display:none;" />
-                <span class="network-choice-logo-wrap">
-                  <img class="network-choice-logo" src="/images/DITO.png" alt="DITO" />
-                </span>
-                <strong>DITO</strong>
-                <span class="tiny muted">DITO Telecom</span>
+              <label class="network-choice-card" data-payment="Other" style="flex-direction:column;align-items:center;justify-content:center;padding:16px;">
+                <input type="radio" name="claimPayment" value="Other" style="display:none;" />
+                <span style="font-size:24px;">🏦</span>
               </label>
+            </div>
+
+            <!-- Other Bank Dropdown (shown when Other is selected) -->
+            <div id="otherBankDropdown" style="display:none;margin-top:12px;">
+              <select id="claimOtherBankSelect" class="in" style="width:100%;font-size:13px;font-weight:600;">
+                <option value="">Select specific bank...</option>
+                <option value="BPI">BPI</option>
+                <option value="UnionBank">UnionBank</option>
+                <option value="PNB">PNB</option>
+                <option value="Landbank">Landbank</option>
+                <option value="China Bank">China Bank</option>
+                <option value="Metrobank">Metrobank</option>
+                <option value="RCBC">RCBC</option>
+              </select>
             </div>
           </div>
 
-          <!-- 3. Select Activation Option -->
-          <div style="margin-bottom:18px;">
-            <label class="tiny muted" style="display:block;font-weight:700;margin-bottom:8px;letter-spacing:0.02em;">
-              3. SELECT OPTION *
-            </label>
-            <div style="display:flex;flex-direction:column;gap:10px;">
-              <label class="claim-type-card active" data-claim-type="activate_and_claim">
-                <input type="radio" name="claimActionType" value="activate_and_claim" checked
-                  style="margin-top:3px;accent-color:#2ed59e;transform:scale(1.15);" />
-                <div>
-                  <strong style="display:block;font-size:13.5px;color:var(--text);margin-bottom:3px;">Activate My Number
-                    and Claim 100 Load Wallet</strong>
-                  <span class="tiny muted" style="font-size:11.5px;line-height:1.35;display:block;">
-                    Choose this if this is your primary SIM and needs retailer activation + initial ₱100 load wallet.
-                  </span>
-                </div>
-              </label>
-
-              <label class="claim-type-card" data-claim-type="claim_only">
-                <input type="radio" name="claimActionType" value="claim_only"
-                  style="margin-top:3px;accent-color:#2ed59e;transform:scale(1.15);" />
-                <div>
-                  <strong style="display:block;font-size:13.5px;color:var(--text);margin-bottom:3px;">Claim 100 Load
-                    Wallet (for users with multiple accounts who have already activated their number)</strong>
-                  <span class="tiny muted" style="font-size:11.5px;line-height:1.35;display:block;">
-                    Choose this if you have multiple accounts and your SIM is already an activated retailer. The ₱100
-                    load wallet will be credited directly.
-                  </span>
-                </div>
-              </label>
-            </div>
-          </div>
-
-          <button type="submit" class="btn btn-mint" id="btnSubmitClaim100"
+          <button type="submit" class="btn btn-mint" id="btnSubmitClaim100Cashback"
             style="width:100%;font-size:15px;font-weight:800;padding:13px;border-radius:10px;box-shadow:0 4px 16px rgba(46,213,158,0.35);">
-            Claim 100 Load Wallet ➔
+            Claim 100 Cashback ➔
           </button>
         </form>
 
@@ -2317,9 +2172,10 @@
     wireFeePreview('amtBinary', 'feeBinary');
     wireFeePreview('amtTradeRef', 'feeTradeRef');
     wireFeePreview('amtCycle', 'feeCycle');
+    wireFeePreview('amtCashback', 'feeCashback');
     wireFeePreview('amtProfitShare', 'feeProfitShare');
 
-    let latestBalances = { binary: 0, tradeRef: 0, cycle: 0, profit_sharing: 0 };
+    let latestBalances = { binary: 0, tradeRef: 0, cycle: 0, cashback: 0, profit_sharing: 0 };
 
     document.querySelectorAll('[data-fill-target]').forEach(btn => {
       btn.addEventListener('click', (e) => {
@@ -2433,7 +2289,6 @@
         const mapping = {
           'modalGenealogy': 'bnavMatrix',
           'modalTradein': 'bnavTradein',
-          'modalBuyLoadWallet': 'bnavLoad',
           'modalWithdrawal': 'bnavCashout'
         };
         const targetNavId = mapping[id];
@@ -2498,9 +2353,6 @@
         if (typeof fetchAndRenderTree === 'function') fetchAndRenderTree(currentTreeUserId);
       } else if (tabId === 'bnavTradein') {
         openModal('modalTradein');
-      } else if (tabId === 'bnavLoad') {
-        openModal('modalBuyLoadWallet');
-        if (typeof fetchMyLoadWalletRequests === 'function') fetchMyLoadWalletRequests();
       } else if (tabId === 'bnavCashout') {
         openModal('modalWithdrawal');
       }
@@ -2948,18 +2800,17 @@
       document.getElementById('activationBox').style.display = isInactive ? 'block' : 'none';
       document.getElementById('renewBox').style.display = isExpired ? 'block' : 'none';
 
-      // Newly Activated Accounts - Free ₱100 Load Wallet Eligibility Check
+      // Newly Activated Accounts - Free ₱100 Cashback Eligibility Check
       const isClaimEligible = (u.status === 'active') && !u.load_wallet_claimed;
       const welcomeClaimBox = document.getElementById('welcomeClaim100Box');
       if (welcomeClaimBox) welcomeClaimBox.style.display = isClaimEligible ? 'block' : 'none';
-      const buyLoadClaimBanner = document.getElementById('claim100LoadBannerBox');
-      if (buyLoadClaimBanner) buyLoadClaimBanner.style.display = isClaimEligible ? 'block' : 'none';
+
 
       // Auto-popup once for newly activated accounts
       if (isClaimEligible && !sessionStorage.getItem('it_claim100_auto_popup')) {
         sessionStorage.setItem('it_claim100_auto_popup', '1');
         setTimeout(() => {
-          openClaim100Modal();
+          openModal('modalClaim100Cashback');
         }, 750);
       }
 
@@ -3055,6 +2906,7 @@
       document.getElementById('wBinaryModal').textContent = peso(u.binary_ref_balance);
       document.getElementById('wTradeRefModal').textContent = peso(u.tradein_ref_balance);
       document.getElementById('wCycleModal').textContent = peso(u.tradein_cycle_balance);
+      document.getElementById('wCashbackModal').textContent = peso(u.cashback_balance || 0);
 
       const psBal = Number(u.profit_sharing_balance || 0);
       const wPsEl = document.getElementById('wProfitShareModal');
@@ -3080,6 +2932,7 @@
       latestBalances.binary = Number(u.binary_ref_balance || 0);
       latestBalances.tradeRef = Number(u.tradein_ref_balance || 0);
       latestBalances.cycle = Number(u.tradein_cycle_balance || 0);
+      latestBalances.cashback = Number(u.cashback_balance || 0);
       latestBalances.profit_sharing = psBal;
 
       // Binary Cap Progress Bar (Matching Bonus Cap)
@@ -3765,7 +3618,7 @@
       // Render Withdrawals List
       document.getElementById('withdrawalsList').innerHTML = d.withdrawals.length
         ? d.withdrawals.map(w => {
-          const walletLabel = w.wallet_type === 'binary_ref' ? 'Binary Ref' : w.wallet_type === 'tradein_ref' ? 'Trade-In Ref' : 'Cycle Yield';
+          const walletLabel = w.wallet_type === 'binary_ref' ? 'Binary Ref' : w.wallet_type === 'tradein_ref' ? 'Trade-In Ref' : w.wallet_type === 'cashback' ? 'Cashback' : 'Cycle Yield';
           const iconImg = getPayoutImg(w.payout_method, 28);
           const mTag = w.payout_method ? `<span class="badge-tag tag-available" style="font-size:9.5px;padding:2px 6px;margin-left:4px;">${esc(w.payout_method)}</span>` : '';
           const accInfo = w.account_number ? `<span class="tiny muted" style="margin-left:4px;">(${esc(w.account_number)})</span>` : '';
@@ -3899,54 +3752,6 @@
       if (selectMethod) {
         const match = Array.from(selectMethod.options).find(opt => opt.value.toLowerCase() === m.method.toLowerCase());
         if (match) selectMethod.value = match.value;
-      }
-
-      // Also sync with Load Wallet MOP box
-      const selectLwMethod = document.getElementById('loadWalletMethodSelect');
-      if (selectLwMethod) {
-        const match = Array.from(selectLwMethod.options).find(opt => opt.value.toLowerCase() === m.method.toLowerCase());
-        if (match) selectLwMethod.value = match.value;
-      }
-
-      const lwTabs = document.getElementById('loadWalletMopTabs');
-      if (lwTabs && activeOfficialMops.length) {
-        lwTabs.innerHTML = activeOfficialMops.map((ch, idx) => {
-          const isSel = idx === currentMopIndex;
-          return `
-          <button type="button" class="btn btn-sm ${isSel ? 'btn-mint' : 'btn-ghost'}" data-lwmop-tab="${idx}" style="font-size:11px;padding:3px 10px;font-weight:700;">
-            ${esc(ch.method)}
-          </button>
-        `;
-        }).join('');
-        lwTabs.querySelectorAll('[data-lwmop-tab]').forEach(btn => {
-          btn.onclick = () => {
-            currentMopIndex = parseInt(btn.dataset.lwmopTab, 10) || 0;
-            displayCurrentMopChannel();
-          };
-        });
-      }
-
-      const lwName = document.getElementById('loadWalletActiveAccName');
-      if (lwName) lwName.textContent = m.account_name || '—';
-      const lwNum = document.getElementById('loadWalletActiveAccNum');
-      if (lwNum) lwNum.textContent = m.account_number || '—';
-      const lwInst = document.getElementById('loadWalletActiveInstructions');
-      if (lwInst) lwInst.textContent = m.instructions || 'Send exact payment, then upload screenshot receipt below.';
-      const lwQr = document.getElementById('loadWalletActiveQrImg');
-      const btnZoomLw = document.getElementById('btnZoomLoadWalletQr');
-      if (m.qr_image) {
-        if (lwQr) {
-          lwQr.src = m.qr_image;
-          lwQr.style.display = 'block';
-          lwQr.onclick = () => openReceiptLightbox(m.qr_image, `Official ${m.method} QR Code · ${m.account_name}`);
-        }
-        if (btnZoomLw) {
-          btnZoomLw.style.display = 'block';
-          btnZoomLw.onclick = () => openReceiptLightbox(m.qr_image, `Official ${m.method} QR Code · ${m.account_name}`);
-        }
-      } else {
-        if (lwQr) lwQr.style.display = 'none';
-        if (btnZoomLw) btnZoomLw.style.display = 'none';
       }
     }
 
@@ -4848,7 +4653,7 @@
 
         const wallet = form.getAttribute('data-wallet');
         const amount = Number(new FormData(form).get('amount'));
-        const walletLabel = wallet === 'binary-ref' ? 'Binary Referral' : wallet === 'tradein-ref' ? 'Trade-In Referral' : 'Cycle Yield';
+        const walletLabel = wallet === 'binary-ref' ? 'Binary Referral' : wallet === 'tradein-ref' ? 'Trade-In Referral' : wallet === 'tradein-cycle' ? 'Cycle Yield' : wallet === 'cashback' ? 'Cashback' : 'Profit Sharing';
         const feeInfo = calcFee(amount);
 
         showConfirmPopup({
@@ -4894,302 +4699,90 @@
     } catch (e) { }
 
     // =========================================================
-    // BUY LOAD WALLET USER ACTIONS & HANDLERS
+    // HERO BUTTON ACTIONS
     // =========================================================
-    document.getElementById('btnOpenBuyLoadWallet')?.addEventListener('click', () => {
-      openModal('modalBuyLoadWallet');
-      fetchMyLoadWalletRequests();
-    });
-    document.getElementById('btnHeroBuyLoadWallet')?.addEventListener('click', () => {
-      openModal('modalBuyLoadWallet');
-      fetchMyLoadWalletRequests();
-    });
     document.getElementById('btnHeroDeposit')?.addEventListener('click', () => {
       openModal('modalTradein');
     });
     document.getElementById('btnHeroWithdraw')?.addEventListener('click', () => {
       openModal('modalWithdrawal');
     });
-    document.getElementById('btnRefreshMyLoadWallet')?.addEventListener('click', () => {
-      fetchMyLoadWalletRequests();
-    });
-
-    // Preset amount buttons
-    document.querySelectorAll('.load-preset-btn').forEach(btn => {
-      btn.addEventListener('click', () => {
-        const val = btn.dataset.preset;
-        const input = document.getElementById('loadWalletAmountInput');
-        if (input) input.value = val;
-      });
-    });
-
-    // Load Wallet Receipt Dropzone & File Input Handling
-    let currentLwReceiptData = null;
-    const lwDropzone = document.getElementById('loadWalletReceiptDropzone');
-    const lwInput = document.getElementById('loadWalletReceiptInput');
-    const lwPreviewBox = document.getElementById('loadWalletReceiptPreviewBox');
-    const lwPreviewImg = document.getElementById('loadWalletReceiptPreviewImg');
-    const lwFileName = document.getElementById('loadWalletReceiptFileName');
-    const lwFileSize = document.getElementById('loadWalletReceiptFileSize');
-    const btnRemoveLwReceipt = document.getElementById('btnRemoveLoadWalletReceipt');
-
-    if (lwDropzone && lwInput) {
-      lwDropzone.addEventListener('click', (e) => {
-        e.preventDefault();
-        e.stopPropagation();
-        lwInput.click();
-      });
-      lwInput.addEventListener('click', (e) => e.stopPropagation());
-      lwDropzone.addEventListener('dragover', (e) => {
-        e.preventDefault();
-        lwDropzone.classList.add('dragover');
-      });
-      lwDropzone.addEventListener('dragleave', () => lwDropzone.classList.remove('dragover'));
-      lwDropzone.addEventListener('drop', (e) => {
-        e.preventDefault();
-        lwDropzone.classList.remove('dragover');
-        const file = e.dataTransfer.files[0];
-        if (file) handleLwReceiptFile(file);
-      });
-      lwInput.addEventListener('change', () => {
-        const file = lwInput.files[0];
-        if (file) handleLwReceiptFile(file);
-      });
-    }
-
-    async function handleLwReceiptFile(file) {
-      if (!file.type.startsWith('image/')) {
-        toast('Please upload a valid image file (PNG, JPG, WEBP).');
-        return;
-      }
-      try {
-        const compressed = await compressReceiptImage(file);
-        currentLwReceiptData = compressed.base64;
-        if (lwPreviewImg) {
-          lwPreviewImg.src = compressed.base64;
-          lwPreviewImg.onclick = () => openReceiptLightbox(compressed.base64, 'Load Wallet Payment Receipt');
-        }
-        if (lwFileName) lwFileName.textContent = file.name;
-        if (lwFileSize) lwFileSize.textContent = compressed.size + ' (Optimized)';
-        if (lwDropzone) lwDropzone.style.display = 'none';
-        if (lwPreviewBox) lwPreviewBox.style.display = 'flex';
-      } catch (err) {
-        // Direct read fallback
-        const reader = new FileReader();
-        reader.onload = (e) => {
-          currentLwReceiptData = e.target.result;
-          if (lwPreviewImg) {
-            lwPreviewImg.src = e.target.result;
-            lwPreviewImg.onclick = () => openReceiptLightbox(e.target.result, 'Load Wallet Payment Receipt');
-          }
-          if (lwFileName) lwFileName.textContent = file.name;
-          if (lwFileSize) lwFileSize.textContent = (file.size / 1024).toFixed(1) + ' KB';
-          if (lwDropzone) lwDropzone.style.display = 'none';
-          if (lwPreviewBox) lwPreviewBox.style.display = 'flex';
-        };
-        reader.readAsDataURL(file);
-      }
-    }
-
-    if (btnRemoveLwReceipt) {
-      btnRemoveLwReceipt.addEventListener('click', () => {
-        currentLwReceiptData = null;
-        if (lwInput) lwInput.value = '';
-        if (lwPreviewBox) lwPreviewBox.style.display = 'none';
-        if (lwDropzone) lwDropzone.style.display = 'block';
-      });
-    }
-
-    // Copy MOP account number in modalBuyLoadWallet
-    document.getElementById('btnCopyLoadWalletAccNum')?.addEventListener('click', async () => {
-      const m = activeOfficialMops[currentMopIndex] || activeOfficialMops[0];
-      if (m && m.account_number) {
-        try {
-          await navigator.clipboard.writeText(m.account_number);
-          toast(`Copied account number: ${m.account_number}`, true);
-        } catch { toast('Copy failed.'); }
-      }
-    });
-
-    // Form submission for Buy Load Wallet
-    document.getElementById('formBuyLoadWallet')?.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      const amount = Number(document.getElementById('loadWalletAmountInput').value) || 0;
-      const phone_number = document.getElementById('loadWalletPhoneInput').value.trim();
-      const payment_method = document.getElementById('loadWalletMethodSelect').value;
-      const reference_number = document.getElementById('loadWalletRefInput').value.trim();
-
-      if (amount < 50) {
-        toast('Minimum load wallet order is ₱50.');
-        return;
-      }
-      if (!phone_number) {
-        toast('Please enter the recipient phone number for the load wallet.');
-        return;
-      }
-      if (!currentLwReceiptData) {
-        toast('Please upload proof of payment / screenshot receipt.');
-        return;
-      }
-
-      const btnSubmit = document.getElementById('btnSubmitBuyLoadWallet');
-      btnSubmit.disabled = true;
-      btnSubmit.textContent = 'Submitting Request...';
-
-      try {
-        const res = await fetch('/api/load-wallet/request', {
-          method: 'POST',
-          headers,
-          body: JSON.stringify({
-            amount,
-            phone_number,
-            payment_method,
-            reference_number,
-            receipt_image: currentLwReceiptData
-          })
-        });
-        const data = await res.json();
-        if (!res.ok) {
-          toast(data.error || 'Failed to submit load wallet order.');
-          return;
-        }
-
-        toast('✓ Load wallet request submitted! Order is now pending verification by administration.', true);
-        document.getElementById('formBuyLoadWallet').reset();
-        currentLwReceiptData = null;
-        if (lwInput) lwInput.value = '';
-        if (lwPreviewBox) lwPreviewBox.style.display = 'none';
-        if (lwDropzone) lwDropzone.style.display = 'block';
-
-        fetchMyLoadWalletRequests();
-      } catch (err) {
-        toast(err.message || 'Error submitting request.');
-      } finally {
-        btnSubmit.disabled = false;
-        btnSubmit.textContent = 'Submit Load Wallet Request ➔';
-      }
-    });
-
-    // Fetch user's load wallet requests
-    async function fetchMyLoadWalletRequests() {
-      const container = document.getElementById('myLoadWalletOrdersList');
-      if (!container) return;
-      try {
-        const res = await fetch('/api/load-wallet/my-requests', { headers });
-        if (!res.ok) return;
-        const data = await res.json();
-        const orders = data.requests || [];
-        if (orders.length === 0) {
-          container.innerHTML = '<p class="tiny muted" style="text-align:center;padding:12px;">You have no load wallet orders yet.</p>';
-          return;
-        }
-
-        container.innerHTML = orders.map(o => {
-          const isPending = o.status === 'pending';
-          const isApproved = o.status === 'approved';
-          const badgeClass = isPending ? 'badge-tag tag-expired' : isApproved ? 'badge-tag tag-available' : 'badge-tag tag-rejected';
-          const badgeText = isPending ? '⏳ Pending' : isApproved ? '✓ Credited' : '✕ Rejected';
-          const isWelcome = Boolean(o.is_welcome_claim);
-
-          return `
-            <div style="background:var(--bg2);border:1px solid var(--line);border-radius:10px;padding:10px 14px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;">
-              <div>
-                <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;">
-                  <strong style="color:var(--accent-mint);font-size:14px;">${peso(o.amount)}</strong>
-                  <span class="${badgeClass}" style="font-size:10px;">${badgeText}</span>
-                  ${isWelcome ? '<span class="badge-tag" style="background:#f59e0b;color:#000;font-size:9.5px;font-weight:800;">🎁 Free Activation Bonus</span>' : ''}
-                  <span class="tiny muted">• #LW${o.id}</span>
-                </div>
-                <div class="tiny muted" style="margin-top:2px;">
-                  Target SIM: <code style="font-weight:700;color:var(--text);">${esc(o.phone_number)}</code> ${o.network ? `(${esc(o.network)})` : ''} · Via ${esc(o.payment_method)}
-                </div>
-                ${o.admin_notes ? `<div class="tiny" style="color:var(--text);margin-top:2px;font-style:italic;">Notes: ${esc(o.admin_notes)}</div>` : ''}
-              </div>
-              <div class="tiny muted" style="text-align:right;">
-                ${fmtDate(o.created_at)}
-              </div>
-            </div>
-          `;
-        }).join('');
-      } catch (err) {
-        console.error('Failed to load my load wallet orders', err);
-      }
-    }
 
     // =========================================================
-    // CLAIM ₱100 LOAD WALLET (NEWLY ACTIVATED ACCOUNTS)
+    // CLAIM ₱100 CASHBACK (NEWLY ACTIVATED ACCOUNTS)
     // =========================================================
     function openClaim100Modal() {
       const u = dashboardData?.user;
       if (u?.load_wallet_claimed) {
-        toast('₱100 Load Wallet has already been claimed for this account.', false);
+        toast('₱100 Cashback has already been claimed for this account.', false);
         return;
       }
-      const phoneInput = document.getElementById('claim100PhoneInput');
-      if (phoneInput && !phoneInput.value && u?.mobile_number) {
-        const clean = u.mobile_number.replace(/\D/g, '');
-        if (clean.length === 11) {
-          phoneInput.value = clean;
-        }
-      }
-      openModal('modalClaim100Load');
+      openModal('modalClaim100Cashback');
     }
 
     document.getElementById('btnOverviewClaim100')?.addEventListener('click', openClaim100Modal);
-    document.getElementById('btnBuyLoadClaim100')?.addEventListener('click', openClaim100Modal);
 
-    // Network selector cards click handling
+    // Payment method selector cards click handling
     document.querySelectorAll('.network-choice-card').forEach(card => {
       card.addEventListener('click', () => {
         document.querySelectorAll('.network-choice-card').forEach(c => c.classList.remove('active'));
         card.classList.add('active');
         const radio = card.querySelector('input[type="radio"]');
         if (radio) radio.checked = true;
-      });
-    });
 
-    // Claim Action Type selector cards click handling
-    document.querySelectorAll('.claim-type-card').forEach(card => {
-      card.addEventListener('click', () => {
-        document.querySelectorAll('.claim-type-card').forEach(c => c.classList.remove('active'));
-        card.classList.add('active');
-        const radio = card.querySelector('input[type="radio"]');
-        if (radio) radio.checked = true;
+        // Show/hide Other Bank dropdown
+        const payment = card.dataset.payment;
+        const otherBankDropdown = document.getElementById('otherBankDropdown');
+        if (otherBankDropdown) {
+          otherBankDropdown.style.display = payment === 'Other' ? 'block' : 'none';
+        }
       });
     });
 
     // Submit Claim Form
-    document.getElementById('formClaim100Load')?.addEventListener('submit', async (e) => {
+    document.getElementById('formClaim100Cashback')?.addEventListener('submit', async (e) => {
       e.preventDefault();
-      const phone_number = document.getElementById('claim100PhoneInput').value.trim();
-      const network = document.querySelector('input[name="claimNetwork"]:checked')?.value;
-      const action_type = document.querySelector('input[name="claimActionType"]:checked')?.value;
-      const btn = document.getElementById('btnSubmitClaim100');
+      const account_name = document.getElementById('claim100NameInput').value.trim();
+      const account_number = document.getElementById('claim100AccountInput').value.trim();
+      const payment_method = document.querySelector('input[name="claimPayment"]:checked')?.value;
+      const btn = document.getElementById('btnSubmitClaim100Cashback');
 
-      if (!phone_number) {
-        toast('Please enter your mobile phone number.');
+      if (!account_name) {
+        toast('Please enter the account holder name.');
         return;
       }
-      if (!network) {
-        toast('Please select your network provider.');
+      if (!account_number) {
+        toast('Please enter your account number.');
         return;
       }
-      if (!action_type) {
-        toast('Please select an activation option.');
+      if (!payment_method) {
+        toast('Please select your mode of payment.');
         return;
+      }
+
+      // If Other Bank is selected, require specific bank selection
+      if (payment_method === 'Other') {
+        const otherBank = document.getElementById('claimOtherBankSelect')?.value;
+        if (!otherBank) {
+          toast('Please select a specific bank.');
+          return;
+        }
       }
 
       btn.disabled = true;
       btn.textContent = 'Processing Claim...';
 
       try {
+        const otherBank = payment_method === 'Other' ? document.getElementById('claimOtherBankSelect')?.value : null;
+        const finalPaymentMethod = payment_method === 'Other' ? otherBank : payment_method;
+
         const res = await fetch('/api/load-wallet/claim-100', {
           method: 'POST',
           headers,
-          body: JSON.stringify({ phone_number, network, action_type }),
+          body: JSON.stringify({ account_name, account_number, payment_method: finalPaymentMethod }),
         });
         const data = await res.json();
-        if (!res.ok) throw new Error(data.error || 'Failed to claim ₱100 load wallet.');
+        if (!res.ok) throw new Error(data.error || 'Failed to claim ₱100 cashback.');
 
         // Update local user state
         if (dashboardData?.user) {
@@ -5199,28 +4792,51 @@
         // Hide all claim banners/buttons permanently
         const welcomeClaimBox = document.getElementById('welcomeClaim100Box');
         if (welcomeClaimBox) welcomeClaimBox.style.display = 'none';
-        const buyLoadClaimBanner = document.getElementById('claim100LoadBannerBox');
-        if (buyLoadClaimBanner) buyLoadClaimBanner.style.display = 'none';
 
-        closeModal('modalClaim100Load');
+        closeModal('modalClaim100Cashback');
 
-        toast('🎉 ₱100 Load Wallet claimed successfully! Your order has been placed in the queue.', true);
-
-        // Open Buy Load modal so user immediately sees their request in the orders list
-        setTimeout(() => {
-          openModal('modalBuyLoadWallet');
-          fetchMyLoadWalletRequests();
-        }, 300);
+        toast('🎉 ₱100 Cashback claimed successfully! Your order has been placed in the queue.', true);
       } catch (err) {
-        toast(err.message || 'Error claiming load wallet.');
+        toast(err.message || 'Error claiming cashback.');
       } finally {
         btn.disabled = false;
-        btn.textContent = 'Claim 100 Load Wallet ➔';
+        btn.textContent = 'Claim 100 Cashback ➔';
       }
     });
 
+    // Reward Countdown Timer
+    function startRewardCountdown() {
+      const countdownEl = document.getElementById('countdownTimer');
+      if (!countdownEl) return;
+
+      // Set target date: 188 days from now
+      const targetDate = new Date();
+      targetDate.setDate(targetDate.getDate() + 188);
+
+      function updateCountdown() {
+        const now = new Date();
+        const diff = targetDate - now;
+
+        if (diff <= 0) {
+          countdownEl.textContent = '0 Araw : 00 Oras : 00 Segundo';
+          return;
+        }
+
+        const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+        countdownEl.textContent = `${days} Araw : ${String(hours).padStart(2, '0')} Oras : ${String(seconds).padStart(2, '0')} Segundo`;
+      }
+
+      updateCountdown();
+      setInterval(updateCountdown, 1000);
+    }
+
+    startRewardCountdown();
+
     load();
-    fetchMyLoadWalletRequests();
   </script>
 
   <!-- Floating Mobile Bottom Nav (Mobile Devices Only) -->

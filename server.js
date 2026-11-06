@@ -37,6 +37,7 @@ const WALLET_COLUMNS = {
   tradein_ref: 'tradein_ref_balance',
   tradein_cycle: 'tradein_cycle_balance',
   profit_sharing: 'profit_sharing_balance',
+  cashback: 'cashback_balance',
 };
 
 app.use(cors());
@@ -103,6 +104,7 @@ function emptyWallet(userId) {
     tradein_ref_balance: 0,
     tradein_cycle_balance: 0,
     profit_sharing_balance: 0,
+    cashback_balance: 0,
   };
 }
 
@@ -169,6 +171,7 @@ function publicUser(userId, data = db.getStore()) {
     tradein_ref_balance: w.tradein_ref_balance,
     tradein_cycle_balance: w.tradein_cycle_balance,
     profit_sharing_balance: w.profit_sharing_balance || 0,
+    cashback_balance: w.cashback_balance || 0,
     parent_id: u.parent_id || t.parent_id || null,
     sponsor_id: t.sponsor_id || null,
     sponsor_name: sponsorName,
@@ -735,6 +738,7 @@ async function seedAdmin() {
         tradein_ref_balance: 100,
         tradein_cycle_balance: 600,
         profit_sharing_balance: 0,
+        cashback_balance: 0,
       });
       data.binary_tree.push({
         user_id: demoUser.id,
@@ -1202,7 +1206,7 @@ app.get('/api/dashboard', auth, async (req, res) => {
     .filter((p) => p.cycle_status === 'active')
     .reduce((sum, p) => sum + (Number(p.capital) || 0), 0);
 
-  const total_balance = (Number(user.binary_ref_balance) || 0) + (Number(user.tradein_ref_balance) || 0) + (Number(user.tradein_cycle_balance) || 0) + (Number(user.profit_sharing_balance) || 0);
+  const total_balance = (Number(user.binary_ref_balance) || 0) + (Number(user.tradein_ref_balance) || 0) + (Number(user.tradein_cycle_balance) || 0) + (Number(user.profit_sharing_balance) || 0) + (Number(user.cashback_balance) || 0);
 
   const profitSharingPublic = {
     pool_total: money((data.profit_sharing_pool && data.profit_sharing_pool.total_amount) || 0),
@@ -2112,7 +2116,14 @@ async function requestWithdrawal(req, res, walletType) {
 app.post('/api/withdraw/binary-ref', auth, (req, res) => requestWithdrawal(req, res, 'binary_ref'));
 app.post('/api/withdraw/tradein-ref', auth, (req, res) => requestWithdrawal(req, res, 'tradein_ref'));
 app.post('/api/withdraw/tradein-cycle', auth, (req, res) => requestWithdrawal(req, res, 'tradein_cycle'));
+app.post('/api/withdraw/cashback', auth, (req, res) => requestWithdrawal(req, res, 'cashback'));
 app.post('/api/withdraw/profit-sharing', auth, (req, res) => requestWithdrawal(req, res, 'profit_sharing'));
+
+app.get('/api/admin/cashback', auth, adminOnly, (_req, res) => {
+  const data = db.getStore();
+  const cashbackList = (data.load_wallet_requests || []).filter(r => r.is_welcome_claim === true);
+  res.json({ cashback: cashbackList });
+});
 
 app.get('/api/admin/overview', auth, adminOnly, async (_req, res) => {
   await processTradeinYields().catch(() => { });
@@ -2128,7 +2139,6 @@ app.get('/api/admin/overview', auth, adminOnly, async (_req, res) => {
   const pending_cashout_gross = money(pendingWds.reduce((s, w) => s + Number(w.amount || 0), 0));
   const pending_cashout_count = pendingWds.length;
   const pending_tradeins = data.tradein_packages.filter((p) => p.cycle_status === 'pending').length;
-  const pending_load_wallets = (data.load_wallet_requests || []).filter((r) => r.status === 'pending').length;
 
   res.json({
     users: data.users.length,
@@ -2136,7 +2146,6 @@ app.get('/api/admin/overview', auth, adminOnly, async (_req, res) => {
     available_codes: data.code_vault.filter((c) => c.status === 'available').length,
     pending_withdrawals: pendingWds.length,
     pending_tradeins,
-    pending_load_wallets,
     total_cashout,
     total_cashout_gross,
     total_cashout_count,
@@ -2649,131 +2658,86 @@ app.post('/api/admin/codes/send', auth, adminOnly, async (req, res) => {
 // BUY LOAD WALLET ENDPOINTS
 // ==========================================
 
-// Buy Load Wallet - User submit order
-app.post('/api/load-wallet/request', auth, async (req, res) => {
-  const amount = money(Number(req.body.amount));
-  const phoneNumber = String(req.body.phone_number || '').trim();
-  const paymentMethod = String(req.body.payment_method || 'GCash').trim();
-  const refNumber = String(req.body.reference_number || req.body.ref_number || '').trim();
-  const receiptImage = String(req.body.receipt_image || req.body.receipt_url || '').trim();
-
-  if (!amount || amount < 50) {
-    return res.status(400).json({ error: 'Please enter a valid load amount (minimum ₱50.00).' });
-  }
-  const cleanPhone = phoneNumber.replace(/\D/g, '');
-  if (!cleanPhone || cleanPhone.length < 10 || cleanPhone.length > 13) {
-    return res.status(400).json({ error: 'Please enter a valid phone number (e.g. 09171234567) where the load wallet will be sent.' });
-  }
-  if (!receiptImage) {
-    return res.status(400).json({ error: 'Please attach a payment receipt screenshot.' });
-  }
-
-  try {
-    const saved = await db.tx((data) => {
-      if (!Array.isArray(data.load_wallet_requests)) data.load_wallet_requests = [];
-      const user = data.users.find((u) => u.id === req.user.id);
-      if (!user || user.status === 'banned') {
-        const err = new Error('Account not permitted to purchase load wallet.');
-        err.status = 403;
-        throw err;
-      }
-
-      const rec = db.insert('load_wallet_requests', {
-        user_id: user.id,
-        amount,
-        phone_number: phoneNumber,
-        clean_phone: cleanPhone,
-        payment_method: paymentMethod,
-        reference_number: refNumber,
-        receipt_image: receiptImage,
-        status: 'pending', // 'pending' | 'approved' | 'rejected'
-        admin_notes: '',
-        created_at: nowIso(),
-        approved_at: null,
-        rejected_at: null,
-      });
-      return rec;
-    });
-
-    res.status(201).json({ ok: true, request: saved });
-  } catch (err) {
-    if (err.status) return res.status(err.status).json({ error: err.message });
-    console.error(err);
-    res.status(500).json({ error: 'Failed to submit load wallet order.' });
-  }
-});
-
-// Newly Activated Accounts - Claim ₱100 Load Wallet
+// Newly Activated Accounts - Claim ₱100 Cashback
 app.post('/api/load-wallet/claim-100', auth, async (req, res) => {
-  const phoneNumber = String(req.body.phone_number || '').trim();
-  const network = String(req.body.network || '').trim();
-  const actionType = String(req.body.action_type || '').trim(); // 'activate_and_claim' | 'claim_only'
+  const accountName = String(req.body.account_name || '').trim();
+  const accountNumber = String(req.body.account_number || '').trim();
+  const paymentMethod = String(req.body.payment_method || '').trim();
 
-  const allowedNetworks = ['Globe', 'TM', 'GOMO', 'Smart', 'TNT', 'DITO'];
-  if (!allowedNetworks.includes(network)) {
-    return res.status(400).json({ error: 'Please select a valid network (Globe, TM, GOMO, Smart, TNT, or DITO).' });
+  const allowedPaymentMethods = ['GCash', 'Maya', 'GoTyme', 'Maribank', 'BDO', 'BPI', 'UnionBank', 'PNB', 'Landbank', 'China Bank', 'Metrobank', 'RCBC'];
+  if (!allowedPaymentMethods.includes(paymentMethod)) {
+    return res.status(400).json({ error: 'Please select a valid payment method.' });
   }
 
-  const cleanPhone = phoneNumber.replace(/\D/g, '');
-  if (!cleanPhone || cleanPhone.length < 10 || cleanPhone.length > 13) {
-    return res.status(400).json({ error: 'Please enter a valid Philippine mobile number (e.g. 09171234567).' });
+  if (!accountName || accountName.length < 2) {
+    return res.status(400).json({ error: 'Please enter a valid account holder name.' });
   }
 
-  const allowedActionTypes = ['activate_and_claim', 'claim_only'];
-  if (!allowedActionTypes.includes(actionType)) {
-    return res.status(400).json({ error: 'Please select an activation option.' });
+  if (!accountNumber || accountNumber.length < 5) {
+    return res.status(400).json({ error: 'Please enter a valid account number.' });
   }
 
   try {
     const result = await db.tx((data) => {
       const user = data.users.find((u) => u.id === req.user.id);
       if (!user || user.status === 'banned') {
-        const err = new Error('Account not permitted to claim load wallet.');
+        const err = new Error('Account not permitted to claim cashback.');
         err.status = 403;
         throw err;
       }
       if (user.status !== 'active') {
-        const err = new Error('Only activated accounts are eligible to claim the ₱100 Load Wallet. Please coordinate with your sponsor/upline to activate your account.');
+        const err = new Error('Only activated accounts are eligible to claim the ₱100 Cashback. Please coordinate with your sponsor/upline to activate your account.');
         err.status = 400;
         throw err;
       }
       if (user.load_wallet_claimed) {
-        const err = new Error('The ₱100 Load Wallet has already been claimed for this account. This privilege can only be claimed once.');
+        const err = new Error('The ₱100 Cashback has already been claimed for this account. This privilege can only be claimed once.');
         err.status = 400;
         throw err;
       }
 
       if (!Array.isArray(data.load_wallet_requests)) data.load_wallet_requests = [];
 
+      // Mark as claimed
       user.load_wallet_claimed = true;
       user.load_wallet_claimed_at = nowIso();
       user.load_wallet_claim_info = {
-        phone_number: phoneNumber,
-        clean_phone: cleanPhone,
-        network,
-        action_type: actionType,
+        account_name: accountName,
+        account_number: accountNumber,
+        payment_method: paymentMethod,
         claimed_at: nowIso(),
       };
 
-      const actionLabel = actionType === 'activate_and_claim'
-        ? 'Activate My Number and Claim 100 Load Wallet'
-        : 'Claim 100 Load Wallet (Multiple Accounts / Already Activated)';
+      // Add ₱100 to user's cashback wallet
+      const wallet = data.wallets.find((w) => w.user_id === user.id);
+      if (wallet) {
+        wallet.cashback_balance = money((Number(wallet.cashback_balance) || 0) + 100);
+      } else {
+        data.wallets.push({
+          user_id: user.id,
+          binary_ref_balance: 0,
+          tradein_ref_balance: 0,
+          tradein_cycle_balance: 0,
+          cashback_balance: 100,
+        });
+      }
 
+      // Record the cashback claim
       const rec = db.insert('load_wallet_requests', {
         user_id: user.id,
         amount: 100,
-        phone_number: phoneNumber,
-        clean_phone: cleanPhone,
-        network: network,
-        payment_method: 'Welcome Activation Bonus',
-        reference_number: `CLAIM100-${network.toUpperCase()}-${user.id}`,
+        phone_number: accountNumber,
+        clean_phone: accountNumber,
+        network: paymentMethod,
+        payment_method: paymentMethod,
+        reference_number: `CLAIM100-${paymentMethod.toUpperCase()}-${user.id}`,
         receipt_image: '',
-        status: 'pending',
+        status: 'approved',
         is_welcome_claim: true,
-        claim_type: actionType,
-        admin_notes: `FREE ₱100 CLAIM · Network: ${network} · Mode: ${actionLabel}`,
+        claim_type: 'cashback',
+        admin_notes: `FREE ₱100 CASHBACK · Account: ${accountName} · Payment: ${paymentMethod} · Auto-credited to balance`,
         created_at: nowIso(),
-        approved_at: null,
+        approved_at: nowIso(),
         rejected_at: null,
       });
 
@@ -2782,102 +2746,14 @@ app.post('/api/load-wallet/claim-100', auth, async (req, res) => {
 
     res.status(201).json({
       ok: true,
-      message: '₱100 Load Wallet claimed successfully! Your order has been placed in the queue for processing.',
+      message: '🎉 ₱100 Cashback claimed successfully! Amount has been credited to your total balance.',
       request: result.request,
       user: result.user,
     });
   } catch (err) {
     if (err.status) return res.status(err.status).json({ error: err.message });
-    console.error('Claim 100 Load Wallet error:', err);
-    res.status(500).json({ error: 'Failed to process load wallet claim.' });
-  }
-});
-
-// Buy Load Wallet - User view their requests
-app.get('/api/load-wallet/my-requests', auth, (req, res) => {
-  const data = db.getStore();
-  const list = (data.load_wallet_requests || [])
-    .filter((r) => Number(r.user_id) === Number(req.user.id))
-    .sort((a, b) => b.id - a.id)
-    .slice(0, 50);
-  res.json({ requests: list });
-});
-
-// Buy Load Wallet - Admin list requests
-app.get('/api/admin/load-wallet', auth, adminOnly, (_req, res) => {
-  const data = db.getStore();
-  const list = (data.load_wallet_requests || [])
-    .slice()
-    .sort((a, b) => b.id - a.id)
-    .map((r) => {
-      const u = data.users.find((x) => Number(x.id) === Number(r.user_id));
-      return {
-        ...r,
-        user_mobile: u ? u.mobile_number : '-',
-        username: u ? u.username : '-',
-      };
-    });
-  res.json({ requests: list });
-});
-
-// Buy Load Wallet - Admin approve
-app.post('/api/admin/load-wallet/:id/approve', auth, adminOnly, async (req, res) => {
-  const id = Number(req.params.id);
-  if (!id) return res.status(400).json({ error: 'Invalid load wallet request ID.' });
-
-  try {
-    const updated = await db.tx((data) => {
-      if (!Array.isArray(data.load_wallet_requests)) data.load_wallet_requests = [];
-      const item = data.load_wallet_requests.find((x) => x.id === id);
-      if (!item) {
-        const err = new Error('Load wallet request not found.');
-        err.status = 404;
-        throw err;
-      }
-      if (item.status === 'approved') {
-        const err = new Error('Request is already approved.');
-        err.status = 400;
-        throw err;
-      }
-      item.status = 'approved';
-      item.approved_at = nowIso();
-      item.admin_notes = String(req.body.notes || item.admin_notes || '').trim();
-      return item;
-    });
-
-    res.json({ ok: true, request: updated });
-  } catch (err) {
-    if (err.status) return res.status(err.status).json({ error: err.message });
-    console.error(err);
-    res.status(500).json({ error: 'Failed to approve load wallet request.' });
-  }
-});
-
-// Buy Load Wallet - Admin reject
-app.post('/api/admin/load-wallet/:id/reject', auth, adminOnly, async (req, res) => {
-  const id = Number(req.params.id);
-  if (!id) return res.status(400).json({ error: 'Invalid load wallet request ID.' });
-
-  try {
-    const updated = await db.tx((data) => {
-      if (!Array.isArray(data.load_wallet_requests)) data.load_wallet_requests = [];
-      const item = data.load_wallet_requests.find((x) => x.id === id);
-      if (!item) {
-        const err = new Error('Load wallet request not found.');
-        err.status = 404;
-        throw err;
-      }
-      item.status = 'rejected';
-      item.rejected_at = nowIso();
-      item.admin_notes = String(req.body.notes || 'Payment could not be verified.').trim();
-      return item;
-    });
-
-    res.json({ ok: true, request: updated });
-  } catch (err) {
-    if (err.status) return res.status(err.status).json({ error: err.message });
-    console.error(err);
-    res.status(500).json({ error: 'Failed to reject load wallet request.' });
+    console.error('Claim 100 Cashback error:', err);
+    res.status(500).json({ error: 'Failed to process cashback claim.' });
   }
 });
 

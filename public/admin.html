@@ -105,6 +105,20 @@
           <span class="admin-nav-badge" id="badgeNavWd" style="display:none;"></span>
         </button>
 
+        <button type="button" class="admin-nav-item" data-nav-target="viewCashback">
+          <span class="admin-nav-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="20 12 20 22 4 22 4 12"/>
+              <rect x="2" y="7" width="20" height="5"/>
+              <line x1="12" y1="22" x2="12" y2="7"/>
+              <path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/>
+              <path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/>
+            </svg>
+          </span>
+          <span>Cashback</span>
+          <span class="admin-nav-badge" id="badgeNavCashback" style="display:none;"></span>
+        </button>
+
         <button type="button" class="admin-nav-item" data-nav-target="viewEarningsHistory">
           <span class="admin-nav-icon">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -130,16 +144,7 @@
           <span class="admin-nav-badge" id="badgeNavMop" style="display:none;"></span>
         </button>
 
-        <button type="button" class="admin-nav-item" data-nav-target="viewLoadWallet">
-          <span class="admin-nav-icon">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <rect x="5" y="2" width="14" height="20" rx="2" ry="2"/>
-              <line x1="12" y1="18" x2="12.01" y2="18"/>
-            </svg>
-          </span>
-          <span>Load Wallet</span>
-          <span class="admin-nav-badge" id="badgeNavLoadWallet" style="display:none;"></span>
-        </button>
+
 
         <button type="button" class="admin-nav-item" data-nav-target="viewProfitSharing">
           <span class="admin-nav-icon">
@@ -345,20 +350,7 @@
               <div class="kpi-icon" style="font-size:24px;">⏳</div>
             </div>
 
-            <!-- 8. PENDING LOAD WALLET -->
-            <div class="admin-card" style="border:1.5px solid var(--accent-mint);cursor:pointer;"
-              id="cardKpiPendingLoad" title="Click to review load wallet orders">
-              <div>
-                <div style="display:flex;align-items:center;gap:6px;margin-bottom:3px;flex-wrap:wrap;">
-                  <p class="kpi-label" style="color:var(--accent-mint);margin:0;">BUY LOAD WALLET REQUESTS</p>
-                  <span class="badge-tag tag-expired" id="badgeKpiPendingLoad"
-                    style="font-size:9.5px;padding:1px 6px;">0 Pending</span>
-                </div>
-                <p class="kpi-val" id="kpiPendingLoad" style="color:var(--accent-mint);">0</p>
-                <p class="kpi-sub" id="kpiPendingLoadSub">Retailer wallet orders</p>
-              </div>
-              <div class="kpi-icon" style="font-size:24px;">📱</div>
-            </div>
+
           </div>
 
           <!-- System Wallet Totals Bar -->
@@ -395,9 +387,6 @@
                   style="font-size:11.5px;font-weight:700;">Trade-In Tab ➔</button>
                 <button type="button" class="btn btn-ghost btn-sm" id="btnQuickGoWd"
                   style="font-size:11.5px;font-weight:700;">Cashout Tab ➔</button>
-                <button type="button" class="btn btn-ghost btn-sm" id="btnQuickGoLoadWallet"
-                  style="font-size:11.5px;font-weight:700;color:var(--accent-mint);border-color:rgba(46,213,158,0.3);">Load
-                  Wallet ➔</button>
               </div>
             </div>
             <div id="homePendingQueue" style="display:flex;flex-direction:column;gap:10px;">
@@ -825,7 +814,86 @@
         </section>
 
         <!-- =========================================================
-             VIEW 6: PLATFORM EARNINGS & COMMISSIONS AUDIT
+             VIEW 6: CASHBACK CLAIMS
+             ========================================================= -->
+        <section class="admin-view-panel" id="viewCashback">
+          <div class="admin-sec-head">
+            <div>
+              <h2 class="admin-sec-title">CASHBACK CLAIMS</h2>
+              <p class="admin-sec-sub">₱100 CASHBACK FOR NEWLY ACTIVATED ACCOUNTS</p>
+            </div>
+            <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
+              <input id="cashbackSearch" class="ctrl-search" type="search"
+                placeholder="Search by mobile, name, or account #..." style="min-width:240px;" />
+            </div>
+          </div>
+
+          <!-- Summary Cards -->
+          <div class="admin-wd-summary-grid">
+            <div class="admin-wd-summary-card">
+              <div>
+                <p class="title">🎁 Total Cashback Claims</p>
+                <p class="val" id="sumCashbackTotal">₱0.00</p>
+                <p class="sub"><span id="countCashbackTotal">0</span> Total Claims</p>
+              </div>
+              <span style="font-size:24px;">💰</span>
+            </div>
+            <div class="admin-wd-summary-card">
+              <div>
+                <p class="title">✅ Approved Cashback</p>
+                <p class="val" id="sumCashbackApproved">₱0.00</p>
+                <p class="sub"><span id="countCashbackApproved">0</span> Approved</p>
+              </div>
+              <span style="font-size:24px;">✓</span>
+            </div>
+            <div class="admin-wd-summary-card">
+              <div>
+                <p class="title">⏳ Pending Cashback</p>
+                <p class="val" id="sumCashbackPending">₱0.00</p>
+                <p class="sub"><span id="countCashbackPending">0</span> Pending</p>
+              </div>
+              <span style="font-size:24px;">⏰</span>
+            </div>
+          </div>
+
+          <!-- Filter Tabs -->
+          <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;margin-bottom:12px;">
+            <div class="ctrl-tabs" style="flex-wrap:wrap;">
+              <button class="ctrl-tab active" data-cbfilter="all">ALL (<span id="countCbAll">0</span>)</button>
+              <button class="ctrl-tab" data-cbfilter="approved">APPROVED</button>
+              <button class="ctrl-tab" data-cbfilter="pending">PENDING</button>
+            </div>
+          </div>
+
+          <div class="admin-table-panel table-wrap">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Member</th>
+                  <th>Account Name</th>
+                  <th>Account Number</th>
+                  <th>Payment Method</th>
+                  <th>Amount</th>
+                  <th>Status</th>
+                  <th>Claim Date</th>
+                </tr>
+              </thead>
+              <tbody id="cashbackTableBody">
+                <tr>
+                  <td colspan="8" style="padding:20px;text-align:center" class="muted">No cashback claims found.
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Mobile Touch-Friendly Card View -->
+          <div class="admin-mobile-cards-list" id="cashbackMobileCards"></div>
+        </section>
+
+        <!-- =========================================================
+             VIEW 7: PLATFORM EARNINGS & COMMISSIONS AUDIT
              ========================================================= -->
         <section class="admin-view-panel" id="viewEarningsHistory">
           <div class="view-header-bar">
@@ -915,71 +983,7 @@
         </section>
 
         <!-- =========================================================
-             VIEW 8: BUY LOAD WALLET REQUESTS (RETAILER TOP-UPS)
-             ========================================================= -->
-        <section class="admin-view-panel" id="viewLoadWallet">
-          <div class="admin-sec-head">
-            <div>
-              <h2 class="admin-sec-title">BUY LOAD WALLET REQUESTS</h2>
-              <p class="admin-sec-sub">RETAILER SIM TOP-UPS · PAYMENT RECEIPTS · APPROVALS &amp; DISPATCH</p>
-            </div>
-            <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
-              <span class="tiny muted" id="loadWalletSummaryCount">0 Requests</span>
-              <button id="btnRefreshLoadWallet" class="btn btn-mint btn-sm" style="font-weight:700;padding:6px 14px;">🔄
-                Refresh Orders</button>
-            </div>
-          </div>
-
-          <!-- Filter Tabs & Search Bar -->
-          <div
-            style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;margin-bottom:16px;">
-            <div class="ctrl-tabs" id="loadWalletFilterTabs">
-              <button class="ctrl-tab active" data-loadfilter="all">All Orders (<span
-                  id="countLoadAll">0</span>)</button>
-              <button class="ctrl-tab" data-loadfilter="pending">Pending (<span id="countLoadPending">0</span>)</button>
-              <button class="ctrl-tab" data-loadfilter="approved">Approved (<span
-                  id="countLoadApproved">0</span>)</button>
-              <button class="ctrl-tab" data-loadfilter="rejected">Rejected (<span
-                  id="countLoadRejected">0</span>)</button>
-            </div>
-            <div style="display:flex;gap:8px;align-items:center;">
-              <input type="text" id="searchLoadWalletInput" class="ctrl-search"
-                placeholder="🔍 Search phone, member, ref#..."
-                style="font-size:12.5px;padding:6px 12px;min-width:240px;" />
-            </div>
-          </div>
-
-          <!-- Orders Table Container -->
-          <div id="loadWalletTableWrap" class="admin-table-panel table-wrap">
-            <table class="admin-table">
-              <thead>
-                <tr>
-                  <th>Order / Date</th>
-                  <th>Member Account</th>
-                  <th>Amount</th>
-                  <th>Target Load Wallet</th>
-                  <th>MOP / Ref #</th>
-                  <th>Receipt</th>
-                  <th>Status</th>
-                  <th style="text-align:right;">Actions</th>
-                </tr>
-              </thead>
-              <tbody id="loadWalletTableBody">
-                <tr>
-                  <td colspan="8" style="padding:32px;text-align:center;color:var(--muted);">
-                    Loading load wallet requests...
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-
-          <!-- Mobile Touch-Friendly Card View (Screens <= 768px) -->
-          <div class="admin-mobile-cards-list" id="loadWalletMobileCards"></div>
-        </section>
-
-        <!-- =========================================================
-             VIEW 9: SYSTEM SETTINGS
+             VIEW 8: SYSTEM SETTINGS
              ========================================================= -->
         <section class="admin-view-panel" id="viewSettings">
           <div class="admin-sec-head">
@@ -1543,10 +1547,13 @@
     let globalCodes = [];
     let globalTradein = [];
     let globalWithdrawals = [];
+    let globalMops = [];
+    let globalLoadWalletRequests = [];
     let userFilterMode = 'all';
     let codeFilterMode = 'all';
     let tradeinFilterMode = 'all';
     let wdFilterMode = 'all';
+    let cbFilterMode = 'all';
     let codeCurrentPage = 1;
     let codePageSize = 10;
     let isCodeListMinimized = false;
@@ -1966,7 +1973,6 @@
       viewWithdrawals: 'WITHDRAWALS',
       viewEarningsHistory: 'EARNINGS AUDIT',
       viewMop: 'OFFICIAL MOP CHANNELS',
-      viewLoadWallet: 'BUY LOAD WALLET REQUESTS',
       viewProfitSharing: 'PROFIT SHARING POOL & RELEASE',
       viewSettings: 'SYSTEM SETTINGS',
     };
@@ -2024,10 +2030,6 @@
         fetchAndRenderAdminMops();
       }
 
-      if (targetId === 'viewLoadWallet') {
-        fetchAndRenderAdminLoadWallet();
-      }
-
       if (targetId === 'viewProfitSharing') {
         loadAdminProfitSharing();
       }
@@ -2076,19 +2078,9 @@
       document.querySelector('[data-wdfilter="pending"]')?.click();
     });
 
-    document.getElementById('cardKpiPendingLoad')?.addEventListener('click', () => {
-      switchAdminView('viewLoadWallet');
-      document.querySelector('[data-loadfilter="pending"]')?.click();
-    });
-
     document.getElementById('btnQuickGoTradein')?.addEventListener('click', () => {
       switchAdminView('viewTradein');
       document.querySelector('[data-tradeinfilter="pending"]')?.click();
-    });
-
-    document.getElementById('btnQuickGoLoadWallet')?.addEventListener('click', () => {
-      switchAdminView('viewLoadWallet');
-      document.querySelector('[data-loadfilter="pending"]')?.click();
     });
 
     document.getElementById('btnQuickGoWd')?.addEventListener('click', () => {
@@ -2175,19 +2167,6 @@
       // Sidebar & Mobile Badges for Trade-In (Hidden if 0)
       const pTradeinCount = overview.pending_tradeins || 0;
       setSidebarBadge('badgeNavTradein', pTradeinCount, true);
-
-      // Pending Load Wallet KPI & Badges (Hidden if 0)
-      const pLoadCount = overview.pending_load_wallets || 0;
-      const elPendingLoad = document.getElementById('kpiPendingLoad');
-      if (elPendingLoad) elPendingLoad.textContent = pLoadCount;
-      const elPendingLoadSub = document.getElementById('kpiPendingLoadSub');
-      if (elPendingLoadSub) elPendingLoadSub.textContent = `${pLoadCount} Pending orders`;
-      const badgeKpiPendingLoad = document.getElementById('badgeKpiPendingLoad');
-      if (badgeKpiPendingLoad) {
-        badgeKpiPendingLoad.textContent = pLoadCount > 0 ? `${pLoadCount} Action Needed` : '0 Pending';
-        badgeKpiPendingLoad.className = pLoadCount > 0 ? 'badge-tag tag-expired' : 'badge-tag tag-available';
-      }
-      setSidebarBadge('badgeNavLoadWallet', pLoadCount, true);
 
       // Binary Cap in Admin Settings
       if (overview.binary_cap && document.getElementById('inputAdminBinaryCap')) {
@@ -2338,7 +2317,7 @@
     // =========================================================
     // OFFICIAL MODE OF PAYMENT (MOP) MANAGEMENT
     // =========================================================
-    let globalMops = [];
+    globalMops = [];
     let mopFilterMode = 'all';
     let currentMopQrData = null;
     let mopQrRemoved = false;
@@ -2830,328 +2809,6 @@
         btnSave.textContent = 'Save Mode of Payment ➔';
       }
     });
-
-    // =========================================================
-    // BUY LOAD WALLET REQUESTS (ADMIN DESK)
-    // =========================================================
-    let globalLoadWallets = [];
-    let currentLoadWalletFilter = 'all';
-    let currentLoadWalletSearch = '';
-
-    async function fetchAndRenderAdminLoadWallet() {
-      try {
-        const res = await api('/api/admin/load-wallet');
-        globalLoadWallets = res.requests || [];
-        renderAdminLoadWallet();
-        updateLoadWalletBadges();
-      } catch (err) {
-        console.error('Failed to load wallet requests:', err);
-      }
-    }
-
-    function updateLoadWalletBadges() {
-      const pendingCount = globalLoadWallets.filter(r => r.status === 'pending').length;
-      setSidebarBadge('badgeNavLoadWallet', pendingCount, true);
-
-      const kpiPendingLoad = document.getElementById('kpiPendingLoad');
-      if (kpiPendingLoad) kpiPendingLoad.textContent = pendingCount;
-
-      const kpiPendingLoadSub = document.getElementById('kpiPendingLoadSub');
-      if (kpiPendingLoadSub) kpiPendingLoadSub.textContent = `${pendingCount} Pending orders`;
-
-      const badgeKpiPendingLoad = document.getElementById('badgeKpiPendingLoad');
-      if (badgeKpiPendingLoad) {
-        badgeKpiPendingLoad.textContent = pendingCount > 0 ? `${pendingCount} Action Needed` : '0 Pending';
-        badgeKpiPendingLoad.className = pendingCount > 0 ? 'badge-tag tag-expired' : 'badge-tag tag-available';
-      }
-    }
-
-    function renderAdminLoadWallet() {
-      const tbody = document.getElementById('loadWalletTableBody');
-      const mobCards = document.getElementById('loadWalletMobileCards');
-      if (!tbody) return;
-
-      const q = currentLoadWalletSearch.toLowerCase();
-      let list = globalLoadWallets;
-
-      const countAll = list.length;
-      const countPending = list.filter(r => r.status === 'pending').length;
-      const countApproved = list.filter(r => r.status === 'approved').length;
-      const countRejected = list.filter(r => r.status === 'rejected').length;
-
-      const elCountAll = document.getElementById('countLoadAll');
-      if (elCountAll) elCountAll.textContent = countAll;
-      const elCountPending = document.getElementById('countLoadPending');
-      if (elCountPending) elCountPending.textContent = countPending;
-      const elCountApproved = document.getElementById('countLoadApproved');
-      if (elCountApproved) elCountApproved.textContent = countApproved;
-      const elCountRejected = document.getElementById('countLoadRejected');
-      if (elCountRejected) elCountRejected.textContent = countRejected;
-      const elSummary = document.getElementById('loadWalletSummaryCount');
-      if (elSummary) elSummary.textContent = `${countAll} Requests (${countPending} Pending)`;
-
-      if (currentLoadWalletFilter === 'pending') list = list.filter(r => r.status === 'pending');
-      else if (currentLoadWalletFilter === 'approved') list = list.filter(r => r.status === 'approved');
-      else if (currentLoadWalletFilter === 'rejected') list = list.filter(r => r.status === 'rejected');
-
-      if (q) {
-        list = list.filter(r =>
-          String(r.id).includes(q) ||
-          (r.phone_number && r.phone_number.toLowerCase().includes(q)) ||
-          (r.username && r.username.toLowerCase().includes(q)) ||
-          (r.user_mobile && r.user_mobile.toLowerCase().includes(q)) ||
-          (r.reference_number && r.reference_number.toLowerCase().includes(q)) ||
-          (r.payment_method && r.payment_method.toLowerCase().includes(q))
-        );
-      }
-
-      if (list.length === 0) {
-        tbody.innerHTML = `
-          <tr>
-            <td colspan="8" style="padding:32px;text-align:center;color:var(--muted);">
-              No load wallet requests found.
-            </td>
-          </tr>
-        `;
-        if (mobCards) {
-          mobCards.innerHTML = '<div style="padding:24px;text-align:center;" class="muted">No load wallet requests found.</div>';
-        }
-        return;
-      }
-
-      tbody.innerHTML = list.map(r => {
-        const isPending = r.status === 'pending';
-        const isApproved = r.status === 'approved';
-        const isRejected = r.status === 'rejected';
-
-        const statusBadge = isPending
-          ? '<span class="badge-tag tag-expired" style="font-size:11px;font-weight:700;">⏳ Pending</span>'
-          : isApproved
-            ? '<span class="badge-tag tag-approved" style="font-size:11px;font-weight:700;">✓ Approved</span>'
-            : '<span class="badge-tag tag-rejected" style="font-size:11px;font-weight:700;">✕ Rejected</span>';
-
-        const receiptThumb = r.receipt_image
-          ? `<img src="${r.receipt_image}" class="receipt-thumb-img" alt="Receipt" style="width:48px;height:48px;object-fit:cover;border-radius:6px;border:1px solid var(--border);cursor:pointer;" data-zoom-receipt="${r.id}" title="Tap to inspect receipt in full view" />`
-          : '<span class="tiny muted">No receipt</span>';
-
-        const actionButtons = isPending
-          ? `
-            <div style="display:flex;gap:6px;justify-content:flex-end;">
-              <button type="button" class="btn btn-mint btn-sm" data-approve-load="${r.id}" style="padding:4px 10px;font-size:11px;font-weight:700;">✓ Approve</button>
-              <button type="button" class="btn btn-secondary btn-sm" data-reject-load="${r.id}" style="padding:4px 8px;font-size:11px;color:#fca5a5;border-color:rgba(239,68,68,0.3);">✕ Reject</button>
-            </div>
-          `
-          : `
-            <div style="font-size:11px;color:var(--muted);text-align:right;">
-              ${r.processed_at ? fmtDate(r.processed_at) : 'Processed'}
-              ${r.admin_notes ? `<div class="tiny" style="color:var(--text);font-style:italic;margin-top:2px;">"${esc(r.admin_notes)}"</div>` : ''}
-            </div>
-          `;
-
-        return `
-          <tr>
-            <td>
-              <strong style="color:var(--text);">#LW${r.id}</strong>
-              <div class="tiny muted" style="margin-top:2px;">${fmtDate(r.created_at)}</div>
-            </td>
-            <td>
-              <strong style="color:var(--text);">${esc(r.username || ('User #' + r.user_id))}</strong>
-              <div class="tiny muted" style="margin-top:2px;">${esc(r.user_mobile || '')}</div>
-            </td>
-            <td>
-              <strong style="color:var(--jade);font-size:14px;font-weight:800;">${peso(r.amount)}</strong>
-            </td>
-            <td>
-              <div style="display:flex;align-items:center;gap:6px;">
-                <code style="font-size:12.5px;font-weight:800;color:var(--text);">${esc(r.phone_number)}</code>
-                <button type="button" class="btn btn-ghost btn-sm" style="padding:2px 6px;font-size:10px;" onclick="navigator.clipboard.writeText('${esc(r.phone_number)}');flash('Copied phone number!', true);" title="Copy Phone Number">📋</button>
-              </div>
-            </td>
-            <td>
-              ${r.is_welcome_claim ? `
-                <span class="badge-tag tag-welcome">🎁 WELCOME CLAIM</span>
-                <div class="tiny" style="font-weight:800;color:var(--jade);margin-top:3px;">Network: ${esc(r.network || 'SIM')}</div>
-                <div class="tiny muted" style="font-size:9.5px;margin-top:1px;">${r.claim_type === 'activate_and_claim' ? '⚡ Activate SIM & Claim' : '🔁 Multiple Acct / Active SIM'}</div>
-              ` : `
-                <span class="badge-tag tag-available" style="font-size:10px;">${esc(r.payment_method || 'GCash')}</span>
-                ${r.reference_number ? `<div class="tiny muted" style="margin-top:2px;">Ref: <code>${esc(r.reference_number)}</code></div>` : ''}
-              `}
-            </td>
-            <td>
-              ${receiptThumb}
-            </td>
-            <td>
-              ${statusBadge}
-            </td>
-            <td style="text-align:right;">
-              ${actionButtons}
-            </td>
-          </tr>
-        `;
-      }).join('');
-
-      if (mobCards) {
-        mobCards.innerHTML = list.map(r => {
-          const isPending = r.status === 'pending';
-          const isApproved = r.status === 'approved';
-          const statusBadge = isPending
-            ? '<span class="badge-tag tag-expired" style="font-size:10.5px;font-weight:700;">⏳ Pending</span>'
-            : isApproved
-              ? '<span class="badge-tag tag-approved" style="font-size:10.5px;font-weight:700;">✓ Approved</span>'
-              : '<span class="badge-tag tag-rejected" style="font-size:10.5px;font-weight:700;">✕ Rejected</span>';
-
-          const receiptThumb = r.receipt_image
-            ? `<img src="${r.receipt_image}" class="receipt-thumb-img" alt="Receipt" style="width:44px;height:44px;object-fit:cover;border-radius:6px;border:1px solid var(--border);cursor:pointer;" data-zoom-receipt="${r.id}" title="Tap to inspect receipt in full view" />`
-            : '<span class="tiny muted">No receipt</span>';
-
-          return `
-            <div class="admin-mob-card ${isPending ? 'pending' : ''}">
-              <div class="admin-mob-card-head">
-                <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;">
-                  <strong style="color:var(--jade);font-size:13.5px;">#LW${r.id}</strong>
-                  <strong style="font-size:13.5px;">${esc(r.username || ('User #' + r.user_id))}</strong>
-                  ${statusBadge}
-                </div>
-                <span class="tiny muted">${fmtDate(r.created_at)}</span>
-              </div>
-              <div class="admin-mob-card-grid">
-                <div class="admin-mob-card-field">
-                  <span class="admin-mob-card-label">Amount</span>
-                  <span class="admin-mob-card-val" style="color:var(--jade);font-weight:800;">${peso(r.amount)}</span>
-                </div>
-                <div class="admin-mob-card-field">
-                  <span class="admin-mob-card-label">Target SIM / Phone</span>
-                  <span class="admin-mob-card-val"><code style="font-size:12px;font-weight:800;">${esc(r.phone_number)}</code></span>
-                </div>
-                <div class="admin-mob-card-field">
-                  <span class="admin-mob-card-label">Method / Type</span>
-                  <span class="admin-mob-card-val">
-                    ${r.is_welcome_claim
-              ? `<span class="badge-tag tag-welcome" style="font-size:9.5px;">🎁 WELCOME CLAIM</span>`
-              : `<span class="badge-tag tag-available" style="font-size:9.5px;">${esc(r.payment_method || 'GCash')}</span>`
-            }
-                  </span>
-                </div>
-                <div class="admin-mob-card-field">
-                  <span class="admin-mob-card-label">Receipt Proof</span>
-                  <span class="admin-mob-card-val">${receiptThumb}</span>
-                </div>
-              </div>
-              ${r.admin_notes ? `<div class="tiny" style="color:var(--muted);font-style:italic;">Notes: "${esc(r.admin_notes)}"</div>` : ''}
-              ${isPending ? `
-                <div class="admin-mob-card-actions">
-                  <button type="button" class="btn btn-mint btn-sm" data-approve-load="${r.id}" style="flex:1;padding:6px 10px;font-size:11px;font-weight:800;">✓ Approve</button>
-                  <button type="button" class="btn btn-secondary btn-sm" data-reject-load="${r.id}" style="flex:1;padding:6px 10px;font-size:11px;color:#fca5a5;border-color:rgba(239,68,68,0.3);">✕ Reject</button>
-                </div>
-              ` : ''}
-            </div>
-          `;
-        }).join('');
-      }
-
-      // Wire zoom receipt buttons
-      document.querySelectorAll('[data-zoom-receipt]').forEach(img => {
-        img.onclick = () => {
-          const id = Number(img.dataset.zoomReceipt);
-          const req = globalLoadWallets.find(r => r.id === id);
-          if (req && req.receipt_image) {
-            openReceiptLightbox(req.receipt_image, `Load Wallet Receipt · Order #LW${req.id} · ${req.phone_number} (${peso(req.amount)})`);
-          }
-        };
-      });
-
-      // Wire Approve
-      document.querySelectorAll('[data-approve-load]').forEach(btn => {
-        btn.onclick = () => {
-          const id = Number(btn.dataset.approveLoad);
-          const req = globalLoadWallets.find(r => r.id === id);
-          if (!req) return;
-          showAdminConfirm({
-            title: `Approve Load Wallet Order #LW${req.id}`,
-            subtitle: `Confirm credit dispatch to Retailer SIM: ${req.phone_number}`,
-            icon: '📱',
-            details: [
-              { label: 'Amount', val: peso(req.amount), highlight: true },
-              { label: 'Target Number', val: req.phone_number },
-              { label: 'Member', val: `${req.username || 'User #' + req.user_id} (${req.user_mobile || ''})` },
-              { label: 'Payment Method', val: req.payment_method || 'GCash' },
-              { label: 'Ref #', val: req.reference_number || 'N/A' },
-            ],
-            confirmText: 'Approve & Confirm Sent ➔',
-            confirmClass: 'btn-mint',
-            onConfirm: async () => {
-              try {
-                await api(`/api/admin/load-wallet/${id}/approve`, {
-                  method: 'POST',
-                  body: JSON.stringify({ notes: 'Dispatched by treasury' })
-                });
-                flash(`✓ Order #LW${id} approved successfully!`, true);
-                fetchAndRenderAdminLoadWallet();
-              } catch (err) {
-                flash('Error approving order: ' + err.message);
-              }
-            }
-          });
-        };
-      });
-
-      // Wire Reject
-      document.querySelectorAll('[data-reject-load]').forEach(btn => {
-        btn.onclick = () => {
-          const id = Number(btn.dataset.rejectLoad);
-          const req = globalLoadWallets.find(r => r.id === id);
-          if (!req) return;
-          const reason = prompt('Please enter rejection reason/notes for member:', 'Invalid payment receipt / amount mismatch');
-          if (reason === null) return;
-          api(`/api/admin/load-wallet/${id}/reject`, {
-            method: 'POST',
-            body: JSON.stringify({ notes: reason || 'Order rejected by administration' })
-          }).then(() => {
-            flash(`Order #LW${id} rejected.`, true);
-            fetchAndRenderAdminLoadWallet();
-          }).catch(err => {
-            flash('Error rejecting order: ' + err.message);
-          });
-        };
-      });
-    }
-
-    // Filter tabs for Load Wallet
-    document.querySelectorAll('#loadWalletFilterTabs .ctrl-tab').forEach(tab => {
-      tab.onclick = () => {
-        document.querySelectorAll('#loadWalletFilterTabs .ctrl-tab').forEach(t => t.classList.remove('active'));
-        tab.classList.add('active');
-        currentLoadWalletFilter = tab.dataset.loadfilter || 'all';
-        renderAdminLoadWallet();
-      };
-    });
-
-    // Search input for Load Wallet
-    document.getElementById('searchLoadWalletInput')?.addEventListener('input', (e) => {
-      currentLoadWalletSearch = e.target.value.trim();
-      renderAdminLoadWallet();
-    });
-
-    // Refresh button for Load Wallet
-    const btnRefreshLW = document.getElementById('btnRefreshLoadWallet');
-    if (btnRefreshLW) {
-      btnRefreshLW.onclick = async () => {
-        btnRefreshLW.disabled = true;
-        const origHtml = btnRefreshLW.innerHTML;
-        btnRefreshLW.innerHTML = '<span>⏳ Refreshing...</span>';
-        try {
-          await fetchAndRenderAdminLoadWallet();
-          flash('✓ Load wallet orders refreshed!', true);
-        } catch (e) {
-          flash('Error refreshing orders: ' + e.message);
-        } finally {
-          setTimeout(() => {
-            btnRefreshLW.disabled = false;
-            btnRefreshLW.innerHTML = origHtml;
-          }, 350);
-        }
-      };
-    }
 
     function renderUsers() {
       const query = document.getElementById('userSearch').value.trim().toLowerCase();
@@ -4370,15 +4027,14 @@
 
       const pendingTradein = globalTradein.filter(p => p.cycle_status === 'pending');
       const pendingWd = globalWithdrawals.filter(w => w.status === 'pending');
-      const pendingLoad = globalLoadWallets.filter(lw => lw.status === 'pending');
-      const totalPending = pendingTradein.length + pendingWd.length + pendingLoad.length;
+      const totalPending = pendingTradein.length + pendingWd.length;
 
       if (totalPending === 0) {
         container.innerHTML = `
           <div style="padding:22px;text-align:center;background:var(--bg2, #162029);border:1px dashed var(--line, rgba(255,255,255,0.12));border-radius:12px;">
             <span style="font-size:24px;display:block;margin-bottom:6px;">🎉</span>
             <strong style="color:var(--jade, #2ed59e);font-size:13.5px;">All Caught Up!</strong>
-            <p class="tiny muted" style="margin:4px 0 0;">No pending trade-in deposits, cashout releases, or load wallet orders requiring verification.</p>
+            <p class="tiny muted" style="margin:4px 0 0;">No pending trade-in deposits or cashout releases requiring verification.</p>
           </div>
         `;
         return;
@@ -4462,38 +4118,6 @@
             <div style="display:flex;gap:6px;align-items:center;margin-top:8px;justify-content:flex-end;">
               <button type="button" data-wd-id="${w.id}" data-wd-act="approve" class="btn-admin-action btn-admin-approve" style="padding:6px 14px;font-size:12px;">✓ Approve</button>
               <button type="button" data-wd-id="${w.id}" data-wd-act="reject" class="btn-admin-action btn-admin-reject" style="padding:6px 12px;font-size:12px;">✕ Reject</button>
-            </div>
-          </div>
-        `;
-      });
-
-      // 3. Pending Load Wallet Orders
-      pendingLoad.forEach(lw => {
-        const receiptBtn = lw.receipt_image
-          ? `<button type="button" class="receipt-view-btn" data-lw-receipt-id="${lw.id}" style="padding:4px 10px;font-size:11.5px;font-weight:700;">🧾 View Receipt</button>`
-          : '<span class="muted tiny">No receipt</span>';
-
-        html += `
-          <div class="home-pending-card">
-            <div style="display:flex;align-items:flex-start;gap:10px;flex:1;">
-              <span style="font-size:22px;line-height:1;margin-top:2px;">📱</span>
-              <div style="flex:1;">
-                <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-bottom:3px;">
-                  <span class="badge-tag tag-available" style="font-size:10px;font-weight:700;background:var(--accent-mint);color:#08281d;">Load Wallet Order</span>
-                  <strong style="font-size:13px;color:var(--text);">#LW${lw.id} · ${esc(lw.username || lw.user_mobile)}</strong>
-                  <span class="tiny muted">• ${fmtDate(lw.created_at)}</span>
-                </div>
-                <div style="display:flex;gap:14px;align-items:center;flex-wrap:wrap;font-size:12px;margin-top:4px;">
-                  <span>Amount: <strong style="color:var(--accent-mint);">${peso(lw.amount)}</strong></span>
-                  <span>Target SIM: <code style="font-weight:800;color:var(--text);">${esc(lw.phone_number)}</code></span>
-                  <span>Method: <code style="font-weight:700;">${esc(lw.payment_method || '—')}</code></span>
-                  <span>Proof: ${receiptBtn}</span>
-                </div>
-              </div>
-            </div>
-            <div style="display:flex;gap:6px;align-items:center;margin-top:8px;justify-content:flex-end;">
-              <button type="button" class="btn-admin-action btn-admin-approve" data-quick-approve-lw="${lw.id}" style="padding:6px 14px;font-size:12px;">✓ Approve</button>
-              <button type="button" class="btn-admin-action btn-admin-reject" data-quick-reject-lw="${lw.id}" style="padding:6px 12px;font-size:12px;">✕ Reject</button>
             </div>
           </div>
         `;
@@ -4654,65 +4278,6 @@
           });
         };
       });
-
-      // Quick listeners for Load Wallet in Home Pending Queue
-      container.querySelectorAll('button[data-lw-receipt-id]').forEach(btn => {
-        btn.onclick = (e) => {
-          e.stopPropagation();
-          const id = Number(btn.dataset.lwReceiptId);
-          const lw = globalLoadWallets.find(x => x.id === id);
-          if (lw && lw.receipt_image) {
-            openReceiptLightbox(lw.receipt_image, `Load Wallet Receipt · #LW${lw.id} · ${lw.phone_number} (${peso(lw.amount)})`);
-          }
-        };
-      });
-
-      container.querySelectorAll('button[data-quick-approve-lw]').forEach(btn => {
-        btn.onclick = () => {
-          const id = Number(btn.dataset.quickApproveLw);
-          const lw = globalLoadWallets.find(x => x.id === id);
-          if (!lw) return;
-          showAdminConfirm({
-            title: `Approve Load Wallet Order #LW${lw.id}`,
-            subtitle: `Confirm credit dispatch to Retailer SIM: ${lw.phone_number}`,
-            icon: '📱',
-            details: [
-              { label: 'Amount', val: peso(lw.amount), highlight: true },
-              { label: 'Target Number', val: lw.phone_number },
-              { label: 'Member', val: `${lw.username || 'User #' + lw.user_id} (${lw.user_mobile || ''})` },
-            ],
-            confirmText: 'Approve & Confirm Sent ➔',
-            confirmClass: 'btn-mint',
-            onConfirm: async () => {
-              try {
-                await api(`/api/admin/load-wallet/${id}/approve`, {
-                  method: 'POST',
-                  body: JSON.stringify({ notes: 'Approved via quick queue' })
-                });
-                flash(`✓ Order #LW${id} approved successfully!`, true);
-                refreshAll();
-              } catch (err) {
-                flash('Error: ' + err.message);
-              }
-            }
-          });
-        };
-      });
-
-      container.querySelectorAll('button[data-quick-reject-lw]').forEach(btn => {
-        btn.onclick = () => {
-          const id = Number(btn.dataset.quickRejectLw);
-          const reason = prompt('Please enter rejection reason:', 'Invalid payment receipt');
-          if (reason === null) return;
-          api(`/api/admin/load-wallet/${id}/reject`, {
-            method: 'POST',
-            body: JSON.stringify({ notes: reason || 'Rejected via quick queue' })
-          }).then(() => {
-            flash(`Order #LW${id} rejected.`, true);
-            refreshAll();
-          }).catch(err => flash('Error: ' + err.message));
-        };
-      });
     }
 
     function getPayoutImg(method, size = 22) {
@@ -4725,6 +4290,87 @@
       else if (m.includes('ub') || m.includes('unionbank')) { file = 'UnionBank.png'; alt = 'UnionBank'; }
 
       return `<img src="/images/${file}" alt="${alt}" style="width:${size}px;height:${size}px;object-fit:contain;vertical-align:middle;display:inline-block;flex-shrink:0;" />`;
+    }
+
+    function renderCashback() {
+      // Get cashback data from globalLoadWalletRequests (if available) or from API
+      const cashbackList = globalLoadWalletRequests || [];
+
+      // Update counts
+      const countAll = cashbackList.length;
+      const countApproved = cashbackList.filter(r => r.status === 'approved').length;
+      const countPending = cashbackList.filter(r => r.status === 'pending').length;
+
+      document.getElementById('countCbAll').textContent = countAll;
+      document.getElementById('countCashbackTotal').textContent = countAll;
+      document.getElementById('countCashbackApproved').textContent = countApproved;
+      document.getElementById('countCashbackPending').textContent = countPending;
+
+      // Update summary amounts
+      const totalAmount = cashbackList.reduce((s, r) => s + (Number(r.amount) || 0), 0);
+      const approvedAmount = cashbackList.filter(r => r.status === 'approved').reduce((s, r) => s + (Number(r.amount) || 0), 0);
+      const pendingAmount = cashbackList.filter(r => r.status === 'pending').reduce((s, r) => s + (Number(r.amount) || 0), 0);
+
+      document.getElementById('sumCashbackTotal').textContent = peso(totalAmount);
+      document.getElementById('sumCashbackApproved').textContent = peso(approvedAmount);
+      document.getElementById('sumCashbackPending').textContent = peso(pendingAmount);
+
+      // Filter
+      let list = cashbackList;
+      if (cbFilterMode === 'approved') {
+        list = list.filter(r => r.status === 'approved');
+      } else if (cbFilterMode === 'pending') {
+        list = list.filter(r => r.status === 'pending');
+      }
+
+      // Search
+      const searchInput = document.getElementById('cashbackSearch');
+      const q = searchInput ? searchInput.value.trim().toLowerCase() : '';
+      if (q) {
+        list = list.filter(r => {
+          const user = globalUsers.find(u => u.id === r.user_id);
+          return (
+            String(r.id).includes(q) ||
+            String(r.account_name || '').toLowerCase().includes(q) ||
+            String(r.account_number || '').toLowerCase().includes(q) ||
+            String(r.payment_method || '').toLowerCase().includes(q) ||
+            String(user?.mobile_number || '').toLowerCase().includes(q) ||
+            String(user?.username || '').toLowerCase().includes(q)
+          );
+        });
+      }
+
+      const tbody = document.getElementById('cashbackTableBody');
+      const mobCards = document.getElementById('cashbackMobileCards');
+
+      if (!list.length) {
+        tbody.innerHTML = '<tr><td colspan="8" style="padding:24px;text-align:center" class="muted">No cashback claims found matching this filter.</td></tr>';
+        if (mobCards) mobCards.innerHTML = '<div style="padding:24px;text-align:center;" class="muted">No cashback claims found matching this filter.</div>';
+        return;
+      }
+
+      tbody.innerHTML = list.map(r => {
+        const user = globalUsers.find(u => u.id === r.user_id);
+        const badge = r.status === 'pending'
+          ? '<span class="badge-tag tag-pending">Pending</span>'
+          : '<span class="badge-tag tag-approved">Approved</span>';
+
+        return `
+          <tr>
+            <td>#${r.id}</td>
+            <td>
+              <strong>${esc(user?.username || user?.mobile_number || 'Unknown')}</strong>
+              <br><span class="tiny muted">${esc(user?.mobile_number || '')}</span>
+            </td>
+            <td>${esc(r.admin_notes?.split('Account: ')[1]?.split('·')[0] || r.claim_info?.account_name || '-')}</td>
+            <td>${esc(r.account_number || '-')}</td>
+            <td>${esc(r.payment_method || '-')}</td>
+            <td>${peso(r.amount)}</td>
+            <td>${badge}</td>
+            <td>${fmtDate(r.created_at)}</td>
+          </tr>
+        `;
+      }).join('');
     }
 
     function renderWithdrawals() {
@@ -5050,23 +4696,23 @@
 
     async function refreshAll() {
       try {
-        const [overview, usersData, tradeinData, withdrawalsData, codesData, meData, mopData, loadWalletData] = await Promise.all([
-          api('/api/admin/overview'),
-          api('/api/admin/users'),
-          api('/api/admin/tradein'),
-          api('/api/admin/withdrawals'),
-          api('/api/admin/codes'),
-          api('/api/me').catch(() => null),
-          api('/api/admin/mop').catch(() => ({ mop: [] })),
-          api('/api/admin/load-wallet').catch(() => ({ requests: [] })),
+        const [overview, usersData, tradeinData, withdrawalsData, codesData, cashbackData, meData, mopData] = await Promise.all([
+          api('/api/admin/overview').catch(e => { console.error('Overview error:', e); return { kpis: {}, weekly_payout_enabled: false }; }),
+          api('/api/admin/users').catch(e => { console.error('Users error:', e); return { users: [] }; }),
+          api('/api/admin/tradein').catch(e => { console.error('Tradein error:', e); return { packages: [] }; }),
+          api('/api/admin/withdrawals').catch(e => { console.error('Withdrawals error:', e); return { withdrawals: [] }; }),
+          api('/api/admin/codes').catch(e => { console.error('Codes error:', e); return { codes: [] }; }),
+          api('/api/admin/cashback').catch(e => { console.error('Cashback error:', e); return { cashback: [] }; }),
+          api('/api/me').catch(e => { console.error('Me error:', e); return null; }),
+          api('/api/admin/mop').catch(e => { console.error('MOP error:', e); return { mop: [] }; }),
         ]);
 
         globalUsers = usersData.users || [];
         globalTradein = tradeinData.packages || [];
         globalWithdrawals = withdrawalsData.withdrawals || [];
         globalCodes = codesData.codes || [];
+        globalLoadWalletRequests = cashbackData.cashback || [];
         globalMops = mopData.mop || [];
-        globalLoadWallets = loadWalletData.requests || [];
 
         if (meData && meData.user) {
           currentAdminUser = meData.user;
@@ -5080,12 +4726,12 @@
         renderCodes();
         renderTradein();
         renderWithdrawals();
+        renderCashback();
         updateMopBadgesAndHomeSummary();
         renderAdminMops();
-        renderAdminLoadWallet();
-        updateLoadWalletBadges();
         loadAdminProfitSharing();
       } catch (err) {
+        console.error('RefreshAll error:', err);
         flash(err.message);
       }
     }
@@ -5304,6 +4950,15 @@
         renderWithdrawals();
       };
     });
+
+    document.querySelectorAll('[data-cbfilter]').forEach((btn) => {
+      btn.onclick = () => {
+        document.querySelectorAll('[data-cbfilter]').forEach((b) => b.classList.remove('active'));
+        btn.classList.add('active');
+        cbFilterMode = btn.dataset.cbfilter;
+        renderCashback();
+      };
+    });
     document.querySelectorAll('[data-tradeinfilter]').forEach((btn) => {
       btn.onclick = () => {
         document.querySelectorAll('[data-tradeinfilter]').forEach((b) => b.classList.remove('active'));
@@ -5317,6 +4972,9 @@
     }
     if (document.getElementById('wdSearch')) {
       document.getElementById('wdSearch').oninput = renderWithdrawals;
+    }
+    if (document.getElementById('cashbackSearch')) {
+      document.getElementById('cashbackSearch').oninput = renderCashback;
     }
     if (document.getElementById('codeSearch')) {
       document.getElementById('codeSearch').oninput = renderCodes;

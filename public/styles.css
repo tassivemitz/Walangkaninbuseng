@@ -4963,6 +4963,11 @@ body.modal-open {
   background: var(--card-bg);
 }
 
+.wd-card.theme-cashback {
+  border-top: 4px solid #f59e0b;
+  background: var(--card-bg);
+}
+
 .wd-card.theme-ref {
   border-top: 4px solid var(--gold);
   background: var(--card-bg);
@@ -5047,6 +5052,12 @@ body.modal-open {
   background: rgba(15, 122, 69, 0.1);
   color: var(--jade);
   border: 1px solid rgba(15, 122, 69, 0.18);
+}
+
+.badge-cashback {
+  background: rgba(245, 158, 11, 0.1);
+  color: #f59e0b;
+  border: 1px solid rgba(245, 158, 11, 0.18);
 }
 
 .badge-ref {
@@ -5201,6 +5212,17 @@ body.modal-open {
 
 .btn-theme-binary:hover {
   box-shadow: 0 5px 15px rgba(15, 122, 69, 0.32);
+  transform: translateY(-1px);
+}
+
+.btn-theme-cashback {
+  background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+  color: #ffffff;
+  box-shadow: 0 3px 10px rgba(245, 158, 11, 0.2);
+}
+
+.btn-theme-cashback:hover {
+  box-shadow: 0 5px 15px rgba(245, 158, 11, 0.32);
   transform: translateY(-1px);
 }
 
@@ -14118,7 +14140,6 @@ textarea::placeholder {
 
 /* 3. Official Payment Channels (MOP) Box */
 .modal-mop-box,
-#loadWalletMopBox,
 #officialMopBox {
   background: #162029;
   border: 1.5px solid rgba(255, 255, 255, 0.08);
@@ -14174,7 +14195,6 @@ textarea::placeholder {
 
 /* Light Theme MOP Styles */
 [data-theme="light"] .modal-mop-box,
-[data-theme="light"] #loadWalletMopBox,
 [data-theme="light"] #officialMopBox {
   background: #f0faf4 !important;
   border: 1.5px solid rgba(15, 122, 69, 0.2) !important;
@@ -14182,13 +14202,11 @@ textarea::placeholder {
 }
 
 [data-theme="light"] .mop-box-title,
-[data-theme="light"] #loadWalletMopBox strong,
 [data-theme="light"] #officialMopBox strong {
   color: #0b4d2c !important;
 }
 
 [data-theme="light"] .mop-box-sub,
-[data-theme="light"] #loadWalletMopBox .tiny.muted,
 [data-theme="light"] #officialMopBox .tiny.muted {
   color: #567264 !important;
 }
@@ -14198,14 +14216,12 @@ textarea::placeholder {
 }
 
 [data-theme="light"] .mop-field-val,
-[data-theme="light"] #loadWalletActiveAccName,
 [data-theme="light"] #mopActiveAccountName {
   color: #0b3d24 !important;
   font-weight: 800 !important;
 }
 
 [data-theme="light"] .mop-acc-num,
-[data-theme="light"] #loadWalletActiveAccNum,
 [data-theme="light"] #mopActiveAccountNumber {
   color: #0f7a45 !important;
   background: #eaf7ef !important;
@@ -14216,14 +14232,12 @@ textarea::placeholder {
 }
 
 [data-theme="light"] .mop-instructions,
-[data-theme="light"] #loadWalletActiveInstructions,
 [data-theme="light"] #mopActiveInstructions {
   color: #446353 !important;
 }
 
 /* Inner MOP Display Card */
 [data-theme="light"] .mop-channel-content-card,
-[data-theme="light"] #loadWalletMopContent,
 [data-theme="light"] #mopChannelContent,
 [data-theme="light"] #mopActiveInstructionsBox {
   background: #ffffff !important;
@@ -14232,15 +14246,8 @@ textarea::placeholder {
   border-radius: 12px !important;
 }
 
-[data-theme="light"] .load-amount-in {
-  color: #0b4d2c !important;
-  font-weight: 800 !important;
-}
-
-[data-theme="light"] #btnCopyLoadWalletAccNum,
 [data-theme="light"] #btnCopyMopName,
 [data-theme="light"] #btnCopyMopNumber,
-[data-theme="light"] #btnZoomLoadWalletQr,
 [data-theme="light"] #btnZoomActiveMopQr {
   background: rgba(15, 122, 69, 0.08) !important;
   color: #0f7a45 !important;
@@ -14323,33 +14330,7 @@ textarea::placeholder {
   color: #ffffff !important;
 }
 
-/* 4. Quick Amount Preset Chips */
-.load-preset-btn {
-  background: #17232e !important;
-  color: #2ed59e !important;
-  border: 1px solid rgba(46, 213, 158, 0.25) !important;
-  font-size: 11.5px !important;
-  font-weight: 750 !important;
-  padding: 5px 12px !important;
-  border-radius: 8px !important;
-  transition: all 0.15s ease !important;
-}
 
-.load-preset-btn:hover {
-  background: #2ed59e !important;
-  color: #131a22 !important;
-  border-color: #2ed59e !important;
-}
-
-[data-theme="light"] .load-preset-btn {
-  background: #eaf7ef !important;
-  color: #0b6338 !important;
-  border: 1.5px solid rgba(15, 122, 69, 0.25) !important;
-  font-weight: 750 !important;
-  transition: all 0.15s ease !important;
-}
-
-[data-theme="light"] .load-preset-btn:hover {
   background: #0f7a45 !important;
   color: #ffffff !important;
   border-color: #0f7a45 !important;
@@ -14379,10 +14360,7 @@ textarea::placeholder {
   background: #ffffff !important;
 }
 
-[data-theme="light"] #loadWalletAmountInput {
-  color: #0b4d2c !important;
-  font-weight: 800 !important;
-}
+
 
 /* 6. Receipt Screenshot Dropzone in Light Theme */
 [data-theme="light"] .receipt-dropzone {
@@ -14424,7 +14402,6 @@ textarea::placeholder {
   border-radius: 12px !important;
 }
 
-[data-theme="light"] #loadWalletReceiptFileName,
 [data-theme="light"] #tradeinReceiptFileName {
   color: #0b4d2c !important;
   font-weight: 800 !important;
@@ -14492,6 +14469,11 @@ textarea::placeholder {
 [data-theme="light"] .wd-card.theme-binary {
   border-top: 4px solid #0f7a45 !important;
   background: linear-gradient(180deg, #f4fbf7 0%, #ffffff 42%) !important;
+}
+
+[data-theme="light"] .wd-card.theme-cashback {
+  border-top: 4px solid #f59e0b !important;
+  background: linear-gradient(180deg, #fffbeb 0%, #ffffff 42%) !important;
 }
 
 [data-theme="light"] .wd-card.theme-ref {
@@ -14956,7 +14938,7 @@ textarea::placeholder {
     width: calc(100% - 24px) !important;
   }
 
-  /* Claim 100 Load Wallet Responsive Network Grid */
+  /* Claim 100 Cashback Responsive Network Grid */
   #claimNetworkGrid {
     grid-template-columns: repeat(2, 1fr) !important;
     gap: 10px !important;
