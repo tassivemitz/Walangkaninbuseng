@@ -2843,7 +2843,8 @@
       const m = d.metrics || {};
 
       // Header
-      document.getElementById('who').textContent = u.mobile_number;
+      const who = document.getElementById('who');
+      if (who) who.textContent = u.mobile_number;
       const uDot = document.getElementById('userStatusDot');
       if (uDot) uDot.className = 'user-status-dot' + (u.status === 'active' ? '' : ' inactive');
       const uStatusTxt = document.getElementById('userStatusText');
@@ -4975,8 +4976,11 @@
         if (!res.ok) throw new Error(data.error || 'Failed to claim ₱100 cashback.');
 
         // Update local user state
-        if (dashboardData?.user) {
-          dashboardData.user.load_wallet_claimed = true;
+        if (dashboardData?.user && data.user) {
+          dashboardData.user.load_wallet_claimed = data.user.load_wallet_claimed;
+          dashboardData.user.load_wallet_claimed_at = data.user.load_wallet_claimed_at;
+          dashboardData.user.reward_countdown_start = data.user.reward_countdown_start;
+          dashboardData.user.cashback_balance = data.user.cashback_balance;
         }
 
         // Hide all claim banners/buttons permanently
