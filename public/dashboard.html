@@ -5075,11 +5075,24 @@
   <!-- Floating Mobile Bottom Nav (Mobile Devices Only) -->
   <nav class="mobile-bottom-nav">
     <button type="button" class="bnav-item active" id="bnavHome" onclick="switchMobileBottomTab('bnavHome');">
-      <span class="bnav-icon">🏠</span>
+      <span class="bnav-icon">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="m3 10 9-7 9 7"/>
+          <path d="M5 9v11h14V9"/>
+          <path d="M9 20v-6h6v6"/>
+        </svg>
+      </span>
       <span>HOME</span>
     </button>
     <button type="button" class="bnav-item" id="bnavMatrix" onclick="switchMobileBottomTab('bnavMatrix');">
-      <span class="bnav-icon">👥</span>
+      <span class="bnav-icon">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M16 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+          <circle cx="10" cy="7" r="4"/>
+          <path d="M20 21v-2a4 4 0 0 0-3-3.87"/>
+          <path d="M17 3.13a4 4 0 0 1 0 7.75"/>
+        </svg>
+      </span>
       <span>MATRIX</span>
     </button>
     <button type="button" class="bnav-center-action" id="bnavTradein" onclick="switchMobileBottomTab('bnavTradein');">
@@ -5101,7 +5114,13 @@
       <span>LOAD</span>
     </button>
     <button type="button" class="bnav-item" id="bnavCashout" onclick="switchMobileBottomTab('bnavCashout');">
-      <span class="bnav-icon">💳</span>
+      <span class="bnav-icon">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <rect x="2" y="5" width="20" height="14" rx="2"/>
+          <path d="M2 10h20"/>
+          <path d="M7 15h3"/>
+        </svg>
+      </span>
       <span>CASHOUT</span>
     </button>
   </nav>
