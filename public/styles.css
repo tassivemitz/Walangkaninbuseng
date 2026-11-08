@@ -11495,35 +11495,13 @@ textarea::placeholder {
     padding-bottom: env(safe-area-inset-bottom, 0);
   }
 
-  html,
   body.dash-terminal-body,
   body.admin-terminal-body {
     padding-bottom: 74px !important;
   }
 
-  .dash-main-area {
-    padding-bottom: 74px !important;
-  }
-
-  .dash-content-container {
-    padding-bottom: 74px !important;
-  }
-
-  .kpi-grid,
-  .kpi-row-1,
-  .kpi-row-2,
-  .vault-container,
-  .panel,
-  .card {
-    margin-bottom: 16px !important;
-  }
-
   /* Fix referral link being covered by bottom nav on mobile */
-  .side-ref-card {
-    position: relative !important;
-    z-index: 1 !important;
-  }
-}
+  .side-ref-card,
   .admin-side-ref-box {
     margin-bottom: 80px;
   }
