@@ -1,15 +1,47 @@
 require('dotenv').config();
 const path = require('path');
 const crypto = require('crypto');
+const fs = require('fs');
 const express = require('express');
 const cors = require('cors');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const multer = require('multer');
 const db = require('./db');
 
 const app = express();
 const PORT = Number(process.env.PORT || 3000);
 const JWT_SECRET = process.env.JWT_SECRET || 'dev-only-change-me';
+
+// Profile picture storage configuration
+const profilePicturesDir = path.join(__dirname, 'public', 'profile-pictures');
+if (!fs.existsSync(profilePicturesDir)) {
+  fs.mkdirSync(profilePicturesDir, { recursive: true });
+}
+
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, profilePicturesDir);
+  },
+  filename: (req, file, cb) => {
+    const userId = req.user.id;
+    const ext = path.extname(file.originalname);
+    cb(null, `${userId}${ext}`);
+  }
+});
+
+const upload = multer({
+  storage: storage,
+  limits: {
+    fileSize: 3 * 1024 * 1024 // 3MB limit
+  },
+  fileFilter: (req, file, cb) => {
+    if (!file.mimetype.startsWith('image/')) {
+      return cb(new Error('Only image files are allowed'));
+    }
+    cb(null, true);
+  }
+});
 
 const ENTRY_FEE = 399;
 const BINARY_CAP = 3000;
@@ -183,6 +215,7 @@ function publicUser(userId, data = db.getStore()) {
     load_wallet_claimed_at: u.load_wallet_claimed_at || null,
     load_wallet_claim_info: u.load_wallet_claim_info || null,
     reward_countdown_start: u.reward_countdown_start || null,
+    profile_picture: u.profile_picture || null,
     verified_income: qual.verified_income,
     group_sale_trade_in: qual.group_sale_trade_in,
     direct_active_accounts: qual.direct_active_accounts,
@@ -1997,6 +2030,51 @@ app.post('/api/admin/users/:id/password', auth, adminOnly, async (req, res) => {
     if (err.status) return res.status(err.status).json({ error: err.message });
     console.error(err);
     res.status(500).json({ error: 'Could not change password.' });
+  }
+});
+
+// Profile picture upload endpoint
+app.post('/api/user/profile-picture', auth, upload.single('profile_picture'), async (req, res) => {
+  try {
+    if (!req.file) {
+      return res.status(400).json({ error: 'No file uploaded' });
+    }
+
+    // Update user record with profile picture path
+    await db.tx((data) => {
+      const user = data.users.find((u) => u.id === req.user.id);
+      if (!user) {
+        throw new Error('User not found');
+      }
+      user.profile_picture = `/profile-pictures/${req.file.filename}`;
+    });
+
+    res.json({ success: true, profilePicture: `/profile-pictures/${req.file.filename}` });
+  } catch (err) {
+    console.error('Profile picture upload error:', err);
+    res.status(500).json({ error: err.message || 'Failed to upload profile picture' });
+  }
+});
+
+// Get profile picture endpoint
+app.get('/api/user/profile-picture/:userId', async (req, res) => {
+  try {
+    const userId = req.params.userId;
+    const user = await db.tx((data) => data.users.find((u) => u.id === userId));
+
+    if (!user || !user.profile_picture) {
+      return res.status(404).json({ error: 'Profile picture not found' });
+    }
+
+    const picturePath = path.join(__dirname, 'public', user.profile_picture);
+    if (fs.existsSync(picturePath)) {
+      res.sendFile(picturePath);
+    } else {
+      res.status(404).json({ error: 'Profile picture file not found' });
+    }
+  } catch (err) {
+    console.error('Profile picture fetch error:', err);
+    res.status(500).json({ error: 'Failed to fetch profile picture' });
   }
 });
 
