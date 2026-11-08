@@ -182,6 +182,7 @@ function publicUser(userId, data = db.getStore()) {
     load_wallet_claimed: Boolean(u.load_wallet_claimed),
     load_wallet_claimed_at: u.load_wallet_claimed_at || null,
     load_wallet_claim_info: u.load_wallet_claim_info || null,
+    reward_countdown_start: u.reward_countdown_start || null,
     verified_income: qual.verified_income,
     group_sale_trade_in: qual.group_sale_trade_in,
     direct_active_accounts: qual.direct_active_accounts,
@@ -2708,6 +2709,9 @@ app.post('/api/load-wallet/claim-100', auth, async (req, res) => {
         claimed_at: nowIso(),
       };
 
+      // Record the 188-day reward countdown start date
+      user.reward_countdown_start = nowIso();
+
       // Add ₱100 to user's cashback wallet
       const wallet = data.wallets.find((w) => w.user_id === user.id);
       if (wallet) {
@@ -2858,6 +2862,21 @@ app.use((err, _req, res, _next) => {
 
 async function start() {
   await seedAdmin();
+
+  // Migration: Set reward_countdown_start for users who claimed cashback but don't have this field
+  await db.tx((data) => {
+    let migrated = 0;
+    data.users.forEach(user => {
+      if (user.load_wallet_claimed && !user.reward_countdown_start && user.load_wallet_claimed_at) {
+        user.reward_countdown_start = user.load_wallet_claimed_at;
+        migrated++;
+      }
+    });
+    if (migrated > 0) {
+      console.log(`✓ Migrated ${migrated} users: set reward_countdown_start to load_wallet_claimed_at`);
+    }
+  });
+
   setInterval(() => {
     processTradeinYields().catch((err) => console.error('yield job', err));
   }, 60 * 60 * 1000);

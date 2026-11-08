@@ -325,54 +325,69 @@
           </form>
         </div>
 
-        <!-- Reward Countdown Banner -->
-        <div id="rewardCountdownBox" class="panel card"
-          style="margin-bottom: 20px; border: 2px solid #f59e0b; background: linear-gradient(135deg, rgba(245,158,11,0.12) 0%, rgba(180,83,9,0.16) 100%); border-radius:16px; padding:20px; box-shadow: 0 10px 30px rgba(245,158,11,0.2);">
-          <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px;">
-            <div style="display:flex; gap:14px; align-items:center; max-width:700px;">
-              <div
-                style="width:50px;height:50px;border-radius:14px;background:rgba(245,158,11,0.22);display:grid;place-items:center;flex-shrink:0;">
-                <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:#f59e0b;">
-                  <circle cx="12" cy="12" r="10"/>
-                  <polyline points="12 6 12 12 16 14"/>
-                </svg>
-              </div>
-              <div>
-                <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;">
-                  <span class="badge-tag" style="font-weight:800;font-size:11px;background:#f59e0b;color:#000;">
-                    🔥 REWARD COUNTDOWN
-                  </span>
-                </div>
-                <h3 style="margin:2px 0 4px;font-size:18px;font-weight:800;color:var(--text);">Claim Your Rewards of ₱2,888</h3>
-                <p style="margin:0;font-size:13px;color:var(--text);opacity:0.9;line-height:1.45;">
-                  <strong style="color:#f59e0b;">Countdown:</strong> <span id="countdownTimer">188 Days : 00 Hours : 00 Seconds</span>
-                </p>
-              </div>
+        <!-- Reward Countdown Banner (Only shows after cashback is claimed) -->
+        <div id="rewardCountdownBox" class="panel card" hidden
+          style="margin-bottom: 20px; width:100%;max-width:100%;border-radius:18px;overflow:hidden;">
+          <img src="/images/rewardsbanner.png" alt="Reward Countdown" style="width:100%;max-width:350px;height:auto;display:block;border-radius:18px;margin-left:auto;margin-right:auto;" />
+          <div style="margin-top:12px;display:grid;grid-template-columns:repeat(4,1fr);gap:6px;">
+            <div style="background:var(--bg2);color:var(--text);border-radius:10px;padding:8px 6px;display:flex;align-items:center;justify-content:center;gap:5px;min-width:0;border:1px solid var(--line);">
+              <svg style="width:20px;height:20px;flex:none;stroke:var(--jade)" viewBox="0 0 24 24" fill="none" stroke-width="2"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>
+              <div><b id="countdownDays" style="display:block;font-size:16px;line-height:1.1;font-variant-numeric:tabular-nums;color:var(--jade);">188</b><span style="display:block;font-size:10px;line-height:1.1;opacity:.7;">Days</span></div>
+            </div>
+            <div style="background:var(--bg2);color:var(--text);border-radius:10px;padding:8px 6px;display:flex;align-items:center;justify-content:center;gap:5px;min-width:0;border:1px solid var(--line);">
+              <div><b id="countdownHours" style="display:block;font-size:16px;line-height:1.1;font-variant-numeric:tabular-nums;color:var(--jade);">00</b><span style="display:block;font-size:10px;line-height:1.1;opacity:.7;">Hours</span></div>
+            </div>
+            <div style="background:var(--bg2);color:var(--text);border-radius:10px;padding:8px 6px;display:flex;align-items:center;justify-content:center;gap:5px;min-width:0;border:1px solid var(--line);">
+              <div><b id="countdownMinutes" style="display:block;font-size:16px;line-height:1.1;font-variant-numeric:tabular-nums;color:var(--jade);">00</b><span style="display:block;font-size:10px;line-height:1.1;opacity:.7;">Minutes</span></div>
+            </div>
+            <div style="background:var(--bg2);color:var(--text);border-radius:10px;padding:8px 6px;display:flex;align-items:center;justify-content:center;gap:5px;min-width:0;border:1px solid var(--line);">
+              <svg style="width:20px;height:20px;flex:none;stroke:var(--jade)" viewBox="0 0 24 24" fill="none" stroke-width="2"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l3 2M9 2h6"/></svg>
+              <div><b id="countdownSeconds" style="display:block;font-size:16px;line-height:1.1;font-variant-numeric:tabular-nums;color:var(--jade);">00</b><span style="display:block;font-size:10px;line-height:1.1;opacity:.7;">Seconds</span></div>
             </div>
           </div>
-
-          <!-- Details Section -->
-          <div style="margin-top:16px;padding-top:16px;border-top:1px solid rgba(245,158,11,0.3);">
-            <div style="display:grid;gap:12px;">
-              <div style="display:flex;align-items:center;gap:8px;">
-                <span style="font-size:12px;font-weight:700;color:var(--text);">✅ Status:</span>
-                <span style="font-size:12px;color:#2ed59e;font-weight:700;">Cashback claimed!</span>
-              </div>
-              <div style="display:flex;align-items:center;gap:8px;">
-                <span style="font-size:12px;font-weight:700;color:var(--text);">🎁 Next Reward:</span>
-                <span style="font-size:12px;color:#f59e0b;font-weight:700;">₱2,888 Extra Bonus</span>
-              </div>
-              <div style="margin-top:8px;">
-                <span style="font-size:12px;font-weight:700;color:var(--text);display:block;margin-bottom:6px;">📋 How It Works:</span>
-                <ul style="margin:0;padding-left:20px;font-size:11.5px;color:var(--text);opacity:0.85;line-height:1.6;">
-                  <li style="margin-bottom:4px;"><strong>Wait for the timeline:</strong> Wait 188 days from today.</li>
-                  <li style="margin-bottom:4px;"><strong>Monitor the Countdown:</strong> You will see the remaining Days, Hours, and Seconds at the top of your dashboard.</li>
-                  <li><strong>Claim the Bonus:</strong> When the countdown reaches 0:00:00, the ₱2,888 Reward will automatically unlock and you can claim it immediately!</li>
-                </ul>
-              </div>
+          <div style="margin-top:12px;background:var(--bg2);color:var(--text);border-radius:10px;padding:10px 14px;display:flex;align-items:center;gap:10px;font-size:13px;font-weight:600;border:1px solid var(--line);">
+            <span>Progress: <span id="countdownProgress" style="color:var(--jade);">0%</span></span>
+            <div style="flex:1;height:12px;border-radius:8px;background:rgba(46,213,158,0.1);overflow:hidden;">
+              <div id="countdownFill" style="height:100%;width:0%;border-radius:8px;background:linear-gradient(90deg,var(--jade),#0f7a45);transition:width .8s ease;"></div>
             </div>
           </div>
         </div>
+
+        <style>
+          @media (min-width: 769px) {
+            #rewardCountdownBox {
+              max-width: 100% !important;
+            }
+          }
+          @media (max-width: 768px) {
+            #rewardCountdownBox {
+              max-width: 100% !important;
+            }
+            #rewardCountdownBox > div:nth-child(2) {
+              gap: 4px !important;
+            }
+            #rewardCountdownBox > div:nth-child(2) > div {
+              padding: 6px 4px !important;
+            }
+            #rewardCountdownBox > div:nth-child(2) > div b {
+              font-size: 14px !important;
+            }
+            #rewardCountdownBox > div:nth-child(2) > div span {
+              font-size: 9px !important;
+            }
+            #rewardCountdownBox > div:nth-child(2) > div svg {
+              width: 18px !important;
+              height: 18px !important;
+            }
+            #rewardCountdownBox > div:last-child {
+              padding: 8px 10px !important;
+              font-size: 11px !important;
+            }
+            #rewardCountdownBox > div:last-child > div:last-child {
+              height: 10px !important;
+            }
+          }
+        </style>
 
         <!-- Newly Activated Account: Claim ₱100 Cashback Notice -->
         <div id="welcomeClaim100Box" class="panel card"
@@ -1601,123 +1616,141 @@
   <!-- Modal 7B: Claim ₱100 Cashback (Newly Activated Accounts Privilege) -->
   <div class="plan-modal" id="modalClaim100Cashback" hidden>
     <div class="plan-modal-backdrop" data-close-modal></div>
-    <div class="plan-modal-sheet" style="max-width:560px;">
-      <header class="plan-modal-head">
-        <div>
-          <p class="kicker">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:text-bottom;margin-right:4px;">
-              <polyline points="20 12 20 22 4 22 4 12"/>
-              <rect x="2" y="7" width="20" height="5"/>
-              <line x1="12" y1="22" x2="12" y2="7"/>
-              <path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/>
-              <path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/>
-            </svg>
-            Welcome Privilege
-          </p>
-          <h2>Claim ₱100 Cashback</h2>
+    <div class="plan-modal-sheet" style="max-width:560px;max-height:90vh;overflow-y:auto;">
+      <header class="plan-modal-head" style="padding: 6px 16px 2px;">
+        <div style="width:100%;text-align:center;">
+          <img src="/images/Welcome Privilege ₱100 Cashback.png" alt="Welcome Privilege" style="max-width:65%;height:auto;" />
         </div>
-        <button class="plan-close" type="button" data-close-modal>×</button>
+        <button class="plan-close" type="button" data-close-modal style="position:absolute;top:6px;right:12px;">×</button>
       </header>
       <div class="plan-modal-body">
 
         <!-- Privilege Notice Banner -->
         <div
-          style="background:linear-gradient(135deg,rgba(46,213,158,0.14) 0%,rgba(15,122,69,0.18) 100%);border:1.5px solid rgba(46,213,158,0.35);border-radius:12px;padding:12px 14px;margin-bottom:16px;display:flex;align-items:flex-start;gap:10px;">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:var(--jade);">
+          style="background:linear-gradient(135deg,rgba(46,213,158,0.14) 0%,rgba(15,122,69,0.18) 100%);border:1.5px solid rgba(46,213,158,0.35);border-radius:12px;padding:8px 10px;margin-bottom:12px;display:flex;align-items:flex-start;gap:8px;">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:var(--jade);flex-shrink:0;">
             <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
             <polyline points="22 4 12 14.01 9 11.01"/>
           </svg>
-          <div style="font-size:12.5px;color:var(--text);line-height:1.45;">
-            <strong>Exclusively for newly activated accounts!</strong> This privilege will appear just once for your
-            account. Once claimed, it will no longer be visible so you cannot claim it again.
+          <div style="font-size:11px;color:var(--text);line-height:1.4;">
+            <strong>Exclusively for newly activated accounts!</strong> This privilege will appear just once for your account. Once claimed, it will no longer be visible so you cannot claim it again.
           </div>
         </div>
 
         <form id="formClaim100Cashback" style="margin-top:0;">
 
           <!-- 1. Account Name Input -->
-          <div style="margin-bottom:14px;">
-            <label class="tiny muted" style="display:block;font-weight:700;margin-bottom:6px;letter-spacing:0.02em;">
+          <div style="margin-bottom:10px;">
+            <label class="tiny muted" style="display:block;font-weight:700;margin-bottom:4px;letter-spacing:0.02em;font-size:11px;">
               1. ACCOUNT NAME *
             </label>
             <input type="text" id="claim100NameInput" class="in" placeholder="e.g. Juan Dela Cruz" required
-              style="width:100%;font-size:16px;font-weight:800;" />
-            <span class="tiny muted" style="display:block;margin-top:4px;">
+              style="width:100%;font-size:14px;font-weight:800;" />
+            <span class="tiny muted" style="display:block;margin-top:2px;font-size:10px;">
               Enter the account holder's name.
             </span>
           </div>
 
           <!-- 2. Account Number Input -->
-          <div style="margin-bottom:14px;">
-            <label class="tiny muted" style="display:block;font-weight:700;margin-bottom:6px;letter-spacing:0.02em;">
+          <div style="margin-bottom:10px;">
+            <label class="tiny muted" style="display:block;font-weight:700;margin-bottom:4px;letter-spacing:0.02em;font-size:11px;">
               2. ACCOUNT NUMBER *
             </label>
             <input type="text" id="claim100AccountInput" class="in" placeholder="e.g. IT123456789" required
-              style="width:100%;font-size:16px;font-weight:800;letter-spacing:0.04em;" />
-            <span class="tiny muted" style="display:block;margin-top:4px;">
+              style="width:100%;font-size:14px;font-weight:800;letter-spacing:0.04em;" />
+            <span class="tiny muted" style="display:block;margin-top:2px;font-size:10px;">
               Enter your account number linked to your account.
             </span>
           </div>
 
           <!-- 3. Select Mode of Payment -->
-          <div style="margin-bottom:16px;">
-            <label class="tiny muted" style="display:block;font-weight:700;margin-bottom:6px;letter-spacing:0.02em;">
+          <div style="margin-bottom:12px;">
+            <label class="tiny muted" style="display:block;font-weight:700;margin-bottom:4px;letter-spacing:0.02em;font-size:11px;">
               3. SELECT MODE OF PAYMENT *
             </label>
             <div id="claimPaymentGrid" style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;">
               <label class="network-choice-card active" data-payment="GCash" style="flex-direction:column;align-items:center;justify-content:center;padding:16px;">
                 <input type="radio" name="claimPayment" value="GCash" checked style="display:none;" />
                 <span class="network-choice-logo-wrap" style="display:flex;align-items:center;justify-content:center;">
-                  <img class="network-choice-logo" src="/images/GCash.png" alt="GCash" style="width:60px;height:60px;object-fit:contain;" />
+                  <img class="network-choice-logo" src="/images/GCash.png" alt="GCash" style="width:85px;height:85px;object-fit:contain;" />
                 </span>
+                <span style="font-size:12px;font-weight:600;margin-top:8px;">GCash</span>
               </label>
 
               <label class="network-choice-card" data-payment="Maya" style="flex-direction:column;align-items:center;justify-content:center;padding:16px;">
                 <input type="radio" name="claimPayment" value="Maya" style="display:none;" />
                 <span class="network-choice-logo-wrap" style="display:flex;align-items:center;justify-content:center;">
-                  <img class="network-choice-logo" src="/images/Maya.png" alt="Maya" style="width:60px;height:60px;object-fit:contain;" />
+                  <img class="network-choice-logo" src="/images/Maya.png" alt="Maya" style="width:85px;height:85px;object-fit:contain;" />
                 </span>
+                <span style="font-size:12px;font-weight:600;margin-top:8px;">Maya</span>
               </label>
 
               <label class="network-choice-card" data-payment="GoTyme" style="flex-direction:column;align-items:center;justify-content:center;padding:16px;">
                 <input type="radio" name="claimPayment" value="GoTyme" style="display:none;" />
                 <span class="network-choice-logo-wrap" style="display:flex;align-items:center;justify-content:center;">
-                  <img class="network-choice-logo" src="/images/Gotyme.png" alt="GoTyme" style="width:60px;height:60px;object-fit:contain;" />
+                  <img class="network-choice-logo" src="/images/Gotyme.png" alt="GoTyme" style="width:85px;height:85px;object-fit:contain;" />
                 </span>
+                <span style="font-size:12px;font-weight:600;margin-top:8px;">GoTyme</span>
               </label>
 
               <label class="network-choice-card" data-payment="Maribank" style="flex-direction:column;align-items:center;justify-content:center;padding:16px;">
                 <input type="radio" name="claimPayment" value="Maribank" style="display:none;" />
                 <span class="network-choice-logo-wrap" style="display:flex;align-items:center;justify-content:center;">
-                  <img class="network-choice-logo" src="/images/Maribank.png" alt="Maribank" style="width:60px;height:60px;object-fit:contain;" />
+                  <img class="network-choice-logo" src="/images/Maribank.png" alt="Maribank" style="width:85px;height:85px;object-fit:contain;" />
                 </span>
+                <span style="font-size:12px;font-weight:600;margin-top:8px;">Maribank</span>
               </label>
 
               <label class="network-choice-card" data-payment="BDO" style="flex-direction:column;align-items:center;justify-content:center;padding:16px;">
                 <input type="radio" name="claimPayment" value="BDO" style="display:none;" />
                 <span class="network-choice-logo-wrap" style="display:flex;align-items:center;justify-content:center;">
-                  <img class="network-choice-logo" src="/images/BDO.svg" alt="BDO" style="width:60px;height:60px;object-fit:contain;" />
+                  <img class="network-choice-logo" src="/images/BDO.svg" alt="BDO" style="width:85px;height:85px;object-fit:contain;" />
                 </span>
+                <span style="font-size:12px;font-weight:600;margin-top:8px;">BDO</span>
               </label>
 
               <label class="network-choice-card" data-payment="Other" style="flex-direction:column;align-items:center;justify-content:center;padding:16px;">
                 <input type="radio" name="claimPayment" value="Other" style="display:none;" />
-                <span style="font-size:24px;">🏦</span>
+                <span style="font-size:40px;">🏦</span>
+                <span style="font-size:12px;font-weight:600;margin-top:8px;">Other Bank</span>
               </label>
             </div>
 
-            <!-- Other Bank Dropdown (shown when Other is selected) -->
+            <!-- Other Bank Selection (shown when Other is selected) -->
             <div id="otherBankDropdown" style="display:none;margin-top:12px;">
-              <select id="claimOtherBankSelect" class="in" style="width:100%;font-size:13px;font-weight:600;">
-                <option value="">Select specific bank...</option>
-                <option value="BPI">BPI</option>
-                <option value="UnionBank">UnionBank</option>
-                <option value="PNB">PNB</option>
-                <option value="Landbank">Landbank</option>
-                <option value="China Bank">China Bank</option>
-                <option value="Metrobank">Metrobank</option>
-                <option value="RCBC">RCBC</option>
-              </select>
+              <label class="tiny muted" style="display:block;font-weight:700;margin-bottom:6px;letter-spacing:0.02em;font-size:11px;">
+                Select your bank:
+              </label>
+              <div id="otherBankGrid" style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;">
+                <label class="network-choice-card active" data-bank="BPI" style="flex-direction:column;align-items:center;justify-content:center;padding:12px;">
+                  <input type="radio" name="otherBank" value="BPI" style="display:none;" />
+                  <span style="font-size:20px;font-weight:700;">BPI</span>
+                </label>
+                <label class="network-choice-card" data-bank="UnionBank" style="flex-direction:column;align-items:center;justify-content:center;padding:12px;">
+                  <input type="radio" name="otherBank" value="UnionBank" style="display:none;" />
+                  <span style="font-size:20px;font-weight:700;">UnionBank</span>
+                </label>
+                <label class="network-choice-card" data-bank="PNB" style="flex-direction:column;align-items:center;justify-content:center;padding:12px;">
+                  <input type="radio" name="otherBank" value="PNB" style="display:none;" />
+                  <span style="font-size:20px;font-weight:700;">PNB</span>
+                </label>
+                <label class="network-choice-card" data-bank="Landbank" style="flex-direction:column;align-items:center;justify-content:center;padding:12px;">
+                  <input type="radio" name="otherBank" value="Landbank" style="display:none;" />
+                  <span style="font-size:20px;font-weight:700;">Landbank</span>
+                </label>
+                <label class="network-choice-card" data-bank="China Bank" style="flex-direction:column;align-items:center;justify-content:center;padding:12px;">
+                  <input type="radio" name="otherBank" value="China Bank" style="display:none;" />
+                  <span style="font-size:20px;font-weight:700;">China Bank</span>
+                </label>
+                <label class="network-choice-card" data-bank="Metrobank" style="flex-direction:column;align-items:center;justify-content:center;padding:12px;">
+                  <input type="radio" name="otherBank" value="Metrobank" style="display:none;" />
+                  <span style="font-size:20px;font-weight:700;">Metrobank</span>
+                </label>
+                <label class="network-choice-card" data-bank="RCBC" style="flex-direction:column;align-items:center;justify-content:center;padding:12px;">
+                  <input type="radio" name="otherBank" value="RCBC" style="display:none;" />
+                  <span style="font-size:20px;font-weight:700;">RCBC</span>
+                </label>
+              </div>
             </div>
           </div>
 
@@ -4725,16 +4758,27 @@
     // Payment method selector cards click handling
     document.querySelectorAll('.network-choice-card').forEach(card => {
       card.addEventListener('click', () => {
-        document.querySelectorAll('.network-choice-card').forEach(c => c.classList.remove('active'));
-        card.classList.add('active');
-        const radio = card.querySelector('input[type="radio"]');
-        if (radio) radio.checked = true;
+        // Handle payment method cards
+        if (card.dataset.payment) {
+          document.querySelectorAll('.network-choice-card[data-payment]').forEach(c => c.classList.remove('active'));
+          card.classList.add('active');
+          const radio = card.querySelector('input[type="radio"]');
+          if (radio) radio.checked = true;
 
-        // Show/hide Other Bank dropdown
-        const payment = card.dataset.payment;
-        const otherBankDropdown = document.getElementById('otherBankDropdown');
-        if (otherBankDropdown) {
-          otherBankDropdown.style.display = payment === 'Other' ? 'block' : 'none';
+          // Show/hide Other Bank dropdown
+          const payment = card.dataset.payment;
+          const otherBankDropdown = document.getElementById('otherBankDropdown');
+          if (otherBankDropdown) {
+            otherBankDropdown.style.display = payment === 'Other' ? 'block' : 'none';
+          }
+        }
+
+        // Handle other bank cards
+        if (card.dataset.bank) {
+          document.querySelectorAll('.network-choice-card[data-bank]').forEach(c => c.classList.remove('active'));
+          card.classList.add('active');
+          const radio = card.querySelector('input[type="radio"]');
+          if (radio) radio.checked = true;
         }
       });
     });
@@ -4762,7 +4806,7 @@
 
       // If Other Bank is selected, require specific bank selection
       if (payment_method === 'Other') {
-        const otherBank = document.getElementById('claimOtherBankSelect')?.value;
+        const otherBank = document.querySelector('input[name="otherBank"]:checked')?.value;
         if (!otherBank) {
           toast('Please select a specific bank.');
           return;
@@ -4773,7 +4817,7 @@
       btn.textContent = 'Processing Claim...';
 
       try {
-        const otherBank = payment_method === 'Other' ? document.getElementById('claimOtherBankSelect')?.value : null;
+        const otherBank = payment_method === 'Other' ? document.querySelector('input[name="otherBank"]:checked')?.value : null;
         const finalPaymentMethod = payment_method === 'Other' ? otherBank : payment_method;
 
         const res = await fetch('/api/load-wallet/claim-100', {
@@ -4806,19 +4850,50 @@
 
     // Reward Countdown Timer
     function startRewardCountdown() {
-      const countdownEl = document.getElementById('countdownTimer');
-      if (!countdownEl) return;
+      const daysEl = document.getElementById('countdownDays');
+      const hoursEl = document.getElementById('countdownHours');
+      const minutesEl = document.getElementById('countdownMinutes');
+      const secondsEl = document.getElementById('countdownSeconds');
+      const progressEl = document.getElementById('countdownProgress');
+      const fillEl = document.getElementById('countdownFill');
+      const rewardBox = document.getElementById('rewardCountdownBox');
 
-      // Set target date: 188 days from now
-      const targetDate = new Date();
-      targetDate.setDate(targetDate.getDate() + 188);
+      if (!daysEl || !hoursEl || !minutesEl || !secondsEl) return;
 
-      function updateCountdown() {
-        const now = new Date();
+      function updateCountdownDisplay() {
+        const u = dashboardData?.user;
+
+        // Only show reward countdown if cashback has been claimed
+        if (!u || !u.load_wallet_claimed) {
+          if (rewardBox) rewardBox.hidden = true;
+          return;
+        }
+
+        if (rewardBox) rewardBox.hidden = false;
+
+        // Get the stored countdown start date (from when cashback was claimed)
+        const startDate = u.reward_countdown_start ? new Date(u.reward_countdown_start) : (u.load_wallet_claimed_at ? new Date(u.load_wallet_claimed_at) : null);
+
+        // If no start date is available, don't show the countdown
+        if (!startDate) {
+          if (rewardBox) rewardBox.hidden = true;
+          return;
+        }
+
+        const totalDuration = 188 * 24 * 60 * 60 * 1000; // 188 days in milliseconds
+        const targetDate = new Date(startDate.getTime() + totalDuration);
+
+        const now = Date.now();
         const diff = targetDate - now;
+        const elapsed = now - startDate.getTime();
 
         if (diff <= 0) {
-          countdownEl.textContent = '0 Araw : 00 Oras : 00 Segundo';
+          daysEl.textContent = '0';
+          hoursEl.textContent = '00';
+          minutesEl.textContent = '00';
+          secondsEl.textContent = '00';
+          progressEl.textContent = '100%';
+          fillEl.style.width = '100%';
           return;
         }
 
@@ -4827,11 +4902,19 @@
         const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
         const seconds = Math.floor((diff % (1000 * 60)) / 1000);
 
-        countdownEl.textContent = `${days} Araw : ${String(hours).padStart(2, '0')} Oras : ${String(seconds).padStart(2, '0')} Segundo`;
+        daysEl.textContent = days;
+        hoursEl.textContent = String(hours).padStart(2, '0');
+        minutesEl.textContent = String(minutes).padStart(2, '0');
+        secondsEl.textContent = String(seconds).padStart(2, '0');
+
+        // Calculate real progress based on elapsed time from stored start date
+        const progressPercent = Math.min(100, Math.max(0, (elapsed / totalDuration) * 100));
+        progressEl.textContent = Math.floor(progressPercent) + '%';
+        fillEl.style.width = progressPercent + '%';
       }
 
-      updateCountdown();
-      setInterval(updateCountdown, 1000);
+      updateCountdownDisplay();
+      setInterval(updateCountdownDisplay, 1000);
     }
 
     startRewardCountdown();
