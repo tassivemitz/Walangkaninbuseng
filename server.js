@@ -214,6 +214,14 @@ function publicUser(userId, data = db.getStore()) {
     load_wallet_claimed: Boolean(u.load_wallet_claimed),
     load_wallet_claimed_at: u.load_wallet_claimed_at || null,
     load_wallet_claim_info: u.load_wallet_claim_info || null,
+    load_wallet_claim_status: (() => {
+      const reqs = (data.load_wallet_requests || []).filter(
+        (r) => r.user_id === userId && r.is_welcome_claim === true,
+      );
+      if (!reqs.length) return u.load_wallet_claimed ? 'approved' : null;
+      const latest = reqs.reduce((a, b) => (a.id > b.id ? a : b));
+      return latest.status || null;
+    })(),
     reward_countdown_start: u.reward_countdown_start || null,
     profile_picture: u.profile_picture || null,
     verified_income: qual.verified_income,
@@ -2200,8 +2208,83 @@ app.post('/api/withdraw/profit-sharing', auth, (req, res) => requestWithdrawal(r
 
 app.get('/api/admin/cashback', auth, adminOnly, (_req, res) => {
   const data = db.getStore();
-  const cashbackList = (data.load_wallet_requests || []).filter(r => r.is_welcome_claim === true);
+  const cashbackList = (data.load_wallet_requests || [])
+    .filter((r) => r.is_welcome_claim === true)
+    .slice()
+    .sort((a, b) => b.id - a.id)
+    .map((r) => {
+      const u = data.users.find((x) => x.id === r.user_id);
+      const claimInfo = u?.load_wallet_claim_info || {};
+      return {
+        ...r,
+        mobile_number: u ? u.mobile_number || u.username : '',
+        account_name: r.account_name || claimInfo.account_name || '',
+        account_number: r.account_number || r.phone_number || claimInfo.account_number || '',
+      };
+    });
   res.json({ cashback: cashbackList });
+});
+
+app.post('/api/admin/cashback/:id/review', auth, adminOnly, async (req, res) => {
+  const id = Number(req.params.id);
+  const action = req.body.action === 'reject' ? 'rejected' : req.body.action === 'approve' ? 'approved' : null;
+  if (!id || !action) return res.status(400).json({ error: 'action must be approve or reject.' });
+
+  try {
+    const result = await db.tx((data) => {
+      const rec = (data.load_wallet_requests || []).find((r) => r.id === id && r.is_welcome_claim === true);
+      if (!rec || rec.status !== 'pending') {
+        const err = new Error('Cashback claim is not pending.');
+        err.status = 400;
+        throw err;
+      }
+      const user = data.users.find((u) => u.id === rec.user_id);
+      if (!user) {
+        const err = new Error('Member not found.');
+        err.status = 404;
+        throw err;
+      }
+
+      rec.status = action;
+      rec.processed_at = nowIso();
+
+      if (action === 'approved') {
+        const amount = money(Number(rec.amount) || 100);
+        rec.approved_at = nowIso();
+        rec.rejected_at = null;
+        const wallet = data.wallets.find((w) => w.user_id === user.id);
+        if (wallet) {
+          wallet.cashback_balance = money((Number(wallet.cashback_balance) || 0) + amount);
+        } else {
+          data.wallets.push({
+            user_id: user.id,
+            binary_ref_balance: 0,
+            tradein_ref_balance: 0,
+            tradein_cycle_balance: 0,
+            cashback_balance: amount,
+          });
+        }
+        if (!user.reward_countdown_start) {
+          user.reward_countdown_start = nowIso();
+        }
+        rec.admin_notes = `${rec.admin_notes || ''} · Approved by admin — credited to cashback wallet`.trim();
+      } else {
+        rec.rejected_at = nowIso();
+        rec.approved_at = null;
+        user.load_wallet_claimed = false;
+        user.load_wallet_claimed_at = null;
+        user.load_wallet_claim_info = null;
+        rec.admin_notes = `${rec.admin_notes || ''} · Rejected by admin — member may submit a new claim`.trim();
+      }
+
+      return { status: action, request: rec };
+    });
+    res.json({ ok: true, ...result });
+  } catch (err) {
+    if (err.status) return res.status(err.status).json({ error: err.message });
+    console.error(err);
+    res.status(500).json({ error: 'Could not review cashback claim.' });
+  }
 });
 
 app.get('/api/admin/overview', auth, adminOnly, async (_req, res) => {
@@ -2774,6 +2857,14 @@ app.post('/api/load-wallet/claim-100', auth, async (req, res) => {
         err.status = 400;
         throw err;
       }
+      const pendingClaim = (data.load_wallet_requests || []).find(
+        (r) => r.user_id === user.id && r.is_welcome_claim === true && r.status === 'pending',
+      );
+      if (pendingClaim) {
+        const err = new Error('Your ₱100 Cashback claim is already pending admin approval.');
+        err.status = 400;
+        throw err;
+      }
 
       if (!Array.isArray(data.load_wallet_requests)) data.load_wallet_requests = [];
 
@@ -2787,39 +2878,24 @@ app.post('/api/load-wallet/claim-100', auth, async (req, res) => {
         claimed_at: nowIso(),
       };
 
-      // Record the 188-day reward countdown start date
-      user.reward_countdown_start = nowIso();
-
-      // Add ₱100 to user's cashback wallet
-      const wallet = data.wallets.find((w) => w.user_id === user.id);
-      if (wallet) {
-        wallet.cashback_balance = money((Number(wallet.cashback_balance) || 0) + 100);
-      } else {
-        data.wallets.push({
-          user_id: user.id,
-          binary_ref_balance: 0,
-          tradein_ref_balance: 0,
-          tradein_cycle_balance: 0,
-          cashback_balance: 100,
-        });
-      }
-
-      // Record the cashback claim
+      // Record the cashback claim (pending admin approval — wallet credited on approve)
       const rec = db.insert('load_wallet_requests', {
         user_id: user.id,
         amount: 100,
+        account_name: accountName,
+        account_number: accountNumber,
         phone_number: accountNumber,
         clean_phone: accountNumber,
         network: paymentMethod,
         payment_method: paymentMethod,
         reference_number: `CLAIM100-${paymentMethod.toUpperCase()}-${user.id}`,
         receipt_image: '',
-        status: 'approved',
+        status: 'pending',
         is_welcome_claim: true,
         claim_type: 'cashback',
-        admin_notes: `FREE ₱100 CASHBACK · Account: ${accountName} · Payment: ${paymentMethod} · Auto-credited to balance`,
+        admin_notes: `FREE ₱100 CASHBACK · Account: ${accountName} · Payment: ${paymentMethod} · Awaiting admin approval`,
         created_at: nowIso(),
-        approved_at: nowIso(),
+        approved_at: null,
         rejected_at: null,
       });
 
@@ -2828,7 +2904,7 @@ app.post('/api/load-wallet/claim-100', auth, async (req, res) => {
 
     res.status(201).json({
       ok: true,
-      message: '🎉 ₱100 Cashback claimed successfully! Amount has been credited to your total balance.',
+      message: '₱100 Cashback claim submitted. Please wait for admin approval before it appears in your earnings.',
       request: result.request,
       user: result.user,
     });

@@ -251,56 +251,56 @@
         <p id="banner" class="banner"></p>
 
         <!-- Inactive Account Pending Notice (Upline Activation Required) -->
-        <div id="activationBox" class="panel card activation-panel"
-          style="display:none; margin-bottom: 20px; border: 2px solid #f59e0b; background: var(--card-bg); border-radius:16px; padding:22px;">
-          <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:14px;">
-            <div style="max-width:680px;">
-              <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">
-                <span class="pill closed"
-                  style="background:rgba(245,166,35,0.16);color:#fbbf24;border:1px solid rgba(245,166,35,0.35);">●
-                  Account
-                  Pending Activation</span>
-                <span
-                  style="font-size:12px;font-weight:700;color:var(--jade);background:rgba(46,213,158,0.12);padding:2px 8px;border-radius:6px;">Upline
-                  Activation Only</span>
-              </div>
-              <h2 style="margin:4px 0 8px; font-size:22px; font-weight:800; letter-spacing:-0.02em;">Awaiting Placement
-                &amp; Activation by Upline</h2>
-              <p style="font-size:13.5px; color:var(--text); margin:0 0 14px; line-height:1.55;">
-                Welcome to Infinite Trading! Your account registration is complete. Under system rules, <strong>only
-                  your direct sponsor or upline can place and activate your account</strong> into the binary genealogy
-                tree.
-              </p>
-
-              <div
-                style="background:var(--bg2); border:1px solid var(--line); border-radius:12px; padding:14px 16px; margin-bottom:14px;">
-                <div style="display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:10px;">
-                  <div>
-                    <span class="tiny muted"
-                      style="text-transform:uppercase; font-weight:700; font-size:10.5px; letter-spacing:0.04em;">Your
-                      Direct Sponsor</span>
-                    <p style="margin:2px 0 0; font-size:16px; font-weight:800; color:var(--jade);"
-                      id="pendingSponsorDisplay">Loading...</p>
-                  </div>
-                  <div style="font-size:12px; color:var(--muted); text-align:right;">
-                    <span>Status: </span><strong style="color:#d97706;">Pending Tree Placement</strong>
-                  </div>
-                </div>
-              </div>
-
-              <div
-                style="display:flex; align-items:center; gap:10px; padding:10px 14px; background:rgba(245,158,11,0.08); border-radius:10px; border:1px solid rgba(245,158,11,0.25);">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:#f59e0b;">
-                  <circle cx="12" cy="12" r="10"/>
-                  <line x1="12" y1="16" x2="12" y2="12"/>
-                  <line x1="12" y1="8" x2="12.01" y2="8"/>
+        <div id="activationBox" class="panel card activation-pending-card" style="display:none;" role="status"
+          aria-live="polite">
+          <div class="activation-pending-layout">
+            <div class="activation-pending-main">
+              <div class="activation-pending-icon" aria-hidden="true">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                  stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="12" cy="12" r="10" />
+                  <polyline points="12 6 12 12 16 14" />
                 </svg>
-                <span class="tiny" style="color:var(--text); line-height:1.4;">
-                  Please coordinate with your sponsor/upline to activate your slot with a ₱399 code via their genealogy
-                  tree. Once activated, your binary pairing and trade-in features will unlock automatically.
-                </span>
+              </div>
+              <div class="activation-pending-body">
+                <div class="activation-pending-badges">
+                  <span class="badge-tag tag-pending">Account Pending Activation</span>
+                  <span class="badge-tag tag-available">Upline Activation Only</span>
+                </div>
+                <h2 class="activation-pending-title">Awaiting Placement &amp; Activation by Upline</h2>
+                <p class="activation-pending-lead">
+                  Welcome to Infinite Trading — your registration is complete. Under system rules,
+                  <strong>only your direct sponsor or upline</strong> can place and activate your slot in the binary
+                  genealogy tree.
+                </p>
+                <ol class="activation-pending-steps">
+                  <li><span>Contact your sponsor and confirm your slot placement.</span></li>
+                  <li><span>Sponsor activates you using a <strong>₱399 code</strong> from their genealogy tree.</span>
+                  </li>
+                  <li><span>After activation, binary pairing and Trade-In unlock automatically.</span></li>
+                </ol>
               </div>
             </div>
+            <aside class="activation-pending-aside">
+              <div class="activation-sponsor-card">
+                <div class="activation-sponsor-avatar" id="pendingSponsorInitial" aria-hidden="true">?</div>
+                <div class="activation-sponsor-meta">
+                  <span class="activation-sponsor-label">Your Direct Sponsor</span>
+                  <p class="activation-sponsor-name" id="pendingSponsorDisplay">Loading…</p>
+                </div>
+                <span class="badge-tag tag-pending activation-sponsor-status">Pending Tree Placement</span>
+              </div>
+              <div class="activation-pending-callout">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                  stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <circle cx="12" cy="12" r="10" />
+                  <line x1="12" y1="16" x2="12" y2="12" />
+                  <line x1="12" y1="8" x2="12.01" y2="8" />
+                </svg>
+                <p>Coordinate with your sponsor/upline so they can activate your account. You cannot self-activate from
+                  this screen.</p>
+              </div>
+            </aside>
           </div>
         </div>
 
@@ -439,6 +439,20 @@
                 </svg>
                 Claim 100 Cashback
               </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Cashback claim awaiting admin approval -->
+        <div id="cashbackPendingBox" class="panel card" hidden
+          style="margin-bottom:20px;border:2px solid #f59e0b;background:linear-gradient(135deg,rgba(245,158,11,0.12) 0%,rgba(180,83,9,0.14) 100%);border-radius:16px;padding:18px 20px;">
+          <div style="display:flex;gap:12px;align-items:flex-start;">
+            <span style="font-size:28px;line-height:1;">⏳</span>
+            <div>
+              <h3 style="margin:0 0 6px;font-size:17px;font-weight:800;color:var(--text);">Cashback Pending Admin Approval</h3>
+              <p style="margin:0;font-size:13px;color:var(--text);opacity:0.9;line-height:1.45;">
+                Your ₱100 Cashback claim has been submitted. It will appear in your <strong>Cashback</strong> wallet and total earnings once an admin approves it.
+              </p>
             </div>
           </div>
         </div>
@@ -634,15 +648,19 @@
           <div class="chart-top-bar">
             <div class="chart-title-group">
               <span class="pulse-dot" style="background:#22c55e;margin:0;"></span>
-              <span class="chart-title-text">Trading Chart · BTCUSDT (1h)</span>
+              <span class="chart-title-text">Infinite Trading</span>
             </div>
             <div class="chart-status-badge">
-              <span class="pill open"
-                style="font-size:11px;font-weight:700;background:rgba(255,255,255,0.2);color:#ffffff;border-color:rgba(255,255,255,0.4);">●
-                BTCUSDT Live Market Feed</span>
+              <span class="pill open chart-live-pill">● Live Market Feed</span>
             </div>
           </div>
-          <div id="tvchart" style="height:460px;"></div>
+          <div class="tvchart-shell">
+            <div class="tvchart-symbol-brand" aria-hidden="true">
+              <span class="tvchart-brand-name">Infinite Trading</span>
+              <span class="tvchart-brand-meta">1h · Live</span>
+            </div>
+            <div id="tvchart" style="height:460px;"></div>
+          </div>
         </div>
 
         <!-- =========================================================
@@ -2870,6 +2888,10 @@
       const isClaimEligible = (u.status === 'active') && !u.load_wallet_claimed;
       const welcomeClaimBox = document.getElementById('welcomeClaim100Box');
       if (welcomeClaimBox) welcomeClaimBox.style.display = isClaimEligible ? 'block' : 'none';
+      const cashbackPendingBox = document.getElementById('cashbackPendingBox');
+      if (cashbackPendingBox) {
+        cashbackPendingBox.hidden = u.load_wallet_claim_status !== 'pending';
+      }
 
 
       // Auto-popup once for newly activated accounts
@@ -2916,8 +2938,14 @@
         }
         if (wdFieldset) wdFieldset.disabled = true;
 
+        const sponsorLabel = u.sponsor_name || 'Admin / Direct Sponsor';
         const spDisplay = document.getElementById('pendingSponsorDisplay');
-        if (spDisplay) spDisplay.textContent = u.sponsor_name || 'Admin / Direct Sponsor';
+        if (spDisplay) spDisplay.textContent = sponsorLabel;
+        const spInitial = document.getElementById('pendingSponsorInitial');
+        if (spInitial) {
+          const letter = String(sponsorLabel).trim().charAt(0).toUpperCase() || '?';
+          spInitial.textContent = letter;
+        }
       } else if (isExpired) {
         document.getElementById('tradeinBlockedNotice').textContent = '⚠ Your account is expired. Renew with a ₱399 code to access Trade-In.';
         document.getElementById('tradeinBlockedNotice').classList.add('show');
@@ -4756,11 +4784,20 @@
       });
     });
 
-    // TradingView Widget
+    // TradingView Widget (symbol label inside iframe cannot be renamed — branded overlay covers it)
     try {
       new TradingView.widget({
-        autosize: true, symbol: 'BINANCE:BTCUSDT', interval: '60',
-        timezone: 'Asia/Manila', theme: 'light', style: '1', locale: 'en', container_id: 'tvchart',
+        autosize: true,
+        symbol: 'BINANCE:BTCUSDT',
+        interval: '60',
+        timezone: 'Asia/Manila',
+        theme: 'light',
+        style: '1',
+        locale: 'en',
+        container_id: 'tvchart',
+        allow_symbol_change: false,
+        hide_legend: true,
+        save_image: false,
       });
     } catch (e) { }
 
@@ -4979,17 +5016,20 @@
         if (dashboardData?.user && data.user) {
           dashboardData.user.load_wallet_claimed = data.user.load_wallet_claimed;
           dashboardData.user.load_wallet_claimed_at = data.user.load_wallet_claimed_at;
+          dashboardData.user.load_wallet_claim_status = data.user.load_wallet_claim_status;
           dashboardData.user.reward_countdown_start = data.user.reward_countdown_start;
           dashboardData.user.cashback_balance = data.user.cashback_balance;
         }
 
-        // Hide all claim banners/buttons permanently
+        // Hide claim banner; show pending notice until admin approves
         const welcomeClaimBox = document.getElementById('welcomeClaim100Box');
         if (welcomeClaimBox) welcomeClaimBox.style.display = 'none';
+        const cashbackPendingBox = document.getElementById('cashbackPendingBox');
+        if (cashbackPendingBox) cashbackPendingBox.hidden = data.user?.load_wallet_claim_status !== 'pending';
 
         closeModal('modalClaim100Cashback');
 
-        toast('🎉 ₱100 Cashback claimed successfully! Your order has been placed in the queue.', true);
+        toast(data.message || 'Cashback claim submitted. Please wait for admin approval.', true);
       } catch (err) {
         toast(err.message || 'Error claiming cashback.');
       } finally {
@@ -5013,8 +5053,8 @@
       function updateCountdownDisplay() {
         const u = dashboardData?.user;
 
-        // Only show reward countdown if cashback has been claimed
-        if (!u || !u.load_wallet_claimed) {
+        // Reward countdown starts only after admin approves the cashback claim
+        if (!u || !u.load_wallet_claimed || u.load_wallet_claim_status === 'pending') {
           if (rewardBox) rewardBox.hidden = true;
           return;
         }

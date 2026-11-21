@@ -1981,6 +1981,49 @@ select:-webkit-autofill {
   height: 430px;
 }
 
+.tvchart-shell {
+  position: relative;
+  background: #fff;
+}
+
+.tvchart-symbol-brand {
+  position: absolute;
+  z-index: 4;
+  top: 46px;
+  left: 0;
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 6px 10px;
+  max-width: min(92%, 380px);
+  padding: 6px 14px 8px 12px;
+  background: linear-gradient(90deg, #ffffff 0%, #ffffff 78%, rgba(255, 255, 255, 0) 100%);
+  pointer-events: none;
+}
+
+.tvchart-brand-name {
+  font-size: 14px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: #131722;
+  line-height: 1.2;
+}
+
+.tvchart-brand-meta {
+  font-size: 12px;
+  font-weight: 600;
+  color: #787b86;
+  line-height: 1.2;
+}
+
+.chart-live-pill {
+  font-size: 11px;
+  font-weight: 700;
+  background: rgba(255, 255, 255, 0.2);
+  color: #ffffff;
+  border-color: rgba(255, 255, 255, 0.4);
+}
+
 .side {
   display: flex;
   flex-direction: column;
@@ -4555,6 +4598,257 @@ body.modal-open {
   padding: 20px;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.35);
   color: var(--text, #ffffff);
+}
+
+/* Pending activation notice (inactive accounts) */
+.activation-pending-card {
+  margin-bottom: 20px;
+  padding: 0;
+  overflow: hidden;
+  border: 1.5px solid rgba(245, 158, 11, 0.45) !important;
+  border-radius: 18px;
+  background: linear-gradient(
+    145deg,
+    rgba(245, 158, 11, 0.07) 0%,
+    var(--card-bg, #1c2732) 42%,
+    var(--card-bg, #1c2732) 100%
+  ) !important;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.28), inset 0 1px 0 rgba(255, 255, 255, 0.04);
+}
+
+.activation-pending-layout {
+  display: grid;
+  grid-template-columns: 1fr minmax(260px, 320px);
+  gap: 0;
+  align-items: stretch;
+}
+
+.activation-pending-main {
+  display: flex;
+  gap: 18px;
+  padding: 22px 24px;
+  min-width: 0;
+}
+
+.activation-pending-icon {
+  flex-shrink: 0;
+  width: 52px;
+  height: 52px;
+  border-radius: 14px;
+  display: grid;
+  place-items: center;
+  background: rgba(245, 158, 11, 0.14);
+  border: 1px solid rgba(245, 158, 11, 0.35);
+  color: #fbbf24;
+}
+
+.activation-pending-body {
+  min-width: 0;
+  flex: 1;
+}
+
+.activation-pending-badges {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.activation-pending-badges .badge-tag {
+  font-size: 11px;
+  font-weight: 800;
+  padding: 4px 10px;
+  border-radius: 8px;
+}
+
+.activation-pending-title {
+  margin: 0 0 8px;
+  font-size: clamp(1.15rem, 2.5vw, 1.35rem);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1.25;
+  color: var(--text);
+}
+
+.activation-pending-lead {
+  margin: 0 0 14px;
+  font-size: 13.5px;
+  line-height: 1.55;
+  color: var(--text);
+  opacity: 0.92;
+}
+
+.activation-pending-steps {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  counter-reset: act-step;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.activation-pending-steps li {
+  counter-increment: act-step;
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 12.5px;
+  line-height: 1.45;
+  color: var(--muted);
+}
+
+.activation-pending-steps li::before {
+  content: counter(act-step);
+  flex-shrink: 0;
+  width: 22px;
+  height: 22px;
+  border-radius: 7px;
+  display: grid;
+  place-items: center;
+  font-size: 11px;
+  font-weight: 800;
+  color: #fbbf24;
+  background: rgba(245, 158, 11, 0.15);
+  border: 1px solid rgba(245, 158, 11, 0.35);
+}
+
+.activation-pending-steps li span {
+  color: var(--text);
+  opacity: 0.88;
+}
+
+.activation-pending-aside {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 22px 20px;
+  border-left: 1px solid var(--line);
+  background: rgba(0, 0, 0, 0.12);
+}
+
+.activation-sponsor-card {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  grid-template-rows: auto auto;
+  gap: 8px 12px;
+  align-items: center;
+  padding: 14px;
+  border-radius: 12px;
+  background: var(--bg2);
+  border: 1px solid var(--line);
+}
+
+.activation-sponsor-avatar {
+  grid-row: span 2;
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  display: grid;
+  place-items: center;
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--jade);
+  background: rgba(46, 213, 158, 0.14);
+  border: 1px solid rgba(46, 213, 158, 0.35);
+}
+
+.activation-sponsor-label {
+  display: block;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--muted);
+}
+
+.activation-sponsor-name {
+  margin: 2px 0 0;
+  font-size: 17px;
+  font-weight: 800;
+  color: var(--jade);
+  line-height: 1.2;
+  word-break: break-word;
+}
+
+.activation-sponsor-status {
+  grid-column: 1 / -1;
+  justify-self: start;
+  font-size: 10.5px !important;
+  margin-top: 2px;
+}
+
+.activation-pending-callout {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  padding: 12px 14px;
+  border-radius: 11px;
+  border: 1px solid rgba(245, 158, 11, 0.28);
+  background: rgba(245, 158, 11, 0.08);
+  color: var(--text);
+}
+
+.activation-pending-callout svg {
+  flex-shrink: 0;
+  margin-top: 1px;
+  color: #f59e0b;
+}
+
+.activation-pending-callout p {
+  margin: 0;
+  font-size: 12px;
+  line-height: 1.45;
+  opacity: 0.9;
+}
+
+@media (max-width: 900px) {
+  .activation-pending-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .activation-pending-aside {
+    border-left: none;
+    border-top: 1px solid var(--line);
+    background: rgba(0, 0, 0, 0.08);
+  }
+}
+
+@media (max-width: 520px) {
+  .activation-pending-main {
+    flex-direction: column;
+    padding: 18px 16px;
+    gap: 12px;
+  }
+
+  .activation-pending-aside {
+    padding: 16px;
+  }
+
+  .activation-pending-icon {
+    width: 46px;
+    height: 46px;
+  }
+}
+
+[data-theme="light"] .activation-pending-card {
+  background: linear-gradient(
+    145deg,
+    rgba(245, 158, 11, 0.1) 0%,
+    #ffffff 48%,
+    #f8faf9 100%
+  ) !important;
+  border-color: rgba(217, 119, 6, 0.35) !important;
+  box-shadow: 0 8px 28px rgba(15, 122, 69, 0.08);
+}
+
+[data-theme="light"] .activation-pending-aside {
+  background: rgba(15, 122, 69, 0.04);
+}
+
+[data-theme="light"] .activation-sponsor-card {
+  background: #f4fbf7;
 }
 
 .badge-tag.tag-pending {

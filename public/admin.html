@@ -877,11 +877,12 @@
                   <th>Amount</th>
                   <th>Status</th>
                   <th>Claim Date</th>
+                  <th style="text-align:right">Actions</th>
                 </tr>
               </thead>
               <tbody id="cashbackTableBody">
                 <tr>
-                  <td colspan="8" style="padding:20px;text-align:center" class="muted">No cashback claims found.
+                  <td colspan="9" style="padding:20px;text-align:center" class="muted">No cashback claims found.
                   </td>
                 </tr>
               </tbody>
@@ -4314,6 +4315,7 @@
       document.getElementById('sumCashbackTotal').textContent = peso(totalAmount);
       document.getElementById('sumCashbackApproved').textContent = peso(approvedAmount);
       document.getElementById('sumCashbackPending').textContent = peso(pendingAmount);
+      setSidebarBadge('badgeNavCashback', countPending, true);
 
       // Filter
       let list = cashbackList;
@@ -4344,7 +4346,7 @@
       const mobCards = document.getElementById('cashbackMobileCards');
 
       if (!list.length) {
-        tbody.innerHTML = '<tr><td colspan="8" style="padding:24px;text-align:center" class="muted">No cashback claims found matching this filter.</td></tr>';
+        tbody.innerHTML = '<tr><td colspan="9" style="padding:24px;text-align:center" class="muted">No cashback claims found matching this filter.</td></tr>';
         if (mobCards) mobCards.innerHTML = '<div style="padding:24px;text-align:center;" class="muted">No cashback claims found matching this filter.</div>';
         return;
       }
@@ -4353,24 +4355,114 @@
         const user = globalUsers.find(u => u.id === r.user_id);
         const badge = r.status === 'pending'
           ? '<span class="badge-tag tag-pending">Pending</span>'
-          : '<span class="badge-tag tag-approved">Approved</span>';
+          : r.status === 'rejected'
+            ? '<span class="badge-tag tag-rejected">Rejected</span>'
+            : '<span class="badge-tag tag-approved">Approved</span>';
+
+        const actions = r.status === 'pending'
+          ? '<button data-cb-id="' + r.id + '" data-cb-act="approve" class="btn-admin-action btn-admin-approve" style="margin-right:6px">✓ Approve</button>' +
+            '<button data-cb-id="' + r.id + '" data-cb-act="reject" class="btn-admin-action btn-admin-reject">✕ Reject</button>'
+          : '<span class="tiny muted">' + esc(r.status || '—') + '</span>';
 
         return `
           <tr>
             <td>#${r.id}</td>
             <td>
-              <strong>${esc(user?.username || user?.mobile_number || 'Unknown')}</strong>
-              <br><span class="tiny muted">${esc(user?.mobile_number || '')}</span>
+              <strong>${esc(user?.username || user?.mobile_number || r.mobile_number || 'Unknown')}</strong>
+              <br><span class="tiny muted">${esc(user?.mobile_number || r.mobile_number || '')}</span>
             </td>
-            <td>${esc(r.admin_notes?.split('Account: ')[1]?.split('·')[0] || r.claim_info?.account_name || '-')}</td>
+            <td>${esc(r.account_name || r.admin_notes?.split('Account: ')[1]?.split('·')[0]?.trim() || '-')}</td>
             <td>${esc(r.account_number || '-')}</td>
             <td>${esc(r.payment_method || '-')}</td>
             <td>${peso(r.amount)}</td>
             <td>${badge}</td>
             <td>${fmtDate(r.created_at)}</td>
+            <td style="text-align:right">${actions}</td>
           </tr>
         `;
       }).join('');
+
+      if (mobCards) {
+        mobCards.innerHTML = list.map((r) => {
+          const user = globalUsers.find((u) => u.id === r.user_id);
+          const isPending = r.status === 'pending';
+          const badge = isPending
+            ? '<span class="badge-tag tag-pending">Pending</span>'
+            : r.status === 'rejected'
+              ? '<span class="badge-tag tag-rejected">Rejected</span>'
+              : '<span class="badge-tag tag-approved">Approved</span>';
+
+          return `
+            <div class="admin-mob-card ${isPending ? 'pending' : ''}">
+              <div class="admin-mob-card-head">
+                <div style="display:flex;align-items:center;gap:6px;">
+                  <strong style="font-size:13.5px;color:var(--jade);">#${r.id}</strong>
+                  ${badge}
+                </div>
+                <span class="tiny muted">${fmtDate(r.created_at)}</span>
+              </div>
+              <div class="admin-mob-card-grid">
+                <div class="admin-mob-card-field">
+                  <span class="admin-mob-card-label">Member</span>
+                  <span class="admin-mob-card-val"><strong>${esc(user?.mobile_number || r.mobile_number || '—')}</strong></span>
+                </div>
+                <div class="admin-mob-card-field">
+                  <span class="admin-mob-card-label">Amount</span>
+                  <span class="admin-mob-card-val" style="font-weight:700;">${peso(r.amount)}</span>
+                </div>
+                <div class="admin-mob-card-field full">
+                  <span class="admin-mob-card-label">Payout</span>
+                  <span class="admin-mob-card-val">${esc(r.payment_method || '—')} · ${esc(r.account_name || '—')} · ${esc(r.account_number || '—')}</span>
+                </div>
+              </div>
+              ${isPending ? `
+                <div class="admin-mob-card-actions">
+                  <button type="button" data-cb-id="${r.id}" data-cb-act="approve" class="btn-admin-action btn-admin-approve">✓ Approve &amp; Credit</button>
+                  <button type="button" data-cb-id="${r.id}" data-cb-act="reject" class="btn-admin-action btn-admin-reject">✕ Reject</button>
+                </div>
+              ` : ''}
+            </div>
+          `;
+        }).join('');
+      }
+
+      document.querySelectorAll('button[data-cb-id]').forEach((btn) => {
+        btn.onclick = () => {
+          const id = btn.dataset.cbId;
+          const act = btn.dataset.cbAct;
+          const req = cashbackList.find((x) => String(x.id) === String(id)) || {};
+          const isApprove = act === 'approve';
+          const member = globalUsers.find((u) => u.id === req.user_id);
+
+          showAdminConfirm({
+            title: isApprove ? 'Approve Cashback Claim' : 'Reject Cashback Claim',
+            subtitle: isApprove
+              ? 'Credit ₱100 to the member’s Cashback wallet after approval.'
+              : 'Reject this claim. The member may submit a new claim.',
+            icon: isApprove ? '🎁' : '✕',
+            details: [
+              { label: 'Claim ID', val: '#' + id },
+              { label: 'Member', val: member?.mobile_number || req.mobile_number || '—' },
+              { label: 'Account Name', val: req.account_name || '—' },
+              { label: 'Account Number', val: req.account_number || '—' },
+              { label: 'Payment Method', val: req.payment_method || '—' },
+              { label: 'Amount to Credit', val: peso(req.amount || 100), highlight: isApprove },
+            ],
+            confirmText: isApprove ? 'Confirm Approval & Credit ➔' : 'Confirm Rejection',
+            confirmClass: isApprove ? 'btn-mint' : 'btn-danger',
+            onConfirm: async () => {
+              try {
+                await api('/api/admin/cashback/' + id + '/review', {
+                  method: 'POST',
+                  body: JSON.stringify({ action: act }),
+                });
+                flash('Cashback claim #' + id + ' ' + act + (act === 'approve' ? 'd' : 'ed') + ' successfully.', true);
+                refreshAll();
+              } catch (e) { flash(e.message); }
+            },
+          });
+        };
+      });
     }
 
     function renderWithdrawals() {
