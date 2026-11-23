@@ -567,6 +567,64 @@
             </div>
           </div>
 
+          <div class="admin-sec-head" style="margin-top:24px;">
+            <div>
+              <h3 class="admin-sec-title" style="font-size:16px;">CODE PURCHASE REQUESTS</h3>
+              <p class="admin-sec-sub">Review payment proof. Approval automatically assigns the purchased codes from Code Vault inventory.</p>
+            </div>
+          </div>
+          <div class="admin-table-panel table-wrap">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Member Username</th>
+                  <th>Codes</th>
+                  <th>Unit Price</th>
+                  <th>Total</th>
+                  <th>Payment / Reference</th>
+                  <th>Receipt</th>
+                  <th>Submitted</th>
+                  <th style="text-align:right">Actions</th>
+                </tr>
+              </thead>
+              <tbody id="codePurchaseRequestsBody">
+                <tr><td colspan="9" style="padding:20px;text-align:center" class="muted">Loading purchase requests...</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="admin-mobile-cards-list" id="codePurchaseRequestsMobileCards"></div>
+          <div class="admin-sec-head" style="margin-top:22px;">
+            <div>
+              <h3 class="admin-sec-title" style="font-size:16px;">CODE PURCHASE HISTORY</h3>
+              <p class="admin-sec-sub">Completed approvals and rejected requests, including fulfillment details.</p>
+            </div>
+          </div>
+          <div class="admin-table-panel table-wrap">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Member Username</th>
+                  <th>Codes Bought</th>
+                  <th>Unit Price</th>
+                  <th>Total</th>
+                  <th>Payment / Reference</th>
+                  <th>Receipt</th>
+                  <th>Status</th>
+                  <th>Submitted</th>
+                  <th>Reviewed</th>
+                  <th>Reviewed By</th>
+                  <th>Codes Issued</th>
+                </tr>
+              </thead>
+              <tbody id="codePurchaseHistoryBody">
+                <tr><td colspan="12" style="padding:20px;text-align:center" class="muted">No completed code purchases yet.</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="admin-mobile-cards-list" id="codePurchaseHistoryMobileCards"></div>
+
           <!-- Code Vault Inventory Section Header with Collapse & Counter -->
           <div class="code-inventory-head-bar"
             style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;margin:24px 0 14px;padding:12px 16px;border-radius:12px;">
@@ -1546,6 +1604,7 @@
     let payoutsEnabled = false;
     let globalUsers = [];
     let globalCodes = [];
+    let globalCodePurchaseRequests = [];
     let globalTradein = [];
     let globalWithdrawals = [];
     let globalMops = [];
@@ -1569,6 +1628,147 @@
       setTimeout(() => {
         if (el.className.includes('show')) el.className = 'banner';
       }, 5000);
+    }
+
+    function renderCodePurchaseRequests() {
+      const pendingBody = document.getElementById('codePurchaseRequestsBody');
+      const historyBody = document.getElementById('codePurchaseHistoryBody');
+      const pendingCards = document.getElementById('codePurchaseRequestsMobileCards');
+      const historyCards = document.getElementById('codePurchaseHistoryMobileCards');
+      const pending = globalCodePurchaseRequests.filter((request) => request.status === 'pending');
+      const history = globalCodePurchaseRequests.filter((request) => request.status !== 'pending');
+      const mobileField = (label, value, full = false) => `
+        <div class="admin-mob-card-field${full ? ' full' : ''}">
+          <span class="admin-mob-card-label">${label}</span>
+          <span class="admin-mob-card-val">${value}</span>
+        </div>
+      `;
+      const memberCell = (request) => `
+        <strong>${esc(request.username || request.mobile_number || '—')}</strong>
+        ${request.username && request.mobile_number && request.username !== request.mobile_number
+          ? `<br><span class="tiny muted">${esc(request.mobile_number)}</span>` : ''}
+      `;
+      const mobileMemberHead = (request) => `
+        <strong>#${request.id} · ${esc(request.username || request.mobile_number || '—')}</strong>
+        ${request.username && request.mobile_number && request.username !== request.mobile_number
+          ? `<div class="tiny muted">${esc(request.mobile_number)}</div>` : ''}
+      `;
+      const paymentCell = (request) => `
+        ${esc(request.payment_method || '—')}
+        <br><span class="tiny muted">Ref: ${esc(request.reference_number || '—')}</span>
+      `;
+      const receiptCell = (request) => request.has_receipt
+        ? `<button type="button" class="btn btn-ghost btn-sm" data-code-purchase-receipt="${request.id}">View receipt</button>`
+        : '—';
+
+      pendingBody.innerHTML = pending.length ? pending.map((request) => `
+        <tr>
+          <td>#${request.id}</td>
+          <td>${memberCell(request)}</td>
+          <td>${request.quantity}</td>
+          <td>${peso(request.unit_price)}</td>
+          <td><strong>${peso(request.amount)}</strong></td>
+          <td>${paymentCell(request)}</td>
+          <td>${receiptCell(request)}</td>
+          <td>${esc(fmtDate(request.created_at))}</td>
+          <td style="text-align:right;white-space:nowrap;">
+            <button type="button" class="btn btn-mint btn-sm" data-code-purchase-review="approve" data-id="${request.id}">Approve &amp; Assign</button>
+            <button type="button" class="btn btn-secondary btn-sm" data-code-purchase-review="reject" data-id="${request.id}">Reject</button>
+          </td>
+        </tr>
+      `).join('') : '<tr><td colspan="9" style="padding:24px;text-align:center" class="muted">No pending code purchase requests.</td></tr>';
+
+      pendingCards.innerHTML = pending.length ? pending.map((request) => `
+        <article class="admin-mob-card pending">
+          <div class="admin-mob-card-head">${mobileMemberHead(request)}</div>
+          <div class="admin-mob-card-grid">
+            ${mobileField('Codes', request.quantity)}
+            ${mobileField('Unit price', peso(request.unit_price))}
+            ${mobileField('Total', `<strong>${peso(request.amount)}</strong>`)}
+            ${mobileField('Payment / Reference', paymentCell(request), true)}
+            ${mobileField('Submitted', esc(fmtDate(request.created_at)), true)}
+            ${mobileField('Receipt', receiptCell(request), true)}
+          </div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;">
+            <button type="button" class="btn btn-mint btn-sm" data-code-purchase-review="approve" data-id="${request.id}">Approve &amp; Assign</button>
+            <button type="button" class="btn btn-secondary btn-sm" data-code-purchase-review="reject" data-id="${request.id}">Reject</button>
+          </div>
+        </article>
+      `).join('') : '<div class="muted" style="padding:16px;text-align:center;">No pending code purchase requests.</div>';
+
+      historyBody.innerHTML = history.length ? history.map((request) => `
+        <tr>
+          <td>#${request.id}</td>
+          <td>${memberCell(request)}</td>
+          <td>${request.quantity}</td>
+          <td>${peso(request.unit_price)}</td>
+          <td><strong>${peso(request.amount)}</strong></td>
+          <td>${paymentCell(request)}</td>
+          <td>${receiptCell(request)}</td>
+          <td><span class="badge-tag ${request.status === 'approved' ? 'tag-available' : 'tag-used'}">${esc(request.status)}</span></td>
+          <td>${esc(fmtDate(request.created_at))}</td>
+          <td>${esc(fmtDate(request.processed_at))}</td>
+          <td>${esc(request.reviewed_by_mobile || '—')}</td>
+          <td>${Number(request.codes_issued) || 0}</td>
+        </tr>
+      `).join('') : '<tr><td colspan="12" style="padding:24px;text-align:center" class="muted">No completed code purchase history yet.</td></tr>';
+
+      historyCards.innerHTML = history.length ? history.map((request) => `
+        <article class="admin-mob-card">
+          <div class="admin-mob-card-head">
+            ${mobileMemberHead(request)}
+            <span class="badge-tag ${request.status === 'approved' ? 'tag-available' : 'tag-used'}">${esc(request.status)}</span>
+          </div>
+          <div class="admin-mob-card-grid">
+            ${mobileField('Codes bought', request.quantity)}
+            ${mobileField('Unit price', peso(request.unit_price))}
+            ${mobileField('Total', `<strong>${peso(request.amount)}</strong>`)}
+            ${mobileField('Payment / Reference', paymentCell(request), true)}
+            ${mobileField('Submitted', esc(fmtDate(request.created_at)))}
+            ${mobileField('Reviewed', esc(fmtDate(request.processed_at)))}
+            ${mobileField('Reviewed by', esc(request.reviewed_by_mobile || '—'))}
+            ${mobileField('Codes issued', Number(request.codes_issued) || 0)}
+            ${mobileField('Receipt', receiptCell(request), true)}
+          </div>
+        </article>
+      `).join('') : '<div class="muted" style="padding:16px;text-align:center;">No completed code purchase history yet.</div>';
+
+      [pendingBody, historyBody, pendingCards, historyCards].forEach((container) => {
+        container.querySelectorAll('[data-code-purchase-receipt]').forEach((button) => {
+          button.onclick = async () => {
+            try {
+              const result = await api(`/api/admin/code-purchases/${button.dataset.codePurchaseReceipt}/receipt`);
+              if (!result.receipt_image) throw new Error('Receipt image is unavailable.');
+              openReceiptLightbox(result.receipt_image, `Code Purchase Receipt · #${result.id}`);
+            } catch (error) {
+              flash(error.message);
+            }
+          };
+        });
+      });
+
+      [pendingBody, pendingCards].forEach((container) => {
+        container.querySelectorAll('[data-code-purchase-review]').forEach((button) => {
+          button.onclick = async () => {
+            const action = button.dataset.codePurchaseReview;
+            if (action === 'approve' && !window.confirm('Approve this payment and automatically assign the purchased codes from Code Vault?')) return;
+            button.disabled = true;
+            try {
+              const result = await api(`/api/admin/code-purchases/${button.dataset.id}/review`, {
+                method: 'POST',
+                body: JSON.stringify({ action }),
+              });
+              flash(action === 'approve'
+                ? `Payment approved. ${result.request.codes_issued} code(s) assigned to the member.`
+                : 'Code purchase request rejected.', true);
+              await refreshAll();
+            } catch (error) {
+              flash(error.message);
+              button.disabled = false;
+            }
+          };
+        });
+      });
     }
 
     async function api(url, opts = {}) {
@@ -4788,12 +4988,13 @@
 
     async function refreshAll() {
       try {
-        const [overview, usersData, tradeinData, withdrawalsData, codesData, cashbackData, meData, mopData] = await Promise.all([
+        const [overview, usersData, tradeinData, withdrawalsData, codesData, codePurchasesData, cashbackData, meData, mopData] = await Promise.all([
           api('/api/admin/overview').catch(e => { console.error('Overview error:', e); return { kpis: {}, weekly_payout_enabled: false }; }),
           api('/api/admin/users').catch(e => { console.error('Users error:', e); return { users: [] }; }),
           api('/api/admin/tradein').catch(e => { console.error('Tradein error:', e); return { packages: [] }; }),
           api('/api/admin/withdrawals').catch(e => { console.error('Withdrawals error:', e); return { withdrawals: [] }; }),
           api('/api/admin/codes').catch(e => { console.error('Codes error:', e); return { codes: [] }; }),
+          api('/api/admin/code-purchases').catch(e => { console.error('Code purchase requests error:', e); return { requests: [] }; }),
           api('/api/admin/cashback').catch(e => { console.error('Cashback error:', e); return { cashback: [] }; }),
           api('/api/me').catch(e => { console.error('Me error:', e); return null; }),
           api('/api/admin/mop').catch(e => { console.error('MOP error:', e); return { mop: [] }; }),
@@ -4803,6 +5004,7 @@
         globalTradein = tradeinData.packages || [];
         globalWithdrawals = withdrawalsData.withdrawals || [];
         globalCodes = codesData.codes || [];
+        globalCodePurchaseRequests = codePurchasesData.requests || [];
         globalLoadWalletRequests = cashbackData.cashback || [];
         globalMops = mopData.mop || [];
 
@@ -4816,6 +5018,7 @@
         renderHomeKPIs(overview);
         renderUsers();
         renderCodes();
+        renderCodePurchaseRequests();
         renderTradein();
         renderWithdrawals();
         renderCashback();

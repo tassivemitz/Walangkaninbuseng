@@ -30,6 +30,7 @@ function emptyStore() {
       tradein_packages: 1,
       withdrawals: 1,
       code_vault: 1,
+      code_purchase_requests: 1,
       earnings_history: 1,
       load_wallet_requests: 1,
       profit_sharing_disbursements: 1,
@@ -40,6 +41,7 @@ function emptyStore() {
     tradein_packages: [],
     withdrawals: [],
     code_vault: [],
+    code_purchase_requests: [],
     earnings_history: [],
     load_wallet_requests: [],
     profit_sharing_disbursements: [],
@@ -194,6 +196,7 @@ function ensureStoreShape(data = store) {
   const blank = emptyStore();
   if (!data.nextId) data.nextId = {};
   Object.assign(data.nextId, Object.assign({}, blank.nextId, data.nextId));
+  if (!Array.isArray(data.code_purchase_requests)) data.code_purchase_requests = [];
   if (!Array.isArray(data.profit_sharing_disbursements)) data.profit_sharing_disbursements = [];
   if (!data.profit_sharing_pool || typeof data.profit_sharing_pool !== 'object') {
     data.profit_sharing_pool = { total_amount: 0.00 };

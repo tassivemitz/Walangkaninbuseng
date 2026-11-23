@@ -1048,6 +1048,7 @@
             <strong>Copy</strong> to share.
           </p>
         </div>
+        <button class="btn btn-mint btn-sm" type="button" id="btnOpenCodePurchase" style="margin-left:auto;">Load into Buy Activation Code</button>
         <button class="plan-close" type="button" data-close-modal>×</button>
       </header>
       <div style="padding:0 22px 6px;">
@@ -1062,6 +1063,52 @@
           style="display:grid; grid-template-columns:repeat(auto-fill, minmax(240px, 1fr)); gap:10px;"></div>
         <div id="viewCodesUsed" class="list"
           style="display:none; grid-template-columns:repeat(auto-fill, minmax(240px, 1fr)); gap:10px;"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal 4A: Activation Code Purchase Request -->
+  <div class="plan-modal" id="modalCodePurchase" hidden>
+    <div class="plan-modal-backdrop" data-close-modal></div>
+    <div class="plan-modal-sheet" style="max-width:640px;width:min(640px,calc(100vw - 28px));">
+      <header class="plan-modal-head">
+        <div>
+          <p class="kicker">Activation Codes</p>
+          <h2>Buy Activation Codes</h2>
+          <p class="tiny muted">Admin reviews your payment. If approved, your codes are added to your Code Vault automatically.</p>
+        </div>
+        <button class="plan-close" type="button" data-close-modal>×</button>
+      </header>
+      <div class="plan-modal-body">
+        <form id="codePurchaseForm" style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;">
+          <label style="display:flex;flex-direction:column;gap:6px;">
+            <span class="tiny muted">Number of codes</span>
+            <input id="codePurchaseQuantity" class="in" type="number" min="1" max="50" step="1" value="1" required />
+          </label>
+          <label style="display:flex;flex-direction:column;gap:6px;grid-column:1/-1;">
+            <span class="tiny muted">Mode of payment</span>
+            <select id="codePurchaseMop" class="in" required>
+              <option value="">Loading payment methods...</option>
+            </select>
+          </label>
+          <div id="codePurchasePaymentDetails" hidden style="grid-column:1/-1;padding:12px;border:1px solid rgba(255,255,255,.1);border-radius:12px;background:rgba(255,255,255,.03);"></div>
+          <label style="display:flex;flex-direction:column;gap:6px;">
+            <span class="tiny muted">Total amount (₱399 per code)</span>
+            <input id="codePurchaseAmount" class="in" type="text" value="₱399.00" readonly />
+          </label>
+          <label style="display:flex;flex-direction:column;gap:6px;">
+            <span class="tiny muted">Reference number</span>
+            <input id="codePurchaseReference" class="in" type="text" maxlength="100" required />
+          </label>
+          <label style="display:flex;flex-direction:column;gap:6px;grid-column:1/-1;">
+            <span class="tiny muted">Upload payment receipt</span>
+            <input id="codePurchaseReceipt" class="in" type="file" accept="image/png,image/jpeg,image/webp" required />
+            <span id="codePurchaseReceiptName" class="tiny muted">No receipt selected</span>
+          </label>
+          <button id="btnSubmitCodePurchase" class="btn btn-mint" type="submit" style="grid-column:1/-1;">Submit for Approval</button>
+        </form>
+        <h3 style="font-size:14px;margin:18px 0 8px;">My code purchase requests</h3>
+        <div id="myCodePurchasesList" class="list"></div>
       </div>
     </div>
   </div>
@@ -2493,27 +2540,183 @@
     document.getElementById('btnTradeinDeposit').onclick = () => openModal('modalTradein');
     document.getElementById('btnOpenWithdrawal').onclick = () => openModal('modalWithdrawal');
 
-    document.getElementById('btnSideOpenCodeDesk')?.addEventListener('click', () => {
-      openModal('modalCodeVault');
-      document.getElementById('tabCodeAvail')?.click();
+    document.getElementById('btnSideOpenCodeDesk')?.addEventListener('click', async () => {
+      await openUserCodeVault('available');
       if (window.innerWidth <= 900) closeMobileDrawer();
     });
 
-    document.getElementById('btnCodesAvailable').onclick = () => {
-      openModal('modalCodeVault');
-      document.getElementById('tabCodeAvail').click();
-    };
-    document.getElementById('btnCodesUsed').onclick = () => {
-      openModal('modalCodeVault');
-      document.getElementById('tabCodeUsed').click();
-    };
+    document.getElementById('btnCodesAvailable').onclick = () => openUserCodeVault('available');
+    document.getElementById('btnCodesUsed').onclick = () => openUserCodeVault('used');
     const btnOpenFullVault = document.getElementById('btnOpenFullVault');
     if (btnOpenFullVault) {
-      btnOpenFullVault.onclick = () => {
-        openModal('modalCodeVault');
-        document.getElementById('tabCodeAvail').click();
-      };
+      btnOpenFullVault.onclick = () => openUserCodeVault('available');
     }
+
+    let codePurchaseReceipt = '';
+    const codePurchaseQuantity = document.getElementById('codePurchaseQuantity');
+    const codePurchaseAmount = document.getElementById('codePurchaseAmount');
+    const codePurchaseMop = document.getElementById('codePurchaseMop');
+    const codePurchaseReceiptInput = document.getElementById('codePurchaseReceipt');
+    const codePurchaseSubmit = document.getElementById('btnSubmitCodePurchase');
+    let codePurchaseMethods = [];
+
+    function updateCodePurchaseAmount() {
+      const quantity = Number(codePurchaseQuantity.value);
+      codePurchaseAmount.value = Number.isInteger(quantity) && quantity > 0 && quantity <= 50
+        ? '₱' + (quantity * 399).toLocaleString('en-PH', { minimumFractionDigits: 2 })
+        : 'Enter 1–50 codes';
+    }
+
+    async function loadCodePurchaseMethods() {
+      codePurchaseMop.disabled = true;
+      codePurchaseMop.replaceChildren(new Option('Loading active payment methods...', ''));
+      codePurchaseMethods = [];
+      renderCodePurchasePaymentDetails();
+      try {
+        const response = await fetch('/api/mop', { headers });
+        const result = await response.json();
+        if (!response.ok) throw new Error(result.error || 'Could not load payment methods.');
+        codePurchaseMethods = (result.mop || []).filter((method) => method.is_active !== false);
+        codePurchaseMop.replaceChildren(new Option(
+          codePurchaseMethods.length ? 'Select a payment method' : 'No active payment methods available',
+          ''
+        ));
+        codePurchaseMethods.forEach((method) => {
+          const label = [method.method, method.account_name, method.account_number].filter(Boolean).join(' · ');
+          codePurchaseMop.add(new Option(label, method.id));
+        });
+        codePurchaseMop.disabled = codePurchaseMethods.length === 0;
+      } catch (error) {
+        codePurchaseMop.replaceChildren(new Option('Could not load payment methods', ''));
+        toast(error.message);
+      }
+    }
+
+    function renderCodePurchasePaymentDetails() {
+      const details = document.getElementById('codePurchasePaymentDetails');
+      const method = codePurchaseMethods.find((item) => String(item.id) === codePurchaseMop.value);
+      details.replaceChildren();
+      details.hidden = !method;
+      if (!method) return;
+
+      const content = document.createElement('div');
+      content.style.cssText = 'display:grid;grid-template-columns:minmax(0,1fr) auto;gap:12px;align-items:start;';
+      const info = document.createElement('div');
+      info.style.cssText = 'display:grid;gap:5px;min-width:0;';
+
+      const heading = document.createElement('strong');
+      heading.textContent = method.method || 'Payment method';
+      info.appendChild(heading);
+      if (method.account_name) {
+        const accountName = document.createElement('div');
+        accountName.className = 'tiny muted';
+        accountName.textContent = `Account name: ${method.account_name}`;
+        info.appendChild(accountName);
+      }
+      if (method.account_number) {
+        const accountNumber = document.createElement('div');
+        accountNumber.className = 'tiny muted';
+        accountNumber.textContent = `Account number: ${method.account_number}`;
+        info.appendChild(accountNumber);
+      }
+      if (method.instructions) {
+        const instructions = document.createElement('div');
+        instructions.className = 'tiny muted';
+        instructions.style.marginTop = '4px';
+        instructions.textContent = method.instructions;
+        info.appendChild(instructions);
+      }
+      content.appendChild(info);
+
+      if (typeof method.qr_image === 'string' && /^(data:image\/|https?:\/\/|\/)/i.test(method.qr_image)) {
+        const qr = document.createElement('img');
+        qr.src = method.qr_image;
+        qr.alt = `${method.method || 'Payment'} QR code`;
+        qr.style.cssText = 'width:112px;height:112px;object-fit:contain;background:#fff;border-radius:8px;padding:5px;';
+        content.appendChild(qr);
+      }
+      details.appendChild(content);
+    }
+
+    async function loadMyCodePurchaseRequests() {
+      const list = document.getElementById('myCodePurchasesList');
+      list.textContent = 'Loading requests...';
+      try {
+        const response = await fetch('/api/user/code-purchases', { headers });
+        const result = await response.json();
+        if (!response.ok) throw new Error(result.error || 'Could not load purchase requests.');
+        const requests = result.requests || [];
+        list.innerHTML = requests.length ? requests.map((request) => `
+          <div class="list-item" style="display:flex;justify-content:space-between;gap:12px;align-items:center;padding:10px 12px;border-bottom:1px solid var(--line,rgba(255,255,255,.08));">
+            <span>#${request.id} · ${request.quantity} code${request.quantity === 1 ? '' : 's'} · ₱${Number(request.amount).toLocaleString('en-PH')}</span>
+            <strong>${esc(request.status)}${request.status === 'approved' ? ` · ${Number(request.codes_issued) || request.quantity} added to vault` : ''}</strong>
+          </div>
+        `).join('') : '<p class="tiny muted">No code purchase requests yet.</p>';
+      } catch (error) {
+        list.textContent = error.message;
+      }
+    }
+
+    document.getElementById('btnOpenCodePurchase').onclick = async () => {
+      openModal('modalCodePurchase');
+      updateCodePurchaseAmount();
+      await Promise.all([loadCodePurchaseMethods(), loadMyCodePurchaseRequests()]);
+    };
+    codePurchaseMop.addEventListener('change', renderCodePurchasePaymentDetails);
+    codePurchaseQuantity.addEventListener('input', updateCodePurchaseAmount);
+    codePurchaseReceiptInput.addEventListener('change', async () => {
+      const file = codePurchaseReceiptInput.files && codePurchaseReceiptInput.files[0];
+      codePurchaseReceipt = '';
+      document.getElementById('codePurchaseReceiptName').textContent = file ? 'Processing receipt...' : 'No receipt selected';
+      if (!file) return;
+      if (!file.type.startsWith('image/') || file.size > 20 * 1024 * 1024) {
+        codePurchaseReceiptInput.value = '';
+        document.getElementById('codePurchaseReceiptName').textContent = 'No receipt selected';
+        return toast('Choose an image receipt smaller than 20MB.');
+      }
+      try {
+        const compressed = await compressReceiptImage(file);
+        codePurchaseReceipt = compressed.base64;
+        document.getElementById('codePurchaseReceiptName').textContent = `${file.name} (${compressed.size} optimized)`;
+      } catch (error) {
+        console.error('Code purchase receipt processing failed:', error);
+        document.getElementById('codePurchaseReceiptName').textContent = 'Could not process receipt. Try another image.';
+      }
+    });
+
+    document.getElementById('codePurchaseForm').addEventListener('submit', async (event) => {
+      event.preventDefault();
+      const quantity = Number(codePurchaseQuantity.value);
+      if (!Number.isInteger(quantity) || quantity < 1 || quantity > 50) return toast('Choose between 1 and 50 codes.');
+      if (!codePurchaseMop.value) return toast('Select a payment method.');
+      if (!codePurchaseReceipt) return toast('Upload a payment receipt image.');
+      codePurchaseSubmit.disabled = true;
+      try {
+        const response = await fetch('/api/user/code-purchases', {
+          method: 'POST',
+          headers,
+          body: JSON.stringify({
+            quantity,
+            payment_method_id: codePurchaseMop.value,
+            reference_number: document.getElementById('codePurchaseReference').value.trim(),
+            receipt_image: codePurchaseReceipt,
+          }),
+        });
+        const result = await response.json();
+        if (!response.ok) throw new Error(result.error || 'Could not submit purchase request.');
+        toast(result.message || 'Code purchase request submitted.', true);
+        event.target.reset();
+        codePurchaseReceipt = '';
+        document.getElementById('codePurchaseReceiptName').textContent = 'No receipt selected';
+        updateCodePurchaseAmount();
+        renderCodePurchasePaymentDetails();
+        await loadMyCodePurchaseRequests();
+      } catch (error) {
+        toast(error.message);
+      } finally {
+        codePurchaseSubmit.disabled = false;
+      }
+    });
 
     // Code vault tabs
     document.getElementById('tabCodeAvail').onclick = () => {
@@ -2843,6 +3046,129 @@
       }
     }
 
+    function renderUserCodeVault(availableCodes, usedCodes) {
+      const availableList = availableCodes || [];
+      const usedList = usedCodes || [];
+      const setCount = (id, count) => {
+        const el = document.getElementById(id);
+        if (!el) return;
+        el.textContent = count;
+        el.style.display = count > 0 ? 'inline-block' : 'none';
+      };
+
+      setCount('badgeAvailCodes', availableList.length);
+      setCount('badgeUsedCodes', usedList.length);
+      const availableCount = document.getElementById('countAvailCodes');
+      const usedCount = document.getElementById('countUsedCodes');
+      if (availableCount) availableCount.textContent = availableList.length;
+      if (usedCount) usedCount.textContent = usedList.length;
+
+      const sellerPanel = document.getElementById('sellerDeskPanel');
+      const sellerList = document.getElementById('sellerDeskCodeList');
+      const sellerCount = document.getElementById('sellerDeskCount');
+      if (sellerPanel) sellerPanel.style.display = availableList.length ? 'block' : 'none';
+      if (sellerCount) sellerCount.textContent = availableList.length;
+      if (sellerList) {
+        sellerList.innerHTML = availableList.slice(0, 8).map((code) => `
+          <div class="seller-code-item">
+            <code class="seller-code-val">${esc(code.code)}</code>
+            <button type="button" data-copy-vault="${esc(code.code)}" class="btn btn-ghost btn-sm btn-seller-copy">Copy</button>
+          </div>
+        `).join('');
+      }
+
+      const availableView = document.getElementById('viewCodesAvail');
+      const usedView = document.getElementById('viewCodesUsed');
+      if (availableView) {
+        availableView.innerHTML = availableList.length
+          ? availableList.map((code) => `
+              <div class="code-vault-card">
+                <div style="display:flex;align-items:center;gap:10px;">
+                  <span style="font-size:18px;">🔑</span>
+                  <div>
+                    <div style="display:flex;align-items:center;gap:6px;">
+                      <code class="code-val-text">${esc(code.code)}</code>
+                      <span class="badge-tag tag-available" style="font-size:9.5px;padding:2px 6px;">₱399</span>
+                    </div>
+                    <span class="tiny muted">Single-use activation</span>
+                  </div>
+                </div>
+                <button type="button" data-copy-vault="${esc(code.code)}" class="btn btn-mint btn-sm btn-vault-copy">Copy</button>
+              </div>
+            `).join('')
+          : '<p class="tiny muted center" style="grid-column:1/-1;padding:24px;">No available codes in inventory.</p>';
+      }
+      if (usedView) {
+        usedView.innerHTML = usedList.length
+          ? usedList.map((code) => `
+              <div class="code-vault-card used-card">
+                <div style="display:flex;align-items:center;gap:10px;">
+                  <span style="font-size:18px;opacity:0.5;">🧾</span>
+                  <div>
+                    <code class="code-val-text used-text">${esc(code.code)}</code>
+                    ${code.used_by_mobile ? `<p class="tiny muted" style="margin:2px 0 0;">Used by: <strong>${esc(code.used_by_mobile)}</strong></p>` : ''}
+                  </div>
+                </div>
+                <span class="badge-tag tag-expired" style="font-size:10px;padding:3px 8px;">Used</span>
+              </div>
+            `).join('')
+          : '<p class="tiny muted center" style="grid-column:1/-1;padding:24px;">No used codes found.</p>';
+      }
+
+      document.querySelectorAll('button[data-copy-vault]').forEach((button) => {
+        button.onclick = async () => {
+          const code = button.dataset.copyVault;
+          try {
+            await navigator.clipboard.writeText(code);
+            const original = button.textContent;
+            button.textContent = '✓ Copied!';
+            button.classList.add('copied');
+            setTimeout(() => {
+              button.textContent = original;
+              button.classList.remove('copied');
+            }, 1800);
+            toast('✓ Copied code ' + code + ' to clipboard!', true);
+          } catch {
+            toast('Copy failed.');
+          }
+        };
+      });
+    }
+
+    async function refreshMyCodeVault() {
+      const response = await fetch('/api/user/codes', { headers });
+      const result = await response.json().catch(() => ({}));
+      if (!response.ok) throw new Error(result.error || 'Could not refresh your code vault.');
+
+      const codes = result.codes || [];
+      const availableCodes = codes
+        .filter((code) => code.status === 'assigned')
+        .map(({ id, code, created_at }) => ({ id, code, created_at }));
+      const usedCodes = codes
+        .filter((code) => code.status === 'used')
+        .map(({ id, code, used_at, used_by_mobile }) => ({ id, code, used_at, used_by_mobile }));
+      if (dashboardData) {
+        dashboardData.inventory_codes = availableCodes;
+        dashboardData.code_vault = {
+          available_count: availableCodes.length,
+          available_list: availableCodes,
+          used_count: usedCodes.length,
+          used_list: usedCodes,
+        };
+      }
+      renderUserCodeVault(availableCodes, usedCodes);
+    }
+
+    async function openUserCodeVault(tab = 'available') {
+      openModal('modalCodeVault');
+      try {
+        await refreshMyCodeVault();
+      } catch (error) {
+        toast(error.message);
+      }
+      document.getElementById(tab === 'used' ? 'tabCodeUsed' : 'tabCodeAvail').click();
+    }
+
     async function load() {
       const res = await fetch('/api/dashboard', { headers });
       if (res.status === 401 || res.status === 404 || !res.ok) {
@@ -3061,29 +3387,7 @@
       const cv = d.code_vault || {};
       const availList = cv.available_list || [];
       const usedList = cv.used_list || [];
-      setPillBadge('badgeAvailCodes', availList.length);
-      setPillBadge('badgeUsedCodes', usedList.length);
-      document.getElementById('countAvailCodes').textContent = availList.length;
-      document.getElementById('countUsedCodes').textContent = usedList.length;
-
-      // Code Seller Desk on main dashboard view
-      const sellerPanel = document.getElementById('sellerDeskPanel');
-      const sellerListEl = document.getElementById('sellerDeskCodeList');
-      const sellerCountEl = document.getElementById('sellerDeskCount');
-      if (availList.length > 0) {
-        if (sellerPanel) sellerPanel.style.display = 'block';
-        if (sellerCountEl) sellerCountEl.textContent = availList.length;
-        if (sellerListEl) {
-          sellerListEl.innerHTML = availList.slice(0, 8).map(c => `
-            <div class="seller-code-item">
-              <code class="seller-code-val">${esc(c.code)}</code>
-              <button type="button" data-copy-vault="${esc(c.code)}" class="btn btn-ghost btn-sm btn-seller-copy">Copy</button>
-            </div>
-          `).join('');
-        }
-      } else {
-        if (sellerPanel) sellerPanel.style.display = 'none';
-      }
+      renderUserCodeVault(availList, usedList);
 
       // Payout window status
       payoutsOpen = d.weekly_payout_enabled;
@@ -3144,57 +3448,6 @@
             </tr>
           `).join('')
         : '<tr><td colspan="5" class="center muted" style="padding:16px;">No indirect downlines yet.</td></tr>';
-
-      // Render Code Vault Lists
-      document.getElementById('viewCodesAvail').innerHTML = availList.length
-        ? availList.map(c => `
-            <div class="code-vault-card">
-              <div style="display:flex;align-items:center;gap:10px;">
-                <span style="font-size:18px;">🔑</span>
-                <div>
-                  <div style="display:flex;align-items:center;gap:6px;">
-                    <code class="code-val-text">${esc(c.code)}</code>
-                    <span class="badge-tag tag-available" style="font-size:9.5px;padding:2px 6px;">₱399</span>
-                  </div>
-                  <span class="tiny muted">Single-use activation</span>
-                </div>
-              </div>
-              <button type="button" data-copy-vault="${esc(c.code)}" class="btn btn-mint btn-sm btn-vault-copy">Copy</button>
-            </div>
-          `).join('')
-        : '<p class="tiny muted center" style="grid-column:1/-1;padding:24px;">No available codes in inventory.</p>';
-
-      document.getElementById('viewCodesUsed').innerHTML = usedList.length
-        ? usedList.map(c => `
-            <div class="code-vault-card used-card">
-              <div style="display:flex;align-items:center;gap:10px;">
-                <span style="font-size:18px;opacity:0.5;">🧾</span>
-                <div>
-                  <code class="code-val-text used-text">${esc(c.code)}</code>
-                  ${c.used_by_mobile ? `<p class="tiny muted" style="margin:2px 0 0;">Used by: <strong>${esc(c.used_by_mobile)}</strong></p>` : ''}
-                </div>
-              </div>
-              <span class="badge-tag tag-expired" style="font-size:10px;padding:3px 8px;">Used</span>
-            </div>
-          `).join('')
-        : '<p class="tiny muted center" style="grid-column:1/-1;padding:24px;">No used codes found.</p>';
-
-      document.querySelectorAll('button[data-copy-vault]').forEach(btn => {
-        btn.onclick = async () => {
-          const codeVal = btn.dataset.copyVault;
-          try {
-            await navigator.clipboard.writeText(codeVal);
-            const orig = btn.textContent;
-            btn.textContent = '✓ Copied!';
-            btn.classList.add('copied');
-            setTimeout(() => {
-              btn.textContent = orig;
-              btn.classList.remove('copied');
-            }, 1800);
-            toast('✓ Copied code ' + codeVal + ' to clipboard!', true);
-          } catch { toast('Copy failed.'); }
-        };
-      });
 
       // Render Trade-In Slots Capacity & Visual Cards
       const slots = d.tradein_slots || { max: 5, active: 0, available: 5 };

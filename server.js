@@ -1478,6 +1478,88 @@ app.post('/api/tradein/purchase', auth, async (req, res) => {
   }
 });
 
+app.post('/api/user/code-purchases', auth, async (req, res) => {
+  const quantity = Number(req.body.quantity);
+  const paymentMethodId = String(req.body.payment_method_id || '').trim();
+  const referenceNumber = String(req.body.reference_number || '').trim();
+  const receiptImage = req.body.receipt_image || '';
+
+  if (!Number.isInteger(quantity) || quantity < 1 || quantity > 50) {
+    return res.status(400).json({ error: 'Choose between 1 and 50 activation codes.' });
+  }
+  if (!paymentMethodId) return res.status(400).json({ error: 'Select a payment method.' });
+  if (!referenceNumber || referenceNumber.length > 100) {
+    return res.status(400).json({ error: 'Enter a payment reference number of up to 100 characters.' });
+  }
+  if (typeof receiptImage !== 'string' || receiptImage.length > 10 * 1024 * 1024
+    || !/^data:image\/(?:png|jpe?g|webp);base64,/i.test(receiptImage)) {
+    return res.status(400).json({ error: 'Upload a valid payment receipt image.' });
+  }
+
+  try {
+    const request = await db.tx((data) => {
+      const user = data.users.find((u) => u.id === req.user.id);
+      if (!user || user.status === 'banned') {
+        const err = new Error('Account cannot request activation codes.');
+        err.status = 403;
+        throw err;
+      }
+
+      const mop = getOfficialMops(data).find((m) =>
+        m.is_active !== false && String(m.id) === paymentMethodId
+      );
+      if (!mop) {
+        const err = new Error('Selected payment method is unavailable.');
+        err.status = 400;
+        throw err;
+      }
+
+      if (!Array.isArray(data.code_purchase_requests)) data.code_purchase_requests = [];
+      return db.insert('code_purchase_requests', {
+        user_id: user.id,
+        quantity,
+        unit_price: ENTRY_FEE,
+        amount: money(quantity * ENTRY_FEE),
+        payment_method_id: mop.id,
+        payment_method: mop.method,
+        reference_number: referenceNumber,
+        receipt_image: receiptImage,
+        status: 'pending',
+        admin_notes: '',
+        created_at: nowIso(),
+        processed_at: null,
+      });
+    });
+
+    res.status(201).json({
+      ok: true,
+      message: 'Code purchase request submitted for admin approval. If approved, the codes will be added to your Code Vault automatically.',
+      request: {
+        id: request.id,
+        quantity: request.quantity,
+        amount: request.amount,
+        payment_method: request.payment_method,
+        reference_number: request.reference_number,
+        status: request.status,
+        created_at: request.created_at,
+      },
+    });
+  } catch (err) {
+    if (err.status) return res.status(err.status).json({ error: err.message });
+    console.error('Code purchase request error:', err);
+    res.status(500).json({ error: 'Could not submit code purchase request.' });
+  }
+});
+
+app.get('/api/user/code-purchases', auth, (req, res) => {
+  const requests = (db.getStore().code_purchase_requests || [])
+    .filter((r) => r.user_id === req.user.id)
+    .slice()
+    .sort((a, b) => b.id - a.id)
+    .map(({ receipt_image, ...request }) => request);
+  res.json({ requests });
+});
+
 // Trade-In Cycle Installment Manual Claim
 app.post('/api/tradein/claim/:id', auth, async (req, res) => {
   const id = Number(req.params.id);
@@ -2928,6 +3010,101 @@ app.get('/api/admin/codes', auth, adminOnly, (_req, res) => {
       };
     });
   res.json({ codes });
+});
+
+app.get('/api/admin/code-purchases', auth, adminOnly, (_req, res) => {
+  const data = db.getStore();
+  const requests = (data.code_purchase_requests || [])
+    .slice()
+    .sort((a, b) => b.id - a.id)
+    .map(({ receipt_image, ...request }) => ({
+      ...request,
+      username: (data.users.find((u) => u.id === request.user_id) || {}).username || '',
+      mobile_number: mobileOf(request.user_id, data),
+      reviewed_by_mobile: request.reviewed_by ? mobileOf(request.reviewed_by, data) : '',
+      codes_issued: Number(request.codes_issued) || 0,
+      has_receipt: Boolean(receipt_image),
+    }));
+  res.json({ requests });
+});
+
+app.get('/api/admin/code-purchases/:id/receipt', auth, adminOnly, (req, res) => {
+  const id = Number(req.params.id);
+  const request = (db.getStore().code_purchase_requests || []).find((r) => r.id === id);
+  if (!request) return res.status(404).json({ error: 'Code purchase request not found.' });
+  res.json({ id: request.id, receipt_image: request.receipt_image || null });
+});
+
+app.post('/api/admin/code-purchases/:id/review', auth, adminOnly, async (req, res) => {
+  const id = Number(req.params.id);
+  const action = req.body.action === 'approve' ? 'approved' : req.body.action === 'reject' ? 'rejected' : null;
+  if (!id || !action) return res.status(400).json({ error: 'action must be approve or reject.' });
+
+  try {
+    const request = await db.tx((data) => {
+      const purchase = (data.code_purchase_requests || []).find((r) => r.id === id);
+      if (!purchase || purchase.status !== 'pending') {
+        const err = new Error('Code purchase request is not pending.');
+        err.status = 400;
+        throw err;
+      }
+
+      let issuedCodeIds = [];
+      if (action === 'approved') {
+        const member = data.users.find((user) => Number(user.id) === Number(purchase.user_id));
+        if (!member || member.status === 'banned') {
+          const err = new Error('The requesting member is unavailable; request remains pending.');
+          err.status = 400;
+          throw err;
+        }
+
+        const availableCodes = data.code_vault
+          .filter((code) => code.status === 'available' && !code.assigned_to)
+          .sort((a, b) => b.id - a.id);
+        if (availableCodes.length < purchase.quantity) {
+          const err = new Error(`Not enough codes in Code Vault. ${availableCodes.length} available; ${purchase.quantity} required. Request remains pending.`);
+          err.status = 409;
+          throw err;
+        }
+
+        const assignedAt = nowIso();
+        const pickedCodes = availableCodes.slice(0, purchase.quantity);
+        pickedCodes.forEach((code) => {
+          code.assigned_to = member.id;
+          code.status = 'assigned';
+          code.assigned_at = assignedAt;
+          code.code_purchase_request_id = purchase.id;
+        });
+        issuedCodeIds = pickedCodes.map((code) => code.id);
+        purchase.fulfilled_code_ids = issuedCodeIds;
+        purchase.codes_issued = issuedCodeIds.length;
+        purchase.fulfilled_at = assignedAt;
+      } else {
+        purchase.fulfilled_code_ids = [];
+        purchase.codes_issued = 0;
+        purchase.fulfilled_at = null;
+      }
+
+      purchase.status = action;
+      purchase.processed_at = nowIso();
+      purchase.reviewed_by = req.user.id;
+      purchase.admin_notes = action === 'approved'
+        ? 'Payment approved. Activation codes assigned automatically from Code Vault inventory.'
+        : 'Payment request rejected by admin.';
+      return {
+        id: purchase.id,
+        status: purchase.status,
+        quantity: purchase.quantity,
+        amount: purchase.amount,
+        codes_issued: issuedCodeIds.length,
+      };
+    });
+    res.json({ ok: true, request });
+  } catch (err) {
+    if (err.status) return res.status(err.status).json({ error: err.message });
+    console.error('Code purchase review error:', err);
+    res.status(500).json({ error: 'Could not review code purchase request.' });
+  }
 });
 
 app.delete('/api/admin/codes/:id', auth, adminOnly, async (req, res) => {
