@@ -2203,7 +2203,11 @@ async function requestWithdrawal(req, res, walletType) {
 app.post('/api/withdraw/binary-ref', auth, (req, res) => requestWithdrawal(req, res, 'binary_ref'));
 app.post('/api/withdraw/tradein-ref', auth, (req, res) => requestWithdrawal(req, res, 'tradein_ref'));
 app.post('/api/withdraw/tradein-cycle', auth, (req, res) => requestWithdrawal(req, res, 'tradein_cycle'));
-app.post('/api/withdraw/cashback', auth, (req, res) => requestWithdrawal(req, res, 'cashback'));
+app.post('/api/withdraw/cashback', auth, (_req, res) => {
+  res.status(400).json({
+    error: 'Cashback is sent manually by the admin after approval and is no longer available for wallet withdrawal.',
+  });
+});
 app.post('/api/withdraw/profit-sharing', auth, (req, res) => requestWithdrawal(req, res, 'profit_sharing'));
 
 app.get('/api/admin/cashback', auth, adminOnly, (_req, res) => {
@@ -2252,22 +2256,10 @@ app.post('/api/admin/cashback/:id/review', auth, adminOnly, async (req, res) => 
         const amount = money(Number(rec.amount) || 100);
         rec.approved_at = nowIso();
         rec.rejected_at = null;
-        const wallet = data.wallets.find((w) => w.user_id === user.id);
-        if (wallet) {
-          wallet.cashback_balance = money((Number(wallet.cashback_balance) || 0) + amount);
-        } else {
-          data.wallets.push({
-            user_id: user.id,
-            binary_ref_balance: 0,
-            tradein_ref_balance: 0,
-            tradein_cycle_balance: 0,
-            cashback_balance: amount,
-          });
-        }
         if (!user.reward_countdown_start) {
           user.reward_countdown_start = nowIso();
         }
-        rec.admin_notes = `${rec.admin_notes || ''} · Approved by admin — credited to cashback wallet`.trim();
+        rec.admin_notes = `${rec.admin_notes || ''} · Approved by admin — payout ₱${amount.toFixed(2)} to be sent manually`.trim();
       } else {
         rec.rejected_at = nowIso();
         rec.approved_at = null;
@@ -3016,6 +3008,33 @@ app.use((err, _req, res, _next) => {
 
 async function start() {
   await seedAdmin();
+
+  // Cashback is now paid manually after admin approval. Remove legacy wallet
+  // balances and cancel old cashback withdrawal requests to prevent double cashout.
+  await db.tx((data) => {
+    let migratedBalances = 0;
+    let cancelledWithdrawals = 0;
+
+    (data.wallets || []).forEach((wallet) => {
+      if (money(wallet.cashback_balance || 0) !== 0) {
+        wallet.cashback_balance = 0;
+        migratedBalances += 1;
+      }
+    });
+
+    (data.withdrawals || []).forEach((withdrawal) => {
+      if (withdrawal.wallet_type === 'cashback' && withdrawal.status === 'pending') {
+        withdrawal.status = 'cancelled';
+        withdrawal.processed_at = nowIso();
+        withdrawal.admin_notes = 'Cancelled migration: cashback is now paid manually after approval.';
+        cancelledWithdrawals += 1;
+      }
+    });
+
+    if (migratedBalances > 0 || cancelledWithdrawals > 0) {
+      console.log(`✓ Cashback migration: cleared ${migratedBalances} wallet balances and cancelled ${cancelledWithdrawals} pending withdrawals`);
+    }
+  });
 
   // Migration: Set reward_countdown_start for users who claimed cashback but don't have this field
   await db.tx((data) => {
