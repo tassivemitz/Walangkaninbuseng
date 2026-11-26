@@ -12,7 +12,7 @@
   <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap"
     rel="stylesheet" />
   <script src="/theme.js"></script>
-  <link rel="stylesheet" href="/styles.css?v=20260927fixscroll" />
+  <link rel="stylesheet" href="/styles.css?v=20261126mobilecards" />
   <link rel="manifest" href="/manifest.json" />
   <link rel="icon" type="image/png" href="/images/site-logo.png" />
   <meta name="theme-color" content="#131a22" />
@@ -722,6 +722,9 @@
             </tbody>
           </table>
         </div>
+        <div class="mobile-referral-cards" id="mobileDirects">
+          <div class="center muted" style="padding:20px;">Loading directs...</div>
+        </div>
       </div>
     </div>
   </div>
@@ -757,6 +760,9 @@
               </tr>
             </tbody>
           </table>
+        </div>
+        <div class="mobile-referral-cards" id="mobileIndirects">
+          <div class="center muted" style="padding:20px;">Loading indirects...</div>
         </div>
       </div>
     </div>
@@ -1070,45 +1076,75 @@
   <!-- Modal 4A: Activation Code Purchase Request -->
   <div class="plan-modal" id="modalCodePurchase" hidden>
     <div class="plan-modal-backdrop" data-close-modal></div>
-    <div class="plan-modal-sheet" style="max-width:640px;width:min(640px,calc(100vw - 28px));">
+    <div class="plan-modal-sheet" style="max-width:560px;">
       <header class="plan-modal-head">
         <div>
-          <p class="kicker">Activation Codes</p>
+          <p class="kicker">⚡ Quick Activation</p>
           <h2>Buy Activation Codes</h2>
-          <p class="tiny muted">Admin reviews your payment. If approved, your codes are added to your Code Vault automatically.</p>
+          <p class="tiny muted" style="margin:2px 0 0;">₱399 per slot · Auto-credited to your Code Vault once approved</p>
         </div>
         <button class="plan-close" type="button" data-close-modal>×</button>
       </header>
-      <div class="plan-modal-body">
-        <form id="codePurchaseForm" style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;">
+      <div class="plan-modal-body" style="display:flex;flex-direction:column;gap:16px;">
+        <form id="codePurchaseForm" style="display:flex;flex-direction:column;gap:14px;">
+          <!-- Order Calculation Card -->
+          <div style="background:var(--bg2);border:1.5px solid var(--line);border-radius:14px;padding:12px 14px;display:grid;grid-template-columns:1fr 1fr;gap:12px;align-items:center;">
+            <label style="display:flex;flex-direction:column;gap:4px;">
+              <span class="tiny muted" style="font-weight:700;letter-spacing:0.04em;font-size:11px;">NUMBER OF CODES</span>
+              <input id="codePurchaseQuantity" class="in" type="number" min="1" max="50" step="1" value="1" required style="font-size:15px;font-weight:700;" />
+            </label>
+            <label style="display:flex;flex-direction:column;gap:4px;">
+              <span class="tiny muted" style="font-weight:700;letter-spacing:0.04em;font-size:11px;">TOTAL PAYABLE</span>
+              <input id="codePurchaseAmount" class="in" type="text" value="₱399.00" readonly style="font-size:15px;font-weight:800;color:var(--jade);background:rgba(46,213,158,0.08);border-color:rgba(46,213,158,0.25);" />
+            </label>
+          </div>
+
+          <!-- Mode of payment -->
           <label style="display:flex;flex-direction:column;gap:6px;">
-            <span class="tiny muted">Number of codes</span>
-            <input id="codePurchaseQuantity" class="in" type="number" min="1" max="50" step="1" value="1" required />
-          </label>
-          <label style="display:flex;flex-direction:column;gap:6px;grid-column:1/-1;">
-            <span class="tiny muted">Mode of payment</span>
-            <select id="codePurchaseMop" class="in" required>
+            <span class="tiny muted" style="font-weight:700;letter-spacing:0.04em;font-size:11px;">MODE OF PAYMENT</span>
+            <select id="codePurchaseMop" class="in" required style="font-size:13.5px;padding:10px 12px;">
               <option value="">Loading payment methods...</option>
             </select>
           </label>
-          <div id="codePurchasePaymentDetails" hidden style="grid-column:1/-1;padding:12px;border:1px solid rgba(255,255,255,.1);border-radius:12px;background:rgba(255,255,255,.03);"></div>
+
+          <!-- Payment Details Box -->
+          <div id="codePurchasePaymentDetails" hidden style="padding:14px;border:1.5px solid var(--line);border-radius:14px;background:var(--bg2);"></div>
+
+          <!-- Reference Number -->
           <label style="display:flex;flex-direction:column;gap:6px;">
-            <span class="tiny muted">Total amount (₱399 per code)</span>
-            <input id="codePurchaseAmount" class="in" type="text" value="₱399.00" readonly />
+            <span class="tiny muted" style="font-weight:700;letter-spacing:0.04em;font-size:11px;">REFERENCE / TRANSACTION NUMBER *</span>
+            <input id="codePurchaseReference" class="in" type="text" maxlength="100" placeholder="e.g. 1002938475" required style="font-size:13.5px;padding:10px 12px;" />
           </label>
-          <label style="display:flex;flex-direction:column;gap:6px;">
-            <span class="tiny muted">Reference number</span>
-            <input id="codePurchaseReference" class="in" type="text" maxlength="100" required />
-          </label>
-          <label style="display:flex;flex-direction:column;gap:6px;grid-column:1/-1;">
-            <span class="tiny muted">Upload payment receipt</span>
-            <input id="codePurchaseReceipt" class="in" type="file" accept="image/png,image/jpeg,image/webp" required />
-            <span id="codePurchaseReceiptName" class="tiny muted">No receipt selected</span>
-          </label>
-          <button id="btnSubmitCodePurchase" class="btn btn-mint" type="submit" style="grid-column:1/-1;">Submit for Approval</button>
+
+          <!-- Receipt Dropzone -->
+          <div style="display:flex;flex-direction:column;gap:6px;">
+            <span class="tiny muted" style="font-weight:700;letter-spacing:0.04em;font-size:11px;">ATTACH PAYMENT RECEIPT / SCREENSHOT *</span>
+            <div class="receipt-dropzone" id="codePurchaseDropzone" style="cursor:pointer;padding:16px 12px;">
+              <input id="codePurchaseReceipt" type="file" accept="image/png,image/jpeg,image/webp" style="display:none;" />
+              <span style="font-size:24px;display:block;margin-bottom:3px;">🧾</span>
+              <p style="margin:0;font-size:13px;font-weight:700;color:var(--text);">Tap here to upload receipt screenshot</p>
+              <p class="tiny muted" id="codePurchaseReceiptName" style="margin:3px 0 0;font-size:11px;">PNG, JPG, JPEG, WEBP (Max 20MB)</p>
+            </div>
+            <div id="codePurchasePreviewBox" style="display:none;align-items:center;gap:12px;background:var(--bg2);padding:10px 14px;border-radius:12px;border:1px solid var(--line);margin-top:4px;">
+              <img id="codePurchasePreviewImg" src="" alt="Receipt preview" style="width:48px;height:48px;object-fit:cover;border-radius:8px;border:1px solid var(--line);flex-shrink:0;" />
+              <div style="flex:1;min-width:0;">
+                <p id="codePurchasePreviewFilename" style="margin:0;font-size:12px;font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--text);"></p>
+                <span id="codePurchasePreviewSize" class="tiny muted" style="font-size:11px;"></span>
+              </div>
+              <button type="button" id="btnRemoveCodeReceipt" class="btn btn-ghost btn-sm" style="color:#ef4444;font-size:11px;padding:4px 8px;border-radius:6px;">✕ Remove</button>
+            </div>
+          </div>
+
+          <button id="btnSubmitCodePurchase" class="btn btn-mint" type="submit" style="width:100%;padding:12px;font-size:14px;font-weight:700;border-radius:10px;margin-top:4px;">
+            Submit Request for Approval ➔
+          </button>
         </form>
-        <h3 style="font-size:14px;margin:18px 0 8px;">My code purchase requests</h3>
-        <div id="myCodePurchasesList" class="list"></div>
+
+        <!-- Past Requests Section -->
+        <div style="margin-top:4px;border-top:1px solid var(--line);padding-top:14px;">
+          <h4 style="margin:0 0 10px;font-size:11.5px;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:0.06em;">My Code Purchase Requests</h4>
+          <div id="myCodePurchasesList" style="display:flex;flex-direction:column;gap:8px;"></div>
+        </div>
       </div>
     </div>
   </div>
@@ -2419,6 +2455,7 @@
         const mapping = {
           'modalGenealogy': 'bnavMatrix',
           'modalTradein': 'bnavTradein',
+          'modalCodePurchase': 'bnavBuyCode',
           'modalWithdrawal': 'bnavCashout'
         };
         const targetNavId = mapping[id];
@@ -2483,6 +2520,12 @@
         if (typeof fetchAndRenderTree === 'function') fetchAndRenderTree(currentTreeUserId);
       } else if (tabId === 'bnavTradein') {
         openModal('modalTradein');
+      } else if (tabId === 'bnavBuyCode' || tabId === 'bnavLoad') {
+        if (typeof openCodePurchaseModal === 'function') {
+          openCodePurchaseModal();
+        } else {
+          openModal('modalCodePurchase');
+        }
       } else if (tabId === 'bnavCashout') {
         openModal('modalWithdrawal');
       }
@@ -2600,40 +2643,57 @@
       if (!method) return;
 
       const content = document.createElement('div');
-      content.style.cssText = 'display:grid;grid-template-columns:minmax(0,1fr) auto;gap:12px;align-items:start;';
+      content.style.cssText = 'display:flex;justify-content:space-between;align-items:flex-start;gap:14px;flex-wrap:wrap;';
       const info = document.createElement('div');
-      info.style.cssText = 'display:grid;gap:5px;min-width:0;';
+      info.style.cssText = 'display:flex;flex-direction:column;gap:6px;flex:1;min-width:180px;';
 
       const heading = document.createElement('strong');
+      heading.style.cssText = 'font-size:14px;color:var(--jade);';
       heading.textContent = method.method || 'Payment method';
       info.appendChild(heading);
+
       if (method.account_name) {
         const accountName = document.createElement('div');
-        accountName.className = 'tiny muted';
-        accountName.textContent = `Account name: ${method.account_name}`;
+        accountName.style.cssText = 'font-size:12.5px;';
+        accountName.innerHTML = `<span class="tiny muted">Account Name:</span> <strong style="color:var(--text);">${esc(method.account_name)}</strong>`;
         info.appendChild(accountName);
       }
+
       if (method.account_number) {
-        const accountNumber = document.createElement('div');
-        accountNumber.className = 'tiny muted';
-        accountNumber.textContent = `Account number: ${method.account_number}`;
-        info.appendChild(accountNumber);
+        const accountRow = document.createElement('div');
+        accountRow.style.cssText = 'display:flex;align-items:center;gap:8px;font-size:12.5px;flex-wrap:wrap;';
+        accountRow.innerHTML = `
+          <div><span class="tiny muted">Account No:</span> <strong style="letter-spacing:0.04em;color:var(--text);">${esc(method.account_number)}</strong></div>
+          <button type="button" class="btn btn-ghost btn-sm" style="font-size:10px;padding:2px 8px;border-radius:6px;border:1px solid var(--line);" title="Copy account number">📋 Copy</button>
+        `;
+        const copyBtn = accountRow.querySelector('button');
+        copyBtn.onclick = () => {
+          navigator.clipboard.writeText(method.account_number).then(() => {
+            copyBtn.textContent = '✓ Copied';
+            setTimeout(() => { copyBtn.textContent = '📋 Copy'; }, 2000);
+          }).catch(() => {});
+        };
+        info.appendChild(accountRow);
       }
+
       if (method.instructions) {
         const instructions = document.createElement('div');
         instructions.className = 'tiny muted';
-        instructions.style.marginTop = '4px';
+        instructions.style.cssText = 'margin-top:4px;font-size:11.5px;line-height:1.45;padding:6px 10px;background:rgba(255,255,255,0.03);border-radius:8px;border:1px dashed var(--line);';
         instructions.textContent = method.instructions;
         info.appendChild(instructions);
       }
       content.appendChild(info);
 
       if (typeof method.qr_image === 'string' && /^(data:image\/|https?:\/\/|\/)/i.test(method.qr_image)) {
+        const qrWrap = document.createElement('div');
+        qrWrap.style.cssText = 'text-align:center;flex-shrink:0;margin:0 auto;';
         const qr = document.createElement('img');
         qr.src = method.qr_image;
         qr.alt = `${method.method || 'Payment'} QR code`;
-        qr.style.cssText = 'width:112px;height:112px;object-fit:contain;background:#fff;border-radius:8px;padding:5px;';
-        content.appendChild(qr);
+        qr.style.cssText = 'width:110px;height:110px;object-fit:contain;background:#fff;border-radius:10px;padding:5px;border:1.5px solid var(--line);box-shadow:0 2px 10px rgba(0,0,0,0.15);display:block;';
+        qrWrap.appendChild(qr);
+        content.appendChild(qrWrap);
       }
       details.appendChild(content);
     }
@@ -2646,40 +2706,86 @@
         const result = await response.json();
         if (!response.ok) throw new Error(result.error || 'Could not load purchase requests.');
         const requests = result.requests || [];
-        list.innerHTML = requests.length ? requests.map((request) => `
-          <div class="list-item" style="display:flex;justify-content:space-between;gap:12px;align-items:center;padding:10px 12px;border-bottom:1px solid var(--line,rgba(255,255,255,.08));">
-            <span>#${request.id} · ${request.quantity} code${request.quantity === 1 ? '' : 's'} · ₱${Number(request.amount).toLocaleString('en-PH')}</span>
-            <strong>${esc(request.status)}${request.status === 'approved' ? ` · ${Number(request.codes_issued) || request.quantity} added to vault` : ''}</strong>
-          </div>
-        `).join('') : '<p class="tiny muted">No code purchase requests yet.</p>';
+        list.innerHTML = requests.length ? requests.map((request) => {
+          const pillClass = request.status === 'approved' ? 'open' : request.status === 'rejected' ? 'closed' : '';
+          const statusText = request.status === 'approved'
+            ? `Approved · ${Number(request.codes_issued) || request.quantity} in vault`
+            : request.status === 'rejected' ? 'Rejected' : 'Pending Verification';
+          return `
+            <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;padding:10px 12px;background:var(--bg2);border:1px solid var(--line);border-radius:10px;font-size:12px;">
+              <div>
+                <span style="font-weight:700;color:var(--text);">#${request.id} · ${request.quantity} code${request.quantity === 1 ? '' : 's'}</span>
+                <span class="tiny muted" style="display:block;margin-top:2px;">₱${Number(request.amount).toLocaleString('en-PH')}</span>
+              </div>
+              <div style="text-align:right;">
+                <span class="pill ${pillClass}">${statusText}</span>
+              </div>
+            </div>
+          `;
+        }).join('') : '<p class="tiny muted" style="margin:0;padding:6px 0;">No code purchase requests yet.</p>';
       } catch (error) {
         list.textContent = error.message;
       }
     }
 
-    document.getElementById('btnOpenCodePurchase').onclick = async () => {
+    async function openCodePurchaseModal() {
       openModal('modalCodePurchase');
       updateCodePurchaseAmount();
       await Promise.all([loadCodePurchaseMethods(), loadMyCodePurchaseRequests()]);
-    };
+    }
+    window.openCodePurchaseModal = openCodePurchaseModal;
+
+    document.getElementById('btnOpenCodePurchase').onclick = openCodePurchaseModal;
     codePurchaseMop.addEventListener('change', renderCodePurchasePaymentDetails);
     codePurchaseQuantity.addEventListener('input', updateCodePurchaseAmount);
+
+    const codeDropzone = document.getElementById('codePurchaseDropzone');
+    const codePreviewBox = document.getElementById('codePurchasePreviewBox');
+    const codePreviewImg = document.getElementById('codePurchasePreviewImg');
+    const codePreviewFilename = document.getElementById('codePurchasePreviewFilename');
+    const codePreviewSize = document.getElementById('codePurchasePreviewSize');
+    const btnRemoveCodeReceipt = document.getElementById('btnRemoveCodeReceipt');
+
+    if (codeDropzone) {
+      codeDropzone.onclick = () => codePurchaseReceiptInput.click();
+    }
+    if (btnRemoveCodeReceipt) {
+      btnRemoveCodeReceipt.onclick = () => {
+        codePurchaseReceiptInput.value = '';
+        codePurchaseReceipt = '';
+        if (codePreviewBox) codePreviewBox.style.display = 'none';
+        if (codeDropzone) codeDropzone.style.display = 'block';
+        document.getElementById('codePurchaseReceiptName').textContent = 'PNG, JPG, JPEG, WEBP (Max 20MB)';
+      };
+    }
+
     codePurchaseReceiptInput.addEventListener('change', async () => {
       const file = codePurchaseReceiptInput.files && codePurchaseReceiptInput.files[0];
       codePurchaseReceipt = '';
-      document.getElementById('codePurchaseReceiptName').textContent = file ? 'Processing receipt...' : 'No receipt selected';
-      if (!file) return;
+      if (!file) {
+        if (codePreviewBox) codePreviewBox.style.display = 'none';
+        if (codeDropzone) codeDropzone.style.display = 'block';
+        return;
+      }
       if (!file.type.startsWith('image/') || file.size > 20 * 1024 * 1024) {
         codePurchaseReceiptInput.value = '';
-        document.getElementById('codePurchaseReceiptName').textContent = 'No receipt selected';
+        if (codePreviewBox) codePreviewBox.style.display = 'none';
+        if (codeDropzone) codeDropzone.style.display = 'block';
         return toast('Choose an image receipt smaller than 20MB.');
       }
+      document.getElementById('codePurchaseReceiptName').textContent = 'Processing receipt...';
       try {
         const compressed = await compressReceiptImage(file);
         codePurchaseReceipt = compressed.base64;
-        document.getElementById('codePurchaseReceiptName').textContent = `${file.name} (${compressed.size} optimized)`;
+        if (codePreviewImg) codePreviewImg.src = compressed.base64;
+        if (codePreviewFilename) codePreviewFilename.textContent = file.name;
+        if (codePreviewSize) codePreviewSize.textContent = `${compressed.size} optimized`;
+        if (codeDropzone) codeDropzone.style.display = 'none';
+        if (codePreviewBox) codePreviewBox.style.display = 'flex';
       } catch (error) {
         console.error('Code purchase receipt processing failed:', error);
+        if (codePreviewBox) codePreviewBox.style.display = 'none';
+        if (codeDropzone) codeDropzone.style.display = 'block';
         document.getElementById('codePurchaseReceiptName').textContent = 'Could not process receipt. Try another image.';
       }
     });
@@ -2707,7 +2813,9 @@
         toast(result.message || 'Code purchase request submitted.', true);
         event.target.reset();
         codePurchaseReceipt = '';
-        document.getElementById('codePurchaseReceiptName').textContent = 'No receipt selected';
+        if (codePreviewBox) codePreviewBox.style.display = 'none';
+        if (codeDropzone) codeDropzone.style.display = 'block';
+        document.getElementById('codePurchaseReceiptName').textContent = 'PNG, JPG, JPEG, WEBP (Max 20MB)';
         updateCodePurchaseAmount();
         renderCodePurchasePaymentDetails();
         await loadMyCodePurchaseRequests();
@@ -3425,6 +3533,43 @@
         }).join('')
         : '<tr><td colspan="4" class="center muted" style="padding:16px;">No direct referrals yet.</td></tr>';
 
+      // Render Mobile Cards for Direct Referrals
+      const mobileDirectsEl = document.getElementById('mobileDirects');
+      if (mobileDirectsEl) {
+        mobileDirectsEl.innerHTML = d.directs.length
+          ? d.directs.map(x => {
+            const encodeBtn = x.status !== 'active'
+              ? `<button type="button" class="btn btn-mint btn-sm" data-encode-direct="${esc(x.mobile_number)}" style="font-size:11px;padding:5px 10px;white-space:nowrap;">⚡ Encode</button>`
+              : '';
+            const posBadge = x.position
+              ? `<span class="pill ${x.position === 'L' ? 'open' : ''}">${x.position === 'L' ? 'LEFT' : 'RIGHT'}</span>`
+              : '<span class="pill closed">Not Placed</span>';
+            return `
+              <div class="referral-mobile-card">
+                <div class="referral-card-header">
+                  <span class="referral-card-username">${esc(x.mobile_number)}</span>
+                  ${encodeBtn}
+                </div>
+                <div class="referral-card-body">
+                  <div class="referral-card-field">
+                    <span class="referral-card-label">Position</span>
+                    <span class="referral-card-value">${posBadge}</span>
+                  </div>
+                  <div class="referral-card-field">
+                    <span class="referral-card-label">Status</span>
+                    <span class="referral-card-value"><span class="pill ${x.status === 'active' ? 'open' : 'closed'}">${esc(x.status)}</span></span>
+                  </div>
+                  <div class="referral-card-field full">
+                    <span class="referral-card-label">Joined Date</span>
+                    <span class="referral-card-value">${new Date(x.created_at).toLocaleDateString()}</span>
+                  </div>
+                </div>
+              </div>
+            `;
+          }).join('')
+          : '<div class="center muted" style="padding:20px;">No direct referrals yet.</div>';
+      }
+
       document.querySelectorAll('button[data-encode-direct]').forEach(btn => {
         btn.onclick = () => {
           const mob = btn.dataset.encodeDirect;
@@ -3448,6 +3593,35 @@
             </tr>
           `).join('')
         : '<tr><td colspan="5" class="center muted" style="padding:16px;">No indirect downlines yet.</td></tr>';
+
+      // Render Mobile Cards for Indirect Referrals
+      const mobileIndirectsEl = document.getElementById('mobileIndirects');
+      if (mobileIndirectsEl) {
+        mobileIndirectsEl.innerHTML = indirects.length
+          ? indirects.map(x => `
+              <div class="referral-mobile-card">
+                <div class="referral-card-header">
+                  <span class="referral-card-username">${esc(x.mobile_number)}</span>
+                  <span class="pill open" style="font-weight:700;">L${x.level}</span>
+                </div>
+                <div class="referral-card-body">
+                  <div class="referral-card-field">
+                    <span class="referral-card-label">Sponsor</span>
+                    <span class="referral-card-value">${esc(x.sponsor_mobile)}</span>
+                  </div>
+                  <div class="referral-card-field">
+                    <span class="referral-card-label">Status</span>
+                    <span class="referral-card-value"><span class="pill ${x.status === 'active' ? 'open' : 'closed'}">${esc(x.status)}</span></span>
+                  </div>
+                  <div class="referral-card-field full">
+                    <span class="referral-card-label">Joined Date</span>
+                    <span class="referral-card-value">${new Date(x.created_at).toLocaleDateString()}</span>
+                  </div>
+                </div>
+              </div>
+            `).join('')
+          : '<div class="center muted" style="padding:20px;">No indirect downlines yet.</div>';
+      }
 
       // Render Trade-In Slots Capacity & Visual Cards
       const slots = d.tradein_slots || { max: 5, active: 0, available: 5 };
@@ -5397,14 +5571,15 @@
       </div>
       <span style="font-size:10px;font-weight:800;color:var(--jade);margin-top:2px;">TRADE-IN</span>
     </button>
-    <button type="button" class="bnav-item" id="bnavLoad" onclick="switchMobileBottomTab('bnavLoad');">
+    <button type="button" class="bnav-item" id="bnavBuyCode" onclick="switchMobileBottomTab('bnavBuyCode');">
       <span class="bnav-icon">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <rect x="5" y="2" width="14" height="20" rx="2" ry="2"/>
-          <line x1="12" y1="18" x2="12.01" y2="18"/>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/>
+          <path d="M3 6h18"/>
+          <path d="M16 10a4 4 0 0 1-8 0"/>
         </svg>
       </span>
-      <span>LOAD</span>
+      <span>BUY CODE</span>
     </button>
     <button type="button" class="bnav-item" id="bnavCashout" onclick="switchMobileBottomTab('bnavCashout');">
       <span class="bnav-icon">

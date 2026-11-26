@@ -1,5 +1,5 @@
 // Infinite Trading Service Worker
-const CACHE_NAME = 'it-cache-v6';
+const CACHE_NAME = 'it-cache-v10';
 const ASSETS_TO_CACHE = [
   '/',
   '/index.html',

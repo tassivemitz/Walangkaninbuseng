@@ -3964,6 +3964,10 @@ body[data-theme="light"].dash-terminal-body {
   padding: 20px;
 }
 
+.plan-modal .mobile-referral-cards {
+  display: none;
+}
+
 .plan-modal.closing {
   opacity: 0;
   transition: opacity 0.15s ease-out;
@@ -10554,8 +10558,7 @@ body[data-theme="light"].auth-page-body {
   }
 
   /* 5. Tables Swapped to Mobile Cards on <= 768px */
-  .admin-table-panel.table-wrap,
-  .plan-modal .table-wrap {
+  .admin-table-panel.table-wrap {
     display: none !important;
   }
 
@@ -10628,38 +10631,19 @@ body[data-theme="light"].auth-page-body {
     word-break: break-word;
   }
 
-  /* Mobile Referral Cards for Member List Modals - Hidden by default on desktop */
+  /* Mobile Referral Cards for Member List Modals on <= 768px */
   .plan-modal .mobile-referral-cards {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 12px !important;
+    margin-top: 10px !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  #modalDirectRef .table-wrap,
+  #modalIndirectRef .table-wrap {
     display: none !important;
-  }
-
-  .plan-modal .table-wrap {
-    display: block !important;
-  }
-
-  /* Mobile: Hide table, show mobile cards */
-  @media (max-width: 768px) {
-    .plan-modal .mobile-referral-cards {
-      display: flex !important;
-      flex-direction: column !important;
-      gap: 12px !important;
-      margin-top: 10px !important;
-      width: 100% !important;
-      box-sizing: border-box !important;
-    }
-    .plan-modal .table-wrap {
-      display: none !important;
-    }
-  }
-
-  /* Desktop: Show table, hide mobile cards */
-  @media (min-width: 769px) {
-    .plan-modal .mobile-referral-cards {
-      display: none !important;
-    }
-    .plan-modal .table-wrap {
-      display: block !important;
-    }
   }
 
   .plan-modal .referral-mobile-card {
