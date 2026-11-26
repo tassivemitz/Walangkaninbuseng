@@ -9,13 +9,15 @@
     content="Infinite Trading member dashboard — Member list, Code vault, Trade-in deposit, Wallet dashboard, and TradingView chart." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap"
+  <link
+    href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap"
     rel="stylesheet" />
   <script src="/theme.js"></script>
-  <link rel="stylesheet" href="/styles.css?v=20261126mobilecards" />
+  <link rel="stylesheet" href="/styles.css?v=20261127tree1" />
   <link rel="manifest" href="/manifest.json" />
   <link rel="icon" type="image/png" href="/images/site-logo.png" />
   <meta name="theme-color" content="#131a22" />
+  <meta name="mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <meta name="apple-mobile-web-app-title" content="Infinite Trading" />
@@ -37,7 +39,7 @@
     <!-- 1. FULL-HEIGHT LEFT SIDEBAR (Desktop: Fixed Sticky / Mobile: Off-Canvas Drawer) -->
     <aside class="dash-sidebar" id="dashSidebar">
       <!-- Mobile Close Button -->
-      <button type="button" class="dash-sidebar-close" id="sidebarClose" aria-label="Close Sidebar">✕</button>
+      <button type="button" class="dash-sidebar-close" id="sidebarClose" aria-label="Close Sidebar"><span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></span></button>
 
       <!-- Brand Logo at Top of Sidebar -->
       <div class="dash-sidebar-brand">
@@ -53,11 +55,12 @@
           <div class="side-nav-header" data-toggle-target="sideCardMembers">
             <div style="display:flex;align-items:center;gap:8px;flex:1;">
               <span class="side-nav-icon">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
-                  <circle cx="9" cy="7" r="4"/>
-                  <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
-                  <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                  stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+                  <circle cx="9" cy="7" r="4" />
+                  <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+                  <path d="M16 3.13a4 4 0 0 1 0 7.75" />
                 </svg>
               </span>
               <span class="side-title">Member List</span>
@@ -86,9 +89,10 @@
           <div class="side-nav-header" data-toggle-target="sideCardVault">
             <div style="display:flex;align-items:center;gap:8px;flex:1;">
               <span class="side-nav-icon">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
-                  <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                  stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+                  <path d="M7 11V7a5 5 0 0 1 10 0v4" />
                 </svg>
               </span>
               <span class="side-title">Code Vault</span>
@@ -113,9 +117,10 @@
           <div class="side-nav-header" data-toggle-target="sideCardTradein">
             <div style="display:flex;align-items:center;gap:8px;flex:1;">
               <span class="side-nav-icon">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/>
-                  <polyline points="17 6 23 6 23 12"/>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                  stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="23 6 13.5 15.5 8.5 10.5 1 18" />
+                  <polyline points="17 6 23 6 23 12" />
                 </svg>
               </span>
               <span class="side-title">TRADE IN</span>
@@ -138,9 +143,10 @@
         <!-- 4. Wallet Withdrawal CTA -->
         <button type="button" class="side-cta-btn" id="btnOpenWithdrawal">
           <span class="side-cta-icon">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <rect x="1" y="4" width="22" height="16" rx="2" ry="2"/>
-              <line x1="1" y1="10" x2="23" y2="10"/>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round">
+              <rect x="1" y="4" width="22" height="16" rx="2" ry="2" />
+              <line x1="1" y1="10" x2="23" y2="10" />
             </svg>
           </span>
           <span>WALLET WITHDRAWAL</span>
@@ -149,10 +155,11 @@
         <!-- 5. Earnings History CTA -->
         <button type="button" class="side-cta-btn side-cta-alt" id="btnOpenEarningsHistory">
           <span class="side-cta-icon">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <line x1="18" y1="20" x2="18" y2="10"/>
-              <line x1="12" y1="20" x2="12" y2="4"/>
-              <line x1="6" y1="20" x2="6" y2="14"/>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round">
+              <line x1="18" y1="20" x2="18" y2="10" />
+              <line x1="12" y1="20" x2="12" y2="4" />
+              <line x1="6" y1="20" x2="6" y2="14" />
             </svg>
           </span>
           <span>EARNINGS HISTORY</span>
@@ -162,8 +169,10 @@
         <button type="button" class="side-cta-btn side-cta-alt" id="btnOpenProfitSharing"
           style="border-color:rgba(46,213,158,0.35);">
           <span class="side-cta-icon">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round">
+              <path
+                d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
             </svg>
           </span>
           <span>PROFIT SHARING</span>
@@ -207,31 +216,36 @@
           <button class="btn-theme-toggle" type="button" data-theme-toggle aria-label="Toggle Light/Dark Theme"
             title="Toggle Light/Dark Theme">
             <span class="theme-toggle-icon">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <circle cx="12" cy="12" r="5"/>
-                <line x1="12" y1="1" x2="12" y2="3"/>
-                <line x1="12" y1="21" x2="12" y2="23"/>
-                <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
-                <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
-                <line x1="1" y1="12" x2="3" y2="12"/>
-                <line x1="21" y1="12" x2="23" y2="12"/>
-                <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
-                <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="5" />
+                <line x1="12" y1="1" x2="12" y2="3" />
+                <line x1="12" y1="21" x2="12" y2="23" />
+                <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
+                <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
+                <line x1="1" y1="12" x2="3" y2="12" />
+                <line x1="21" y1="12" x2="23" y2="12" />
+                <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
+                <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
               </svg>
             </span>
             <span class="theme-toggle-text">Light</span>
           </button>
           <div class="user-badge" id="whoWrapper" style="padding:0;background:none;border:none;box-shadow:none;">
-            <div id="headerProfilePicture" style="width:40px;height:40px;min-width:40px;min-height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;overflow:hidden;cursor:pointer;">
-              <img id="headerProfileImg" src="" alt="" style="width:100%;height:100%;min-width:100%;min-height:100%;object-fit:cover;display:none;" />
-              <span id="headerProfilePlaceholder" style="font-size:20px;">👤</span>
+            <div id="headerProfilePicture"
+              style="width:40px;height:40px;min-width:40px;min-height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;overflow:hidden;cursor:pointer;">
+              <img id="headerProfileImg" src="" alt=""
+                style="width:100%;height:100%;min-width:100%;min-height:100%;object-fit:cover;display:none;" />
+              <span id="headerProfilePlaceholder" style="font-size:20px;"><span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21a8 8 0 0 0-16 0"/><circle cx="12" cy="7" r="4"/></svg></span></span>
             </div>
           </div>
           <a id="adminLink" class="btn btn-ghost btn-sm" href="/admin.html"
             style="display:none;color:var(--gold);border-color:rgba(232,148,58,0.3);font-weight:700;">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:text-bottom;margin-right:4px;">
-              <circle cx="12" cy="12" r="3"/>
-              <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round" style="vertical-align:text-bottom;margin-right:4px;">
+              <circle cx="12" cy="12" r="3" />
+              <path
+                d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z" />
             </svg>
             Admin Panel
           </a>
@@ -321,27 +335,51 @@
         <!-- Reward Countdown Banner (Only shows after cashback is claimed) -->
         <div id="rewardCountdownBox" class="panel card" hidden
           style="margin-bottom: 20px; width:100%;max-width:100%;border-radius:18px;overflow:hidden;">
-          <img src="/images/rewardsbanner.png" alt="Reward Countdown" style="width:100%;max-width:350px;height:auto;display:block;border-radius:18px;margin-left:auto;margin-right:auto;" />
+          <img src="/images/rewardsbanner.png" alt="Reward Countdown"
+            style="width:100%;max-width:350px;height:auto;display:block;border-radius:18px;margin-left:auto;margin-right:auto;" />
           <div style="margin-top:12px;display:grid;grid-template-columns:repeat(4,1fr);gap:6px;">
-            <div style="background:var(--bg2);color:var(--text);border-radius:10px;padding:8px 6px;display:flex;align-items:center;justify-content:center;gap:5px;min-width:0;border:1px solid var(--line);">
-              <svg style="width:20px;height:20px;flex:none;stroke:var(--jade)" viewBox="0 0 24 24" fill="none" stroke-width="2"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>
-              <div><b id="countdownDays" style="display:block;font-size:16px;line-height:1.1;font-variant-numeric:tabular-nums;color:var(--jade);">188</b><span style="display:block;font-size:10px;line-height:1.1;opacity:.7;">Days</span></div>
+            <div
+              style="background:var(--bg2);color:var(--text);border-radius:10px;padding:8px 6px;display:flex;align-items:center;justify-content:center;gap:5px;min-width:0;border:1px solid var(--line);">
+              <svg style="width:20px;height:20px;flex:none;stroke:var(--jade)" viewBox="0 0 24 24" fill="none"
+                stroke-width="2">
+                <rect x="3" y="5" width="18" height="16" rx="2" />
+                <path d="M3 10h18M8 3v4M16 3v4" />
+              </svg>
+              <div><b id="countdownDays"
+                  style="display:block;font-size:16px;line-height:1.1;font-variant-numeric:tabular-nums;color:var(--jade);">188</b><span
+                  style="display:block;font-size:10px;line-height:1.1;opacity:.7;">Days</span></div>
             </div>
-            <div style="background:var(--bg2);color:var(--text);border-radius:10px;padding:8px 6px;display:flex;align-items:center;justify-content:center;gap:5px;min-width:0;border:1px solid var(--line);">
-              <div><b id="countdownHours" style="display:block;font-size:16px;line-height:1.1;font-variant-numeric:tabular-nums;color:var(--jade);">00</b><span style="display:block;font-size:10px;line-height:1.1;opacity:.7;">Hours</span></div>
+            <div
+              style="background:var(--bg2);color:var(--text);border-radius:10px;padding:8px 6px;display:flex;align-items:center;justify-content:center;gap:5px;min-width:0;border:1px solid var(--line);">
+              <div><b id="countdownHours"
+                  style="display:block;font-size:16px;line-height:1.1;font-variant-numeric:tabular-nums;color:var(--jade);">00</b><span
+                  style="display:block;font-size:10px;line-height:1.1;opacity:.7;">Hours</span></div>
             </div>
-            <div style="background:var(--bg2);color:var(--text);border-radius:10px;padding:8px 6px;display:flex;align-items:center;justify-content:center;gap:5px;min-width:0;border:1px solid var(--line);">
-              <div><b id="countdownMinutes" style="display:block;font-size:16px;line-height:1.1;font-variant-numeric:tabular-nums;color:var(--jade);">00</b><span style="display:block;font-size:10px;line-height:1.1;opacity:.7;">Minutes</span></div>
+            <div
+              style="background:var(--bg2);color:var(--text);border-radius:10px;padding:8px 6px;display:flex;align-items:center;justify-content:center;gap:5px;min-width:0;border:1px solid var(--line);">
+              <div><b id="countdownMinutes"
+                  style="display:block;font-size:16px;line-height:1.1;font-variant-numeric:tabular-nums;color:var(--jade);">00</b><span
+                  style="display:block;font-size:10px;line-height:1.1;opacity:.7;">Minutes</span></div>
             </div>
-            <div style="background:var(--bg2);color:var(--text);border-radius:10px;padding:8px 6px;display:flex;align-items:center;justify-content:center;gap:5px;min-width:0;border:1px solid var(--line);">
-              <svg style="width:20px;height:20px;flex:none;stroke:var(--jade)" viewBox="0 0 24 24" fill="none" stroke-width="2"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l3 2M9 2h6"/></svg>
-              <div><b id="countdownSeconds" style="display:block;font-size:16px;line-height:1.1;font-variant-numeric:tabular-nums;color:var(--jade);">00</b><span style="display:block;font-size:10px;line-height:1.1;opacity:.7;">Seconds</span></div>
+            <div
+              style="background:var(--bg2);color:var(--text);border-radius:10px;padding:8px 6px;display:flex;align-items:center;justify-content:center;gap:5px;min-width:0;border:1px solid var(--line);">
+              <svg style="width:20px;height:20px;flex:none;stroke:var(--jade)" viewBox="0 0 24 24" fill="none"
+                stroke-width="2">
+                <circle cx="12" cy="13" r="8" />
+                <path d="M12 9v4l3 2M9 2h6" />
+              </svg>
+              <div><b id="countdownSeconds"
+                  style="display:block;font-size:16px;line-height:1.1;font-variant-numeric:tabular-nums;color:var(--jade);">00</b><span
+                  style="display:block;font-size:10px;line-height:1.1;opacity:.7;">Seconds</span></div>
             </div>
           </div>
-          <div style="margin-top:12px;background:var(--bg2);color:var(--text);border-radius:10px;padding:10px 14px;display:flex;align-items:center;gap:10px;font-size:13px;font-weight:600;border:1px solid var(--line);">
+          <div
+            style="margin-top:12px;background:var(--bg2);color:var(--text);border-radius:10px;padding:10px 14px;display:flex;align-items:center;gap:10px;font-size:13px;font-weight:600;border:1px solid var(--line);">
             <span>Progress: <span id="countdownProgress" style="color:var(--jade);">0%</span></span>
             <div style="flex:1;height:12px;border-radius:8px;background:rgba(46,213,158,0.1);overflow:hidden;">
-              <div id="countdownFill" style="height:100%;width:0%;border-radius:8px;background:linear-gradient(90deg,var(--jade),#0f7a45);transition:width .8s ease;"></div>
+              <div id="countdownFill"
+                style="height:100%;width:0%;border-radius:8px;background:linear-gradient(90deg,var(--jade),#0f7a45);transition:width .8s ease;">
+              </div>
             </div>
           </div>
         </div>
@@ -352,39 +390,49 @@
               max-width: 100% !important;
             }
           }
+
           @media (max-width: 768px) {
             #rewardCountdownBox {
               max-width: 100% !important;
             }
-            #rewardCountdownBox > div:nth-child(2) {
+
+            #rewardCountdownBox>div:nth-child(2) {
               gap: 4px !important;
             }
-            #rewardCountdownBox > div:nth-child(2) > div {
+
+            #rewardCountdownBox>div:nth-child(2)>div {
               padding: 6px 4px !important;
             }
-            #rewardCountdownBox > div:nth-child(2) > div b {
+
+            #rewardCountdownBox>div:nth-child(2)>div b {
               font-size: 14px !important;
             }
-            #rewardCountdownBox > div:nth-child(2) > div span {
+
+            #rewardCountdownBox>div:nth-child(2)>div span {
               font-size: 9px !important;
             }
-            #rewardCountdownBox > div:nth-child(2) > div svg {
+
+            #rewardCountdownBox>div:nth-child(2)>div svg {
               width: 18px !important;
               height: 18px !important;
             }
-            #rewardCountdownBox > div:last-child {
+
+            #rewardCountdownBox>div:last-child {
               padding: 8px 10px !important;
               font-size: 11px !important;
             }
-            #rewardCountdownBox > div:last-child > div:last-child {
+
+            #rewardCountdownBox>div:last-child>div:last-child {
               height: 10px !important;
             }
+
             #whoWrapper {
               padding: 0 !important;
               background: none !important;
               border: none !important;
               box-shadow: none !important;
             }
+
             #headerProfilePicture {
               width: 36px !important;
               height: 36px !important;
@@ -401,19 +449,21 @@
             <div style="display:flex; gap:14px; align-items:center; max-width:700px;">
               <div
                 style="width:50px;height:50px;border-radius:14px;background:rgba(46,213,158,0.22);display:grid;place-items:center;flex-shrink:0;">
-                <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:var(--jade);">
-                  <polyline points="20 12 20 22 4 22 4 12"/>
-                  <rect x="2" y="7" width="20" height="5"/>
-                  <line x1="12" y1="22" x2="12" y2="7"/>
-                  <path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/>
-                  <path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/>
+                <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                  stroke-linecap="round" stroke-linejoin="round" style="color:var(--jade);">
+                  <polyline points="20 12 20 22 4 22 4 12" />
+                  <rect x="2" y="7" width="20" height="5" />
+                  <line x1="12" y1="22" x2="12" y2="7" />
+                  <path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z" />
+                  <path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z" />
                 </svg>
               </div>
               <div>
                 <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;">
                   <span class="badge-tag tag-approved" style="font-weight:800;font-size:11px;">
-                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:text-bottom;">
-                      <polyline points="20 6 9 17 4 12"/>
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"
+                      stroke-linecap="round" stroke-linejoin="round" style="vertical-align:text-bottom;">
+                      <polyline points="20 6 9 17 4 12" />
                     </svg>
                     Account Activated!
                   </span>
@@ -421,21 +471,24 @@
                     style="font-size:11px;font-weight:800;background:#f59e0b;color:#000;padding:2px 8px;border-radius:6px;">Claim
                     1x Only</span>
                 </div>
-                <h3 style="margin:2px 0 4px;font-size:18px;font-weight:800;color:var(--text);">Claim Your Free ₱100 Cashback</h3>
+                <h3 style="margin:2px 0 4px;font-size:18px;font-weight:800;color:var(--text);">Claim Your Free ₱100
+                  Cashback</h3>
                 <p style="margin:0;font-size:13px;color:var(--text);opacity:0.9;line-height:1.45;">
-                  Congratulations! As a newly activated member, you are entitled to claim <strong>₱100 Cashback</strong>.
+                  Congratulations! As a newly activated member, you are entitled to claim <strong>₱100
+                    Cashback</strong>.
                 </p>
               </div>
             </div>
             <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
               <button type="button" id="btnOverviewClaim100" class="btn btn-mint"
                 style="font-size:13.5px;font-weight:800;padding:11px 22px;border-radius:10px;box-shadow:0 4px 16px rgba(46,213,158,0.4);white-space:nowrap;">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:text-bottom;margin-right:4px;">
-                  <polyline points="20 12 20 22 4 22 4 12"/>
-                  <rect x="2" y="7" width="20" height="5"/>
-                  <line x1="12" y1="22" x2="12" y2="7"/>
-                  <path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/>
-                  <path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                  stroke-linecap="round" stroke-linejoin="round" style="vertical-align:text-bottom;margin-right:4px;">
+                  <polyline points="20 12 20 22 4 22 4 12" />
+                  <rect x="2" y="7" width="20" height="5" />
+                  <line x1="12" y1="22" x2="12" y2="7" />
+                  <path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z" />
+                  <path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z" />
                 </svg>
                 Claim 100 Cashback
               </button>
@@ -449,9 +502,11 @@
           <div style="display:flex;gap:12px;align-items:flex-start;">
             <span style="font-size:28px;line-height:1;">⏳</span>
             <div>
-              <h3 style="margin:0 0 6px;font-size:17px;font-weight:800;color:var(--text);">Cashback Pending Admin Approval</h3>
+              <h3 style="margin:0 0 6px;font-size:17px;font-weight:800;color:var(--text);">Cashback Pending Admin
+                Approval</h3>
               <p style="margin:0;font-size:13px;color:var(--text);opacity:0.9;line-height:1.45;">
-                Your ₱100 Cashback claim has been submitted. It will appear in your <strong>Cashback</strong> wallet and total earnings once an admin approves it.
+                Your ₱100 Cashback claim has been submitted. It will appear in your <strong>Cashback</strong> wallet and
+                total earnings once an admin approves it.
               </p>
             </div>
           </div>
@@ -465,11 +520,12 @@
           <div class="m-card-hero">
             <div class="m-hero-left">
               <div class="m-hero-icon-stack">
-                <svg class="hero-coin-icon" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <circle cx="12" cy="12" r="10"/>
-                  <path d="M12 6v12"/>
-                  <path d="M8 10h8"/>
-                  <path d="M8 14h8"/>
+                <svg class="hero-coin-icon" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                  stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="12" cy="12" r="10" />
+                  <path d="M12 6v12" />
+                  <path d="M8 10h8" />
+                  <path d="M8 14h8" />
                 </svg>
               </div>
               <div class="m-hero-content">
@@ -499,11 +555,12 @@
             <div class="m-card-top">
               <span class="m-label">DIRECT EARNINGS</span>
               <span class="m-badge-icon" style="color:var(--jade);">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
-                  <circle cx="9" cy="7" r="4"/>
-                  <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
-                  <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                  stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+                  <circle cx="9" cy="7" r="4" />
+                  <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+                  <path d="M16 3.13a4 4 0 0 1 0 7.75" />
                 </svg>
               </span>
             </div>
@@ -546,11 +603,12 @@
               <span class="m-label">IN-PPT (INDIRECT)</span>
               <span class="m-pill-badge badge-purple">PPT</span>
               <span class="m-badge-icon" style="color:#a855f7;">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
-                  <circle cx="9" cy="7" r="4"/>
-                  <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
-                  <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                  stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+                  <circle cx="9" cy="7" r="4" />
+                  <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+                  <path d="M16 3.13a4 4 0 0 1 0 7.75" />
                 </svg>
               </span>
             </div>
@@ -566,10 +624,12 @@
             <div class="m-card-top">
               <span class="m-label">TRADE-IN DEPOSIT</span>
               <span class="m-badge-icon" style="color:var(--gold);">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
-                  <polyline points="3.27 6.96 12 12.01 20.73 6.96"/>
-                  <line x1="12" y1="22.08" x2="12" y2="12"/>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                  stroke-linecap="round" stroke-linejoin="round">
+                  <path
+                    d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" />
+                  <polyline points="3.27 6.96 12 12.01 20.73 6.96" />
+                  <line x1="12" y1="22.08" x2="12" y2="12" />
                 </svg>
               </span>
             </div>
@@ -585,9 +645,10 @@
             <div class="m-card-top">
               <span class="m-label">TRADE-IN PROFIT</span>
               <span class="m-badge-icon" style="color:var(--mint);">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/>
-                  <polyline points="17 6 23 6 23 12"/>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                  stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="23 6 13.5 15.5 8.5 10.5 1 18" />
+                  <polyline points="17 6 23 6 23 12" />
                 </svg>
               </span>
             </div>
@@ -608,8 +669,10 @@
             <div class="m-card-top">
               <span class="m-label">TRADE-IN REF</span>
               <span class="m-badge-icon" style="color:#eab308;">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                  stroke-linecap="round" stroke-linejoin="round">
+                  <path
+                    d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
                 </svg>
               </span>
             </div>
@@ -812,8 +875,9 @@
         <!-- Unactivated Directs Alert Banner -->
         <div class="unactivated-directs-banner" id="treeUnactivatedBanner" style="display:none;">
           <div style="display:flex;align-items:center;gap:8px;">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:#fbbf24;">
-              <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round" style="color:#fbbf24;">
+              <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
             </svg>
             <div>
               <strong style="color:#fbbf24;font-size:12.5px;" id="treeUnactivatedTitle">You have pending directs waiting
@@ -843,20 +907,21 @@
 
             <div class="genealogy-search-box">
               <input type="text" class="genealogy-search-in" id="genealogySearchInput"
-                placeholder="🔍 Search downline..." list="treeDownlineDataList" />
+                placeholder="Search downline..." list="treeDownlineDataList" />
               <datalist id="treeDownlineDataList"></datalist>
             </div>
             <button type="button" class="btn btn-secondary btn-sm" id="btnGenealogyReset"
               style="padding:5px 10px;font-size:11.5px;font-weight:700;">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:text-bottom;margin-right:4px;">
-                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
-                <polyline points="9 22 9 12 15 12 15 22"/>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round" style="vertical-align:text-bottom;margin-right:4px;">
+                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+                <polyline points="9 22 9 12 15 12 15 22" />
               </svg>
               My Account
             </button>
             <button type="button" class="btn btn-secondary btn-sm" id="btnGenealogyUp"
               style="padding:5px 10px;font-size:11.5px;font-weight:700;">
-              ⬆ Up 1 Level
+              <span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5"/><path d="m6 11 6-6 6 6"/></svg></span> Up 1 Level
             </button>
           </div>
         </div>
@@ -868,10 +933,11 @@
         <div
           style="display:flex;justify-content:space-between;align-items:center;margin-top:12px;padding:8px 12px;background:var(--bg2);border:1px solid var(--line);border-radius:10px;font-size:11px;color:var(--muted);flex-wrap:wrap;gap:8px;">
           <span>
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:text-bottom;margin-right:4px;">
-              <circle cx="12" cy="12" r="10"/>
-              <line x1="12" y1="16" x2="12" y2="12"/>
-              <line x1="12" y1="8" x2="12.01" y2="8"/>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round" style="vertical-align:text-bottom;margin-right:4px;">
+              <circle cx="12" cy="12" r="10" />
+              <line x1="12" y1="16" x2="12" y2="12" />
+              <line x1="12" y1="8" x2="12.01" y2="8" />
             </svg>
             <strong>Tip:</strong> Click any active member card to drill down and explore deeper branches.
           </span>
@@ -895,8 +961,9 @@
       <div class="plan-modal-body">
         <div
           style="padding:8px 12px;background:rgba(245,166,35,0.14);border:1px solid rgba(245,166,35,0.3);border-radius:10px;font-size:11.5px;color:#fbbf24;margin-bottom:14px;line-height:1.45;">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:text-bottom;margin-right:4px;">
-            <path d="M12 22s8-4 8-10V5l-8-3v8c0 6 8 10 8 10z"/>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round" style="vertical-align:text-bottom;margin-right:4px;">
+            <path d="M12 22s8-4 8-10V5l-8-3v8c0 6 8 10 8 10z" />
           </svg>
           <strong>Placement Rule:</strong> Bawal mapunta sa upline o crossline. Ang downline ay dapat ilagay sa
           ilalim mo o ng kahit sinong downline sa loob ng sarili mong network tree.
@@ -923,15 +990,17 @@
         <!-- Mode Selector: Register & Place vs Activate Existing -->
         <div class="encode-mode-tabs" id="encodeModeTabs">
           <button type="button" class="encode-mode-btn active" id="btnModeNewUser" data-mode="new">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:text-bottom;margin-right:4px;">
-              <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round" style="vertical-align:text-bottom;margin-right:4px;">
+              <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
             </svg>
             Register &amp; Place New Member
           </button>
           <button type="button" class="encode-mode-btn" id="btnModeExistingUser" data-mode="existing">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:text-bottom;margin-right:4px;">
-              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
-              <circle cx="12" cy="7" r="4"/>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round" style="vertical-align:text-bottom;margin-right:4px;">
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+              <circle cx="12" cy="7" r="4" />
             </svg>
             Activate Existing Downline
           </button>
@@ -972,8 +1041,9 @@
             <div id="unactivatedDirectsPickerWrap"
               style="display:none;margin-bottom:12px;background:var(--bg2);padding:10px 12px;border-radius:10px;border:1px solid var(--line);">
               <label class="tiny" style="font-weight:800;color:var(--jade);display:block;margin-bottom:4px;">
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:text-bottom;margin-right:4px;">
-                  <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                  stroke-linecap="round" stroke-linejoin="round" style="vertical-align:text-bottom;margin-right:4px;">
+                  <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
                 </svg>
                 PICK FROM YOUR PENDING DIRECTS:
               </label>
@@ -1035,7 +1105,7 @@
           <div style="display:flex; gap:8px; justify-content:flex-end;">
             <button type="button" class="btn btn-ghost btn-sm" data-close-modal>Cancel</button>
             <button type="submit" class="btn btn-mint btn-sm" id="btnSubmitEncode"
-              style="padding:8px 22px; font-weight:700;">Confirm &amp; Place in Tree ➔</button>
+              style="padding:8px 22px; font-weight:700;">Confirm &amp; Place in Tree <span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></span></button>
           </div>
         </form>
       </div>
@@ -1047,28 +1117,27 @@
     <div class="plan-modal-backdrop" data-close-modal></div>
     <div class="plan-modal-sheet" style="max-width:680px;">
       <header class="plan-modal-head">
-        <div>
-          <p class="kicker">🔒 Code Vault</p>
+        <div class="plan-modal-head-copy">
+          <p class="kicker"><span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg></span> Code Vault</p>
           <h2 id="codeVaultTitle">Activation Codes</h2>
-          <p class="tiny muted" style="margin:2px 0 0;">Distribute ₱399 activation codes to new downlines. Tap
+          <p class="tiny muted plan-modal-sub">Distribute ₱399 activation codes to new downlines. Tap
             <strong>Copy</strong> to share.
           </p>
         </div>
-        <button class="btn btn-mint btn-sm" type="button" id="btnOpenCodePurchase" style="margin-left:auto;">Load into Buy Activation Code</button>
-        <button class="plan-close" type="button" data-close-modal>×</button>
+        <button class="btn btn-mint btn-sm plan-modal-head-action" type="button" id="btnOpenCodePurchase">Buy Activation
+          Code</button>
+        <button class="plan-close" type="button" data-close-modal aria-label="Close">×</button>
       </header>
-      <div style="padding:0 22px 6px;">
+      <div class="plan-modal-tabs-row">
         <div class="plan-tabs">
-          <button type="button" class="plan-tab on" id="tabCodeAvail">📦 Available (<span
+          <button type="button" class="plan-tab on" id="tabCodeAvail"><span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 8 12 3 3 8l9 5z"/><path d="M3 8v8l9 5 9-5V8"/><path d="M12 13v8"/></svg></span> Available (<span
               id="countAvailCodes">0</span>)</button>
-          <button type="button" class="plan-tab" id="tabCodeUsed">🧾 Used (<span id="countUsedCodes">0</span>)</button>
+          <button type="button" class="plan-tab" id="tabCodeUsed"><span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2h12v20l-2-1.5L14 22l-2-1.5L10 22l-2-1.5L6 22z"/><path d="M9 7h6"/><path d="M9 11h6"/><path d="M9 15h4"/></svg></span> Used (<span id="countUsedCodes">0</span>)</button>
         </div>
       </div>
       <div class="plan-modal-body">
-        <div id="viewCodesAvail" class="list"
-          style="display:grid; grid-template-columns:repeat(auto-fill, minmax(240px, 1fr)); gap:10px;"></div>
-        <div id="viewCodesUsed" class="list"
-          style="display:none; grid-template-columns:repeat(auto-fill, minmax(240px, 1fr)); gap:10px;"></div>
+        <div id="viewCodesAvail" class="list modal-code-vault-grid"></div>
+        <div id="viewCodesUsed" class="list modal-code-vault-grid" style="display:none;"></div>
       </div>
     </div>
   </div>
@@ -1079,70 +1148,92 @@
     <div class="plan-modal-sheet" style="max-width:560px;">
       <header class="plan-modal-head">
         <div>
-          <p class="kicker">⚡ Quick Activation</p>
+          <p class="kicker"><span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 3 14h9l-1 8 10-12h-9l1-8z"/></svg></span> Quick Activation</p>
           <h2>Buy Activation Codes</h2>
-          <p class="tiny muted" style="margin:2px 0 0;">₱399 per slot · Auto-credited to your Code Vault once approved</p>
+          <p class="tiny muted" style="margin:2px 0 0;">₱399 per slot · Auto-credited to your Code Vault once approved
+          </p>
         </div>
         <button class="plan-close" type="button" data-close-modal>×</button>
       </header>
       <div class="plan-modal-body" style="display:flex;flex-direction:column;gap:16px;">
         <form id="codePurchaseForm" style="display:flex;flex-direction:column;gap:14px;">
           <!-- Order Calculation Card -->
-          <div style="background:var(--bg2);border:1.5px solid var(--line);border-radius:14px;padding:12px 14px;display:grid;grid-template-columns:1fr 1fr;gap:12px;align-items:center;">
+          <div
+            style="background:var(--bg2);border:1.5px solid var(--line);border-radius:14px;padding:12px 14px;display:grid;grid-template-columns:1fr 1fr;gap:12px;align-items:center;">
             <label style="display:flex;flex-direction:column;gap:4px;">
-              <span class="tiny muted" style="font-weight:700;letter-spacing:0.04em;font-size:11px;">NUMBER OF CODES</span>
-              <input id="codePurchaseQuantity" class="in" type="number" min="1" max="50" step="1" value="1" required style="font-size:15px;font-weight:700;" />
+              <span class="tiny muted" style="font-weight:700;letter-spacing:0.04em;font-size:11px;">NUMBER OF
+                CODES</span>
+              <input id="codePurchaseQuantity" class="in" type="number" min="1" max="50" step="1" value="1" required
+                style="font-size:15px;font-weight:700;" />
             </label>
             <label style="display:flex;flex-direction:column;gap:4px;">
-              <span class="tiny muted" style="font-weight:700;letter-spacing:0.04em;font-size:11px;">TOTAL PAYABLE</span>
-              <input id="codePurchaseAmount" class="in" type="text" value="₱399.00" readonly style="font-size:15px;font-weight:800;color:var(--jade);background:rgba(46,213,158,0.08);border-color:rgba(46,213,158,0.25);" />
+              <span class="tiny muted" style="font-weight:700;letter-spacing:0.04em;font-size:11px;">TOTAL
+                PAYABLE</span>
+              <input id="codePurchaseAmount" class="in" type="text" value="₱399.00" readonly
+                style="font-size:15px;font-weight:800;color:var(--jade);background:rgba(46,213,158,0.08);border-color:rgba(46,213,158,0.25);" />
             </label>
           </div>
 
           <!-- Mode of payment -->
           <label style="display:flex;flex-direction:column;gap:6px;">
-            <span class="tiny muted" style="font-weight:700;letter-spacing:0.04em;font-size:11px;">MODE OF PAYMENT</span>
+            <span class="tiny muted" style="font-weight:700;letter-spacing:0.04em;font-size:11px;">MODE OF
+              PAYMENT</span>
             <select id="codePurchaseMop" class="in" required style="font-size:13.5px;padding:10px 12px;">
               <option value="">Loading payment methods...</option>
             </select>
           </label>
 
           <!-- Payment Details Box -->
-          <div id="codePurchasePaymentDetails" hidden style="padding:14px;border:1.5px solid var(--line);border-radius:14px;background:var(--bg2);"></div>
+          <div id="codePurchasePaymentDetails" hidden
+            style="padding:14px;border:1.5px solid var(--line);border-radius:14px;background:var(--bg2);"></div>
 
           <!-- Reference Number -->
           <label style="display:flex;flex-direction:column;gap:6px;">
-            <span class="tiny muted" style="font-weight:700;letter-spacing:0.04em;font-size:11px;">REFERENCE / TRANSACTION NUMBER *</span>
-            <input id="codePurchaseReference" class="in" type="text" maxlength="100" placeholder="e.g. 1002938475" required style="font-size:13.5px;padding:10px 12px;" />
+            <span class="tiny muted" style="font-weight:700;letter-spacing:0.04em;font-size:11px;">REFERENCE /
+              TRANSACTION NUMBER *</span>
+            <input id="codePurchaseReference" class="in" type="text" maxlength="100" placeholder="e.g. 1002938475"
+              required style="font-size:13.5px;padding:10px 12px;" />
           </label>
 
           <!-- Receipt Dropzone -->
           <div style="display:flex;flex-direction:column;gap:6px;">
-            <span class="tiny muted" style="font-weight:700;letter-spacing:0.04em;font-size:11px;">ATTACH PAYMENT RECEIPT / SCREENSHOT *</span>
+            <span class="tiny muted" style="font-weight:700;letter-spacing:0.04em;font-size:11px;">ATTACH PAYMENT
+              RECEIPT / SCREENSHOT *</span>
             <div class="receipt-dropzone" id="codePurchaseDropzone" style="cursor:pointer;padding:16px 12px;">
-              <input id="codePurchaseReceipt" type="file" accept="image/png,image/jpeg,image/webp" style="display:none;" />
-              <span style="font-size:24px;display:block;margin-bottom:3px;">🧾</span>
-              <p style="margin:0;font-size:13px;font-weight:700;color:var(--text);">Tap here to upload receipt screenshot</p>
-              <p class="tiny muted" id="codePurchaseReceiptName" style="margin:3px 0 0;font-size:11px;">PNG, JPG, JPEG, WEBP (Max 20MB)</p>
+              <input id="codePurchaseReceipt" type="file" accept="image/png,image/jpeg,image/webp"
+                style="display:none;" />
+              <span style="font-size:24px;display:block;margin-bottom:3px;"><span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2h12v20l-2-1.5L14 22l-2-1.5L10 22l-2-1.5L6 22z"/><path d="M9 7h6"/><path d="M9 11h6"/><path d="M9 15h4"/></svg></span></span>
+              <p style="margin:0;font-size:13px;font-weight:700;color:var(--text);">Tap here to upload receipt
+                screenshot</p>
+              <p class="tiny muted" id="codePurchaseReceiptName" style="margin:3px 0 0;font-size:11px;">PNG, JPG, JPEG,
+                WEBP (Max 20MB)</p>
             </div>
-            <div id="codePurchasePreviewBox" style="display:none;align-items:center;gap:12px;background:var(--bg2);padding:10px 14px;border-radius:12px;border:1px solid var(--line);margin-top:4px;">
-              <img id="codePurchasePreviewImg" src="" alt="Receipt preview" style="width:48px;height:48px;object-fit:cover;border-radius:8px;border:1px solid var(--line);flex-shrink:0;" />
+            <div id="codePurchasePreviewBox"
+              style="display:none;align-items:center;gap:12px;background:var(--bg2);padding:10px 14px;border-radius:12px;border:1px solid var(--line);margin-top:4px;">
+              <img id="codePurchasePreviewImg" src="" alt="Receipt preview"
+                style="width:48px;height:48px;object-fit:cover;border-radius:8px;border:1px solid var(--line);flex-shrink:0;" />
               <div style="flex:1;min-width:0;">
-                <p id="codePurchasePreviewFilename" style="margin:0;font-size:12px;font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--text);"></p>
+                <p id="codePurchasePreviewFilename"
+                  style="margin:0;font-size:12px;font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--text);">
+                </p>
                 <span id="codePurchasePreviewSize" class="tiny muted" style="font-size:11px;"></span>
               </div>
-              <button type="button" id="btnRemoveCodeReceipt" class="btn btn-ghost btn-sm" style="color:#ef4444;font-size:11px;padding:4px 8px;border-radius:6px;">✕ Remove</button>
+              <button type="button" id="btnRemoveCodeReceipt" class="btn btn-ghost btn-sm"
+                style="color:#ef4444;font-size:11px;padding:4px 8px;border-radius:6px;"><span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></span> Remove</button>
             </div>
           </div>
 
-          <button id="btnSubmitCodePurchase" class="btn btn-mint" type="submit" style="width:100%;padding:12px;font-size:14px;font-weight:700;border-radius:10px;margin-top:4px;">
-            Submit Request for Approval ➔
+          <button id="btnSubmitCodePurchase" class="btn btn-mint" type="submit"
+            style="width:100%;padding:12px;font-size:14px;font-weight:700;border-radius:10px;margin-top:4px;">
+            Submit Request for Approval <span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></span>
           </button>
         </form>
 
         <!-- Past Requests Section -->
         <div style="margin-top:4px;border-top:1px solid var(--line);padding-top:14px;">
-          <h4 style="margin:0 0 10px;font-size:11.5px;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:0.06em;">My Code Purchase Requests</h4>
+          <h4
+            style="margin:0 0 10px;font-size:11.5px;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:0.06em;">
+            My Code Purchase Requests</h4>
           <div id="myCodePurchasesList" style="display:flex;flex-direction:column;gap:8px;"></div>
         </div>
       </div>
@@ -1162,10 +1253,11 @@
       </header>
       <div class="plan-modal-body">
         <div id="tradeinBlockedNotice" class="tradein-blocked-notice">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:text-bottom;margin-right:4px;">
-            <circle cx="12" cy="12" r="10"/>
-            <line x1="12" y1="8" x2="12" y2="12"/>
-            <line x1="12" y1="16" x2="12.01" y2="16"/>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round" style="vertical-align:text-bottom;margin-right:4px;">
+            <circle cx="12" cy="12" r="10" />
+            <line x1="12" y1="8" x2="12" y2="12" />
+            <line x1="12" y1="16" x2="12.01" y2="16" />
           </svg>
           Activate your account first to access Trade-In packages.
         </div>
@@ -1174,9 +1266,10 @@
         <div class="tradein-slots-card" id="tradeinSlotsCard">
           <div class="tradein-slots-header">
             <div style="display:flex;align-items:center;gap:10px;">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:var(--jade);">
-                <rect x="2" y="7" width="20" height="14" rx="2" ry="2"/>
-                <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/>
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round" style="color:var(--jade);">
+                <rect x="2" y="7" width="20" height="14" rx="2" ry="2" />
+                <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16" />
               </svg>
               <div>
                 <h4 style="margin:0;font-size:14px;color:var(--jade);font-weight:800;letter-spacing:0.02em;">TRADE-IN
@@ -1195,7 +1288,7 @@
 
         <div id="tradeinSlotsFullNotice" class="tradein-blocked-notice"
           style="display:none;margin-bottom:14px;background:rgba(239,68,68,0.14);border:1.5px solid rgba(239,68,68,0.35);color:#f87171;">
-          ⛔ <strong>All Trade-In Slots Occupied:</strong> You have reached the capacity of active packages. You must
+          <span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="m5 5 14 14"/></svg></span> <strong>All Trade-In Slots Occupied:</strong> You have reached the capacity of active packages. You must
           complete an existing 4-cycle package before opening a new slot for deposit.
         </div>
 
@@ -1212,7 +1305,7 @@
             <div
               style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-bottom:12px;padding-bottom:10px;border-bottom:1px solid var(--line);">
               <div style="display:flex;align-items:center;gap:6px;">
-                <span style="font-size:16px;">📲</span>
+                <span style="font-size:16px;"><span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="2" width="10" height="20" rx="2"/><path d="M11 18h2"/></svg></span></span>
                 <span class="tiny muted"
                   style="font-weight:800;text-transform:uppercase;letter-spacing:0.04em;color:var(--jade);">OFFICIAL
                   TREASURY PAYMENT CHANNEL:</span>
@@ -1227,7 +1320,7 @@
                   style="display:none;width:105px;height:105px;object-fit:contain;background:#fff;border-radius:10px;border:1.5px solid var(--line);padding:4px;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,0.08);"
                   title="Tap to zoom QR Code in full view" />
                 <button type="button" id="btnZoomActiveMopQr" class="btn btn-ghost btn-sm"
-                  style="display:none;width:100%;font-size:10px;padding:3px 6px;margin-top:5px;font-weight:700;">🔍 Zoom
+                  style="display:none;width:100%;font-size:10px;padding:3px 6px;margin-top:5px;font-weight:700;"><span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg></span> Zoom
                   QR</button>
               </div>
 
@@ -1237,8 +1330,10 @@
                     style="font-size:11px;padding:2px 8px;font-weight:800;background:var(--jade);color:#0c131c;">GCash</span>
                   <span id="mopActivePrimaryBadge" class="badge-tag tag-approved"
                     style="font-size:9.5px;padding:1px 6px;display:none;">
-                    <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor" stroke="none" style="vertical-align:text-bottom;">
-                      <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+                    <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor" stroke="none"
+                      style="vertical-align:text-bottom;">
+                      <polygon
+                        points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
                     </svg>
                     Official
                   </span>
@@ -1252,7 +1347,7 @@
                     <strong id="mopActiveAccountName" style="font-size:14px;color:var(--text);">Infinite Trading
                       Treasury</strong>
                     <button type="button" id="btnCopyMopName" class="btn btn-ghost btn-sm"
-                      style="padding:2px 8px;font-size:10.5px;">📋 Copy</button>
+                      style="padding:2px 8px;font-size:10.5px;"><span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="3" width="8" height="4" rx="1"/><path d="M8 5H6a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2"/></svg></span> Copy</button>
                   </div>
                 </div>
 
@@ -1264,7 +1359,7 @@
                     <code id="mopActiveAccountNumber"
                       style="font-size:14px;font-weight:800;color:var(--text);letter-spacing:0.03em;">0917 000 0000</code>
                     <button type="button" id="btnCopyMopNumber" class="btn btn-ghost btn-sm"
-                      style="padding:2px 8px;font-size:10.5px;">📋 Copy</button>
+                      style="padding:2px 8px;font-size:10.5px;"><span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="3" width="8" height="4" rx="1"/><path d="M8 5H6a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2"/></svg></span> Copy</button>
                   </div>
                 </div>
 
@@ -1322,7 +1417,7 @@
                   RECEIPT / SCREENSHOT *</label>
                 <div class="receipt-dropzone" id="tradeinReceiptDropzone">
                   <input type="file" id="tradeinReceiptInput" accept="image/*" style="display:none;" />
-                  <span class="receipt-drop-icon">🧾</span>
+                  <span class="receipt-drop-icon"><span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2h12v20l-2-1.5L14 22l-2-1.5L10 22l-2-1.5L6 22z"/><path d="M9 7h6"/><path d="M9 11h6"/><path d="M9 15h4"/></svg></span></span>
                   <p class="receipt-drop-title">Tap here to choose receipt screenshot</p>
                   <p class="receipt-drop-hint">PNG, JPG, JPEG, WEBP (Max 15MB)</p>
                 </div>
@@ -1332,13 +1427,13 @@
                     <p class="receipt-preview-filename" id="tradeinReceiptFileName">receipt.png</p>
                     <p class="receipt-preview-size" id="tradeinReceiptFileSize">0 KB</p>
                   </div>
-                  <button type="button" class="receipt-remove-btn" id="btnRemoveTradeinReceipt">✕ Remove</button>
+                  <button type="button" class="receipt-remove-btn" id="btnRemoveTradeinReceipt"><span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></span> Remove</button>
                 </div>
               </div>
 
               <button type="submit" class="btn btn-mint btn-sm" id="btnSubmitTradein"
                 style="width:100%;padding:12px;font-size:14px;font-weight:700;">
-                Deposit &amp; Submit Receipt ➔
+                Deposit &amp; Submit Receipt <span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></span>
               </button>
             </form>
           </fieldset>
@@ -1362,10 +1457,11 @@
       </header>
       <div class="plan-modal-body">
         <div id="withdrawalBlockedNotice" class="tradein-blocked-notice">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:text-bottom;margin-right:4px;">
-            <circle cx="12" cy="12" r="10"/>
-            <line x1="12" y1="8" x2="12" y2="12"/>
-            <line x1="12" y1="16" x2="12.01" y2="16"/>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round" style="vertical-align:text-bottom;margin-right:4px;">
+            <circle cx="12" cy="12" r="10" />
+            <line x1="12" y1="8" x2="12" y2="12" />
+            <line x1="12" y1="16" x2="12.01" y2="16" />
           </svg>
           Activate your account with a ₱399 code to enable wallet withdrawals.
         </div>
@@ -1411,7 +1507,7 @@
             </div>
             <button type="button" id="btnEditPayoutAccount" class="btn btn-ghost btn-sm"
               style="font-size:11.5px;padding:6px 14px;border-color:var(--jade);color:var(--jade);font-weight:700;">
-              <span id="btnEditPayoutAccountText">✎ Edit Mode of Payment</span>
+              <span id="btnEditPayoutAccountText"><span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg></span> Edit Mode of Payment</span>
             </button>
           </div>
 
@@ -1421,8 +1517,9 @@
             <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
               <p class="tiny"
                 style="font-weight:700;color:var(--jade);margin:0;text-transform:uppercase;letter-spacing:0.04em;">
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:text-bottom;margin-right:4px;">
-                  <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                  stroke-linecap="round" stroke-linejoin="round" style="vertical-align:text-bottom;margin-right:4px;">
+                  <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
                 </svg>
                 Select Payment Provider:
               </p>
@@ -1495,12 +1592,22 @@
         </div>
 
         <fieldset id="withdrawalFieldset" style="border:none;padding:0;margin:0;">
-          <div class="wd-cards-grid">
+          <div class="wd-slider">
+            <div class="wd-slider-nav">
+              <button type="button" class="wd-slider-btn" id="wdSlidePrev" aria-label="Previous wallet">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m15 6-6 6 6 6"/></svg>
+              </button>
+              <span class="wd-slider-label" id="wdSlideLabel">Binary Referral</span>
+              <button type="button" class="wd-slider-btn" id="wdSlideNext" aria-label="Next wallet">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></svg>
+              </button>
+            </div>
+          <div class="wd-cards-grid" id="wdCardsTrack">
             <!-- Wallet 1: Binary Referral -->
             <article class="wd-card theme-binary">
               <div class="wd-card-head">
                 <div class="wd-card-title-group">
-                  <span class="wd-icon-pill icon-binary">⇄</span>
+                  <span class="wd-icon-pill icon-binary"><span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m7 7 10 0"/><path d="m14 4 3 3-3 3"/><path d="M17 17H7"/><path d="m10 14-3 3 3 3"/></svg></span></span>
                   <div>
                     <span class="wd-card-label">Binary Referral</span>
                     <span class="wd-card-sub">Direct &amp; Pair Matching</span>
@@ -1528,7 +1635,7 @@
                 </div>
                 <button type="submit" class="wd-btn-cashout btn-theme-binary">
                   <span>Cash out</span>
-                  <span class="btn-arrow">➔</span>
+                  <span class="btn-arrow"><span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></span></span>
                 </button>
                 <div class="wd-fee-preview" id="feeBinary"></div>
                 <div class="wd-payout-alert" id="alertBinary">Payouts closed.</div>
@@ -1541,7 +1648,8 @@
                 <div class="wd-card-title-group">
                   <span class="wd-icon-pill icon-ref">
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" stroke="none">
-                      <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+                      <polygon
+                        points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
                     </svg>
                   </span>
                   <div>
@@ -1571,7 +1679,7 @@
                 </div>
                 <button type="submit" class="wd-btn-cashout btn-theme-ref">
                   <span>Cash out</span>
-                  <span class="btn-arrow">➔</span>
+                  <span class="btn-arrow"><span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></span></span>
                 </button>
                 <div class="wd-fee-preview" id="feeTradeRef"></div>
                 <div class="wd-payout-alert" id="alertTradeRef">Payouts closed.</div>
@@ -1583,8 +1691,9 @@
               <div class="wd-card-head">
                 <div class="wd-card-title-group">
                   <span class="wd-icon-pill icon-cycle">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                      <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                      stroke-linecap="round" stroke-linejoin="round">
+                      <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
                     </svg>
                   </span>
                   <div>
@@ -1614,7 +1723,7 @@
                 </div>
                 <button type="submit" class="wd-btn-cashout btn-theme-cycle">
                   <span>Cash out</span>
-                  <span class="btn-arrow">➔</span>
+                  <span class="btn-arrow"><span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></span></span>
                 </button>
                 <div class="wd-fee-preview" id="feeCycle"></div>
                 <div class="wd-payout-alert" id="alertCycle">Payouts closed.</div>
@@ -1626,12 +1735,13 @@
               <div class="wd-card-head">
                 <div class="wd-card-title-group">
                   <span class="wd-icon-pill icon-cashback">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                      <polyline points="20 12 20 22 4 22 4 12"/>
-                      <rect x="2" y="7" width="20" height="5"/>
-                      <line x1="12" y1="22" x2="12" y2="7"/>
-                      <path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/>
-                      <path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                      stroke-linecap="round" stroke-linejoin="round">
+                      <polyline points="20 12 20 22 4 22 4 12" />
+                      <rect x="2" y="7" width="20" height="5" />
+                      <line x1="12" y1="22" x2="12" y2="7" />
+                      <path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z" />
+                      <path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z" />
                     </svg>
                   </span>
                   <div>
@@ -1661,7 +1771,7 @@
                 </div>
                 <button type="submit" class="wd-btn-cashout btn-theme-cashback">
                   <span>Cash out</span>
-                  <span class="btn-arrow">➔</span>
+                  <span class="btn-arrow"><span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></span></span>
                 </button>
                 <div class="wd-fee-preview" id="feeCashback"></div>
                 <div class="wd-payout-alert" id="alertCashback">Payouts closed.</div>
@@ -1673,8 +1783,10 @@
               <div class="wd-card-head">
                 <div class="wd-card-title-group">
                   <span class="wd-icon-pill icon-binary">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                      <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                      stroke-linecap="round" stroke-linejoin="round">
+                      <path
+                        d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
                     </svg>
                   </span>
                   <div>
@@ -1704,12 +1816,13 @@
                 </div>
                 <button type="submit" class="wd-btn-cashout btn-theme-binary">
                   <span>Cash out</span>
-                  <span class="btn-arrow">➔</span>
+                  <span class="btn-arrow"><span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></span></span>
                 </button>
                 <div class="wd-fee-preview" id="feeProfitShare"></div>
                 <div class="wd-payout-alert" id="alertProfitShare">Payouts closed.</div>
               </form>
             </article>
+          </div>
           </div>
         </fieldset>
 
@@ -1725,21 +1838,25 @@
     <div class="plan-modal-sheet" style="max-width:560px;max-height:90vh;overflow-y:auto;">
       <header class="plan-modal-head" style="padding: 6px 16px 2px;">
         <div style="width:100%;text-align:center;">
-          <img src="/images/Welcome Privilege ₱100 Cashback.png" alt="Welcome Privilege" style="max-width:65%;height:auto;" />
+          <img src="/images/Welcome Privilege ₱100 Cashback.png" alt="Welcome Privilege"
+            style="max-width:65%;height:auto;" />
         </div>
-        <button class="plan-close" type="button" data-close-modal style="position:absolute;top:6px;right:12px;">×</button>
+        <button class="plan-close" type="button" data-close-modal
+          style="position:absolute;top:6px;right:12px;">×</button>
       </header>
       <div class="plan-modal-body">
 
         <!-- Privilege Notice Banner -->
         <div
           style="background:linear-gradient(135deg,rgba(46,213,158,0.14) 0%,rgba(15,122,69,0.18) 100%);border:1.5px solid rgba(46,213,158,0.35);border-radius:12px;padding:8px 10px;margin-bottom:12px;display:flex;align-items:flex-start;gap:8px;">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:var(--jade);flex-shrink:0;">
-            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
-            <polyline points="22 4 12 14.01 9 11.01"/>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round" style="color:var(--jade);flex-shrink:0;">
+            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+            <polyline points="22 4 12 14.01 9 11.01" />
           </svg>
           <div style="font-size:11px;color:var(--text);line-height:1.4;">
-            <strong>Exclusively for newly activated accounts!</strong> This privilege will appear just once for your account. Once claimed, it will no longer be visible so you cannot claim it again.
+            <strong>Exclusively for newly activated accounts!</strong> This privilege will appear just once for your
+            account. Once claimed, it will no longer be visible so you cannot claim it again.
           </div>
         </div>
 
@@ -1747,7 +1864,8 @@
 
           <!-- 1. Account Name Input -->
           <div style="margin-bottom:10px;">
-            <label class="tiny muted" style="display:block;font-weight:700;margin-bottom:4px;letter-spacing:0.02em;font-size:11px;">
+            <label class="tiny muted"
+              style="display:block;font-weight:700;margin-bottom:4px;letter-spacing:0.02em;font-size:11px;">
               1. ACCOUNT NAME *
             </label>
             <input type="text" id="claim100NameInput" class="in" placeholder="e.g. Juan Dela Cruz" required
@@ -1759,7 +1877,8 @@
 
           <!-- 2. Account Number Input -->
           <div style="margin-bottom:10px;">
-            <label class="tiny muted" style="display:block;font-weight:700;margin-bottom:4px;letter-spacing:0.02em;font-size:11px;">
+            <label class="tiny muted"
+              style="display:block;font-weight:700;margin-bottom:4px;letter-spacing:0.02em;font-size:11px;">
               2. ACCOUNT NUMBER *
             </label>
             <input type="text" id="claim100AccountInput" class="in" placeholder="e.g. IT123456789" required
@@ -1771,88 +1890,108 @@
 
           <!-- 3. Select Mode of Payment -->
           <div style="margin-bottom:12px;">
-            <label class="tiny muted" style="display:block;font-weight:700;margin-bottom:4px;letter-spacing:0.02em;font-size:11px;">
+            <label class="tiny muted"
+              style="display:block;font-weight:700;margin-bottom:4px;letter-spacing:0.02em;font-size:11px;">
               3. SELECT MODE OF PAYMENT *
             </label>
             <div id="claimPaymentGrid" style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;">
-              <label class="network-choice-card active" data-payment="GCash" style="flex-direction:column;align-items:center;justify-content:center;padding:16px;">
+              <label class="network-choice-card active" data-payment="GCash"
+                style="flex-direction:column;align-items:center;justify-content:center;padding:16px;">
                 <input type="radio" name="claimPayment" value="GCash" checked style="display:none;" />
                 <span class="network-choice-logo-wrap" style="display:flex;align-items:center;justify-content:center;">
-                  <img class="network-choice-logo" src="/images/GCash.png" alt="GCash" style="width:85px;height:85px;object-fit:contain;" />
+                  <img class="network-choice-logo" src="/images/GCash.png" alt="GCash"
+                    style="width:85px;height:85px;object-fit:contain;" />
                 </span>
                 <span style="font-size:12px;font-weight:600;margin-top:8px;">GCash</span>
               </label>
 
-              <label class="network-choice-card" data-payment="Maya" style="flex-direction:column;align-items:center;justify-content:center;padding:16px;">
+              <label class="network-choice-card" data-payment="Maya"
+                style="flex-direction:column;align-items:center;justify-content:center;padding:16px;">
                 <input type="radio" name="claimPayment" value="Maya" style="display:none;" />
                 <span class="network-choice-logo-wrap" style="display:flex;align-items:center;justify-content:center;">
-                  <img class="network-choice-logo" src="/images/Maya.png" alt="Maya" style="width:85px;height:85px;object-fit:contain;" />
+                  <img class="network-choice-logo" src="/images/Maya.png" alt="Maya"
+                    style="width:85px;height:85px;object-fit:contain;" />
                 </span>
                 <span style="font-size:12px;font-weight:600;margin-top:8px;">Maya</span>
               </label>
 
-              <label class="network-choice-card" data-payment="GoTyme" style="flex-direction:column;align-items:center;justify-content:center;padding:16px;">
+              <label class="network-choice-card" data-payment="GoTyme"
+                style="flex-direction:column;align-items:center;justify-content:center;padding:16px;">
                 <input type="radio" name="claimPayment" value="GoTyme" style="display:none;" />
                 <span class="network-choice-logo-wrap" style="display:flex;align-items:center;justify-content:center;">
-                  <img class="network-choice-logo" src="/images/Gotyme.png" alt="GoTyme" style="width:85px;height:85px;object-fit:contain;" />
+                  <img class="network-choice-logo" src="/images/Gotyme.png" alt="GoTyme"
+                    style="width:85px;height:85px;object-fit:contain;" />
                 </span>
                 <span style="font-size:12px;font-weight:600;margin-top:8px;">GoTyme</span>
               </label>
 
-              <label class="network-choice-card" data-payment="Maribank" style="flex-direction:column;align-items:center;justify-content:center;padding:16px;">
+              <label class="network-choice-card" data-payment="Maribank"
+                style="flex-direction:column;align-items:center;justify-content:center;padding:16px;">
                 <input type="radio" name="claimPayment" value="Maribank" style="display:none;" />
                 <span class="network-choice-logo-wrap" style="display:flex;align-items:center;justify-content:center;">
-                  <img class="network-choice-logo" src="/images/Maribank.png" alt="Maribank" style="width:85px;height:85px;object-fit:contain;" />
+                  <img class="network-choice-logo" src="/images/Maribank.png" alt="Maribank"
+                    style="width:85px;height:85px;object-fit:contain;" />
                 </span>
                 <span style="font-size:12px;font-weight:600;margin-top:8px;">Maribank</span>
               </label>
 
-              <label class="network-choice-card" data-payment="BDO" style="flex-direction:column;align-items:center;justify-content:center;padding:16px;">
+              <label class="network-choice-card" data-payment="BDO"
+                style="flex-direction:column;align-items:center;justify-content:center;padding:16px;">
                 <input type="radio" name="claimPayment" value="BDO" style="display:none;" />
                 <span class="network-choice-logo-wrap" style="display:flex;align-items:center;justify-content:center;">
-                  <img class="network-choice-logo" src="/images/BDO.svg" alt="BDO" style="width:85px;height:85px;object-fit:contain;" />
+                  <img class="network-choice-logo" src="/images/BDO.svg" alt="BDO"
+                    style="width:85px;height:85px;object-fit:contain;" />
                 </span>
                 <span style="font-size:12px;font-weight:600;margin-top:8px;">BDO</span>
               </label>
 
-              <label class="network-choice-card" data-payment="Other" style="flex-direction:column;align-items:center;justify-content:center;padding:16px;">
+              <label class="network-choice-card" data-payment="Other"
+                style="flex-direction:column;align-items:center;justify-content:center;padding:16px;">
                 <input type="radio" name="claimPayment" value="Other" style="display:none;" />
-                <span style="font-size:40px;">🏦</span>
+                <span style="font-size:40px;"><span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10h18"/><path d="m12 3 9 7H3z"/><path d="M5 10v8"/><path d="M10 10v8"/><path d="M14 10v8"/><path d="M19 10v8"/><path d="M3 18h18"/></svg></span></span>
                 <span style="font-size:12px;font-weight:600;margin-top:8px;">Other Bank</span>
               </label>
             </div>
 
             <!-- Other Bank Selection (shown when Other is selected) -->
             <div id="otherBankDropdown" style="display:none;margin-top:12px;">
-              <label class="tiny muted" style="display:block;font-weight:700;margin-bottom:6px;letter-spacing:0.02em;font-size:11px;">
+              <label class="tiny muted"
+                style="display:block;font-weight:700;margin-bottom:6px;letter-spacing:0.02em;font-size:11px;">
                 Select your bank:
               </label>
               <div id="otherBankGrid" style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;">
-                <label class="network-choice-card active" data-bank="BPI" style="flex-direction:column;align-items:center;justify-content:center;padding:12px;">
+                <label class="network-choice-card active" data-bank="BPI"
+                  style="flex-direction:column;align-items:center;justify-content:center;padding:12px;">
                   <input type="radio" name="otherBank" value="BPI" style="display:none;" />
                   <span style="font-size:20px;font-weight:700;">BPI</span>
                 </label>
-                <label class="network-choice-card" data-bank="UnionBank" style="flex-direction:column;align-items:center;justify-content:center;padding:12px;">
+                <label class="network-choice-card" data-bank="UnionBank"
+                  style="flex-direction:column;align-items:center;justify-content:center;padding:12px;">
                   <input type="radio" name="otherBank" value="UnionBank" style="display:none;" />
                   <span style="font-size:20px;font-weight:700;">UnionBank</span>
                 </label>
-                <label class="network-choice-card" data-bank="PNB" style="flex-direction:column;align-items:center;justify-content:center;padding:12px;">
+                <label class="network-choice-card" data-bank="PNB"
+                  style="flex-direction:column;align-items:center;justify-content:center;padding:12px;">
                   <input type="radio" name="otherBank" value="PNB" style="display:none;" />
                   <span style="font-size:20px;font-weight:700;">PNB</span>
                 </label>
-                <label class="network-choice-card" data-bank="Landbank" style="flex-direction:column;align-items:center;justify-content:center;padding:12px;">
+                <label class="network-choice-card" data-bank="Landbank"
+                  style="flex-direction:column;align-items:center;justify-content:center;padding:12px;">
                   <input type="radio" name="otherBank" value="Landbank" style="display:none;" />
                   <span style="font-size:20px;font-weight:700;">Landbank</span>
                 </label>
-                <label class="network-choice-card" data-bank="China Bank" style="flex-direction:column;align-items:center;justify-content:center;padding:12px;">
+                <label class="network-choice-card" data-bank="China Bank"
+                  style="flex-direction:column;align-items:center;justify-content:center;padding:12px;">
                   <input type="radio" name="otherBank" value="China Bank" style="display:none;" />
                   <span style="font-size:20px;font-weight:700;">China Bank</span>
                 </label>
-                <label class="network-choice-card" data-bank="Metrobank" style="flex-direction:column;align-items:center;justify-content:center;padding:12px;">
+                <label class="network-choice-card" data-bank="Metrobank"
+                  style="flex-direction:column;align-items:center;justify-content:center;padding:12px;">
                   <input type="radio" name="otherBank" value="Metrobank" style="display:none;" />
                   <span style="font-size:20px;font-weight:700;">Metrobank</span>
                 </label>
-                <label class="network-choice-card" data-bank="RCBC" style="flex-direction:column;align-items:center;justify-content:center;padding:12px;">
+                <label class="network-choice-card" data-bank="RCBC"
+                  style="flex-direction:column;align-items:center;justify-content:center;padding:12px;">
                   <input type="radio" name="otherBank" value="RCBC" style="display:none;" />
                   <span style="font-size:20px;font-weight:700;">RCBC</span>
                 </label>
@@ -1862,7 +2001,7 @@
 
           <button type="submit" class="btn btn-mint" id="btnSubmitClaim100Cashback"
             style="width:100%;font-size:15px;font-weight:800;padding:13px;border-radius:10px;box-shadow:0 4px 16px rgba(46,213,158,0.35);">
-            Claim 100 Cashback ➔
+            Claim 100 Cashback <span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></span>
           </button>
         </form>
 
@@ -1910,28 +2049,31 @@
         </div>
 
         <div class="earnings-filter-bar" id="earningsFilterBar">
-          <button type="button" class="earnings-filter-btn active" data-cat="all">🌐 All Records</button>
-          <button type="button" class="earnings-filter-btn" data-cat="referral">🎯 Direct Referral</button>
-          <button type="button" class="earnings-filter-btn" data-cat="indirect">👥 Indirect</button>
+          <button type="button" class="earnings-filter-btn active" data-cat="all"><span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3a14 14 0 0 1 0 18"/><path d="M12 3a14 14 0 0 0 0 18"/></svg></span> All Records</button>
+          <button type="button" class="earnings-filter-btn" data-cat="referral"><span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="4"/><circle cx="12" cy="12" r="1"/></svg></span> Direct Referral</button>
+          <button type="button" class="earnings-filter-btn" data-cat="indirect"><span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="3"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></span> Indirect</button>
           <button type="button" class="earnings-filter-btn" data-cat="matching">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:text-bottom;margin-right:4px;">
-              <path d="M12 3v6"/>
-              <path d="M14 10h-4"/>
-              <path d="M5 20a7 7 0 0 1 14 0"/>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round" style="vertical-align:text-bottom;margin-right:4px;">
+              <path d="M12 3v6" />
+              <path d="M14 10h-4" />
+              <path d="M5 20a7 7 0 0 1 14 0" />
             </svg>
             Matching
           </button>
           <button type="button" class="earnings-filter-btn" data-cat="tradein_referral">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:text-bottom;margin-right:4px;">
-              <polyline points="23 4 23 10 17 10"/>
-              <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round" style="vertical-align:text-bottom;margin-right:4px;">
+              <polyline points="23 4 23 10 17 10" />
+              <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10" />
             </svg>
             Trade-In Ref
           </button>
           <button type="button" class="earnings-filter-btn" data-cat="tradein_earnings">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:text-bottom;margin-right:4px;">
-              <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/>
-              <polyline points="17 6 23 6 23 12"/>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round" style="vertical-align:text-bottom;margin-right:4px;">
+              <polyline points="23 6 13.5 15.5 8.5 10.5 1 18" />
+              <polyline points="17 6 23 6 23 12" />
             </svg>
             Trade-In Yield
           </button>
@@ -1969,9 +2111,10 @@
         <div>
           <p class="kicker">Account Security</p>
           <h2 style="font-size:22px;margin:2px 0 0;">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:text-bottom;margin-right:6px;">
-              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
-              <circle cx="12" cy="7" r="4"/>
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round" style="vertical-align:text-bottom;margin-right:6px;">
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+              <circle cx="12" cy="7" r="4" />
             </svg>
             Member Profile
           </h2>
@@ -1982,21 +2125,21 @@
         <div
           style="background:var(--bg2);border:1px solid var(--line);border-radius:14px;padding:14px 16px;margin-bottom:16px;">
           <div style="display:flex;align-items:center;gap:12px;">
-            <div
-              id="profilePictureContainer"
-              style="width:64px;height:64px;min-width:64px;min-height:64px;border-radius:50%;background:transparent;border:none;display:flex;align-items:center;justify-content:center;font-size:28px;overflow:hidden;position:relative;cursor:pointer;"
+            <button type="button" id="profilePictureContainer" title="Change profile photo"
+              aria-label="Change profile photo"
+              style="width:64px;height:64px;min-width:64px;min-height:64px;border-radius:50%;background:transparent;border:none;padding:0;display:flex;align-items:center;justify-content:center;font-size:28px;overflow:hidden;position:relative;cursor:pointer;"
               onclick="document.getElementById('profilePictureInput').click()">
-              <img id="profilePictureDisplay" src="" alt="" style="width:100%;height:100%;min-width:100%;min-height:100%;object-fit:cover;display:none;" />
-              <span id="profilePicturePlaceholder" style="font-size:28px;">👤</span>
-              <div style="position:absolute;bottom:0;right:0;width:28px;height:28px;background:var(--jade);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;color:#fff;border:3px solid var(--bg2);box-shadow:0 2px 8px rgba(0,0,0,0.2);">📷</div>
-            </div>
+              <img id="profilePictureDisplay" src="" alt=""
+                style="width:100%;height:100%;min-width:100%;min-height:100%;object-fit:cover;display:none;" />
+              <span id="profilePicturePlaceholder" style="font-size:28px;"><span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21a8 8 0 0 0-16 0"/><circle cx="12" cy="7" r="4"/></svg></span></span>
+            </button>
             <div style="flex:1;">
               <div style="font-weight:800;font-size:16px;color:var(--text);" id="profUsernameDisplay">—</div>
               <div class="tiny muted" id="profMobileDisplay">—</div>
               <div style="margin-top:4px;"><span class="badge-tag tag-active" id="profStatusBadge">Active Account</span>
               </div>
-              <input type="file" id="profilePictureInput" accept="image/*" style="display:none;" onchange="handleProfilePictureUpload(this)" />
-              <div class="tiny muted" style="margin-top:8px;font-size:11px;font-weight:600;color:var(--jade);">📷 Click image to upload (Max 3MB)</div>
+              <input type="file" id="profilePictureInput" accept="image/*" style="display:none;"
+                onchange="handleProfilePictureUpload(this)" />
             </div>
           </div>
         </div>
@@ -2024,7 +2167,7 @@
           </div>
           <button type="submit" class="btn btn-mint" id="btnSubmitUserPwd"
             style="width:100%;font-weight:800;padding:12px;font-size:13.5px;box-shadow:0 4px 16px rgba(46,213,158,0.3);">
-            Update Password ➔
+            Update Password <span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></span>
           </button>
         </form>
       </div>
@@ -2039,8 +2182,10 @@
         <div>
           <p class="kicker">Dividend Pool &amp; Community Shares</p>
           <h2>
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:text-bottom;margin-right:6px;">
-              <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round" style="vertical-align:text-bottom;margin-right:6px;">
+              <path
+                d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
             </svg>
             Profit Sharing Wallet
           </h2>
@@ -2061,7 +2206,7 @@
             <div style="margin-top:6px;">
               <button type="button" class="btn btn-mint btn-sm" id="btnPsCashout"
                 style="padding:4px 12px;font-size:11px;font-weight:800;">
-                Cash out Balance ➔
+                Cash out Balance <span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></span>
               </button>
             </div>
           </div>
@@ -2207,10 +2352,11 @@
     <div class="modal-confirm-card" role="dialog" aria-modal="true">
       <div class="confirm-head">
         <div class="confirm-icon-circle" id="confirmModalIcon">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="12" cy="12" r="10"/>
-            <line x1="12" y1="8" x2="12" y2="12"/>
-            <line x1="12" y1="16" x2="12.01" y2="16"/>
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10" />
+            <line x1="12" y1="8" x2="12" y2="12" />
+            <line x1="12" y1="16" x2="12.01" y2="16" />
           </svg>
         </div>
         <div>
@@ -2237,7 +2383,7 @@
     <div class="receipt-lightbox-card">
       <div class="receipt-lightbox-head">
         <div style="display:flex;align-items:center;gap:8px;">
-          <span>🧾</span>
+          <span><span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2h12v20l-2-1.5L14 22l-2-1.5L10 22l-2-1.5L6 22z"/><path d="M9 7h6"/><path d="M9 11h6"/><path d="M9 15h4"/></svg></span></span>
           <strong id="receiptLightboxTitle" style="font-size:14px;">Receipt Inspection</strong>
         </div>
         <button type="button" class="plan-close" id="btnCloseReceiptLightbox"
@@ -2283,7 +2429,7 @@
         await navigator.clipboard.writeText(v);
         toast('Referral link copied to clipboard!', true);
         const prevText = btn.textContent;
-        btn.textContent = 'Copied! ✓';
+        btn.innerHTML = 'Copied! <span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m20 6-11 11L4 12"/></svg></span>';
         btn.style.color = 'var(--jade)';
         setTimeout(() => {
           btn.textContent = prevText;
@@ -2310,7 +2456,7 @@
         const amt = Number(inp.value);
         if (!amt || amt < 100) { prev.innerHTML = ''; prev.classList.remove('ready'); return; }
         const f = calcFee(amt);
-        prev.innerHTML = `<span style="font-weight:700;">Fee ${Math.round(f.rate * 100)}% (₱${f.fee.toFixed(2)})</span> ➔ You receive: <strong style="color:var(--jade);font-size:12px;">₱${f.net.toFixed(2)}</strong>`;
+        prev.innerHTML = `<span style="font-weight:700;">Fee ${Math.round(f.rate * 100)}% (₱${f.fee.toFixed(2)})</span> <span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></span> You receive: <strong style="color:var(--jade);font-size:12px;">₱${f.net.toFixed(2)}</strong>`;
         prev.classList.add('ready');
       });
     }
@@ -2342,7 +2488,7 @@
     document.getElementById('whoWrapper')?.addEventListener('click', () => {
       openModal('modalUserProfile');
       loadProfilePicture();
-      
+
       // Populate user details
       const u = dashboardData?.user;
       if (u) {
@@ -2395,7 +2541,7 @@
       } catch (err) {
         toast(err.message || 'Error updating password.');
       } finally {
-        if (btn) { btn.disabled = false; btn.textContent = 'Update Password ➔'; }
+        if (btn) { btn.disabled = false; btn.innerHTML = 'Update Password <span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></span>'; }
       }
     });
 
@@ -2433,7 +2579,7 @@
                 <td><strong>${esc(q.username)}</strong></td>
                 <td style="text-align:right;">
                   <span class="badge-tag tag-available" style="font-size:11px;font-weight:800;">
-                    ⭐ ${q.shares} ${q.shares === 1 ? 'Share' : 'Shares'}
+                    <span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3 2.7 5.5L21 9.2l-4.5 4.4L17.5 20 12 17l-5.5 3 1-6.4L3 9.2l6.3-.7z"/></svg></span> ${q.shares} ${q.shares === 1 ? 'Share' : 'Shares'}
                   </span>
                 </td>
               </tr>
@@ -2664,14 +2810,14 @@
         accountRow.style.cssText = 'display:flex;align-items:center;gap:8px;font-size:12.5px;flex-wrap:wrap;';
         accountRow.innerHTML = `
           <div><span class="tiny muted">Account No:</span> <strong style="letter-spacing:0.04em;color:var(--text);">${esc(method.account_number)}</strong></div>
-          <button type="button" class="btn btn-ghost btn-sm" style="font-size:10px;padding:2px 8px;border-radius:6px;border:1px solid var(--line);" title="Copy account number">📋 Copy</button>
+          <button type="button" class="btn btn-ghost btn-sm" style="font-size:10px;padding:2px 8px;border-radius:6px;border:1px solid var(--line);" title="Copy account number"><span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="3" width="8" height="4" rx="1"/><path d="M8 5H6a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2"/></svg></span> Copy</button>
         `;
         const copyBtn = accountRow.querySelector('button');
         copyBtn.onclick = () => {
           navigator.clipboard.writeText(method.account_number).then(() => {
-            copyBtn.textContent = '✓ Copied';
-            setTimeout(() => { copyBtn.textContent = '📋 Copy'; }, 2000);
-          }).catch(() => {});
+            copyBtn.innerHTML = '<span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m20 6-11 11L4 12"/></svg></span> Copied';
+            setTimeout(() => { copyBtn.innerHTML = '<span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="3" width="8" height="4" rx="1"/><path d="M8 5H6a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2"/></svg></span> Copy'; }, 2000);
+          }).catch(() => { });
         };
         info.appendChild(accountRow);
       }
@@ -2927,7 +3073,7 @@
         const res = await fetch(url, { headers });
         if (!res.ok) {
           const err = await res.json().catch(() => ({}));
-          container.innerHTML = `<div style="padding:28px;text-align:center;color:#ef4444;font-size:13px;font-weight:600;">⚠ ${esc(err.error || 'Failed to load tree.')}</div>`;
+          container.innerHTML = `<div style="padding:28px;text-align:center;color:#ef4444;font-size:13px;font-weight:600;"><span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9v4"/><path d="M12 17h.01"/><path d="m10.3 4.3-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.7-2.7l-8-14a2 2 0 0 0-3.4 0z"/></svg></span> ${esc(err.error || 'Failed to load tree.')}</div>`;
           return;
         }
         const data = await res.json();
@@ -2974,14 +3120,14 @@
         // Render Breadcrumbs
         if (breadcrumbsEl) {
           if (cachedAncestors.length <= 1) {
-            breadcrumbsEl.innerHTML = `<span class="crumb active">🏠 Root (${esc(data.user.mobile_number || data.user.mobile)})</span>`;
+            breadcrumbsEl.innerHTML = `<span class="crumb active"><span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 11 9-8 9 8"/><path d="M5 10v10h14V10"/></svg></span> Root (${esc(data.user.mobile_number || data.user.mobile)})</span>`;
           } else {
             breadcrumbsEl.innerHTML = cachedAncestors.map((anc, idx) => {
               const isLast = idx === cachedAncestors.length - 1;
               if (isLast) {
-                return `<span class="crumb active">👤 ${esc(anc.mobile || anc.mobile_number)}</span>`;
+                return `<span class="crumb active"><span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21a8 8 0 0 0-16 0"/><circle cx="12" cy="7" r="4"/></svg></span> ${esc(anc.mobile || anc.mobile_number)}</span>`;
               }
-              return `<button type="button" class="crumb-btn" data-tree-user="${anc.id}">${idx === 0 ? '🏠 ' : ''}${esc(anc.mobile || anc.mobile_number)}</button><span class="crumb-sep">›</span>`;
+              return `<button type="button" class="crumb-btn" data-tree-user="${anc.id}">${idx === 0 ? '<span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 11 9-8 9 8"/><path d="M5 10v10h14V10"/></svg></span> ' : ''}${esc(anc.mobile || anc.mobile_number)}</button><span class="crumb-sep">›</span>`;
             }).join('');
           }
         }
@@ -3029,14 +3175,14 @@
                 <div class="tree-grandchild-connector"></div>
                 <div class="tree-grandchild-node ${node.status === 'active' ? 'active-slot' : 'inactive-slot'} clickable-drill" data-tree-target="${node.id}" title="Click to explore subtree of ${esc(node.mobile || node.mobile_number)}">
                   <span class="pill ${pos === 'L' ? 'open' : ''}" style="font-size:7.5px;padding:1px 5px;margin-bottom:2px;">${pos === 'L' ? 'LEFT ◀' : 'RIGHT ▶'}</span>
-                  <p class="grandchild-mob" style="cursor:pointer;">👤 ${esc(node.mobile || node.mobile_number)}</p>
+                  <p class="grandchild-mob" style="cursor:pointer;"><span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21a8 8 0 0 0-16 0"/><circle cx="12" cy="7" r="4"/></svg></span> ${esc(node.mobile || node.mobile_number)}</p>
                   <span class="pill ${node.status === 'active' ? 'open' : 'closed'}" style="font-size:8px;padding:1px 5px;">${esc(node.status)}</span>
                   <div class="grandchild-stats">
                     <span>L: <strong>${node.left_count}</strong></span>
                     <span>R: <strong>${node.right_count}</strong></span>
                   </div>
                   <button type="button" class="btn-drilldown-node clickable-drill" data-tree-target="${node.id}" title="Explore ${esc(node.mobile || node.mobile_number)} subtree" style="font-size:8.5px;padding:2px 8px;margin-top:4px;">
-                    <span>Explore</span> ➔
+                    <span>Explore</span> <span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></span>
                   </button>
                   ${l4Row}
                 </div>
@@ -3061,14 +3207,14 @@
                 <div class="tree-branch-top-connector"></div>
                 <div class="tree-node child-node ${child.status === 'active' ? 'active-member' : 'inactive-member'}">
                   <span class="pill ${posKey === 'L' ? 'open' : ''}" style="font-size:8.5px;padding:1px 6px;margin-bottom:3px;">${posLabel}</span>
-                  <p class="tree-node-name clickable-drill" data-tree-target="${child.id}" style="cursor:pointer;" title="Click to drill down">👤 ${esc(child.mobile || child.mobile_number)}</p>
+                  <p class="tree-node-name clickable-drill" data-tree-target="${child.id}" style="cursor:pointer;" title="Click to drill down"><span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21a8 8 0 0 0-16 0"/><circle cx="12" cy="7" r="4"/></svg></span> ${esc(child.mobile || child.mobile_number)}</p>
                   <span class="pill ${child.status === 'active' ? 'open' : 'closed'}" style="font-size:8.5px;padding:1px 6px;">${esc(child.status)}</span>
                   <div class="tree-node-counts">
                     <span>L: <strong>${child.left_count}</strong></span>
                     <span>R: <strong>${child.right_count}</strong></span>
                   </div>
                   <button type="button" class="btn-drilldown-node clickable-drill" data-tree-target="${child.id}" title="Drill down to ${esc(child.mobile || child.mobile_number)}">
-                    <span>Explore</span> ➔
+                    <span>Explore</span> <span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></span>
                   </button>
                 </div>
 
@@ -3096,8 +3242,8 @@
           <!-- Level 1: Root Focal Node -->
           <div class="tree-root-wrapper">
             <div class="tree-node root-node" style="border-color:var(--gold);background:var(--card-bg);box-shadow:0 6px 20px rgba(180,130,20,0.15);">
-              <span class="pill" style="font-size:9px;background:rgba(245,166,35,0.18);color:#fbbf24;border:1px solid rgba(245,166,35,0.35);margin-bottom:2px;font-weight:700;">★ FOCUS NODE</span>
-              <p class="tree-node-name" style="font-size:14px;">👤 ${esc(root.mobile || root.mobile_number)}</p>
+              <span class="pill" style="font-size:9px;background:rgba(245,166,35,0.18);color:#fbbf24;border:1px solid rgba(245,166,35,0.35);margin-bottom:2px;font-weight:700;"><span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3 2.7 5.5L21 9.2l-4.5 4.4L17.5 20 12 17l-5.5 3 1-6.4L3 9.2l6.3-.7z"/></svg></span> FOCUS NODE</span>
+              <p class="tree-node-name" style="font-size:14px;"><span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21a8 8 0 0 0-16 0"/><circle cx="12" cy="7" r="4"/></svg></span> ${esc(root.mobile || root.mobile_number)}</p>
               <span class="pill ${root.status === 'active' ? 'open' : 'closed'}">${esc(root.status)}</span>
               <div class="tree-node-counts">
                 <span>Left: <strong>${root.left_count}</strong></span>
@@ -3192,7 +3338,7 @@
           ? availableList.map((code) => `
               <div class="code-vault-card">
                 <div style="display:flex;align-items:center;gap:10px;">
-                  <span style="font-size:18px;">🔑</span>
+                  <span style="font-size:18px;"><span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="15" r="4"/><path d="m11 15 9-9"/><path d="m16 6 3 3"/><path d="m18 8 2 2"/></svg></span></span>
                   <div>
                     <div style="display:flex;align-items:center;gap:6px;">
                       <code class="code-val-text">${esc(code.code)}</code>
@@ -3211,7 +3357,7 @@
           ? usedList.map((code) => `
               <div class="code-vault-card used-card">
                 <div style="display:flex;align-items:center;gap:10px;">
-                  <span style="font-size:18px;opacity:0.5;">🧾</span>
+                  <span style="font-size:18px;opacity:0.5;"><span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2h12v20l-2-1.5L14 22l-2-1.5L10 22l-2-1.5L6 22z"/><path d="M9 7h6"/><path d="M9 11h6"/><path d="M9 15h4"/></svg></span></span>
                   <div>
                     <code class="code-val-text used-text">${esc(code.code)}</code>
                     ${code.used_by_mobile ? `<p class="tiny muted" style="margin:2px 0 0;">Used by: <strong>${esc(code.used_by_mobile)}</strong></p>` : ''}
@@ -3229,13 +3375,13 @@
           try {
             await navigator.clipboard.writeText(code);
             const original = button.textContent;
-            button.textContent = '✓ Copied!';
+            button.innerHTML = '<span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m20 6-11 11L4 12"/></svg></span> Copied!';
             button.classList.add('copied');
             setTimeout(() => {
               button.textContent = original;
               button.classList.remove('copied');
             }, 1800);
-            toast('✓ Copied code ' + code + ' to clipboard!', true);
+            toast('<span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m20 6-11 11L4 12"/></svg></span> Copied code ' + code + ' to clipboard!', true);
           } catch {
             toast('Copy failed.');
           }
@@ -3363,11 +3509,11 @@
       }
 
       if (isInactive) {
-        document.getElementById('tradeinBlockedNotice').textContent = '⚠ Activate your account with a ₱399 code to access Trade-In packages.';
+        document.getElementById('tradeinBlockedNotice').innerHTML = '<span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9v4"/><path d="M12 17h.01"/><path d="m10.3 4.3-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.7-2.7l-8-14a2 2 0 0 0-3.4 0z"/></svg></span> Activate your account with a ₱399 code to access Trade-In packages.';
         document.getElementById('tradeinBlockedNotice').classList.add('show');
         document.getElementById('tradeinFieldset').disabled = true;
         if (wdNotice) {
-          wdNotice.textContent = '⚠ Activate your account with a ₱399 code to enable wallet cashouts.';
+          wdNotice.innerHTML = '<span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9v4"/><path d="M12 17h.01"/><path d="m10.3 4.3-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.7-2.7l-8-14a2 2 0 0 0-3.4 0z"/></svg></span> Activate your account with a ₱399 code to enable wallet cashouts.';
           wdNotice.classList.add('show');
         }
         if (wdFieldset) wdFieldset.disabled = true;
@@ -3381,11 +3527,11 @@
           spInitial.textContent = letter;
         }
       } else if (isExpired) {
-        document.getElementById('tradeinBlockedNotice').textContent = '⚠ Your account is expired. Renew with a ₱399 code to access Trade-In.';
+        document.getElementById('tradeinBlockedNotice').innerHTML = '<span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9v4"/><path d="M12 17h.01"/><path d="m10.3 4.3-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.7-2.7l-8-14a2 2 0 0 0-3.4 0z"/></svg></span> Your account is expired. Renew with a ₱399 code to access Trade-In.';
         document.getElementById('tradeinBlockedNotice').classList.add('show');
         document.getElementById('tradeinFieldset').disabled = true;
         if (wdNotice) {
-          wdNotice.textContent = '⚠ Your account is expired. Renew with a ₱399 code to enable wallet cashouts.';
+          wdNotice.innerHTML = '<span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9v4"/><path d="M12 17h.01"/><path d="m10.3 4.3-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.7-2.7l-8-14a2 2 0 0 0-3.4 0z"/></svg></span> Your account is expired. Renew with a ₱399 code to enable wallet cashouts.';
           wdNotice.classList.add('show');
         }
         if (wdFieldset) wdFieldset.disabled = true;
@@ -3517,7 +3663,7 @@
       document.getElementById('tbodyDirects').innerHTML = d.directs.length
         ? d.directs.map(x => {
           const encodeBtn = x.status !== 'active'
-            ? `<button type="button" class="btn btn-mint btn-sm" data-encode-direct="${esc(x.mobile_number)}" style="font-size:10px;padding:3px 8px;margin-left:6px;white-space:nowrap;">⚡ Encode</button>`
+            ? `<button type="button" class="btn btn-mint btn-sm" data-encode-direct="${esc(x.mobile_number)}" style="font-size:10px;padding:3px 8px;margin-left:6px;white-space:nowrap;"><span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 3 14h9l-1 8 10-12h-9l1-8z"/></svg></span> Encode</button>`
             : '';
           const posBadge = x.position
             ? `<span class="pill ${x.position === 'L' ? 'open' : ''}">${x.position === 'L' ? 'LEFT' : 'RIGHT'}</span>`
@@ -3539,7 +3685,7 @@
         mobileDirectsEl.innerHTML = d.directs.length
           ? d.directs.map(x => {
             const encodeBtn = x.status !== 'active'
-              ? `<button type="button" class="btn btn-mint btn-sm" data-encode-direct="${esc(x.mobile_number)}" style="font-size:11px;padding:5px 10px;white-space:nowrap;">⚡ Encode</button>`
+              ? `<button type="button" class="btn btn-mint btn-sm" data-encode-direct="${esc(x.mobile_number)}" style="font-size:11px;padding:5px 10px;white-space:nowrap;"><span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 3 14h9l-1 8 10-12h-9l1-8z"/></svg></span> Encode</button>`
               : '';
             const posBadge = x.position
               ? `<span class="pill ${x.position === 'L' ? 'open' : ''}">${x.position === 'L' ? 'LEFT' : 'RIGHT'}</span>`
@@ -3651,10 +3797,10 @@
       if (btnDeposit) {
         btnDeposit.disabled = slots.available === 0;
         if (slots.available === 0) {
-          btnDeposit.textContent = '⛔ All Slots Full (Complete a Cycle First)';
+          btnDeposit.innerHTML = '<span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="m5 5 14 14"/></svg></span> All Slots Full (Complete a Cycle First)';
           btnDeposit.style.opacity = '0.6';
         } else {
-          btnDeposit.textContent = 'Deposit & Submit Receipt ➔';
+          btnDeposit.innerHTML = 'Deposit & Submit Receipt <span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></span>';
           btnDeposit.style.opacity = '1';
         }
       }
@@ -3677,8 +3823,8 @@
             const badgeClass = isClaimable ? 'slot-badge slot-badge-claim' : isPending ? 'slot-badge slot-badge-pending' : 'slot-badge slot-badge-active';
             const isRolloverSlot = Boolean(pkg.is_rollover || pkg.rolled_from_package_id);
             const badgeText = isRolloverSlot
-              ? (isPending ? '🔁 ROLLOVER PENDING' : '🔁 ROLLOVER')
-              : isClaimable ? '🎁 CLAIM READY' : isPending ? '⏳ PENDING' : `CYCLE ${(pkg.payouts_completed || 0) + 1}/4`;
+              ? (isPending ? '<span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-2.6-6.3L21 8"/><path d="M21 3v5h-5"/></svg></span> ROLLOVER PENDING' : '<span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-2.6-6.3L21 8"/><path d="M21 3v5h-5"/></svg></span> ROLLOVER')
+              : isClaimable ? '<span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="8" width="18" height="4"/><path d="M12 8v13"/><path d="M5 12v8h14v-8"/><path d="M12 8c-2-3-5-3-5 0s5 0 5 0 5 0 5 0-3-3-5 0z"/></svg></span> CLAIM READY' : isPending ? '⏳ PENDING' : `CYCLE ${(pkg.payouts_completed || 0) + 1}/4`;
 
             slotsHtml += `
               <div class="${cardClass}">
@@ -3727,17 +3873,17 @@
 
           const isRolloverPkg = Boolean(p.is_rollover || p.rolled_from_package_id);
           const rolloverLabel = isRolloverPkg
-            ? `<span class="badge-tag tag-rollover">🔁 Rollover</span>`
+            ? `<span class="badge-tag tag-rollover"><span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-2.6-6.3L21 8"/><path d="M21 3v5h-5"/></svg></span> Rollover</span>`
             : '';
           const statusClass = isActive ? (ci.can_claim ? 'badge-tag tag-maya' : 'open') : isCompleted ? 'open' : isPending ? 'badge-tag tag-available' : 'closed';
           const statusLabel = isPending
             ? (isRolloverPkg ? '⏳ Rollover Pending Approval' : '⏳ Pending Verification')
             : isActive
-              ? (ci.can_claim ? '🎁 Payout Ready to Claim' : `Active · Cycle ${(p.payouts_completed || 0) + 1}/4`)
-              : isCompleted ? '✓ Completed' : '✕ Rejected';
+              ? (ci.can_claim ? '<span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="8" width="18" height="4"/><path d="M12 8v13"/><path d="M5 12v8h14v-8"/><path d="M12 8c-2-3-5-3-5 0s5 0 5 0 5 0 5 0-3-3-5 0z"/></svg></span> Payout Ready to Claim' : `Active · Cycle ${(p.payouts_completed || 0) + 1}/4`)
+              : isCompleted ? '<span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m20 6-11 11L4 12"/></svg></span> Completed' : '<span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></span> Rejected';
 
           const receiptBtn = (p.receipt_image || p.receipt_url)
-            ? `<button type="button" class="receipt-view-btn" data-tradein-receipt-pkg="${p.id}" style="margin-top:6px;">🧾 View Receipt</button>`
+            ? `<button type="button" class="receipt-view-btn" data-tradein-receipt-pkg="${p.id}" style="margin-top:6px;"><span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2h12v20l-2-1.5L14 22l-2-1.5L10 22l-2-1.5L6 22z"/><path d="M9 7h6"/><path d="M9 11h6"/><path d="M9 15h4"/></svg></span> View Receipt</button>`
             : '';
 
           const methodTag = p.payment_method ? `<span class="badge-tag tag-available" style="font-size:9.5px;padding:2px 6px;margin-left:4px;">${esc(p.payment_method)}</span>` : '';
@@ -3753,7 +3899,7 @@
             const isDone = (p.payouts_completed || 0) >= idx;
             const isReady = !isDone && (ci.can_claim && ((p.payouts_completed || 0) + 1 === idx));
             const nodeCls = isDone ? 'milestone-node m-done' : isReady ? 'milestone-node m-claimable' : 'milestone-node m-pending';
-            const dotSymbol = isDone ? '✓' : isReady ? '★' : idx;
+            const dotSymbol = isDone ? '<span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m20 6-11 11L4 12"/></svg></span>' : isReady ? '<span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3 2.7 5.5L21 9.2l-4.5 4.4L17.5 20 12 17l-5.5 3 1-6.4L3 9.2l6.3-.7z"/></svg></span>' : idx;
             const lbl = isDone ? 'Claimed' : isReady ? 'Ready!' : 'Pending';
             return `
                     <div class="${nodeCls}">
@@ -3775,11 +3921,11 @@
               actionHtml = `
                   <div style="margin-top:12px;padding-top:12px;border-top:1px dashed rgba(15,122,69,0.25);">
                     <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;">
-                      <span class="badge-tag tag-rollover">🔁 Rollover Submitted</span>
+                      <span class="badge-tag tag-rollover"><span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-2.6-6.3L21 8"/><path d="M21 3v5h-5"/></svg></span> Rollover Submitted</span>
                       <span class="pill" style="font-weight:700;font-size:11px;background:rgba(245,166,35,0.16);color:#fbbf24;">Waiting for admin approval</span>
                     </div>
                     <div class="tradein-paused-alert">
-                      <span>⏸️ Cycle 4 claim stays locked until admin approves your <strong>Rollover</strong> of <strong>${peso(rolloverAmt)}</strong> in Trade-In.</span>
+                      <span>⏸ Cycle 4 claim stays locked until admin approves your <strong>Rollover</strong> of <strong>${peso(rolloverAmt)}</strong> in Trade-In.</span>
                     </div>
                   </div>
                 `;
@@ -3787,14 +3933,14 @@
               actionHtml = `
                   <div style="margin-top:12px;padding-top:12px;border-top:1px dashed rgba(15,122,69,0.25);">
                     <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-bottom:10px;">
-                      <span class="badge-tag tag-rollover">🔁 Rollover Required</span>
+                      <span class="badge-tag tag-rollover"><span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-2.6-6.3L21 8"/><path d="M21 3v5h-5"/></svg></span> Rollover Required</span>
                       <span class="pill" style="font-weight:700;font-size:11px;background:rgba(245,166,35,0.16);color:#fbbf24;">Cycle 4 claim locked</span>
                     </div>
                     <div class="tradein-paused-alert" style="margin-bottom:10px;">
-                      <span>⏸️ Pay again to open a <strong>new entry</strong> of <strong>${peso(rolloverAmt)}</strong> in a <strong>new slot</strong>. Cycle 4 (${peso(ci.installment_amount || 0)}) unlocks after admin approval. When that new entry reaches Cycle 4, you roll over again.</span>
+                      <span>⏸ Pay again to open a <strong>new entry</strong> of <strong>${peso(rolloverAmt)}</strong> in a <strong>new slot</strong>. Cycle 4 (${peso(ci.installment_amount || 0)}) unlocks after admin approval. When that new entry reaches Cycle 4, you roll over again.</span>
                     </div>
                     ${slots.available === 0
-                  ? `<div class="tradein-paused-alert" style="margin-bottom:10px;"><span>⛔ All slots are full. Free a slot before submitting this rollover as a new entry.</span></div>`
+                  ? `<div class="tradein-paused-alert" style="margin-bottom:10px;"><span><span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="m5 5 14 14"/></svg></span> All slots are full. Free a slot before submitting this rollover as a new entry.</span></div>`
                   : ''}
                     <div class="rollover-submit-box">
                       <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px;">
@@ -3816,7 +3962,7 @@
                       <label class="tiny muted" style="display:block;font-weight:700;margin-bottom:4px;">ATTACH ROLLOVER RECEIPT *</label>
                       <div class="receipt-dropzone rollover-dropzone" data-rollover-pkg="${p.id}">
                         <input type="file" class="rollover-receipt-input" data-rollover-pkg="${p.id}" accept="image/*" style="display:none;" />
-                        <span class="receipt-drop-icon">🧾</span>
+                        <span class="receipt-drop-icon"><span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2h12v20l-2-1.5L14 22l-2-1.5L10 22l-2-1.5L6 22z"/><path d="M9 7h6"/><path d="M9 11h6"/><path d="M9 15h4"/></svg></span></span>
                         <p class="receipt-drop-title">Tap to upload rollover receipt</p>
                         <p class="receipt-drop-hint">PNG, JPG, JPEG, WEBP (Max 15MB)</p>
                       </div>
@@ -3826,10 +3972,10 @@
                           <p class="receipt-preview-filename rollover-preview-name">receipt.png</p>
                           <p class="receipt-preview-size rollover-preview-size">0 KB</p>
                         </div>
-                        <button type="button" class="receipt-remove-btn rollover-receipt-remove" data-rollover-pkg="${p.id}">✕ Remove</button>
+                        <button type="button" class="receipt-remove-btn rollover-receipt-remove" data-rollover-pkg="${p.id}"><span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></span> Remove</button>
                       </div>
                       <button type="button" class="tradein-claim-btn-glowing tradein-rollover-btn" data-rollover-pkg="${p.id}" data-rollover-amt="${rolloverAmt}" ${slots.available === 0 ? 'disabled' : ''} style="width:100%;justify-content:center;margin-top:10px;${slots.available === 0 ? 'opacity:0.55;cursor:not-allowed;' : ''}">
-                        ${slots.available === 0 ? '⛔ No Open Slot for New Entry' : `🔁 Submit Rollover (${peso(rolloverAmt)}) ➔`}
+                        ${slots.available === 0 ? '<span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="m5 5 14 14"/></svg></span> No Open Slot for New Entry' : `<span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-2.6-6.3L21 8"/><path d="M21 3v5h-5"/></svg></span> Submit Rollover (${peso(rolloverAmt)}) <span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></span>`}
                       </button>
                     </div>
                   </div>
@@ -3839,14 +3985,14 @@
                   <div style="margin-top:12px;padding-top:12px;border-top:1px dashed rgba(15,122,69,0.25);">
                     <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;">
                       <button type="button" class="tradein-claim-btn-glowing tradein-claim-btn" data-claim-pkg="${p.id}" data-claim-amt="${ci.claimable_amount}" data-claim-count="${ci.claimable_payouts}">
-                        🎁 Claim Cycle ${(p.payouts_completed || 0) + 1} Payout (${peso(ci.claimable_amount)}) ➔
+                        <span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="8" width="18" height="4"/><path d="M12 8v13"/><path d="M5 12v8h14v-8"/><path d="M12 8c-2-3-5-3-5 0s5 0 5 0 5 0 5 0-3-3-5 0z"/></svg></span> Claim Cycle ${(p.payouts_completed || 0) + 1} Payout (${peso(ci.claimable_amount)}) <span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></span>
                       </button>
-                      <span class="pill open" style="font-weight:700;font-size:11px;">Matured: 3 Days Complete ✓</span>
+                      <span class="pill open" style="font-weight:700;font-size:11px;">Matured: 3 Days Complete <span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m20 6-11 11L4 12"/></svg></span></span>
                     </div>
                     <div class="tradein-paused-alert">
                       ${(p.payouts_completed || 0) === 3
-                  ? `<span>✨ <strong>Cycle 4 (Final Cycle):</strong> Rollover approved. Claim <strong>${peso(ci.claimable_amount)}</strong> now.</span>`
-                  : `<span>⏸️ <strong>Action Required:</strong> Cycle ${(p.payouts_completed || 0) + 2 <= 4 ? (p.payouts_completed || 0) + 2 : ''} countdown is <strong>PAUSED</strong> until you claim. Claim now to receive <strong>${peso(ci.claimable_amount)}</strong> into your cashout wallet and start the next 3-day cycle!</span>`
+                  ? `<span><span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v4"/><path d="M12 17v4"/><path d="M3 12h4"/><path d="M17 12h4"/><path d="m5.6 5.6 2.8 2.8"/><path d="m15.6 15.6 2.8 2.8"/><path d="m18.4 5.6-2.8 2.8"/><path d="m8.4 15.6-2.8 2.8"/></svg></span> <strong>Cycle 4 (Final Cycle):</strong> Rollover approved. Claim <strong>${peso(ci.claimable_amount)}</strong> now.</span>`
+                  : `<span>⏸ <strong>Action Required:</strong> Cycle ${(p.payouts_completed || 0) + 2 <= 4 ? (p.payouts_completed || 0) + 2 : ''} countdown is <strong>PAUSED</strong> until you claim. Claim now to receive <strong>${peso(ci.claimable_amount)}</strong> into your cashout wallet and start the next 3-day cycle!</span>`
                 }
                     </div>
                   </div>
@@ -3861,7 +4007,7 @@
             } else {
               actionHtml = `
                   <div style="margin-top:8px;padding-top:8px;border-top:1px dashed rgba(15,122,69,0.2);display:flex;align-items:center;justify-content:space-between;">
-                    <span class="pill open" style="font-size:10px;">All 4 Cycles Claimed ✓</span>
+                    <span class="pill open" style="font-size:10px;">All 4 Cycles Claimed <span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m20 6-11 11L4 12"/></svg></span></span>
                     <span class="tiny muted">Slot has been freed for a new package</span>
                   </div>
                 `;
@@ -3874,7 +4020,7 @@
                   <div>
                     <div style="display:flex;align-items:center;gap:4px;flex-wrap:wrap;">
                       <strong style="font-size:15px;color:var(--text);">${peso(p.capital)}</strong>
-                      <span style="color:var(--muted);font-size:12px;">➔</span>
+                      <span style="color:var(--muted);font-size:12px;"><span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></span></span>
                       <span style="color:var(--jade);font-weight:800;font-size:15px;">${peso(p.total_return)}</span>
                       ${methodTag}
                       ${rolloverLabel}
@@ -3917,14 +4063,14 @@
           showConfirmPopup({
             title: 'Claim Trade-In Payout',
             subtitle: 'Transfer your matured trade-in earnings directly into your cashout wallet and begin the next cycle countdown.',
-            icon: '🎁',
+            icon: '<span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="8" width="18" height="4"/><path d="M12 8v13"/><path d="M5 12v8h14v-8"/><path d="M12 8c-2-3-5-3-5 0s5 0 5 0 5 0 5 0-3-3-5 0z"/></svg></span>',
             details: [
               { label: 'Package ID', val: '#' + pkgId },
               { label: 'Claim Amount', val: peso(claimAmt), highlight: true },
               { label: 'Target Wallet', val: 'Trade-In Cycle Profit Wallet' },
               { label: 'Next Action', val: 'Starts countdown for next 3-day cycle' }
             ],
-            confirmText: 'Confirm & Claim ➔',
+            confirmText: 'Confirm & Claim <span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></span>',
             confirmClass: 'btn-mint',
             onConfirm: async () => {
               btn.disabled = true;
@@ -3936,13 +4082,13 @@
                   toast(data.error || 'Claim failed.');
                   return;
                 }
-                toast(`🎉 Claimed ${peso(data.claimed_amount)} successfully! Credited to your Cycle Profit wallet.`, true);
+                toast(`<span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20 14 10"/><path d="m9 6 1 2"/><path d="m14 4 1 2"/><path d="m18 8 2 1"/><path d="M14 10 20 4"/><path d="m4 20 6-2 8-8-4-4L6 14z"/></svg></span> Claimed ${peso(data.claimed_amount)} successfully! Credited to your Cycle Profit wallet.`, true);
                 load();
               } catch (err) {
                 toast(err.message || 'Claiming error.');
               } finally {
                 btn.disabled = false;
-                btn.textContent = `🎁 Claim Payout (${peso(claimAmt)})`;
+                btn.innerHTML = `<span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="8" width="18" height="4"/><path d="M12 8v13"/><path d="M5 12v8h14v-8"/><path d="M12 8c-2-3-5-3-5 0s5 0 5 0 5 0 5 0-3-3-5 0z"/></svg></span> Claim Payout (${peso(claimAmt)})`;
               }
             }
           });
@@ -4020,16 +4166,16 @@
           showConfirmPopup({
             title: 'Submit Capital Rollover',
             subtitle: 'This is a new paid Trade-In entry. It occupies a new slot. Cycle 4 claim unlocks only after admin approval.',
-            icon: '🔁',
+            icon: '<span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-2.6-6.3L21 8"/><path d="M21 3v5h-5"/></svg></span>',
             details: [
-              { label: 'Type', val: '🔁 Rollover · New Entry' },
+              { label: 'Type', val: '<span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-2.6-6.3L21 8"/><path d="M21 3v5h-5"/></svg></span> Rollover · New Entry' },
               { label: 'Source Package', val: '#' + pkgId },
               { label: 'New Entry Capital', val: peso(rollAmt), highlight: true },
               { label: 'Slot', val: 'Occupies a new Trade-In slot' },
               { label: 'Payment Method', val: methodEl ? methodEl.value : 'GCash' },
               { label: 'Ref Number', val: refEl && refEl.value.trim() ? refEl.value.trim() : '—' }
             ],
-            confirmText: 'Submit for Approval ➔',
+            confirmText: 'Submit for Approval <span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></span>',
             confirmClass: 'btn-mint',
             onConfirm: async () => {
               btn.disabled = true;
@@ -4049,13 +4195,13 @@
                   toast(data.error || 'Rollover failed.');
                   return;
                 }
-                toast(`🔁 Rollover of ${peso(data.rolled_capital)} submitted. Cycle 4 claim unlocks after admin approval.`, true);
+                toast(`<span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-2.6-6.3L21 8"/><path d="M21 3v5h-5"/></svg></span> Rollover of ${peso(data.rolled_capital)} submitted. Cycle 4 claim unlocks after admin approval.`, true);
                 load();
               } catch (err) {
                 toast(err.message || 'Rollover error.');
               } finally {
                 btn.disabled = false;
-                btn.textContent = `🔁 Submit Rollover (${peso(rollAmt)}) ➔`;
+                btn.innerHTML = `<span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-2.6-6.3L21 8"/><path d="M21 3v5h-5"/></svg></span> Submit Rollover (${peso(rollAmt)}) <span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></span>`;
               }
             }
           });
@@ -4118,7 +4264,7 @@
         pIcon.innerHTML = getPayoutImg(mName, 42);
         pName.textContent = currentPayoutAccount.account_name || 'Bound Account';
         pNum.textContent = currentPayoutAccount.account_number || '';
-        pBtnText.textContent = '✎ Edit Account';
+        pBtnText.innerHTML = '<span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg></span> Edit Account';
         pCard.style.borderColor = 'rgba(15, 122, 69, 0.35)';
 
         // Pre-select active tile and fill inputs
@@ -4128,7 +4274,7 @@
       } else {
         pBadge.className = 'badge-tag tag-rejected';
         pBadge.textContent = 'Unbound';
-        pIcon.innerHTML = '<span style="font-size:28px;">💳</span>';
+        pIcon.innerHTML = '<span style="font-size:28px;"><span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg></span></span>';
         pName.textContent = 'No Account Bound';
         pNum.textContent = 'Bind to withdraw';
         pBtnText.textContent = '+ Bind Payout Account';
@@ -4139,7 +4285,14 @@
       // Render Withdrawals List
       document.getElementById('withdrawalsList').innerHTML = d.withdrawals.length
         ? d.withdrawals.map(w => {
-          const walletLabel = w.wallet_type === 'binary_ref' ? 'Binary Ref' : w.wallet_type === 'tradein_ref' ? 'Trade-In Ref' : w.wallet_type === 'cashback' ? 'Cashback' : 'Cycle Yield';
+          const walletLabels = {
+            binary_ref: 'Binary Ref',
+            tradein_ref: 'Trade-In Ref',
+            tradein_cycle: 'Cycle Yield',
+            profit_sharing: 'Profit Sharing',
+            cashback: 'Cashback',
+          };
+          const walletLabel = walletLabels[w.wallet_type] || 'Wallet';
           const iconImg = getPayoutImg(w.payout_method, 28);
           const mTag = w.payout_method ? `<span class="badge-tag tag-available" style="font-size:9.5px;padding:2px 6px;margin-left:4px;">${esc(w.payout_method)}</span>` : '';
           const accInfo = w.account_number ? `<span class="tiny muted" style="margin-left:4px;">(${esc(w.account_number)})</span>` : '';
@@ -4171,6 +4324,32 @@
 
       // Render Genealogy Tree
       fetchAndRenderTree(currentTreeUserId);
+      openRequestedDeskView();
+    }
+
+    let deskViewHandled = false;
+    function openRequestedDeskView() {
+      if (deskViewHandled) return;
+      deskViewHandled = true;
+      const view = new URLSearchParams(location.search).get('view');
+      if (!view) return;
+      const openers = {
+        'direct-referral': () => openModal('modalDirectRef'),
+        'indirect-referral': () => openModal('modalIndirectRef'),
+        genealogy: () => openModal('modalGenealogy'),
+        'code-vault': () => openUserCodeVault('available'),
+        'trade-in': () => openModal('modalTradein'),
+        withdrawal: () => openModal('modalWithdrawal'),
+        earnings: () => {
+          openModal('modalEarningsHistory');
+          loadEarningsHistory('all');
+        },
+        'profit-sharing': () => {
+          openModal('modalProfitSharing');
+          loadUserProfitSharing();
+        },
+      };
+      if (openers[view]) openers[view]();
     }
 
     // ==========================================
@@ -4362,7 +4541,7 @@
             toast(data.error || 'Failed to save payout account. Please try again.');
             return;
           }
-          toast('✓ Payout account successfully bound (' + esc(body.method) + ')!', true);
+          toast('<span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m20 6-11 11L4 12"/></svg></span> Payout account successfully bound (' + esc(body.method) + ')!', true);
           formPayout.style.display = 'none';
           load();
         } catch (err) {
@@ -4413,7 +4592,7 @@
           btnEncR.style.background = 'rgba(46, 213, 158, 0.16)';
           btnEncR.style.color = 'var(--jade)';
           btnEncR.style.boxShadow = '0 0 0 3px rgba(46, 213, 158, 0.2)';
-          btnEncR.innerHTML = '✔ RIGHT LEG ▶';
+          btnEncR.innerHTML = '<span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m20 6-11 11L4 12"/></svg></span> RIGHT LEG ▶';
         }
         if (btnEncL) {
           btnEncL.classList.remove('active');
@@ -4435,7 +4614,7 @@
           btnEncL.style.background = 'rgba(46, 213, 158, 0.16)';
           btnEncL.style.color = 'var(--jade)';
           btnEncL.style.boxShadow = '0 0 0 3px rgba(46, 213, 158, 0.2)';
-          btnEncL.innerHTML = '✔ ◀ LEFT LEG';
+          btnEncL.innerHTML = '<span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m20 6-11 11L4 12"/></svg></span> ◀ LEFT LEG';
         }
         if (btnEncR) {
           btnEncR.classList.remove('active');
@@ -4473,13 +4652,13 @@
         btnModeExist?.classList.remove('active');
         if (panelNew) panelNew.style.display = 'block';
         if (panelExist) panelExist.style.display = 'none';
-        if (btnSubmitEncode) btnSubmitEncode.textContent = '⚡ Create & Place in Tree ➔';
+        if (btnSubmitEncode) btnSubmitEncode.innerHTML = '<span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 3 14h9l-1 8 10-12h-9l1-8z"/></svg></span> Create & Place in Tree <span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></span>';
       } else {
         btnModeExist?.classList.add('active');
         btnModeNew?.classList.remove('active');
         if (panelNew) panelNew.style.display = 'none';
         if (panelExist) panelExist.style.display = 'block';
-        if (btnSubmitEncode) btnSubmitEncode.textContent = 'Confirm & Place in Tree ➔';
+        if (btnSubmitEncode) btnSubmitEncode.innerHTML = 'Confirm & Place in Tree <span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></span>';
       }
     }
 
@@ -4536,8 +4715,8 @@
       const notice = document.getElementById('encodeCodeNotice');
       if (notice) {
         notice.innerHTML = avail.length > 0
-          ? `✅ <strong>${avail.length} code(s) in your vault.</strong> Auto-selected <code>${(codeInp && codeInp.value) || avail[0].code}</code>. Click 'Pick from My Vault' to change.`
-          : '⚠️ Walang activation code sa iyong vault. Mag-request o bumili ng code sa Admin.';
+          ? `<span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="m8 12 3 3 5-6"/></svg></span> <strong>${avail.length} code(s) in your vault.</strong> Auto-selected <code>${(codeInp && codeInp.value) || avail[0].code}</code>. Click 'Pick from My Vault' to change.`
+          : '<span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9v4"/><path d="M12 17h.01"/><path d="m10.3 4.3-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.7-2.7l-8-14a2 2 0 0 0-3.4 0z"/></svg></span> Walang activation code sa iyong vault. Mag-request o bumili ng code sa Admin.';
       }
       const errBanner = document.getElementById('encodeErrorBanner');
       if (errBanner) {
@@ -4570,7 +4749,7 @@
         if (confirm(summary || title)) { if (typeof onConfirm === 'function') onConfirm(); }
         return;
       }
-      document.getElementById('confirmModalIcon').textContent = icon || '⚠️';
+      document.getElementById('confirmModalIcon').innerHTML = icon || '<span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9v4"/><path d="M12 17h.01"/><path d="m10.3 4.3-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.7-2.7l-8-14a2 2 0 0 0-3.4 0z"/></svg></span>';
       document.getElementById('confirmModalTitle').textContent = title || 'Confirm Action';
       document.getElementById('confirmModalSubtitle').textContent = subtitle || 'Please review the details below before proceeding.';
 
@@ -4660,6 +4839,18 @@
     // ==========================================
     // GENEALOGY TOOLBAR & SEARCH WIRING
     // ==========================================
+    const btnActivateDirect = document.getElementById('btnActivateDirectFast');
+    if (btnActivateDirect) {
+      btnActivateDirect.onclick = () => {
+        const pending = ((dashboardData && dashboardData.directs) || []).find((member) => member.status !== 'active');
+        const myTree = (dashboardData && dashboardData.tree) || {};
+        const suggestedPos = (myTree.left_child || myTree.left_node) ? 'R' : 'L';
+        openEncodeDownlineModal(pending
+          ? { member_mobile: pending.mobile_number, position: suggestedPos }
+          : { position: suggestedPos });
+      };
+    }
+
     const btnResetTree = document.getElementById('btnGenealogyReset');
     if (btnResetTree) btnResetTree.onclick = () => fetchAndRenderTree(null);
 
@@ -4749,16 +4940,16 @@
         }
 
         const catBadges = {
-          referral: { label: 'Direct Ref', class: 'badge-referral', icon: '🎯' },
-          indirect: { label: 'Indirect Ref', class: 'badge-indirect', icon: '👥' },
-          matching: { label: 'Matching Pair', class: 'badge-matching', icon: '⚖' },
-          safety_net: { label: 'Safety Net', class: 'badge-indirect', icon: '🛡' },
-          tradein_referral: { label: 'Trade-In Ref', class: 'badge-tradein-ref', icon: '🔄' },
-          tradein_earnings: { label: 'Trade-In Yield', class: 'badge-tradein-yield', icon: '📈' },
+          referral: { label: 'Direct Ref', class: 'badge-referral', icon: '<span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="4"/><circle cx="12" cy="12" r="1"/></svg></span>' },
+          indirect: { label: 'Indirect Ref', class: 'badge-indirect', icon: '<span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="3"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></span>' },
+          matching: { label: 'Matching Pair', class: 'badge-matching', icon: '<span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v18"/><path d="M3 7h18"/><path d="m5 7 3 7H2z"/><path d="m19 7 3 7h-6z"/></svg></span>' },
+          safety_net: { label: 'Safety Net', class: 'badge-indirect', icon: '<span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 5 6v6c0 4 3 6.5 7 8 4-1.5 7-4 7-8V6z"/></svg></span>' },
+          tradein_referral: { label: 'Trade-In Ref', class: 'badge-tradein-ref', icon: '<span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-2.6-6.3L21 8"/><path d="M21 3v5h-5"/></svg></span>' },
+          tradein_earnings: { label: 'Trade-In Yield', class: 'badge-tradein-yield', icon: '<span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 17 6-6 4 4 8-8"/><path d="M14 7h7v7"/></svg></span>' },
         };
 
         listEl.innerHTML = data.records.map(rec => {
-          const b = catBadges[rec.category] || { label: rec.category, class: 'badge-referral', icon: '💰' };
+          const b = catBadges[rec.category] || { label: rec.category, class: 'badge-referral', icon: '<span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="6" rx="8" ry="3"/><path d="M4 6v6c0 1.7 3.6 3 8 3s8-1.3 8-3V6"/><path d="M4 12v6c0 1.7 3.6 3 8 3s8-1.3 8-3v-6"/></svg></span>' };
           return `
             <div class="earning-history-card" style="background:var(--card-bg);border:1px solid var(--line);border-radius:10px;padding:10px 12px;margin-bottom:8px;display:flex;justify-content:space-between;align-items:center;gap:10px;">
               <div style="display:flex;flex-direction:column;gap:3px;">
@@ -4988,17 +5179,17 @@
         const placement_parent_id = document.getElementById('encodePlacementParentId') ? document.getElementById('encodePlacementParentId').value.trim() : '';
         const inPosEl = document.getElementById('encodePositionHidden');
         const position = (inPosEl && inPosEl.value === 'R') ? 'R' : 'L';
-        const legLabel = position === 'R' ? '👉 RIGHT LEG ▶' : '👈 LEFT LEG ◀';
+        const legLabel = position === 'R' ? '<span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></svg></span> RIGHT LEG ▶' : '<span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 6-6 6 6 6"/></svg></span> LEFT LEG ◀';
 
         const confirmDetails = mode === 'new' ? [
-          { label: 'Action', val: '⚡ Register & Place New Account', highlight: true },
+          { label: 'Action', val: '<span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 3 14h9l-1 8 10-12h-9l1-8z"/></svg></span> Register & Place New Account', highlight: true },
           { label: 'New Username', val: member_username, highlight: true },
           { label: 'Password', val: password },
           { label: 'Activation Code', val: code },
           { label: 'Placement Upline', val: placement_mobile ? `${placement_mobile}${placement_parent_id ? ` (ID: #${placement_parent_id})` : ''}` : 'Direct / Sponsor' },
           { label: 'Binary Leg', val: legLabel, highlight: true }
         ] : [
-          { label: 'Action', val: '👤 Activate Existing Member', highlight: true },
+          { label: 'Action', val: '<span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21a8 8 0 0 0-16 0"/><circle cx="12" cy="7" r="4"/></svg></span> Activate Existing Member', highlight: true },
           { label: 'Member Username', val: member_username, highlight: true },
           { label: 'Activation Code', val: code },
           { label: 'Placement Upline', val: placement_mobile ? `${placement_mobile}${placement_parent_id ? ` (ID: #${placement_parent_id})` : ''}` : 'Direct / Sponsor' },
@@ -5008,9 +5199,9 @@
         showConfirmPopup({
           title: mode === 'new' ? 'Confirm Account Creation & Placement' : 'Confirm Downline Placement',
           subtitle: 'Verify details before encoding and locking into the binary network tree.',
-          icon: '🌳',
+          icon: '<span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22v-6"/><path d="M7 16h10l-2-4h3L12 3 6 12h3z"/></svg></span>',
           details: confirmDetails,
-          confirmText: mode === 'new' ? 'Create & Place ➔' : 'Activate & Place ➔',
+          confirmText: mode === 'new' ? 'Create & Place <span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></span>' : 'Activate & Place <span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></span>',
           confirmClass: 'btn-mint',
           onConfirm: async () => {
             const btnSubmit = document.getElementById('btnSubmitEncode');
@@ -5035,7 +5226,7 @@
                 const errMsg = data.error || 'Encoding failed.';
                 const errBanner = document.getElementById('encodeErrorBanner');
                 if (errBanner) {
-                  errBanner.textContent = '⚠️ ' + errMsg;
+                  errBanner.innerHTML = '<span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9v4"/><path d="M12 17h.01"/><path d="m10.3 4.3-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.7-2.7l-8-14a2 2 0 0 0-3.4 0z"/></svg></span> ' + errMsg;
                   errBanner.style.display = 'block';
                   errBanner.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
                 }
@@ -5046,7 +5237,7 @@
               if (errBanner) errBanner.style.display = 'none';
               const legText = data.placement && data.placement.position === 'R' ? 'RIGHT' : 'LEFT';
               const parentText = data.placement ? (data.placement.parent_mobile || data.placement.parent_username) : 'Upline';
-              toast(`🎉 Success! Member ${data.user.username || data.user.mobile_number} placed on ${legText} leg under ${parentText}!`, true);
+              toast(`<span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20 14 10"/><path d="m9 6 1 2"/><path d="m14 4 1 2"/><path d="m18 8 2 1"/><path d="M14 10 20 4"/><path d="m4 20 6-2 8-8-4-4L6 14z"/></svg></span> Success! Member ${data.user.username || data.user.mobile_number} placed on ${legText} leg under ${parentText}!`, true);
               formEnc.reset();
               closeModal('modalEncodeDownline');
               await load();
@@ -5056,13 +5247,13 @@
               const errMsg = err.message || 'Encoding failed.';
               const errBanner = document.getElementById('encodeErrorBanner');
               if (errBanner) {
-                errBanner.textContent = '⚠️ ' + errMsg;
+                errBanner.innerHTML = '<span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9v4"/><path d="M12 17h.01"/><path d="m10.3 4.3-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.7-2.7l-8-14a2 2 0 0 0-3.4 0z"/></svg></span> ' + errMsg;
                 errBanner.style.display = 'block';
               }
               toast(errMsg);
             } finally {
               btnSubmit.disabled = false;
-              btnSubmit.textContent = mode === 'new' ? '⚡ Create & Place in Tree ➔' : 'Confirm & Place in Tree ➔';
+              btnSubmit.innerHTML = mode === 'new' ? '<span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 3 14h9l-1 8 10-12h-9l1-8z"/></svg></span> Create & Place in Tree <span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></span>' : 'Confirm & Place in Tree <span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></span>';
             }
           }
         });
@@ -5082,11 +5273,11 @@
       showConfirmPopup({
         title: 'Confirm Account Renewal',
         subtitle: 'Reopen your ₱3,000 binary referral earning cap with a ₱399 renewal code.',
-        icon: '🔄',
+        icon: '<span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-2.6-6.3L21 8"/><path d="M21 3v5h-5"/></svg></span>',
         details: [
           { label: 'Renewal Code', val: code, highlight: true }
         ],
-        confirmText: 'Renew Account ➔',
+        confirmText: 'Renew Account <span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></span>',
         confirmClass: 'btn-mint',
         onConfirm: async () => {
           const res = await fetch('/api/account/renew', { method: 'POST', headers, body: JSON.stringify({ code }) });
@@ -5107,14 +5298,14 @@
       const ref_number = document.getElementById('tradeinRefNumber').value.trim();
 
       if (!currentTradeinReceipt || !currentTradeinReceipt.base64) {
-        toast('⚠ Please attach your payment receipt screenshot.');
+        toast('<span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9v4"/><path d="M12 17h.01"/><path d="m10.3 4.3-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.7-2.7l-8-14a2 2 0 0 0-3.4 0z"/></svg></span> Please attach your payment receipt screenshot.');
         return;
       }
 
       showConfirmPopup({
         title: 'Confirm Trade-In Deposit',
         subtitle: 'Verify your investment package and attached payment proof.',
-        icon: '📈',
+        icon: '<span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 17 6-6 4 4 8-8"/><path d="M14 7h7v7"/></svg></span>',
         details: [
           { label: 'Capital Amount', val: peso(capital), highlight: true },
           { label: 'Total Return', val: peso(capital * 1.2) + ' (120% in 12 days)' },
@@ -5123,7 +5314,7 @@
           { label: 'Ref / Trx #', val: ref_number || 'N/A' },
           { label: 'Receipt Proof', val: currentTradeinReceipt.name + ' (' + currentTradeinReceipt.size + ')' }
         ],
-        confirmText: 'Submit Deposit Request ➔',
+        confirmText: 'Submit Deposit Request <span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></span>',
         confirmClass: 'btn-mint',
         onConfirm: async () => {
           const btnSubmit = document.getElementById('btnSubmitTradein');
@@ -5142,7 +5333,7 @@
             });
             const data = await res.json();
             if (!res.ok) { toast(data.error || 'Purchase failed.'); return; }
-            toast('🎉 Trade-in submitted! Your deposit is pending admin receipt verification.', true);
+            toast('<span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20 14 10"/><path d="m9 6 1 2"/><path d="m14 4 1 2"/><path d="m18 8 2 1"/><path d="M14 10 20 4"/><path d="m4 20 6-2 8-8-4-4L6 14z"/></svg></span> Trade-in submitted! Your deposit is pending admin receipt verification.', true);
             document.getElementById('tradeinDepositForm').reset();
             btnRemoveReceipt?.click();
             closeModal('modalTradein');
@@ -5151,7 +5342,7 @@
             toast(err.message || 'Deposit submission failed.');
           } finally {
             btnSubmit.disabled = false;
-            btnSubmit.textContent = 'Deposit & Submit Receipt ➔';
+            btnSubmit.innerHTML = 'Deposit & Submit Receipt <span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></span>';
           }
         }
       });
@@ -5164,7 +5355,7 @@
         if (!payoutsOpen) { toast('Payouts are currently closed by admin. Please try again later.'); return; }
 
         if (!currentPayoutAccount || !currentPayoutAccount.method || !currentPayoutAccount.account_number) {
-          toast('⚠ Please bind your payout account (GCash, Maya, GoTyme, MariBank, or UB) first before withdrawing.');
+          toast('<span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9v4"/><path d="M12 17h.01"/><path d="m10.3 4.3-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.7-2.7l-8-14a2 2 0 0 0-3.4 0z"/></svg></span> Please bind your payout account (GCash, Maya, GoTyme, MariBank, or UB) first before withdrawing.');
           if (formPayout) {
             formPayout.style.display = 'block';
             document.getElementById('inputPayoutName').focus();
@@ -5180,7 +5371,7 @@
         showConfirmPopup({
           title: 'Confirm Cashout Request',
           subtitle: 'Review withdrawal amount and payout destination.',
-          icon: '💸',
+          icon: '<span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="12" rx="2"/><circle cx="12" cy="12" r="2"/><path d="M6 10v.01"/><path d="M18 14v.01"/></svg></span>',
           details: [
             { label: 'Source Wallet', val: walletLabel },
             { label: 'Gross Amount', val: peso(amount), highlight: true },
@@ -5188,14 +5379,14 @@
             { label: 'Net to Receive', val: peso(feeInfo.net), highlight: true },
             { label: 'Destination', val: `${currentPayoutAccount.method} · ${currentPayoutAccount.account_name} (${currentPayoutAccount.account_number})` }
           ],
-          confirmText: 'Authorize Cashout ➔',
+          confirmText: 'Authorize Cashout <span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></span>',
           confirmClass: 'btn-mint',
           onConfirm: async () => {
             try {
               const res = await fetch('/api/withdraw/' + wallet, { method: 'POST', headers, body: JSON.stringify({ amount }) });
               const data = await res.json();
               if (!res.ok) { toast(data.error || 'Withdrawal failed.'); return; }
-              toast('✓ Withdrawal submitted: ' + peso(data.withdrawal.net_amount) + ' ➔ ' + esc(data.withdrawal.payout_method) + ' (' + esc(data.withdrawal.account_number) + ')', true);
+              toast('<span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m20 6-11 11L4 12"/></svg></span> Withdrawal submitted: ' + peso(data.withdrawal.net_amount) + ' <span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></span> ' + esc(data.withdrawal.payout_method) + ' (' + esc(data.withdrawal.account_number) + ')', true);
               form.reset();
               const feeBox = form.querySelector('.wd-fee-preview') || form.parentElement.querySelector('.fee-preview') || form.querySelector('.fee-preview');
               if (feeBox) {
@@ -5211,22 +5402,38 @@
       });
     });
 
-    // TradingView Widget (symbol label inside iframe cannot be renamed — branded overlay covers it)
-    try {
-      new TradingView.widget({
-        autosize: true,
-        symbol: 'BINANCE:BTCUSDT',
-        interval: '60',
-        timezone: 'Asia/Manila',
-        theme: 'light',
-        style: '1',
-        locale: 'en',
-        container_id: 'tvchart',
-        allow_symbol_change: false,
-        hide_legend: true,
-        save_image: false,
-      });
-    } catch (e) { }
+    // TradingView — load only when chart enters viewport (saves main-thread + scroll cost)
+    function mountTradingViewChart() {
+      if (window.__itTvChartMounted) return;
+      window.__itTvChartMounted = true;
+      try {
+        new TradingView.widget({
+          autosize: true,
+          symbol: 'BINANCE:BTCUSDT',
+          interval: '60',
+          timezone: 'Asia/Manila',
+          theme: 'light',
+          style: '1',
+          locale: 'en',
+          container_id: 'tvchart',
+          allow_symbol_change: false,
+          hide_legend: true,
+          save_image: false,
+        });
+      } catch (e) { /* chart optional */ }
+    }
+    const tvShell = document.querySelector('.tvchart-shell');
+    if (tvShell && 'IntersectionObserver' in window) {
+      const tvIo = new IntersectionObserver((entries) => {
+        if (entries.some((e) => e.isIntersecting)) {
+          mountTradingViewChart();
+          tvIo.disconnect();
+        }
+      }, { root: null, rootMargin: '120px', threshold: 0.05 });
+      tvIo.observe(tvShell);
+    } else {
+      mountTradingViewChart();
+    }
 
     // =========================================================
     // HERO BUTTON ACTIONS
@@ -5281,7 +5488,7 @@
     });
 
     // Profile Picture Upload Handler
-    window.handleProfilePictureUpload = function(input) {
+    window.handleProfilePictureUpload = function (input) {
       const file = input.files[0];
       if (!file) return;
 
@@ -5302,7 +5509,7 @@
 
       // Display preview
       const reader = new FileReader();
-      reader.onload = function(e) {
+      reader.onload = function (e) {
         const img = document.getElementById('profilePictureDisplay');
         const placeholder = document.getElementById('profilePicturePlaceholder');
         img.src = e.target.result;
@@ -5359,38 +5566,14 @@
         const placeholder = document.getElementById('profilePicturePlaceholder');
         const headerImg = document.getElementById('headerProfileImg');
         const headerPlaceholder = document.getElementById('headerProfilePlaceholder');
-        
+
         img.src = dashboardData.user.profile_picture;
         img.style.display = 'block';
         placeholder.style.display = 'none';
-        
+
         headerImg.src = dashboardData.user.profile_picture;
         headerImg.style.display = 'block';
         headerPlaceholder.style.display = 'none';
-      } else {
-        fetch(`/api/user/profile-picture/${userId}`)
-          .then(res => {
-            if (res.ok) return res.blob();
-            throw new Error('No profile picture');
-          })
-          .then(blob => {
-            const url = URL.createObjectURL(blob);
-            const img = document.getElementById('profilePictureDisplay');
-            const placeholder = document.getElementById('profilePicturePlaceholder');
-            const headerImg = document.getElementById('headerProfileImg');
-            const headerPlaceholder = document.getElementById('headerProfilePlaceholder');
-            
-            img.src = url;
-            img.style.display = 'block';
-            placeholder.style.display = 'none';
-            
-            headerImg.src = url;
-            headerImg.style.display = 'block';
-            headerPlaceholder.style.display = 'none';
-          })
-          .catch(() => {
-            // No profile picture, show placeholder
-          });
       }
     }
 
@@ -5461,7 +5644,7 @@
         toast(err.message || 'Error claiming cashback.');
       } finally {
         btn.disabled = false;
-        btn.textContent = 'Claim 100 Cashback ➔';
+        btn.innerHTML = 'Claim 100 Cashback <span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></span>';
       }
     });
 
@@ -5531,10 +5714,48 @@
       }
 
       updateCountdownDisplay();
-      setInterval(updateCountdownDisplay, 1000);
+      setInterval(() => {
+        if (document.hidden) return;
+        updateCountdownDisplay();
+      }, 1000);
     }
 
     startRewardCountdown();
+
+    (function initWithdrawalSlider() {
+      const track = document.getElementById('wdCardsTrack');
+      const label = document.getElementById('wdSlideLabel');
+      const prev = document.getElementById('wdSlidePrev');
+      const next = document.getElementById('wdSlideNext');
+      if (!track || !label || !prev || !next) return;
+
+      const visible = () => [...track.querySelectorAll(':scope > .wd-card')].filter((card) => !card.hidden);
+
+      function currentIndex() {
+        const cards = visible();
+        const width = track.clientWidth || 1;
+        return Math.max(0, Math.min(cards.length - 1, Math.round(track.scrollLeft / width)));
+      }
+
+      function paint() {
+        const cards = visible();
+        const i = currentIndex();
+        const name = cards[i]?.querySelector('.wd-card-label')?.textContent?.trim() || 'Wallet';
+        label.textContent = cards.length ? `${name}  ·  ${i + 1} / ${cards.length}` : 'No wallets';
+      }
+
+      function go(step) {
+        const cards = visible();
+        if (!cards.length) return;
+        const i = Math.max(0, Math.min(cards.length - 1, currentIndex() + step));
+        track.scrollTo({ left: cards[i].offsetLeft, behavior: 'smooth' });
+      }
+
+      prev.addEventListener('click', () => go(-1));
+      next.addEventListener('click', () => go(1));
+      track.addEventListener('scroll', paint, { passive: true });
+      paint();
+    })();
 
     load();
   </script>
@@ -5543,50 +5764,55 @@
   <nav class="mobile-bottom-nav">
     <button type="button" class="bnav-item active" id="bnavHome" onclick="switchMobileBottomTab('bnavHome');">
       <span class="bnav-icon">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <path d="m3 10 9-7 9 7"/>
-          <path d="M5 9v11h14V9"/>
-          <path d="M9 20v-6h6v6"/>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+          stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="m3 10 9-7 9 7" />
+          <path d="M5 9v11h14V9" />
+          <path d="M9 20v-6h6v6" />
         </svg>
       </span>
       <span>HOME</span>
     </button>
     <button type="button" class="bnav-item" id="bnavMatrix" onclick="switchMobileBottomTab('bnavMatrix');">
       <span class="bnav-icon">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <path d="M16 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
-          <circle cx="10" cy="7" r="4"/>
-          <path d="M20 21v-2a4 4 0 0 0-3-3.87"/>
-          <path d="M17 3.13a4 4 0 0 1 0 7.75"/>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+          stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M16 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+          <circle cx="10" cy="7" r="4" />
+          <path d="M20 21v-2a4 4 0 0 0-3-3.87" />
+          <path d="M17 3.13a4 4 0 0 1 0 7.75" />
         </svg>
       </span>
       <span>MATRIX</span>
     </button>
     <button type="button" class="bnav-center-action" id="bnavTradein" onclick="switchMobileBottomTab('bnavTradein');">
       <div class="bnav-center-bubble">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/>
-          <polyline points="17 6 23 6 23 12"/>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+          stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="23 6 13.5 15.5 8.5 10.5 1 18" />
+          <polyline points="17 6 23 6 23 12" />
         </svg>
       </div>
       <span style="font-size:10px;font-weight:800;color:var(--jade);margin-top:2px;">TRADE-IN</span>
     </button>
     <button type="button" class="bnav-item" id="bnavBuyCode" onclick="switchMobileBottomTab('bnavBuyCode');">
       <span class="bnav-icon">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/>
-          <path d="M3 6h18"/>
-          <path d="M16 10a4 4 0 0 1-8 0"/>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+          stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z" />
+          <path d="M3 6h18" />
+          <path d="M16 10a4 4 0 0 1-8 0" />
         </svg>
       </span>
       <span>BUY CODE</span>
     </button>
     <button type="button" class="bnav-item" id="bnavCashout" onclick="switchMobileBottomTab('bnavCashout');">
       <span class="bnav-icon">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <rect x="2" y="5" width="20" height="14" rx="2"/>
-          <path d="M2 10h20"/>
-          <path d="M7 15h3"/>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+          stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <rect x="2" y="5" width="20" height="14" rx="2" />
+          <path d="M2 10h20" />
+          <path d="M7 15h3" />
         </svg>
       </span>
       <span>CASHOUT</span>

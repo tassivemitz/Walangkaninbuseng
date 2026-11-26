@@ -12,10 +12,11 @@
   <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap"
     rel="stylesheet" />
   <script src="/theme.js"></script>
-  <link rel="stylesheet" href="/styles.css?v=20261022landv2" />
+  <link rel="stylesheet" href="/styles.css?v=20261127noemoji" />
   <link rel="manifest" href="/manifest.json" />
   <link rel="icon" type="image/png" href="/images/site-logo.png" />
   <meta name="theme-color" content="#131a22" />
+  <meta name="mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <meta name="apple-mobile-web-app-title" content="Infinite Trading" />
@@ -48,14 +49,14 @@
         <a href="#faq" class="nav-link">FAQ</a>
         <!-- Mobile-only: Compensation Plan inside hamburger -->
         <button class="btn btn-ghost btn-sm land-nav-plan-pill nav-link plan-pill-mobile" type="button" data-open-plan>
-          <span class="icon-spark">✦</span> Compensation Plan
+          <span class="icon-spark"><span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v4"/><path d="M12 17v4"/><path d="M3 12h4"/><path d="M17 12h4"/><path d="m5.6 5.6 2.8 2.8"/><path d="m15.6 15.6 2.8 2.8"/><path d="m18.4 5.6-2.8 2.8"/><path d="m8.4 15.6-2.8 2.8"/></svg></span></span> Compensation Plan
         </button>
       </nav>
 
       <div class="land-nav-actions">
         <!-- Desktop-only: Compensation Plan in top bar -->
         <button class="btn btn-ghost btn-sm land-nav-plan-pill plan-pill-desktop" type="button" data-open-plan id="navBtnPlan">
-          <span class="icon-spark">✦</span> Compensation Plan
+          <span class="icon-spark"><span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v4"/><path d="M12 17v4"/><path d="M3 12h4"/><path d="M17 12h4"/><path d="m5.6 5.6 2.8 2.8"/><path d="m15.6 15.6 2.8 2.8"/><path d="m18.4 5.6-2.8 2.8"/><path d="m8.4 15.6-2.8 2.8"/></svg></span></span> Compensation Plan
         </button>
         <button class="btn-theme-toggle btn-theme-icon-only" type="button" data-theme-toggle id="navThemeToggle"
           aria-label="Toggle Light/Dark Theme" title="Toggle Light/Dark Theme">
@@ -73,7 +74,7 @@
           <span>Install</span>
         </button>
         <a href="/login.html" class="btn btn-ghost btn-sm" id="navLogin">Login</a>
-        <a href="/register.html" class="btn btn-sm btn-primary-glow" id="navRegister">Register ➔</a>
+        <a href="/register.html" class="btn btn-sm btn-primary-glow" id="navRegister">Register <span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></span></a>
         <button class="mobile-toggle" id="mobileNavToggle" aria-label="Toggle Navigation Menu">
           <span></span><span></span><span></span>
         </button>
@@ -165,7 +166,7 @@
           </div>
 
           <div class="track-cta">
-            <a href="#binary-demo" class="btn btn-ghost w-100">Try Binary Simulator ➔</a>
+            <a href="#binary-demo" class="btn btn-ghost w-100">Try Binary Simulator <span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></span></a>
           </div>
         </article>
 
@@ -220,7 +221,7 @@
           </div>
 
           <div class="track-cta">
-            <a href="#calculator" class="btn btn-primary-glow w-100">Calculate Your Returns ➔</a>
+            <a href="#calculator" class="btn btn-primary-glow w-100">Calculate Your Returns <span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></span></a>
           </div>
         </article>
       </div>
@@ -361,7 +362,7 @@
                 </div>
 
                 <div class="calc-action-bar">
-                  <a href="/register.html" class="btn btn-primary-glow w-100">Activate This Trade-In Package ➔</a>
+                  <a href="/register.html" class="btn btn-primary-glow w-100">Activate This Trade-In Package <span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></span></a>
                 </div>
               </div>
             </div>
@@ -449,14 +450,14 @@
                   <div class="res-item">
                     <span class="res-lbl">Account Cap Progress</span>
                     <b class="res-val" id="binCapProgress">61.6% (₱1,850 / ₱3,000)</b>
-                    <span class="res-note">Renews at ₱3,000</span>
+                    <span class="res-note" id="binCapNote">Renews at ₱3,000</span>
                   </div>
                 </div>
 
                 <!-- Cap Progress Meter -->
                 <div class="cap-meter-wrap">
                   <div class="cap-meter-label">
-                    <span>₱3,000 Gross Cap Meter:</span>
+                    <span id="binCapMeterLabel">₱3,000 Gross Cap Meter:</span>
                     <span id="capMeterText">₱1,850 / ₱3,000</span>
                   </div>
                   <div class="cap-meter-track">
@@ -465,7 +466,7 @@
                 </div>
 
                 <div class="calc-action-bar">
-                  <a href="/register.html" class="btn btn-primary-glow w-100">Start Binary Matrix with ₱399 ➔</a>
+                  <a href="/register.html" class="btn btn-primary-glow w-100">Start Binary Matrix with ₱399 <span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></span></a>
                 </div>
               </div>
             </div>
@@ -750,13 +751,13 @@
           <!-- Item 3 -->
           <div class="faq-item" data-keywords="binary cap 3000 limit renewal code expire">
             <button type="button" class="faq-question">
-              <span>What is the ₱3,000 Binary Cap and how do renewals work?</span>
+              <span id="faqBinaryCapQ">What is the ₱3,000 Binary Cap and how do renewals work?</span>
               <span class="faq-toggle-icon">+</span>
             </button>
             <div class="faq-answer">
-              <p>To ensure system sustainability, every active binary account has a gross earning cap of ₱3,000. Once
-                your account reaches ₱3,000 in total binary matching earnings, the account expires and can
-                be seamlessly reactivated with a fresh ₱399 renewal code to continue receiving matches.</p>
+              <p id="faqBinaryCapA">To ensure system sustainability, every active binary account has a gross matching cap of ₱3,000. Once
+                your account reaches ₱3,000 in binary matching earnings, the account expires and can
+                be seamlessly reactivated with a fresh ₱399 renewal code to continue receiving matches. Direct and indirect bonuses are not counted toward this cap.</p>
             </div>
           </div>
 
@@ -822,7 +823,7 @@
           <div class="cta justify-center">
             <a href="/register.html" class="btn btn-primary-glow btn-lg">
               <span>Create Account Now</span>
-              <span class="btn-arrow">➔</span>
+              <span class="btn-arrow"><span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></span></span>
             </a>
             <button class="btn btn-ghost btn-lg" type="button" data-open-plan>
               <span>View Full Compensation Plan</span>
@@ -1197,6 +1198,8 @@
     const capMeterText = document.getElementById('capMeterText');
     const capMeterFill = document.getElementById('capMeterFill');
 
+    let binaryCapAmount = 3000;
+
     function updateBinaryCalc() {
       const directs = Number(binDirectSlider?.value || 6);
       const indirects = Number(binIndirectSlider?.value || 30);
@@ -1207,6 +1210,8 @@
       const pair7Days = dailyPairs * 50 * 7;
       const total = directInc + indirectInc + pair7Days;
       const daily = dailyPairs * 50;
+      const cap = binaryCapAmount > 0 ? binaryCapAmount : 3000;
+      const capLabel = fmtMoney(cap);
 
       if (binDirectDisplay) binDirectDisplay.textContent = `${directs} Members`;
       if (binIndirectDisplay) binIndirectDisplay.textContent = `${indirects} Members`;
@@ -1218,11 +1223,33 @@
       if (binTotalEarnings) binTotalEarnings.textContent = fmtMoney(total);
       if (binDailyRate) binDailyRate.textContent = fmtMoney(daily);
 
-      const capPct = Math.min(100, Math.round((total / 3000) * 100 * 10) / 10);
-      if (binCapProgress) binCapProgress.textContent = `${capPct}% (${fmtMoney(total)} / ₱3,000)`;
-      if (capMeterText) capMeterText.textContent = `${fmtMoney(total)} / ₱3,000`;
+      const capPct = Math.min(100, Math.round((pair7Days / cap) * 100 * 10) / 10);
+      if (binCapProgress) binCapProgress.textContent = `${capPct}% (${fmtMoney(pair7Days)} / ${capLabel})`;
+      if (capMeterText) capMeterText.textContent = `${fmtMoney(pair7Days)} / ${capLabel}`;
       if (capMeterFill) capMeterFill.style.width = `${capPct}%`;
+      const capNote = document.getElementById('binCapNote');
+      const capMeterLabel = document.getElementById('binCapMeterLabel');
+      if (capNote) capNote.textContent = `Matching cap ${capLabel}. Direct and indirect are unlimited.`;
+      if (capMeterLabel) capMeterLabel.textContent = `${capLabel} matching cap:`;
     }
+
+    fetch('/api/config')
+      .then((res) => res.json())
+      .then((cfg) => {
+        const cap = Number(cfg && cfg.binaryCap);
+        if (Number.isFinite(cap) && cap >= 1000) {
+          binaryCapAmount = cap;
+          const label = fmtMoney(cap);
+          const faqQ = document.getElementById('faqBinaryCapQ');
+          const faqA = document.getElementById('faqBinaryCapA');
+          if (faqQ) faqQ.textContent = `What is the ${label} Binary Cap and how do renewals work?`;
+          if (faqA) {
+            faqA.textContent = `Every active binary account has a matching cap of ${label}. Once matching bonuses reach ${label}, the account expires and can be reactivated with a fresh ₱399 renewal code. Direct and indirect bonuses are not counted toward this cap.`;
+          }
+          updateBinaryCalc();
+        }
+      })
+      .catch(() => {});
 
     binDirectSlider?.addEventListener('input', updateBinaryCalc);
     binIndirectSlider?.addEventListener('input', updateBinaryCalc);
@@ -1911,7 +1938,7 @@
           style="height: 24px; width: 24px; border-radius: 6px; object-fit: cover;" />
         <span>Install Infinite App</span>
       </div>
-      <button type="button" class="pwa-ios-close" id="pwaIosClose" aria-label="Close modal">✕</button>
+      <button type="button" class="pwa-ios-close" id="pwaIosClose" aria-label="Close modal"><span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></span></button>
     </div>
     <div class="pwa-ios-body">
       To install Infinite Trading on your iPhone / iPad:

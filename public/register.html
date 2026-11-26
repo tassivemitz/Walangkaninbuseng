@@ -11,10 +11,11 @@
   <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&display=swap"
     rel="stylesheet" />
   <script src="/theme.js"></script>
-  <link rel="stylesheet" href="/styles.css?v=20260927fixscroll" />
+  <link rel="stylesheet" href="/styles.css?v=20261127noemoji" />
   <link rel="manifest" href="/manifest.json" />
   <link rel="icon" type="image/png" href="/images/site-logo.png" />
   <meta name="theme-color" content="#131a22" />
+  <meta name="mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
@@ -109,7 +110,7 @@
           <div class="auth-field-group">
             <label class="auth-field-label" for="mobile_input">
               <span>USERNAME *</span>
-              <span class="auth-field-status" id="mobileStatusCheck">✓ Min 3 Chars</span>
+              <span class="auth-field-status" id="mobileStatusCheck"><span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m20 6-11 11L4 12"/></svg></span> Min 3 Chars</span>
             </label>
             <div class="auth-field-inner">
               <span class="auth-field-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg></span>
@@ -174,7 +175,7 @@
           <!-- Submit Button -->
           <button class="auth-submit-btn" id="submitBtn" style="margin-top:20px;">
             <span id="submitBtnText">Create Free Account</span>
-            <span id="submitArrow" style="font-size:16px;">➔</span>
+            <span id="submitArrow" style="font-size:16px;"><span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></span></span>
           </button>
         </form>
       </div>
@@ -232,7 +233,7 @@
     const urlSponsor = params.get('sponsor');
     if (urlSponsor) {
       spInput.value = urlSponsor;
-      spBadge.textContent = '✓ Referred by ' + urlSponsor;
+      spBadge.innerHTML = '<span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m20 6-11 11L4 12"/></svg></span> Referred by ' + urlSponsor;
       spBadge.style.color = 'var(--jade)';
     }
 
@@ -284,7 +285,7 @@
       if (isValid) {
         mobInput.classList.add('is-valid');
         mobStatus.classList.add('show');
-        mobStatus.textContent = '✓ Valid Username';
+        mobStatus.innerHTML = '<span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m20 6-11 11L4 12"/></svg></span> Valid Username';
         mobHelper.textContent = 'Looks good! Valid username format.';
         mobHelper.style.color = 'var(--jade)';
       } else if (val.length > 0) {
@@ -340,7 +341,7 @@
         seg2.style.background = 'var(--jade)';
         seg3.style.background = 'var(--jade)';
         seg4.style.background = 'var(--jade)';
-        strLabel.textContent = 'Strong ✓';
+        strLabel.innerHTML = 'Strong <span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m20 6-11 11L4 12"/></svg></span>';
         strLabel.style.color = 'var(--jade)';
       }
     });
@@ -367,7 +368,7 @@
     spInput.addEventListener('input', () => {
       const spVal = spInput.value.trim();
       if (spVal.length >= 3) {
-        spBadge.textContent = '✓ Sponsor: ' + spVal;
+        spBadge.innerHTML = '<span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m20 6-11 11L4 12"/></svg></span> Sponsor: ' + spVal;
         spBadge.style.color = 'var(--jade)';
       } else if (spVal.length > 0) {
         spBadge.textContent = 'Typing sponsor...';
@@ -421,12 +422,12 @@
           setTimeout(() => cardEl.classList.remove('shake'), 500);
           submitBtn.disabled = false;
           submitText.textContent = 'Create Free Account';
-          submitArrow.textContent = '➔';
+          submitArrow.innerHTML = '<span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></span>';
           return;
         }
 
         submitText.textContent = 'Account Created! Opening Desk...';
-        submitArrow.textContent = '✓';
+        submitArrow.innerHTML = '<span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m20 6-11 11L4 12"/></svg></span>';
         submitBtn.style.background = 'linear-gradient(135deg, #10b981 0%, #059669 100%)';
 
         localStorage.setItem('it_token', data.token);
@@ -438,7 +439,7 @@
         errEl.classList.add('show');
         submitBtn.disabled = false;
         submitText.textContent = 'Create Free Account';
-        submitArrow.textContent = '➔';
+        submitArrow.innerHTML = '<span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></span>';
       }
     });
   </script>

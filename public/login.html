@@ -9,10 +9,11 @@
   <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&display=swap"
     rel="stylesheet" />
   <script src="/theme.js"></script>
-  <link rel="stylesheet" href="/styles.css?v=20260927fixscroll" />
+  <link rel="stylesheet" href="/styles.css?v=20261127noemoji" />
   <link rel="manifest" href="/manifest.json" />
   <link rel="icon" type="image/png" href="/images/site-logo.png" />
   <meta name="theme-color" content="#131a22" />
+  <meta name="mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
@@ -87,7 +88,7 @@
           <div class="auth-field-group">
             <label class="auth-field-label" for="login_mobile">
               <span>USERNAME</span>
-              <span class="auth-field-status" id="mobileStatusCheck">✓ Ready</span>
+              <span class="auth-field-status" id="mobileStatusCheck"><span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m20 6-11 11L4 12"/></svg></span> Ready</span>
             </label>
             <div class="auth-field-inner">
               <span class="auth-field-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"
@@ -134,7 +135,7 @@
           <!-- Interactive Submit Button -->
           <button class="auth-submit-btn" id="submitBtn" style="margin-top:20px;">
             <span id="submitBtnText">Sign In to Backoffice</span>
-            <span id="submitArrow" style="font-size:16px;">➔</span>
+            <span id="submitArrow" style="font-size:16px;"><span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></span></span>
           </button>
 
         </form>
@@ -233,7 +234,7 @@
       if (val.length >= 3) {
         mobInput.classList.add('is-valid');
         statusCheck.classList.add('show');
-        statusCheck.textContent = '✓ Ready';
+        statusCheck.innerHTML = '<span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m20 6-11 11L4 12"/></svg></span> Ready';
       } else {
         mobInput.classList.remove('is-valid');
         statusCheck.classList.remove('show');
@@ -287,12 +288,12 @@
           setTimeout(() => cardEl.classList.remove('shake'), 500);
           submitBtn.disabled = false;
           submitText.textContent = 'Sign In to Backoffice';
-          submitArrow.textContent = '➔';
+          submitArrow.innerHTML = '<span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></span>';
           return;
         }
 
         submitText.textContent = 'Success! Entering Desk...';
-        submitArrow.textContent = '✓';
+        submitArrow.innerHTML = '<span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m20 6-11 11L4 12"/></svg></span>';
         submitBtn.style.background = 'linear-gradient(135deg, #10b981 0%, #059669 100%)';
 
         localStorage.setItem('it_token', data.token);

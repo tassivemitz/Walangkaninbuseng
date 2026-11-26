@@ -10,10 +10,11 @@
   <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap"
     rel="stylesheet" />
   <script src="/theme.js"></script>
-  <link rel="stylesheet" href="/styles.css?v=20260927fixscroll" />
+  <link rel="stylesheet" href="/styles.css?v=20261127tree1" />
   <link rel="manifest" href="/manifest.json" />
   <link rel="icon" type="image/png" href="/images/site-logo.png" />
   <meta name="theme-color" content="#131a22" />
+  <meta name="mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <meta name="apple-mobile-web-app-title" content="Infinite Trading" />
@@ -35,7 +36,7 @@
     <!-- 1. FULL-HEIGHT ADMIN LEFT SIDEBAR (Desktop: Sticky / Mobile: Sliding Drawer) -->
     <aside class="admin-sidebar" id="adminSidebar">
       <!-- Mobile Close Button -->
-      <button type="button" class="dash-sidebar-close" id="adminSidebarClose" aria-label="Close Sidebar">✕</button>
+      <button type="button" class="dash-sidebar-close" id="adminSidebarClose" aria-label="Close Sidebar"><span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></span></button>
 
       <!-- Brand Logo at Top of Sidebar -->
       <div class="admin-sidebar-brand">
@@ -278,7 +279,7 @@
                 <p class="kpi-val" id="kpiTradeinDeposit">₱0.00</p>
                 <p class="kpi-sub" id="kpiTradeinCount">0 Active accounts</p>
               </div>
-              <div class="kpi-icon">💰</div>
+              <div class="kpi-icon"><span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="6" rx="8" ry="3"/><path d="M4 6v6c0 1.7 3.6 3 8 3s8-1.3 8-3V6"/><path d="M4 12v6c0 1.7 3.6 3 8 3s8-1.3 8-3v-6"/></svg></span></div>
             </div>
 
             <!-- 2. TOTAL TRADE-IN REF -->
@@ -288,7 +289,7 @@
                 <p class="kpi-val" id="kpiTradeinRef">₱0.00</p>
                 <p class="kpi-sub">Referral commission pool</p>
               </div>
-              <div class="kpi-icon">👥</div>
+              <div class="kpi-icon"><span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="3"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></span></div>
             </div>
 
             <!-- 3. TOTAL CODE -->
@@ -298,7 +299,7 @@
                 <p class="kpi-val" id="kpiTotalCode">0</p>
                 <p class="kpi-sub" id="kpiAvailableCodes">0 Available in vault</p>
               </div>
-              <div class="kpi-icon">🔐</div>
+              <div class="kpi-icon"><span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg></span></div>
             </div>
 
             <!-- 4. TOTAL CODE BUY -->
@@ -308,7 +309,7 @@
                 <p class="kpi-val" id="kpiTotalCodeBuy">0</p>
                 <p class="kpi-sub">Assigned &amp; activated codes</p>
               </div>
-              <div class="kpi-icon">🏷️</div>
+              <div class="kpi-icon"><span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 13 11 4H4v7l9 9z"/><circle cx="7.5" cy="7.5" r="1"/></svg></span></div>
             </div>
 
             <!-- 5. TOTAL BINARY -->
@@ -318,7 +319,7 @@
                 <p class="kpi-val" id="kpiTotalBinary">₱0.00</p>
                 <p class="kpi-sub">Network match earnings</p>
               </div>
-              <div class="kpi-icon">📈</div>
+              <div class="kpi-icon"><span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 17 6-6 4 4 8-8"/><path d="M14 7h7v7"/></svg></span></div>
             </div>
 
             <!-- 6. TOTAL CASHOUT -->
@@ -332,7 +333,7 @@
                 <p class="kpi-val" id="kpiTotalCashout" style="color:var(--jade);">₱0.00</p>
                 <p class="kpi-sub" id="kpiTotalCashoutSub">0 Completed releases</p>
               </div>
-              <div class="kpi-icon" style="font-size:24px;">💸</div>
+              <div class="kpi-icon" style="font-size:24px;"><span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="12" rx="2"/><circle cx="12" cy="12" r="2"/><path d="M6 10v.01"/><path d="M18 14v.01"/></svg></span></div>
             </div>
 
             <!-- 7. PENDING CASHOUT -->
@@ -375,7 +376,7 @@
               style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:14px;border-bottom:1px solid rgba(15,122,69,0.12);padding-bottom:10px;">
               <div>
                 <div style="display:flex;align-items:center;gap:8px;">
-                  <span style="font-size:20px;">⚡</span>
+                  <span style="font-size:20px;"><span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 3 14h9l-1 8 10-12h-9l1-8z"/></svg></span></span>
                   <h3 style="margin:0;font-size:16px;font-weight:800;letter-spacing:-0.02em;">Pending Approvals Quick
                     Center</h3>
                 </div>
@@ -384,9 +385,9 @@
               </div>
               <div style="display:flex;gap:8px;align-items:center;">
                 <button type="button" class="btn btn-ghost btn-sm" id="btnQuickGoTradein"
-                  style="font-size:11.5px;font-weight:700;">Trade-In Tab ➔</button>
+                  style="font-size:11.5px;font-weight:700;">Trade-In Tab <span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></span></button>
                 <button type="button" class="btn btn-ghost btn-sm" id="btnQuickGoWd"
-                  style="font-size:11.5px;font-weight:700;">Cashout Tab ➔</button>
+                  style="font-size:11.5px;font-weight:700;">Cashout Tab <span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></span></button>
               </div>
             </div>
             <div id="homePendingQueue" style="display:flex;flex-direction:column;gap:10px;">
@@ -420,7 +421,7 @@
           <div class="member-inventory-head-bar"
             style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;margin:18px 0 14px;padding:12px 16px;border-radius:12px;">
             <div style="display:flex;align-items:center;gap:10px;">
-              <span style="font-size:18px;">👥</span>
+              <span style="font-size:18px;"><span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="3"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></span></span>
               <div>
                 <strong style="font-size:13.5px;color:var(--text);letter-spacing:0.02em;">MEMBER DIRECTORY LIST</strong>
                 <span class="tiny muted" id="memberInventorySummaryTag" style="display:block;margin-top:2px;">Loading
@@ -496,7 +497,7 @@
           <div class="admin-sec-head">
             <div>
               <h2 class="admin-sec-title">CODE VAULT</h2>
-              <p class="admin-sec-sub">GENERATE CODE ➔ SEND CODE</p>
+              <p class="admin-sec-sub">GENERATE CODE <span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></span> SEND CODE</p>
             </div>
             <div class="ctrl-tabs">
               <button class="ctrl-tab active" data-codefilter="all">All Codes</button>
@@ -510,7 +511,7 @@
             <!-- GENERATE CODE (Left Box) -->
             <div class="vault-panel">
               <div>
-                <h3>➔ GENERATE CODE</h3>
+                <h3><span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></span> GENERATE CODE</h3>
                 <p class="tiny muted" style="margin:0 0 10px">Quick batch mint 8-character codes or fill custom slots:
                 </p>
                 <div style="margin-bottom:12px;">
@@ -542,7 +543,7 @@
             <!-- SEND CODE (Right Box) -->
             <div class="vault-panel">
               <div>
-                <h3>➔ SEND CODE</h3>
+                <h3><span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></span> SEND CODE</h3>
                 <p class="tiny muted" style="margin:0 0 10px">Transfer activation codes directly to a code seller /
                   member account:</p>
                 <div class="send-grid">
@@ -629,7 +630,7 @@
           <div class="code-inventory-head-bar"
             style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;margin:24px 0 14px;padding:12px 16px;border-radius:12px;">
             <div style="display:flex;align-items:center;gap:10px;">
-              <span style="font-size:18px;">📦</span>
+              <span style="font-size:18px;"><span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 8 12 3 3 8l9 5z"/><path d="M3 8v8l9 5 9-5V8"/><path d="M12 13v8"/></svg></span></span>
               <div>
                 <strong style="font-size:13.5px;color:var(--text);letter-spacing:0.02em;">CODE INVENTORY LIST</strong>
                 <span class="tiny muted" id="codeInventorySummaryTag" style="display:block;margin-top:2px;">Loading code
@@ -657,11 +658,11 @@
               <div style="display:flex;gap:8px;flex-wrap:wrap;">
                 <button type="button" id="btnCopyAllAvailableCodes" class="btn btn-sm btn-ghost"
                   style="padding:6px 12px;font-size:11.5px;">
-                  <span>📋 Copy All Available Codes</span>
+                  <span><span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="3" width="8" height="4" rx="1"/><path d="M8 5H6a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2"/></svg></span> Copy All Available Codes</span>
                 </button>
                 <button type="button" id="btnCopyCodeInviteTemplate" class="btn btn-sm btn-mint"
                   style="padding:6px 12px;font-size:11.5px;">
-                  <span>💬 Copy Member Promo Template</span>
+                  <span><span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a8 8 0 0 1-8 8H7l-4 3V12a8 8 0 0 1 8-8h2a8 8 0 0 1 8 8z"/></svg></span> Copy Member Promo Template</span>
                 </button>
               </div>
             </div>
@@ -802,27 +803,27 @@
           <div class="admin-wd-summary-grid">
             <div class="admin-wd-summary-card">
               <div>
-                <p class="title">⇄ Binary Referral Payouts</p>
+                <p class="title"><span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m7 7 10 0"/><path d="m14 4 3 3-3 3"/><path d="M17 17H7"/><path d="m10 14-3 3 3 3"/></svg></span> Binary Referral Payouts</p>
                 <p class="val" id="sumWdBinaryNet">₱0.00</p>
                 <p class="sub"><span id="sumWdBinaryPending">0</span> Pending Review</p>
               </div>
-              <span style="font-size:24px;">👥</span>
+              <span style="font-size:24px;"><span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="3"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></span></span>
             </div>
             <div class="admin-wd-summary-card">
               <div>
-                <p class="title">💛 Trade-In Referral Payouts</p>
+                <p class="title"><span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.5-1.5 2-3.5 1-5s-3-2-4 0l-4 4-4-4c-1-2-3-1.5-4 0s-.5 3.5 1 5l7 7z"/></svg></span> Trade-In Referral Payouts</p>
                 <p class="val" id="sumWdTradeRefNet">₱0.00</p>
                 <p class="sub"><span id="sumWdTradeRefPending">0</span> Pending Review</p>
               </div>
-              <span style="font-size:24px;">🎁</span>
+              <span style="font-size:24px;"><span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="8" width="18" height="4"/><path d="M12 8v13"/><path d="M5 12v8h14v-8"/><path d="M12 8c-2-3-5-3-5 0s5 0 5 0 5 0 5 0-3-3-5 0z"/></svg></span></span>
             </div>
             <div class="admin-wd-summary-card">
               <div>
-                <p class="title">📈 Trade-In Cycle Yields</p>
+                <p class="title"><span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 17 6-6 4 4 8-8"/><path d="M14 7h7v7"/></svg></span> Trade-In Cycle Yields</p>
                 <p class="val" id="sumWdCycleNet">₱0.00</p>
                 <p class="sub"><span id="sumWdCyclePending">0</span> Pending Review</p>
               </div>
-              <span style="font-size:24px;">⚡</span>
+              <span style="font-size:24px;"><span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 3 14h9l-1 8 10-12h-9l1-8z"/></svg></span></span>
             </div>
           </div>
 
@@ -831,11 +832,11 @@
             style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;margin-bottom:12px;">
             <div class="ctrl-tabs" style="flex-wrap:wrap;">
               <button class="ctrl-tab active" data-wdfilter="all">ALL (<span id="countWdAll">0</span>)</button>
-              <button class="ctrl-tab" data-wdfilter="binary_ref">⇄ BINARY REF (<span
+              <button class="ctrl-tab" data-wdfilter="binary_ref"><span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m7 7 10 0"/><path d="m14 4 3 3-3 3"/><path d="M17 17H7"/><path d="m10 14-3 3 3 3"/></svg></span> BINARY REF (<span
                   id="countWdBinary">0</span>)</button>
-              <button class="ctrl-tab" data-wdfilter="tradein_ref">💛 TRADE-IN REF (<span
+              <button class="ctrl-tab" data-wdfilter="tradein_ref"><span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.5-1.5 2-3.5 1-5s-3-2-4 0l-4 4-4-4c-1-2-3-1.5-4 0s-.5 3.5 1 5l7 7z"/></svg></span> TRADE-IN REF (<span
                   id="countWdTradeRef">0</span>)</button>
-              <button class="ctrl-tab" data-wdfilter="tradein_cycle">📈 CYCLE YIELD (<span
+              <button class="ctrl-tab" data-wdfilter="tradein_cycle"><span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 17 6-6 4 4 8-8"/><path d="M14 7h7v7"/></svg></span> CYCLE YIELD (<span
                   id="countWdCycle">0</span>)</button>
               <button class="ctrl-tab" data-wdfilter="pending">⏳ PENDING (<span id="countWdPending">0</span>)</button>
               <button class="ctrl-tab" data-wdfilter="approved">APPROVED</button>
@@ -890,19 +891,19 @@
           <div class="admin-wd-summary-grid">
             <div class="admin-wd-summary-card">
               <div>
-                <p class="title">🎁 Total Cashback Claims</p>
+                <p class="title"><span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="8" width="18" height="4"/><path d="M12 8v13"/><path d="M5 12v8h14v-8"/><path d="M12 8c-2-3-5-3-5 0s5 0 5 0 5 0 5 0-3-3-5 0z"/></svg></span> Total Cashback Claims</p>
                 <p class="val" id="sumCashbackTotal">₱0.00</p>
                 <p class="sub"><span id="countCashbackTotal">0</span> Total Claims</p>
               </div>
-              <span style="font-size:24px;">💰</span>
+              <span style="font-size:24px;"><span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="6" rx="8" ry="3"/><path d="M4 6v6c0 1.7 3.6 3 8 3s8-1.3 8-3V6"/><path d="M4 12v6c0 1.7 3.6 3 8 3s8-1.3 8-3v-6"/></svg></span></span>
             </div>
             <div class="admin-wd-summary-card">
               <div>
-                <p class="title">✅ Approved Cashback</p>
+                <p class="title"><span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="m8 12 3 3 5-6"/></svg></span> Approved Cashback</p>
                 <p class="val" id="sumCashbackApproved">₱0.00</p>
                 <p class="sub"><span id="countCashbackApproved">0</span> Approved</p>
               </div>
-              <span style="font-size:24px;">✓</span>
+              <span style="font-size:24px;"><span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m20 6-11 11L4 12"/></svg></span></span>
             </div>
             <div class="admin-wd-summary-card">
               <div>
@@ -969,11 +970,11 @@
 
           <div class="ctrl-tabs" id="adminEarningsFilterTabs" style="margin-bottom:14px;flex-wrap:wrap;">
             <button class="ctrl-tab active" data-admin-earning="all">All Commissions</button>
-            <button class="ctrl-tab" data-admin-earning="referral">🎯 Direct Referral (₱50)</button>
-            <button class="ctrl-tab" data-admin-earning="indirect">👥 Indirect Referral (₱5)</button>
-            <button class="ctrl-tab" data-admin-earning="matching">⚖ Matching Pairs (₱50)</button>
-            <button class="ctrl-tab" data-admin-earning="tradein_referral">🔄 Trade-In Referral</button>
-            <button class="ctrl-tab" data-admin-earning="tradein_earnings">📈 Trade-In Yield</button>
+            <button class="ctrl-tab" data-admin-earning="referral"><span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="4"/><circle cx="12" cy="12" r="1"/></svg></span> Direct Referral (₱50)</button>
+            <button class="ctrl-tab" data-admin-earning="indirect"><span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="3"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></span> Indirect Referral (₱5)</button>
+            <button class="ctrl-tab" data-admin-earning="matching"><span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v18"/><path d="M3 7h18"/><path d="m5 7 3 7H2z"/><path d="m19 7 3 7h-6z"/></svg></span> Matching Pairs (₱50)</button>
+            <button class="ctrl-tab" data-admin-earning="tradein_referral"><span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-2.6-6.3L21 8"/><path d="M21 3v5h-5"/></svg></span> Trade-In Referral</button>
+            <button class="ctrl-tab" data-admin-earning="tradein_earnings"><span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 17 6-6 4 4 8-8"/><path d="M14 7h7v7"/></svg></span> Trade-In Yield</button>
           </div>
 
           <div class="admin-table-panel table-wrap">
@@ -1028,7 +1029,7 @@
                   id="countMopInactive">0</span>)</button>
             </div>
             <div style="font-size:12px;color:var(--muted);">
-              💡 <em>Active channels and uploaded QR codes appear on members' Trade-In deposit screens.</em>
+              <span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6"/><path d="M10 22h4"/><path d="M8 14a5 5 0 1 1 8 0c-.8.8-1.2 1.6-1.4 2.5H9.4C9.2 15.6 8.8 14.8 8 14z"/></svg></span> <em>Active channels and uploaded QR codes appear on members' Trade-In deposit screens.</em>
             </div>
           </div>
 
@@ -1085,7 +1086,7 @@
               </div>
               <button type="button" class="btn btn-ghost btn-sm" id="btnGoOfficialMop"
                 style="font-size:12px;font-weight:700;">
-                📲 Manage Official MOP ➔
+                <span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="2" width="10" height="20" rx="2"/><path d="M11 18h2"/></svg></span> Manage Official MOP <span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></span>
               </button>
             </div>
           </div>
@@ -1096,12 +1097,12 @@
           <div class="admin-sec-header"
             style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;">
             <div>
-              <h2 class="admin-sec-title">💎 Profit Sharing Pool &amp; Release</h2>
+              <h2 class="admin-sec-title"><span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h12l4 6-10 12L2 9z"/><path d="M2 9h20"/><path d="m12 21 4-12"/><path d="m12 21-4-12"/></svg></span> Profit Sharing Pool &amp; Release</h2>
               <p class="admin-sec-sub">COMMUNITY POOL AUDIT · QUALIFIED MEMBERS &amp; DIVIDEND DISBURSEMENTS</p>
             </div>
             <button type="button" class="btn btn-secondary btn-sm" id="btnRefreshProfitSharing"
               style="font-size:12px;font-weight:700;">
-              🔄 Refresh Pool Data
+              <span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-2.6-6.3L21 8"/><path d="M21 3v5h-5"/></svg></span> Refresh Pool Data
             </button>
           </div>
 
@@ -1147,7 +1148,7 @@
               <div>
                 <button type="button" class="btn btn-mint" id="btnReleaseProfitSharing"
                   style="font-weight:800;font-size:13.5px;padding:12px 20px;border-radius:10px;box-shadow:0 6px 20px rgba(46,213,158,0.35);">
-                  💎 Release Profit Sharing ➔
+                  <span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h12l4 6-10 12L2 9z"/><path d="M2 9h20"/><path d="m12 21 4-12"/><path d="m12 21-4-12"/></svg></span> Release Profit Sharing <span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></span>
                 </button>
               </div>
             </div>
@@ -1280,7 +1281,7 @@
               (CLICK OR DRAG TO UPLOAD)</label>
             <input type="file" id="mopQrInput" accept="image/*" style="display:none;" />
             <div class="receipt-dropzone" id="mopQrDropzone" style="margin:4px 0 8px;cursor:pointer;">
-              <span class="receipt-drop-icon">📲</span>
+              <span class="receipt-drop-icon"><span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="2" width="10" height="20" rx="2"/><path d="M11 18h2"/></svg></span></span>
               <p class="receipt-drop-title">Tap here to choose QR Code screenshot</p>
               <p class="receipt-drop-hint">PNG, JPG, JPEG, WEBP (Auto-compressed)</p>
             </div>
@@ -1296,7 +1297,7 @@
                 <p id="mopQrFileSize" class="tiny muted" style="margin:2px 0 0;">Attached</p>
               </div>
               <button type="button" class="btn btn-ghost btn-sm" id="btnRemoveMopQr"
-                style="color:#ef4444;font-size:11px;">✕ Remove</button>
+                style="color:#ef4444;font-size:11px;"><span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></span> Remove</button>
             </div>
           </div>
 
@@ -1323,7 +1324,7 @@
 
           <div style="display:flex;justify-content:flex-end;gap:8px;">
             <button type="button" class="btn btn-secondary btn-sm" id="btnCancelMop">Cancel</button>
-            <button type="submit" class="btn btn-mint btn-sm" id="btnSaveMop">Save Mode of Payment ➔</button>
+            <button type="submit" class="btn btn-mint btn-sm" id="btnSaveMop">Save Mode of Payment <span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></span></button>
           </div>
         </form>
       </div>
@@ -1352,18 +1353,18 @@
             </div>
             <button type="button" class="btn btn-secondary btn-sm" id="btnAdminGenealogyUp"
               style="padding:5px 10px;font-size:11.5px;font-weight:700;">
-              ⬆ Up 1 Level
+              <span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5"/><path d="m6 11 6-6 6 6"/></svg></span> Up 1 Level
             </button>
             <button type="button" class="btn btn-secondary btn-sm" id="btnAdminGenealogyRoot"
               style="padding:5px 10px;font-size:11.5px;font-weight:700;">
-              🏠 Target Root
+              <span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 11 9-8 9 8"/><path d="M5 10v10h14V10"/></svg></span> Target Root
             </button>
           </div>
         </div>
         <div class="genealogy-canvas-wrap" id="adminGenealogyContainer" style="min-height:300px;"></div>
         <div
           style="margin-top:12px;padding:8px 12px;background:var(--bg2);border:1px solid var(--line);border-radius:10px;font-size:11px;color:var(--muted);">
-          💡 <strong>Tip:</strong> Click any member node to drill down and explore their subtree &amp; spilled accounts.
+          <span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6"/><path d="M10 22h4"/><path d="M8 14a5 5 0 1 1 8 0c-.8.8-1.2 1.6-1.4 2.5H9.4C9.2 15.6 8.8 14.8 8 14z"/></svg></span> <strong>Tip:</strong> Click any member node to drill down and explore their subtree &amp; spilled accounts.
           Click <strong>+ Encode Slot</strong> on any open slot to place a member.
         </div>
       </div>
@@ -1377,7 +1378,7 @@
       <header class="plan-modal-head">
         <div>
           <p class="kicker">Binary Network Placement</p>
-          <h2 id="modalAdminActivateTitle">⚡ Activate Member Account</h2>
+          <h2 id="modalAdminActivateTitle"><span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 3 14h9l-1 8 10-12h-9l1-8z"/></svg></span> Activate Member Account</h2>
         </div>
         <button class="plan-close" type="button" id="btnCloseAdminActivateModal">×</button>
       </header>
@@ -1426,7 +1427,7 @@
                 style="cursor:pointer;border:2px solid var(--jade);background:rgba(15,122,69,0.08);border-radius:10px;padding:10px 12px;display:flex;align-items:center;gap:8px;">
                 <input type="radio" name="admPlacementMode" value="auto" checked style="accent-color:var(--jade);" />
                 <div>
-                  <strong style="font-size:12.5px;display:block;color:var(--text);">⚡ Auto-Placement</strong>
+                  <strong style="font-size:12.5px;display:block;color:var(--text);"><span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 3 14h9l-1 8 10-12h-9l1-8z"/></svg></span> Auto-Placement</strong>
                   <span class="tiny muted" style="font-size:10px;display:block;">Next available open slot</span>
                 </div>
               </label>
@@ -1435,7 +1436,7 @@
                 style="cursor:pointer;border:2px solid var(--line);background:var(--bg2);border-radius:10px;padding:10px 12px;display:flex;align-items:center;gap:8px;">
                 <input type="radio" name="admPlacementMode" value="manual" style="accent-color:var(--jade);" />
                 <div>
-                  <strong style="font-size:12.5px;display:block;color:var(--text);">🎯 Specific Slot</strong>
+                  <strong style="font-size:12.5px;display:block;color:var(--text);"><span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="4"/><circle cx="12" cy="12" r="1"/></svg></span> Specific Slot</strong>
                   <span class="tiny muted" style="font-size:10px;display:block;">Choose Parent &amp; Leg</span>
                 </div>
               </label>
@@ -1473,7 +1474,7 @@
                 <input type="checkbox" id="admActAutoCodeCheck" checked
                   style="accent-color:var(--jade);transform:scale(1.2);" />
                 <div>
-                  <strong style="font-size:13px;color:var(--text);">✨ Auto-generate &amp; apply new Admin Code</strong>
+                  <strong style="font-size:13px;color:var(--text);"><span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v4"/><path d="M12 17v4"/><path d="M3 12h4"/><path d="M17 12h4"/><path d="m5.6 5.6 2.8 2.8"/><path d="m15.6 15.6 2.8 2.8"/><path d="m18.4 5.6-2.8 2.8"/><path d="m8.4 15.6-2.8 2.8"/></svg></span> Auto-generate &amp; apply new Admin Code</strong>
                   <span class="tiny muted" style="display:block;font-size:11px;">System will automatically mint and
                     consume an authentic 8-character activation code.</span>
                 </div>
@@ -1491,7 +1492,7 @@
 
           <button type="submit" class="btn btn-mint" id="btnSubmitAdminActivate"
             style="width:100%;font-size:14.5px;font-weight:800;padding:13px;border-radius:10px;box-shadow:0 4px 16px rgba(15,122,69,0.35);">
-            ⚡ Activate Account &amp; Place in Tree ➔
+            <span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 3 14h9l-1 8 10-12h-9l1-8z"/></svg></span> Activate Account &amp; Place in Tree <span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></span>
           </button>
         </form>
       </div>
@@ -1505,7 +1506,7 @@
       <header class="plan-modal-head">
         <div>
           <p class="kicker">Security Control</p>
-          <h2 style="font-size:20px;margin:2px 0 0;">🔑 Change User Password</h2>
+          <h2 style="font-size:20px;margin:2px 0 0;"><span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="15" r="4"/><path d="m11 15 9-9"/><path d="m16 6 3 3"/><path d="m18 8 2 2"/></svg></span> Change User Password</h2>
         </div>
         <button class="plan-close" type="button" data-close-admin-pwd>×</button>
       </header>
@@ -1526,7 +1527,7 @@
           <div style="display:flex;gap:8px;justify-content:flex-end;">
             <button type="button" class="btn btn-secondary btn-sm" data-close-admin-pwd>Cancel</button>
             <button type="submit" class="btn btn-mint btn-sm" id="btnAdminSubmitPwd" style="font-weight:800;">Save
-              Password ➔</button>
+              Password <span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></span></button>
           </div>
         </form>
       </div>
@@ -1537,7 +1538,7 @@
   <div class="modal-confirm-overlay" id="modalConfirmAction" style="display:none;">
     <div class="modal-confirm-card" role="dialog" aria-modal="true">
       <div class="confirm-head">
-        <div class="confirm-icon-circle" id="confirmModalIcon">⚠️</div>
+        <div class="confirm-icon-circle" id="confirmModalIcon"><span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9v4"/><path d="M12 17h.01"/><path d="m10.3 4.3-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.7-2.7l-8-14a2 2 0 0 0-3.4 0z"/></svg></span></div>
         <div>
           <h3 class="confirm-title" id="confirmModalTitle">Confirm Action</h3>
           <p class="confirm-sub" id="confirmModalSubtitle">Please review the details below before proceeding.</p>
@@ -1562,17 +1563,17 @@
     <div class="receipt-lightbox-card">
       <div class="receipt-lightbox-head">
         <div style="display:flex;align-items:center;gap:8px;min-width:0;flex:1;">
-          <span style="font-size:18px;">🧾</span>
+          <span style="font-size:18px;"><span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2h12v20l-2-1.5L14 22l-2-1.5L10 22l-2-1.5L6 22z"/><path d="M9 7h6"/><path d="M9 11h6"/><path d="M9 15h4"/></svg></span></span>
           <strong id="receiptLightboxTitle"
             style="font-size:13.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">Receipt
             Inspection</strong>
         </div>
         <div style="display:flex;align-items:center;gap:6px;">
           <button type="button" class="btn btn-ghost btn-sm" id="btnZoomToggleReceipt"
-            style="padding:4px 8px;font-size:11px;color:#a7f3d0;border:1px solid rgba(167,243,208,0.3);">🔍
+            style="padding:4px 8px;font-size:11px;color:#a7f3d0;border:1px solid rgba(167,243,208,0.3);"><span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg></span>
             Zoom</button>
           <button type="button" class="btn btn-ghost btn-sm" id="btnFullSizeReceipt"
-            style="padding:4px 8px;font-size:11px;color:#a7f3d0;border:1px solid rgba(167,243,208,0.3);">↗ Full
+            style="padding:4px 8px;font-size:11px;color:#a7f3d0;border:1px solid rgba(167,243,208,0.3);"><span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7"/><path d="M8 7h9v9"/></svg></span> Full
             Screen</button>
           <button type="button" class="plan-close" id="btnCloseReceiptLightbox"
             style="background:none;border:none;color:#fff;font-size:22px;cursor:pointer;line-height:1;"
@@ -1774,9 +1775,13 @@
     async function api(url, opts = {}) {
       const res = await fetch(url, { headers, ...opts });
       const data = await res.json().catch(() => ({}));
-      if (res.status === 401 || res.status === 403) {
+      if (res.status === 401) {
+        location.href = '/login.html';
+        throw new Error(data.error || 'Sign in required.');
+      }
+      if (res.status === 403) {
         if (data.error && data.error.includes('Admin')) {
-          flash(data.error);
+          location.replace('/dashboard.html');
         } else {
           location.href = '/login.html';
         }
@@ -1796,7 +1801,7 @@
         if (confirm(summary || title)) { if (typeof onConfirm === 'function') onConfirm(); }
         return;
       }
-      document.getElementById('confirmModalIcon').textContent = icon || '⚠️';
+      document.getElementById('confirmModalIcon').innerHTML = icon || '<span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9v4"/><path d="M12 17h.01"/><path d="m10.3 4.3-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.7-2.7l-8-14a2 2 0 0 0-3.4 0z"/></svg></span>';
       document.getElementById('confirmModalTitle').textContent = title || 'Confirm Action';
       document.getElementById('confirmModalSubtitle').textContent = subtitle || 'Please review before executing command.';
 
@@ -1868,8 +1873,8 @@
                 Pending: <strong>#${pkg.id}</strong> · Member: <strong>${esc(pkg.mobile_number)}</strong> · Capital: <strong style="color:#34d399;">${peso(pkg.capital)}</strong>
               </div>
               <div style="display:flex;gap:8px;">
-                <button type="button" class="btn btn-mint btn-sm" id="btnQuickApproveReceipt" style="padding:5px 12px;font-size:11.5px;font-weight:700;">✓ Approve</button>
-                <button type="button" class="btn btn-secondary btn-sm" id="btnQuickRejectReceipt" style="padding:5px 10px;font-size:11.5px;background:rgba(239,68,68,0.15);color:#fca5a5;border-color:rgba(239,68,68,0.3);">✕ Reject</button>
+                <button type="button" class="btn btn-mint btn-sm" id="btnQuickApproveReceipt" style="padding:5px 12px;font-size:11.5px;font-weight:700;"><span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m20 6-11 11L4 12"/></svg></span> Approve</button>
+                <button type="button" class="btn btn-secondary btn-sm" id="btnQuickRejectReceipt" style="padding:5px 10px;font-size:11.5px;background:rgba(239,68,68,0.15);color:#fca5a5;border-color:rgba(239,68,68,0.3);"><span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></span> Reject</button>
               </div>
             </div>
           `;
@@ -1977,12 +1982,12 @@
 
         if (breadcrumbsEl) {
           if (adminTreeAncestors.length <= 1) {
-            breadcrumbsEl.innerHTML = `<span class="crumb active">👤 Root (${esc(data.tree.mobile)})</span>`;
+            breadcrumbsEl.innerHTML = `<span class="crumb active"><span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21a8 8 0 0 0-16 0"/><circle cx="12" cy="7" r="4"/></svg></span> Root (${esc(data.tree.mobile)})</span>`;
           } else {
             breadcrumbsEl.innerHTML = adminTreeAncestors.map((anc, idx) => {
               const isLast = idx === adminTreeAncestors.length - 1;
-              if (isLast) return `<span class="crumb active">👤 ${esc(anc.mobile)}</span>`;
-              return `<button type="button" class="crumb-btn" data-adm-tree="${anc.id}">${idx === 0 ? '🏠 ' : ''}${esc(anc.mobile)}</button><span class="crumb-sep">›</span>`;
+              if (isLast) return `<span class="crumb active"><span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21a8 8 0 0 0-16 0"/><circle cx="12" cy="7" r="4"/></svg></span> ${esc(anc.mobile)}</span>`;
+              return `<button type="button" class="crumb-btn" data-adm-tree="${anc.id}">${idx === 0 ? '<span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 11 9-8 9 8"/><path d="M5 10v10h14V10"/></svg></span> ' : ''}${esc(anc.mobile)}</button><span class="crumb-sep">›</span>`;
             }).join('');
           }
         }
@@ -2020,14 +2025,14 @@
                 <div class="tree-grandchild-connector"></div>
                 <div class="tree-grandchild-node ${node.status === 'active' ? 'active-slot' : 'inactive-slot'} clickable-adm-drill" data-adm-tree="${node.id}" style="cursor:pointer;" title="Click to explore subtree of ${esc(node.mobile)}">
                   <span class="pill ${pos === 'L' ? 'open' : ''}" style="font-size:7.5px;padding:1px 5px;margin-bottom:2px;">${pos === 'L' ? 'LEFT ◀' : 'RIGHT ▶'}</span>
-                  <p class="grandchild-mob">👤 ${esc(node.mobile)}</p>
+                  <p class="grandchild-mob"><span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21a8 8 0 0 0-16 0"/><circle cx="12" cy="7" r="4"/></svg></span> ${esc(node.mobile)}</p>
                   <span class="pill ${node.status === 'active' ? 'open' : 'closed'}" style="font-size:8px;padding:1px 5px;">${esc(node.status)}</span>
                   <div class="grandchild-stats">
                     <span>L: <strong>${node.left_count}</strong></span>
                     <span>R: <strong>${node.right_count}</strong></span>
                   </div>
                   <button type="button" class="btn-drilldown-node clickable-adm-drill" data-adm-tree="${node.id}" title="Explore ${esc(node.mobile)} subtree" style="font-size:8.5px;padding:2px 8px;margin-top:4px;">
-                    <span>Explore</span> ➔
+                    <span>Explore</span> <span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></span>
                   </button>
                   ${l4Row}
                 </div>
@@ -2052,14 +2057,14 @@
                 <div class="tree-branch-top-connector"></div>
                 <div class="tree-node child-node ${child.status === 'active' ? 'active-member' : 'inactive-member'}">
                   <span class="pill ${posKey === 'L' ? 'open' : ''}" style="font-size:8.5px;padding:1px 6px;margin-bottom:3px;">${posLabel}</span>
-                  <p class="tree-node-name clickable-adm-drill" data-adm-tree="${child.id}" style="cursor:pointer;" title="Click to explore subtree">👤 ${esc(child.mobile)}</p>
+                  <p class="tree-node-name clickable-adm-drill" data-adm-tree="${child.id}" style="cursor:pointer;" title="Click to explore subtree"><span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21a8 8 0 0 0-16 0"/><circle cx="12" cy="7" r="4"/></svg></span> ${esc(child.mobile)}</p>
                   <span class="pill ${child.status === 'active' ? 'open' : 'closed'}" style="font-size:8.5px;padding:1px 6px;">${esc(child.status)}</span>
                   <div class="tree-node-counts">
                     <span>L: <strong>${child.left_count}</strong></span>
                     <span>R: <strong>${child.right_count}</strong></span>
                   </div>
                   <button type="button" class="btn-drilldown-node clickable-adm-drill" data-adm-tree="${child.id}" title="Drill down">
-                    <span>Explore Subtree</span> ➔
+                    <span>Explore Subtree</span> <span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></span>
                   </button>
                 </div>
                 <div class="tree-subbranch-down-connector"></div>
@@ -2084,8 +2089,8 @@
         container.innerHTML = `
           <div class="tree-root-wrapper">
             <div class="tree-node root-node" style="border-color:var(--gold);background:var(--card-bg);box-shadow:0 6px 20px rgba(180,130,20,0.15);">
-              <span class="pill" style="font-size:9px;background:rgba(245,166,35,0.18);color:#fbbf24;border:1px solid rgba(245,166,35,0.35);margin-bottom:2px;font-weight:700;">★ FOCUS NODE</span>
-              <p class="tree-node-name" style="font-size:14px;">👤 ${esc(root.mobile)}</p>
+              <span class="pill" style="font-size:9px;background:rgba(245,166,35,0.18);color:#fbbf24;border:1px solid rgba(245,166,35,0.35);margin-bottom:2px;font-weight:700;"><span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3 2.7 5.5L21 9.2l-4.5 4.4L17.5 20 12 17l-5.5 3 1-6.4L3 9.2l6.3-.7z"/></svg></span> FOCUS NODE</span>
+              <p class="tree-node-name" style="font-size:14px;"><span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21a8 8 0 0 0-16 0"/><circle cx="12" cy="7" r="4"/></svg></span> ${esc(root.mobile)}</p>
               <span class="pill ${root.status === 'active' ? 'open' : 'closed'}">${esc(root.status)}</span>
               <div class="tree-node-counts">
                 <span>Left: <strong>${root.left_count}</strong></span>
@@ -2398,13 +2403,13 @@
       showAdminConfirm({
         title: 'Update Binary Matching Cap',
         subtitle: 'Configure the maximum binary pairing earnings before accounts expire.',
-        icon: '⚖',
+        icon: '<span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v18"/><path d="M3 7h18"/><path d="m5 7 3 7H2z"/><path d="m19 7 3 7h-6z"/></svg></span>',
         details: [
           { label: 'New Binary Cap', val: peso(val), highlight: true },
           { label: 'Affected Earnings', val: 'Matching / Pairing Bonuses only' },
           { label: 'Direct / Indirect', val: 'Unrestricted / Unlimited' }
         ],
-        confirmText: 'Save Binary Cap ➔',
+        confirmText: 'Save Binary Cap <span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></span>',
         confirmClass: 'btn-mint',
         onConfirm: async () => {
           try {
@@ -2415,7 +2420,7 @@
             });
             const data = await res.json();
             if (!res.ok) { toast(data.error || 'Failed to update cap.'); return; }
-            toast(`✓ Binary matching cap updated to ${peso(data.binary_cap)}!`, true);
+            toast(`<span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m20 6-11 11L4 12"/></svg></span> Binary matching cap updated to ${peso(data.binary_cap)}!`, true);
             refreshAll();
           } catch (err) {
             toast(err.message || 'Error updating binary cap.');
@@ -2456,16 +2461,16 @@
         }
 
         const catBadges = {
-          referral: { label: 'Direct Ref (₱50)', class: 'badge-referral', icon: '🎯' },
-          indirect: { label: 'Indirect Ref (₱5)', class: 'badge-indirect', icon: '👥' },
-          matching: { label: 'Matching Pair (₱50)', class: 'badge-matching', icon: '⚖' },
-          safety_net: { label: 'Safety Net (₱0)', class: 'badge-indirect', icon: '🛡' },
-          tradein_referral: { label: 'Trade-In Ref', class: 'badge-tradein-ref', icon: '🔄' },
-          tradein_earnings: { label: 'Trade-In Yield', class: 'badge-tradein-yield', icon: '📈' },
+          referral: { label: 'Direct Ref (₱50)', class: 'badge-referral', icon: '<span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="4"/><circle cx="12" cy="12" r="1"/></svg></span>' },
+          indirect: { label: 'Indirect Ref (₱5)', class: 'badge-indirect', icon: '<span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="3"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></span>' },
+          matching: { label: 'Matching Pair (₱50)', class: 'badge-matching', icon: '<span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v18"/><path d="M3 7h18"/><path d="m5 7 3 7H2z"/><path d="m19 7 3 7h-6z"/></svg></span>' },
+          safety_net: { label: 'Safety Net (₱0)', class: 'badge-indirect', icon: '<span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 5 6v6c0 4 3 6.5 7 8 4-1.5 7-4 7-8V6z"/></svg></span>' },
+          tradein_referral: { label: 'Trade-In Ref', class: 'badge-tradein-ref', icon: '<span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-2.6-6.3L21 8"/><path d="M21 3v5h-5"/></svg></span>' },
+          tradein_earnings: { label: 'Trade-In Yield', class: 'badge-tradein-yield', icon: '<span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 17 6-6 4 4 8-8"/><path d="M14 7h7v7"/></svg></span>' },
         };
 
         tbody.innerHTML = data.records.map(r => {
-          const b = catBadges[r.category] || { label: r.category, class: 'badge-referral', icon: '💰' };
+          const b = catBadges[r.category] || { label: r.category, class: 'badge-referral', icon: '<span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="6" rx="8" ry="3"/><path d="M4 6v6c0 1.7 3.6 3 8 3s8-1.3 8-3V6"/><path d="M4 12v6c0 1.7 3.6 3 8 3s8-1.3 8-3v-6"/></svg></span>' };
           return `
             <tr>
               <td><code>#${r.id}</code></td>
@@ -2480,7 +2485,7 @@
 
         if (mobCards) {
           mobCards.innerHTML = data.records.map(r => {
-            const b = catBadges[r.category] || { label: r.category, class: 'badge-referral', icon: '💰' };
+            const b = catBadges[r.category] || { label: r.category, class: 'badge-referral', icon: '<span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="6" rx="8" ry="3"/><path d="M4 6v6c0 1.7 3.6 3 8 3s8-1.3 8-3V6"/><path d="M4 12v6c0 1.7 3.6 3 8 3s8-1.3 8-3v-6"/></svg></span>' };
             return `
               <div class="admin-mob-card">
                 <div class="admin-mob-card-head">
@@ -2610,7 +2615,7 @@
       if (!list.length) {
         grid.innerHTML = `
           <div style="grid-column:1/-1;background:var(--card-bg);border:2px dashed var(--line);border-radius:14px;padding:36px 20px;text-align:center;">
-            <span style="font-size:36px;display:block;margin-bottom:8px;">📲</span>
+            <span style="font-size:36px;display:block;margin-bottom:8px;"><span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="2" width="10" height="20" rx="2"/><path d="M11 18h2"/></svg></span></span>
             <h4 style="margin:0 0 6px;color:var(--text);font-size:16px;">No Mode of Payment channels found</h4>
             <p class="tiny muted" style="margin:0 0 14px;">Add your Official GCash, Maya, or Bank QR codes so members can send deposit payments directly.</p>
             <button type="button" class="btn btn-mint btn-sm" id="btnMopEmptyAdd">＋ Add Official Payment Method</button>
@@ -2634,7 +2639,7 @@
                   <span class="badge-tag" style="font-size:11px;padding:3px 8px;font-weight:800;background:rgba(46,213,158,0.18);color:var(--jade);border:1px solid rgba(46,213,158,0.35);">
                     ${esc(m.method)}
                   </span>
-                  ${isPrimary ? '<span class="badge-tag tag-approved" style="font-size:9.5px;padding:2px 6px;background:rgba(46,213,158,0.18);color:#2ed59e;border:1px solid rgba(46,213,158,0.35);font-weight:700;">★ PRIMARY</span>' : ''}
+                  ${isPrimary ? '<span class="badge-tag tag-approved" style="font-size:9.5px;padding:2px 6px;background:rgba(46,213,158,0.18);color:#2ed59e;border:1px solid rgba(46,213,158,0.35);font-weight:700;"><span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3 2.7 5.5L21 9.2l-4.5 4.4L17.5 20 12 17l-5.5 3 1-6.4L3 9.2l6.3-.7z"/></svg></span> PRIMARY</span>' : ''}
                 </div>
                 <span class="pill ${isActive ? 'open' : 'closed'}" style="font-size:10px;">● ${isActive ? 'ACTIVE' : 'DISABLED'}</span>
               </div>
@@ -2645,11 +2650,11 @@
                   ${hasQr ? `
                     <div style="position:relative;">
                       <img src="${m.qr_image}" class="mop-qr-thumb" data-zoom-mop="${m.id}" alt="${esc(m.method)} QR" style="width:84px;height:84px;object-fit:contain;background:#ffffff;border-radius:10px;border:1.5px solid var(--line);padding:3px;cursor:pointer;box-shadow:0 2px 6px rgba(0,0,0,0.2);" />
-                      <button type="button" class="btn btn-ghost btn-sm" data-zoom-mop="${m.id}" style="display:block;width:100%;font-size:9.5px;padding:2px 4px;margin-top:4px;white-space:nowrap;">🔍 Zoom QR</button>
+                      <button type="button" class="btn btn-ghost btn-sm" data-zoom-mop="${m.id}" style="display:block;width:100%;font-size:9.5px;padding:2px 4px;margin-top:4px;white-space:nowrap;"><span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg></span> Zoom QR</button>
                     </div>
                   ` : `
                     <div style="width:84px;height:84px;border-radius:10px;background:var(--bg2);border:1.5px dashed var(--line);display:flex;flex-direction:column;align-items:center;justify-content:center;color:var(--muted);font-size:10px;padding:6px;text-align:center;">
-                      <span style="font-size:22px;margin-bottom:2px;">📷</span>
+                      <span style="font-size:22px;margin-bottom:2px;"><span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h3l2-3h6l2 3h3v12H4z"/><circle cx="12" cy="13" r="3"/></svg></span></span>
                       <span>No QR Code</span>
                     </div>
                   `}
@@ -2685,15 +2690,15 @@
             <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;padding-top:10px;border-top:1px dashed rgba(15,122,69,0.2);">
               <div style="display:flex;gap:6px;">
                 ${!isPrimary ? `
-                  <button type="button" class="btn btn-ghost btn-sm" data-mop-primary="${m.id}" style="font-size:11px;padding:4px 8px;">★ Make Primary</button>
-                ` : '<span class="tiny" style="color:var(--jade);font-weight:700;">✓ Primary Channel</span>'}
+                  <button type="button" class="btn btn-ghost btn-sm" data-mop-primary="${m.id}" style="font-size:11px;padding:4px 8px;"><span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3 2.7 5.5L21 9.2l-4.5 4.4L17.5 20 12 17l-5.5 3 1-6.4L3 9.2l6.3-.7z"/></svg></span> Make Primary</button>
+                ` : '<span class="tiny" style="color:var(--jade);font-weight:700;"><span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m20 6-11 11L4 12"/></svg></span> Primary Channel</span>'}
                 <button type="button" class="btn btn-ghost btn-sm" data-mop-toggle="${m.id}" style="font-size:11px;padding:4px 8px;">
                   ${isActive ? 'Disable' : 'Enable'}
                 </button>
               </div>
               <div style="display:flex;gap:6px;">
-                <button type="button" class="btn btn-ghost btn-sm" data-mop-edit="${m.id}" style="font-size:11px;padding:4px 10px;font-weight:700;">✎ Edit</button>
-                <button type="button" class="btn btn-secondary btn-sm" data-mop-del="${m.id}" style="font-size:11px;padding:4px 8px;background:rgba(239,68,68,0.08);color:#ef4444;border-color:rgba(239,68,68,0.2);">🗑 Delete</button>
+                <button type="button" class="btn btn-ghost btn-sm" data-mop-edit="${m.id}" style="font-size:11px;padding:4px 10px;font-weight:700;"><span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg></span> Edit</button>
+                <button type="button" class="btn btn-secondary btn-sm" data-mop-del="${m.id}" style="font-size:11px;padding:4px 8px;background:rgba(239,68,68,0.08);color:#ef4444;border-color:rgba(239,68,68,0.2);"><span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16"/><path d="M9 7V4h6v3"/><path d="M7 7l1 13h8l1-13"/></svg></span> Delete</button>
               </div>
             </div>
           </div>
@@ -2734,7 +2739,7 @@
               method: 'POST',
               body: JSON.stringify({ ...mop, is_primary: true }),
             });
-            flash(`✓ ${mop.method} set as primary Official Mode of Payment!`, true);
+            flash(`<span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m20 6-11 11L4 12"/></svg></span> ${mop.method} set as primary Official Mode of Payment!`, true);
             await fetchAndRenderAdminMops();
           } catch (err) {
             flash(err.message);
@@ -2750,7 +2755,7 @@
           try {
             btn.disabled = true;
             await api(`/api/admin/mop/${encodeURIComponent(id)}/toggle`, { method: 'POST' });
-            flash('✓ Channel status updated successfully!', true);
+            flash('<span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m20 6-11 11L4 12"/></svg></span> Channel status updated successfully!', true);
             await fetchAndRenderAdminMops();
           } catch (err) {
             flash(err.message);
@@ -2776,14 +2781,14 @@
           showAdminConfirm({
             title: `Delete ${mop.method} Channel?`,
             subtitle: `Are you sure you want to delete this Official Mode of Payment?`,
-            icon: '🗑️',
+            icon: '<span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16"/><path d="M9 7V4h6v3"/><path d="M7 7l1 13h8l1-13"/></svg></span>',
             summary: `This will remove the <strong>${esc(mop.method)}</strong> channel (${esc(mop.account_name)} - ${esc(mop.account_number)}) from official deposit options.`,
             confirmText: 'Yes, Delete Channel',
             confirmClass: 'btn-secondary',
             onConfirm: async () => {
               try {
                 await api(`/api/admin/mop/${encodeURIComponent(id)}`, { method: 'DELETE' });
-                flash(`✓ Deleted ${mop.method} channel.`, true);
+                flash(`<span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m20 6-11 11L4 12"/></svg></span> Deleted ${mop.method} channel.`, true);
                 await fetchAndRenderAdminMops();
               } catch (err) {
                 flash(err.message);
@@ -3000,14 +3005,14 @@
             is_primary,
           }),
         });
-        flash(`✓ Official ${method} Mode of Payment saved successfully!`, true);
+        flash(`<span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m20 6-11 11L4 12"/></svg></span> Official ${method} Mode of Payment saved successfully!`, true);
         closeMopModal();
         await fetchAndRenderAdminMops();
       } catch (err) {
         flash(err.message);
       } finally {
         btnSave.disabled = false;
-        btnSave.textContent = 'Save Mode of Payment ➔';
+        btnSave.innerHTML = 'Save Mode of Payment <span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></span>';
       }
     });
 
@@ -3105,16 +3110,16 @@
         const isInactive = u.status === 'inactive';
         const isAdminDirect = !u.sponsor_mobile || u.sponsor_mobile === 'Toshi' || u.sponsor_id === 1;
         const activateBtn = isInactive
-          ? '<button type="button" data-act-id="' + u.id + '" data-act-mobile="' + esc(u.mobile_number) + '" data-act-sponsor="' + esc(u.sponsor_mobile || 'Admin') + '" class="btn btn-mint btn-sm" style="padding:3px 8px;font-size:11px;font-weight:800;border-radius:6px;" title="Activate & Place in Binary Tree">⚡ Activate</button>'
+          ? '<button type="button" data-act-id="' + u.id + '" data-act-mobile="' + esc(u.mobile_number) + '" data-act-sponsor="' + esc(u.sponsor_mobile || 'Admin') + '" class="btn btn-mint btn-sm" style="padding:3px 8px;font-size:11px;font-weight:800;border-radius:6px;" title="Activate & Place in Binary Tree"><span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 3 14h9l-1 8 10-12h-9l1-8z"/></svg></span> Activate</button>'
           : '';
         const adminDirectTag = (isInactive && isAdminDirect)
-          ? ' <span class="badge-tag" style="background:rgba(56,189,248,0.18);color:#38bdf8;border:1px solid rgba(56,189,248,0.35);font-size:9.5px;padding:1px 6px;font-weight:800;">⭐ Admin Direct</span>'
+          ? ' <span class="badge-tag" style="background:rgba(56,189,248,0.18);color:#38bdf8;border:1px solid rgba(56,189,248,0.35);font-size:9.5px;padding:1px 6px;font-weight:800;"><span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3 2.7 5.5L21 9.2l-4.5 4.4L17.5 20 12 17l-5.5 3 1-6.4L3 9.2l6.3-.7z"/></svg></span> Admin Direct</span>'
           : '';
 
         const roleBadge = u.role === 'admin' ? ' <span class="badge-tag" style="background:rgba(46,213,158,0.18);color:var(--jade);border:1px solid rgba(46,213,158,0.35);font-size:9.5px;padding:1px 5px;">Admin</span>' : '';
         const sponsorText = u.sponsor_mobile ? esc(u.sponsor_mobile) : '<span class="muted">—</span>';
-        const treeBtn = '<button type="button" data-tree-user-id="' + u.id + '" class="btn btn-ghost btn-sm" style="padding:3px 8px;font-size:11px;" title="View Genealogy Tree">🌳 Tree</button>';
-        const pwdBtn = '<button type="button" data-pwd-id="' + u.id + '" data-pwd-user="' + esc(u.username || u.mobile_number) + '" class="btn btn-ghost btn-sm" style="padding:3px 8px;font-size:11px;" title="Change User Password">🔑 Pwd</button>';
+        const treeBtn = '<button type="button" data-tree-user-id="' + u.id + '" class="btn btn-ghost btn-sm" style="padding:3px 8px;font-size:11px;" title="View Genealogy Tree"><span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22v-6"/><path d="M7 16h10l-2-4h3L12 3 6 12h3z"/></svg></span> Tree</button>';
+        const pwdBtn = '<button type="button" data-pwd-id="' + u.id + '" data-pwd-user="' + esc(u.username || u.mobile_number) + '" class="btn btn-ghost btn-sm" style="padding:3px 8px;font-size:11px;" title="Change User Password"><span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="15" r="4"/><path d="m11 15 9-9"/><path d="m16 6 3 3"/><path d="m18 8 2 2"/></svg></span> Pwd</button>';
         const deleteBtn = u.role === 'admin'
           ? '<span class="tiny muted" style="padding:4px 6px;font-weight:700;">Protected</span>'
           : '<button data-del-id="' + u.id + '" data-del-mobile="' + esc(u.mobile_number) + '" class="btn-admin-del" style="padding:3px 8px;font-size:11px;">Delete</button>' +
@@ -3166,14 +3171,14 @@
 
           const roleBadge = u.role === 'admin' ? ' <span class="badge-tag" style="background:rgba(46,213,158,0.18);color:var(--jade);border:1px solid rgba(46,213,158,0.35);font-size:9.5px;padding:1px 5px;">Admin</span>' : '';
           const adminDirectTag = (isInactive && isAdminDirect)
-            ? ' <span class="badge-tag" style="background:rgba(56,189,248,0.18);color:#38bdf8;border:1px solid rgba(56,189,248,0.35);font-size:9.5px;padding:1px 5px;font-weight:800;">⭐ Admin Direct</span>'
+            ? ' <span class="badge-tag" style="background:rgba(56,189,248,0.18);color:#38bdf8;border:1px solid rgba(56,189,248,0.35);font-size:9.5px;padding:1px 5px;font-weight:800;"><span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3 2.7 5.5L21 9.2l-4.5 4.4L17.5 20 12 17l-5.5 3 1-6.4L3 9.2l6.3-.7z"/></svg></span> Admin Direct</span>'
             : '';
           const sponsorText = u.sponsor_mobile ? esc(u.sponsor_mobile) : '—';
           const mobActivateBtn = isInactive
-            ? `<button type="button" data-act-id="${u.id}" data-act-mobile="${esc(u.mobile_number)}" data-act-sponsor="${esc(u.sponsor_mobile || 'Admin')}" class="btn btn-mint btn-sm" style="flex:1;padding:6px 10px;font-size:11px;font-weight:800;">⚡ Activate</button>`
+            ? `<button type="button" data-act-id="${u.id}" data-act-mobile="${esc(u.mobile_number)}" data-act-sponsor="${esc(u.sponsor_mobile || 'Admin')}" class="btn btn-mint btn-sm" style="flex:1;padding:6px 10px;font-size:11px;font-weight:800;"><span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 3 14h9l-1 8 10-12h-9l1-8z"/></svg></span> Activate</button>`
             : '';
-          const treeBtn = '<button type="button" data-tree-user-id="' + u.id + '" class="btn btn-ghost btn-sm" style="flex:1;padding:6px 10px;font-size:11px;">🌳 Tree</button>';
-          const mobPwdBtn = '<button type="button" data-pwd-id="' + u.id + '" data-pwd-user="' + esc(u.username || u.mobile_number) + '" class="btn btn-ghost btn-sm" style="flex:1;padding:6px 10px;font-size:11px;">🔑 Pwd</button>';
+          const treeBtn = '<button type="button" data-tree-user-id="' + u.id + '" class="btn btn-ghost btn-sm" style="flex:1;padding:6px 10px;font-size:11px;"><span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22v-6"/><path d="M7 16h10l-2-4h3L12 3 6 12h3z"/></svg></span> Tree</button>';
+          const mobPwdBtn = '<button type="button" data-pwd-id="' + u.id + '" data-pwd-user="' + esc(u.username || u.mobile_number) + '" class="btn btn-ghost btn-sm" style="flex:1;padding:6px 10px;font-size:11px;"><span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="15" r="4"/><path d="m11 15 9-9"/><path d="m16 6 3 3"/><path d="m18 8 2 2"/></svg></span> Pwd</button>';
           const deleteBtn = u.role === 'admin'
             ? '<span class="tiny muted" style="padding:6px;">Protected</span>'
             : '<button data-del-id="' + u.id + '" data-del-mobile="' + esc(u.mobile_number) + '" class="btn-admin-del" style="flex:1;padding:6px 10px;font-size:11px;">Delete</button>' +
@@ -3261,13 +3266,13 @@
           showAdminConfirm({
             title: 'Delete Member Account',
             subtitle: 'Permanently remove member from the database.',
-            icon: '🗑️',
+            icon: '<span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16"/><path d="M9 7V4h6v3"/><path d="M7 7l1 13h8l1-13"/></svg></span>',
             summary: `<span style="color:#ef4444;font-weight:700;">WARNING:</span> Deleting member <strong>${esc(mobile)} (#${id})</strong> will reparent downlines and remove their records.`,
             details: [
               { label: 'Member ID', val: '#' + id },
               { label: 'Mobile Number', val: mobile, highlight: true }
             ],
-            confirmText: 'Delete Member ➔',
+            confirmText: 'Delete Member <span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></span>',
             confirmClass: 'btn-danger',
             onConfirm: async () => {
               try {
@@ -3289,7 +3294,7 @@
           showAdminConfirm({
             title: (action === 'ban' ? 'Ban Member' : 'Unban Member'),
             subtitle: action === 'ban' ? 'Restrict account from logging in.' : 'Restore account access.',
-            icon: action === 'ban' ? '🚫' : '✓',
+            icon: action === 'ban' ? '<span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="m5 5 14 14"/></svg></span>' : '<span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m20 6-11 11L4 12"/></svg></span>',
             details: [
               { label: 'Member ID', val: '#' + id },
               { label: 'Mobile Number', val: mobile, highlight: true },
@@ -3339,7 +3344,7 @@
         dropdown.innerHTML = '<option value="">-- Choose Inactive Member --</option>' +
           inactiveList.map(u => {
             const isDir = !u.sponsor_mobile || u.sponsor_mobile === 'Toshi' || u.sponsor_id === 1;
-            return `<option value="${u.id}" data-mobile="${esc(u.mobile_number)}" data-sponsor="${esc(u.sponsor_mobile || 'Admin')}">${esc(u.mobile_number)} (ID #${u.id}) ${isDir ? '★ Admin Direct' : '· Sponsor: ' + esc(u.sponsor_mobile)}</option>`;
+            return `<option value="${u.id}" data-mobile="${esc(u.mobile_number)}" data-sponsor="${esc(u.sponsor_mobile || 'Admin')}">${esc(u.mobile_number)} (ID #${u.id}) ${isDir ? '<span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3 2.7 5.5L21 9.2l-4.5 4.4L17.5 20 12 17l-5.5 3 1-6.4L3 9.2l6.3-.7z"/></svg></span> Admin Direct' : '· Sponsor: ' + esc(u.sponsor_mobile)}</option>`;
           }).join('');
       }
 
@@ -3470,7 +3475,7 @@
         });
 
         closeAdminActivateModal();
-        flash(`🎉 ${res.message || 'Member activated successfully!'}`, true);
+        flash(`<span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20 14 10"/><path d="m9 6 1 2"/><path d="m14 4 1 2"/><path d="m18 8 2 1"/><path d="M14 10 20 4"/><path d="m4 20 6-2 8-8-4-4L6 14z"/></svg></span> ${res.message || 'Member activated successfully!'}`, true);
         refreshAll();
 
         // If genealogy tree is open, refresh it too
@@ -3481,7 +3486,7 @@
         flash(err.message || 'Failed to activate member.');
       } finally {
         btn.disabled = false;
-        btn.textContent = '⚡ Activate Account & Place in Tree ➔';
+        btn.innerHTML = '<span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 3 14h9l-1 8 10-12h-9l1-8z"/></svg></span> Activate Account & Place in Tree <span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></span>';
       }
     });
 
@@ -3528,7 +3533,7 @@
       } catch (err) {
         flash(err.message || 'Failed to update password.');
       } finally {
-        if (btn) { btn.disabled = false; btn.textContent = 'Save Password ➔'; }
+        if (btn) { btn.disabled = false; btn.innerHTML = 'Save Password <span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></span>'; }
       }
     });
 
@@ -3590,7 +3595,7 @@
                 <td><span style="color:var(--text);font-weight:600;">${peso(q.active_trade_in)}</span></td>
                 <td>
                   <span class="badge-tag tag-available" style="font-size:12px;font-weight:800;padding:3px 10px;">
-                    ⭐ ${q.shares} ${q.shares === 1 ? 'Share' : 'Shares'}
+                    <span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3 2.7 5.5L21 9.2l-4.5 4.4L17.5 20 12 17l-5.5 3 1-6.4L3 9.2l6.3-.7z"/></svg></span> ${q.shares} ${q.shares === 1 ? 'Share' : 'Shares'}
                   </span>
                 </td>
                 <td style="text-align:right;">
@@ -3621,7 +3626,7 @@
               <td><span class="tiny muted">${peso(d.rate_per_share)}</span></td>
               <td><strong style="color:var(--jade);font-size:13px;">${peso(d.amount)}</strong></td>
               <td style="text-align:right;">
-                <span class="badge-tag tag-active" style="font-size:10.5px;">✓ Credited</span>
+                <span class="badge-tag tag-active" style="font-size:10.5px;"><span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m20 6-11 11L4 12"/></svg></span> Credited</span>
               </td>
             </tr>
           `).join('');
@@ -3652,7 +3657,7 @@
       showAdminConfirm({
         title: 'Release Profit Sharing Dividends',
         subtitle: 'Disburse pool proportionally across all qualified members.',
-        icon: '💎',
+        icon: '<span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h12l4 6-10 12L2 9z"/><path d="M2 9h20"/><path d="m12 21 4-12"/><path d="m12 21-4-12"/></svg></span>',
         summary: `You are about to release the full available pool of <strong>${peso(pool)}</strong> to <strong>${qualified.length} qualified member(s)</strong> (${totalShares} total shares). This action immediately credits their wallets.`,
         details: [
           { label: 'Pool Amount', val: peso(pool), highlight: true },
@@ -3660,7 +3665,7 @@
           { label: 'Total Shares', val: String(totalShares) },
           { label: 'Rate Per Share', val: `${peso(pool / totalShares)} / share` },
         ],
-        confirmText: 'Confirm & Disburse Dividends ➔',
+        confirmText: 'Confirm & Disburse Dividends <span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></span>',
         confirmClass: 'btn-mint',
         onConfirm: async () => {
           try {
@@ -3789,11 +3794,11 @@
           }
         }
 
-        const copyBtn = '<button type="button" class="btn-admin-copy" data-copy-code="' + esc(c.code) + '" title="Copy code to clipboard">📋 Copy</button>';
+        const copyBtn = '<button type="button" class="btn-admin-copy" data-copy-code="' + esc(c.code) + '" title="Copy code to clipboard"><span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="3" width="8" height="4" rx="1"/><path d="M8 5H6a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2"/></svg></span> Copy</button>';
 
         const actionHtml = c.status !== 'used'
           ? '<button type="button" class="btn-admin-action btn-admin-reject" data-revoke-code="' + c.id + '" data-code-str="' + esc(c.code) + '" style="font-size:10.5px;padding:3px 8px;">Revoke</button>'
-          : '<span class="tiny" style="color:var(--jade);font-weight:700;">✓ Encoded</span>';
+          : '<span class="tiny" style="color:var(--jade);font-weight:700;"><span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m20 6-11 11L4 12"/></svg></span> Encoded</span>';
 
         return '<tr>' +
           '<td><strong>#' + c.id + '</strong></td>' +
@@ -3831,10 +3836,10 @@
             }
           }
 
-          const copyBtn = '<button type="button" class="btn-admin-copy" data-copy-code="' + esc(c.code) + '" style="padding:4px 10px;font-size:11px;">📋 Copy</button>';
+          const copyBtn = '<button type="button" class="btn-admin-copy" data-copy-code="' + esc(c.code) + '" style="padding:4px 10px;font-size:11px;"><span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="3" width="8" height="4" rx="1"/><path d="M8 5H6a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2"/></svg></span> Copy</button>';
           const actionHtml = c.status !== 'used'
             ? '<button type="button" class="btn-admin-action btn-admin-reject" data-revoke-code="' + c.id + '" data-code-str="' + esc(c.code) + '" style="padding:6px 12px;font-size:11px;">Revoke Code</button>'
-            : '<span class="tiny" style="color:var(--jade);font-weight:700;">✓ Encoded in Tree</span>';
+            : '<span class="tiny" style="color:var(--jade);font-weight:700;"><span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m20 6-11 11L4 12"/></svg></span> Encoded in Tree</span>';
 
           return `
             <div class="admin-mob-card">
@@ -3880,7 +3885,7 @@
           const txt = btn.dataset.copyCode;
           navigator.clipboard.writeText(txt).then(() => {
             const orig = btn.innerHTML;
-            btn.innerHTML = '✓ Copied!';
+            btn.innerHTML = '<span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m20 6-11 11L4 12"/></svg></span> Copied!';
             btn.style.color = 'var(--jade)';
             btn.style.borderColor = 'var(--jade)';
             setTimeout(() => {
@@ -3903,7 +3908,7 @@
           showAdminConfirm({
             title: 'Revoke Activation Code',
             subtitle: 'Delete this code permanently from inventory.',
-            icon: '⚠️',
+            icon: '<span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9v4"/><path d="M12 17h.01"/><path d="m10.3 4.3-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.7-2.7l-8-14a2 2 0 0 0-3.4 0z"/></svg></span>',
             summary: `Are you sure you want to revoke code <strong style="color:var(--jade);font-family:ui-monospace,monospace;">${esc(codeStr)}</strong> (#${id})?`,
             details: [
               { label: 'Code ID', val: '#' + id },
@@ -3931,7 +3936,7 @@
       const activeCount = globalTradein.filter(p => p.cycle_status === 'active').length;
       const pendingCount = globalTradein.filter(p => p.cycle_status === 'pending').length;
       const rolloverTag = (p) => (p.is_rollover || p.rolled_from_package_id)
-        ? '<span class="badge-tag tag-rollover">🔁 Rollover</span>'
+        ? '<span class="badge-tag tag-rollover"><span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-2.6-6.3L21 8"/><path d="M21 3v5h-5"/></svg></span> Rollover</span>'
         : '';
 
       document.getElementById('tradeinSummaryText').textContent = `${globalTradein.length} Total Packages (${pendingCount} Pending · ${activeCount} Active)`;
@@ -3986,12 +3991,12 @@
 
         const hasReceipt = Boolean(p.receipt_image || p.receipt_url);
         const receiptBtn = hasReceipt
-          ? `<button type="button" class="receipt-view-btn" data-tradein-pkg-id="${p.id}" title="Click to view uploaded receipt screenshot">🧾 View Receipt</button>`
+          ? `<button type="button" class="receipt-view-btn" data-tradein-pkg-id="${p.id}" title="Click to view uploaded receipt screenshot"><span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2h12v20l-2-1.5L14 22l-2-1.5L10 22l-2-1.5L6 22z"/><path d="M9 7h6"/><path d="M9 11h6"/><path d="M9 15h4"/></svg></span> View Receipt</button>`
           : '<span class="muted tiny">No receipt</span>';
 
         const actions = isPending
-          ? `<button type="button" class="btn-admin-action btn-admin-approve" data-tradein-approve="${p.id}" data-pkg-user="${esc(p.mobile_number)}" data-pkg-cap="${p.capital}" style="margin-right:6px;">${(p.is_rollover || p.rolled_from_package_id) ? '✓ Approve Rollover' : '✓ Approve'}</button>` +
-          `<button type="button" class="btn-admin-action btn-admin-reject" data-tradein-reject="${p.id}" data-pkg-user="${esc(p.mobile_number)}">✕ Reject</button>`
+          ? `<button type="button" class="btn-admin-action btn-admin-approve" data-tradein-approve="${p.id}" data-pkg-user="${esc(p.mobile_number)}" data-pkg-cap="${p.capital}" style="margin-right:6px;">${(p.is_rollover || p.rolled_from_package_id) ? '<span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m20 6-11 11L4 12"/></svg></span> Approve Rollover' : '<span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m20 6-11 11L4 12"/></svg></span> Approve'}</button>` +
+          `<button type="button" class="btn-admin-action btn-admin-reject" data-tradein-reject="${p.id}" data-pkg-user="${esc(p.mobile_number)}"><span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></span> Reject</button>`
           : isActive
             ? `<button type="button" class="btn-admin-action" data-tradein-ff="${p.id}" style="margin-right:6px;">⏱ Advance 3 Days</button><span class="tiny muted">${esc(p.cycle_status)}</span>`
             : `<span class="tiny muted">${esc(p.cycle_status)}</span>`;
@@ -4033,7 +4038,7 @@
 
           const hasReceipt = Boolean(p.receipt_image || p.receipt_url);
           const receiptBtn = hasReceipt
-            ? `<button type="button" class="receipt-view-btn" data-tradein-pkg-id="${p.id}" style="padding:4px 10px;font-size:11.5px;font-weight:700;">🧾 View Receipt</button>`
+            ? `<button type="button" class="receipt-view-btn" data-tradein-pkg-id="${p.id}" style="padding:4px 10px;font-size:11.5px;font-weight:700;"><span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2h12v20l-2-1.5L14 22l-2-1.5L10 22l-2-1.5L6 22z"/><path d="M9 7h6"/><path d="M9 11h6"/><path d="M9 15h4"/></svg></span> View Receipt</button>`
             : '<span class="muted tiny">No receipt</span>';
 
           return `
@@ -4073,8 +4078,8 @@
               </div>
               ${isPending ? `
                 <div class="admin-mob-card-actions">
-                  <button type="button" class="btn-admin-action btn-admin-approve" data-tradein-approve="${p.id}" data-pkg-user="${esc(p.mobile_number)}" data-pkg-cap="${p.capital}">${(p.is_rollover || p.rolled_from_package_id) ? '✓ Approve Rollover' : '✓ Approve Deposit'}</button>
-                  <button type="button" class="btn-admin-action btn-admin-reject" data-tradein-reject="${p.id}" data-pkg-user="${esc(p.mobile_number)}">✕ Reject</button>
+                  <button type="button" class="btn-admin-action btn-admin-approve" data-tradein-approve="${p.id}" data-pkg-user="${esc(p.mobile_number)}" data-pkg-cap="${p.capital}">${(p.is_rollover || p.rolled_from_package_id) ? '<span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m20 6-11 11L4 12"/></svg></span> Approve Rollover' : '<span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m20 6-11 11L4 12"/></svg></span> Approve Deposit'}</button>
+                  <button type="button" class="btn-admin-action btn-admin-reject" data-tradein-reject="${p.id}" data-pkg-user="${esc(p.mobile_number)}"><span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></span> Reject</button>
                 </div>
               ` : isActive ? `
                 <div class="admin-mob-card-actions">
@@ -4107,7 +4112,7 @@
             } catch (err) {
               console.error(err);
             } finally {
-              btn.textContent = '🧾 View Receipt';
+              btn.innerHTML = '<span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2h12v20l-2-1.5L14 22l-2-1.5L10 22l-2-1.5L6 22z"/><path d="M9 7h6"/><path d="M9 11h6"/><path d="M9 15h4"/></svg></span> View Receipt';
             }
           }
 
@@ -4131,7 +4136,7 @@
           const isRollover = pkg && (pkg.is_rollover || pkg.rolled_from_package_id);
 
           const receiptHtml = hasRec
-            ? `<button type="button" class="receipt-view-btn" id="btnViewReceiptInConfirm" style="padding:3px 10px;font-size:11.5px;font-weight:700;">🧾 Inspect Receipt Proof</button>`
+            ? `<button type="button" class="receipt-view-btn" id="btnViewReceiptInConfirm" style="padding:3px 10px;font-size:11.5px;font-weight:700;"><span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2h12v20l-2-1.5L14 22l-2-1.5L10 22l-2-1.5L6 22z"/><path d="M9 7h6"/><path d="M9 11h6"/><path d="M9 15h4"/></svg></span> Inspect Receipt Proof</button>`
             : '<span class="muted tiny">No receipt uploaded</span>';
 
           showAdminConfirm({
@@ -4139,9 +4144,9 @@
             subtitle: isRollover
               ? 'Approve this rollover to start the new 12-day cycle and unlock Cycle 4 claim on the source package.'
               : 'Activate the 12-day investment cycle and disburse referral bonuses.',
-            icon: '✅',
+            icon: '<span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="m8 12 3 3 5-6"/></svg></span>',
             details: [
-              { label: 'Type', val: isRollover ? '🔁 Rollover' : 'New Deposit' },
+              { label: 'Type', val: isRollover ? '<span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-2.6-6.3L21 8"/><path d="M21 3v5h-5"/></svg></span> Rollover' : 'New Deposit' },
               { label: 'Package ID', val: '#' + id },
               { label: 'Member Username', val: userMob, highlight: true },
               { label: 'Capital Deposited', val: peso(capital), highlight: true },
@@ -4149,14 +4154,14 @@
               { label: 'Sponsor Bonus (5%)', val: peso(capital * 0.05) },
               { label: 'Receipt Proof', html: receiptHtml }
             ],
-            confirmText: 'Approve & Activate Cycle ➔',
+            confirmText: 'Approve & Activate Cycle <span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></span>',
             confirmClass: 'btn-mint',
             onConfirm: async () => {
               try {
                 await api(`/api/admin/tradein/${id}/approve`, { method: 'POST', body: '{}' });
                 flash(isRollover
-                  ? `✓ Rollover #${id} for ${userMob} approved. Cycle 4 claim is now unlocked.`
-                  : `✓ Trade-In package #${id} for ${userMob} approved and activated!`, true);
+                  ? `<span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m20 6-11 11L4 12"/></svg></span> Rollover #${id} for ${userMob} approved. Cycle 4 claim is now unlocked.`
+                  : `<span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m20 6-11 11L4 12"/></svg></span> Trade-In package #${id} for ${userMob} approved and activated!`, true);
                 refreshAll();
               } catch (err) {
                 flash(err.message);
@@ -4184,7 +4189,7 @@
           showAdminConfirm({
             title: 'Reject Trade-In Deposit',
             subtitle: 'Mark this trade-in deposit as rejected.',
-            icon: '✕',
+            icon: '<span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></span>',
             summary: `Reject deposit request <strong>#${id}</strong> for member <strong>${esc(userMob)}</strong>?`,
             details: [
               { label: 'Package ID', val: '#' + id },
@@ -4233,7 +4238,7 @@
       if (totalPending === 0) {
         container.innerHTML = `
           <div style="padding:22px;text-align:center;background:var(--bg2, #162029);border:1px dashed var(--line, rgba(255,255,255,0.12));border-radius:12px;">
-            <span style="font-size:24px;display:block;margin-bottom:6px;">🎉</span>
+            <span style="font-size:24px;display:block;margin-bottom:6px;"><span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20 14 10"/><path d="m9 6 1 2"/><path d="m14 4 1 2"/><path d="m18 8 2 1"/><path d="M14 10 20 4"/><path d="m4 20 6-2 8-8-4-4L6 14z"/></svg></span></span>
             <strong style="color:var(--jade, #2ed59e);font-size:13.5px;">All Caught Up!</strong>
             <p class="tiny muted" style="margin:4px 0 0;">No pending trade-in deposits or cashout releases requiring verification.</p>
           </div>
@@ -4248,16 +4253,16 @@
         const hasReceipt = Boolean(p.receipt_image || p.receipt_url);
         const isRollover = p.is_rollover || p.rolled_from_package_id;
         const receiptBtn = hasReceipt
-          ? `<button type="button" class="receipt-view-btn" data-tradein-pkg-id="${p.id}" style="padding:4px 10px;font-size:11.5px;font-weight:700;">🧾 View Receipt</button>`
+          ? `<button type="button" class="receipt-view-btn" data-tradein-pkg-id="${p.id}" style="padding:4px 10px;font-size:11.5px;font-weight:700;"><span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2h12v20l-2-1.5L14 22l-2-1.5L10 22l-2-1.5L6 22z"/><path d="M9 7h6"/><path d="M9 11h6"/><path d="M9 15h4"/></svg></span> View Receipt</button>`
           : '<span class="muted tiny">No receipt</span>';
 
         html += `
           <div class="home-pending-card">
             <div style="display:flex;align-items:flex-start;gap:10px;flex:1;">
-              <span style="font-size:22px;line-height:1;margin-top:2px;">${isRollover ? '🔁' : '📥'}</span>
+              <span style="font-size:22px;line-height:1;margin-top:2px;">${isRollover ? '<span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-2.6-6.3L21 8"/><path d="M21 3v5h-5"/></svg></span>' : '<span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 13h5l2 3h4l2-3h5"/><path d="M4 13 6 4h12l2 9v6H4z"/></svg></span>'}</span>
               <div style="flex:1;">
                 <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-bottom:3px;">
-                  <span class="badge-tag ${isRollover ? 'tag-rollover' : 'tag-expired'}" style="font-size:10px;font-weight:700;">${isRollover ? '🔁 Trade-In Rollover' : 'Trade-In Deposit'}</span>
+                  <span class="badge-tag ${isRollover ? 'tag-rollover' : 'tag-expired'}" style="font-size:10px;font-weight:700;">${isRollover ? '<span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-2.6-6.3L21 8"/><path d="M21 3v5h-5"/></svg></span> Trade-In Rollover' : 'Trade-In Deposit'}</span>
                   <strong style="font-size:13px;color:var(--jade);">#${p.id} · ${esc(p.mobile_number)}</strong>
                   <span class="tiny muted">• ${fmtDate(p.created_at || p.start_date)}</span>
                 </div>
@@ -4270,8 +4275,8 @@
               </div>
             </div>
             <div style="display:flex;gap:6px;align-items:center;margin-top:8px;justify-content:flex-end;">
-              <button type="button" class="btn-admin-action btn-admin-approve" data-tradein-approve="${p.id}" data-pkg-user="${esc(p.mobile_number)}" data-pkg-cap="${p.capital}" style="padding:6px 14px;font-size:12px;">${isRollover ? '✓ Approve Rollover' : '✓ Approve'}</button>
-              <button type="button" class="btn-admin-action btn-admin-reject" data-tradein-reject="${p.id}" data-pkg-user="${esc(p.mobile_number)}" style="padding:6px 12px;font-size:12px;">✕ Reject</button>
+              <button type="button" class="btn-admin-action btn-admin-approve" data-tradein-approve="${p.id}" data-pkg-user="${esc(p.mobile_number)}" data-pkg-cap="${p.capital}" style="padding:6px 14px;font-size:12px;">${isRollover ? '<span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m20 6-11 11L4 12"/></svg></span> Approve Rollover' : '<span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m20 6-11 11L4 12"/></svg></span> Approve'}</button>
+              <button type="button" class="btn-admin-action btn-admin-reject" data-tradein-reject="${p.id}" data-pkg-user="${esc(p.mobile_number)}" style="padding:6px 12px;font-size:12px;"><span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></span> Reject</button>
             </div>
           </div>
         `;
@@ -4282,7 +4287,7 @@
         const iconImg = getPayoutImg(w.payout_method, 22);
         const accNum = w.account_number && w.account_number !== '—' ? esc(w.account_number) : '';
         const copyBtn = accNum
-          ? `<button type="button" class="btn-admin-copy" data-copy-acc="${accNum}" style="padding:2px 8px;font-size:11px;">📋 Copy</button>`
+          ? `<button type="button" class="btn-admin-copy" data-copy-acc="${accNum}" style="padding:2px 8px;font-size:11px;"><span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="3" width="8" height="4" rx="1"/><path d="M8 5H6a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2"/></svg></span> Copy</button>`
           : '';
 
         const walletBadge = w.wallet_type === 'binary_ref'
@@ -4294,7 +4299,7 @@
         html += `
           <div class="home-pending-card">
             <div style="display:flex;align-items:flex-start;gap:10px;flex:1;">
-              <span style="font-size:22px;line-height:1;margin-top:2px;">💸</span>
+              <span style="font-size:22px;line-height:1;margin-top:2px;"><span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="12" rx="2"/><circle cx="12" cy="12" r="2"/><path d="M6 10v.01"/><path d="M18 14v.01"/></svg></span></span>
               <div style="flex:1;">
                 <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-bottom:3px;">
                   <span class="badge-tag tag-pending" style="font-size:10px;font-weight:700;">Cashout Release</span>
@@ -4317,8 +4322,8 @@
               </div>
             </div>
             <div style="display:flex;gap:6px;align-items:center;margin-top:8px;justify-content:flex-end;">
-              <button type="button" data-wd-id="${w.id}" data-wd-act="approve" class="btn-admin-action btn-admin-approve" style="padding:6px 14px;font-size:12px;">✓ Approve</button>
-              <button type="button" data-wd-id="${w.id}" data-wd-act="reject" class="btn-admin-action btn-admin-reject" style="padding:6px 12px;font-size:12px;">✕ Reject</button>
+              <button type="button" data-wd-id="${w.id}" data-wd-act="approve" class="btn-admin-action btn-admin-approve" style="padding:6px 14px;font-size:12px;"><span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m20 6-11 11L4 12"/></svg></span> Approve</button>
+              <button type="button" data-wd-id="${w.id}" data-wd-act="reject" class="btn-admin-action btn-admin-reject" style="padding:6px 12px;font-size:12px;"><span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></span> Reject</button>
             </div>
           </div>
         `;
@@ -4348,7 +4353,7 @@
           const isRollover = pkg && (pkg.is_rollover || pkg.rolled_from_package_id);
 
           const receiptHtml = hasRec
-            ? `<button type="button" class="receipt-view-btn" id="btnViewReceiptInConfirmHome" style="padding:3px 10px;font-size:11.5px;font-weight:700;">🧾 Inspect Receipt Proof</button>`
+            ? `<button type="button" class="receipt-view-btn" id="btnViewReceiptInConfirmHome" style="padding:3px 10px;font-size:11.5px;font-weight:700;"><span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2h12v20l-2-1.5L14 22l-2-1.5L10 22l-2-1.5L6 22z"/><path d="M9 7h6"/><path d="M9 11h6"/><path d="M9 15h4"/></svg></span> Inspect Receipt Proof</button>`
             : '<span class="muted tiny">No receipt uploaded</span>';
 
           showAdminConfirm({
@@ -4356,9 +4361,9 @@
             subtitle: isRollover
               ? 'Approve this rollover to start the new 12-day cycle and unlock Cycle 4 claim on the source package.'
               : 'Activate the 12-day investment cycle and disburse referral bonuses.',
-            icon: '✅',
+            icon: '<span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="m8 12 3 3 5-6"/></svg></span>',
             details: [
-              { label: 'Type', val: isRollover ? '🔁 Rollover' : 'New Deposit' },
+              { label: 'Type', val: isRollover ? '<span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-2.6-6.3L21 8"/><path d="M21 3v5h-5"/></svg></span> Rollover' : 'New Deposit' },
               { label: 'Package ID', val: '#' + id },
               { label: 'Member Username', val: userMob, highlight: true },
               { label: 'Capital Deposited', val: peso(capital), highlight: true },
@@ -4366,14 +4371,14 @@
               { label: 'Sponsor Bonus (5%)', val: peso(capital * 0.05) },
               { label: 'Receipt Proof', html: receiptHtml }
             ],
-            confirmText: 'Approve & Activate Cycle ➔',
+            confirmText: 'Approve & Activate Cycle <span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></span>',
             confirmClass: 'btn-mint',
             onConfirm: async () => {
               try {
                 await api(`/api/admin/tradein/${id}/approve`, { method: 'POST', body: '{}' });
                 flash(isRollover
-                  ? `✓ Rollover #${id} for ${userMob} approved. Cycle 4 claim is now unlocked.`
-                  : `✓ Trade-In package #${id} for ${userMob} approved and activated!`, true);
+                  ? `<span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m20 6-11 11L4 12"/></svg></span> Rollover #${id} for ${userMob} approved. Cycle 4 claim is now unlocked.`
+                  : `<span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m20 6-11 11L4 12"/></svg></span> Trade-In package #${id} for ${userMob} approved and activated!`, true);
                 refreshAll();
               } catch (err) {
                 flash(err.message);
@@ -4399,7 +4404,7 @@
           showAdminConfirm({
             title: 'Reject Trade-In Deposit',
             subtitle: 'Mark this trade-in deposit as rejected.',
-            icon: '✕',
+            icon: '<span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></span>',
             summary: `Reject deposit request <strong>#${id}</strong> for member <strong>${esc(userMob)}</strong>?`,
             details: [
               { label: 'Package ID', val: '#' + id },
@@ -4429,7 +4434,7 @@
           const txt = btn.dataset.copyAcc;
           navigator.clipboard.writeText(txt).then(() => {
             const orig = btn.innerHTML;
-            btn.innerHTML = '✓ Copied!';
+            btn.innerHTML = '<span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m20 6-11 11L4 12"/></svg></span> Copied!';
             setTimeout(() => { btn.innerHTML = orig; }, 2000);
           }).catch(() => { prompt('Copy Account Number:', txt); });
         };
@@ -4452,7 +4457,7 @@
           showAdminConfirm({
             title: isApprove ? 'Approve Cashout & Release Funds' : 'Reject Cashout Request',
             subtitle: isApprove ? 'Confirm release of net payout to destination account.' : 'Reject cashout and refund balance to member.',
-            icon: isApprove ? '💸' : '✕',
+            icon: isApprove ? '<span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="12" rx="2"/><circle cx="12" cy="12" r="2"/><path d="M6 10v.01"/><path d="M18 14v.01"/></svg></span>' : '<span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></span>',
             details: [
               { label: 'Request ID', val: '#' + id },
               { label: 'Member', val: req.mobile_number || '—' },
@@ -4464,7 +4469,7 @@
               { label: 'Processing Fee (Tax)', val: '-' + peso(req.fee || 0) },
               { label: 'AMOUNT TO RELEASE (NET)', html: releasePill, highlight: true }
             ],
-            confirmText: isApprove ? 'Confirm Approval & Release ➔' : 'Confirm Rejection',
+            confirmText: isApprove ? 'Confirm Approval & Release <span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></span>' : 'Confirm Rejection',
             confirmClass: isApprove ? 'btn-mint' : 'btn-danger',
             onConfirm: async () => {
               try {
@@ -4560,8 +4565,8 @@
             : '<span class="badge-tag tag-approved">Approved</span>';
 
         const actions = r.status === 'pending'
-          ? '<button data-cb-id="' + r.id + '" data-cb-act="approve" class="btn-admin-action btn-admin-approve" style="margin-right:6px">✓ Approve</button>' +
-            '<button data-cb-id="' + r.id + '" data-cb-act="reject" class="btn-admin-action btn-admin-reject">✕ Reject</button>'
+          ? '<button data-cb-id="' + r.id + '" data-cb-act="approve" class="btn-admin-action btn-admin-approve" style="margin-right:6px"><span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m20 6-11 11L4 12"/></svg></span> Approve</button>' +
+            '<button data-cb-id="' + r.id + '" data-cb-act="reject" class="btn-admin-action btn-admin-reject"><span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></span> Reject</button>'
           : '<span class="tiny muted">' + esc(r.status || '—') + '</span>';
 
         return `
@@ -4617,8 +4622,8 @@
               </div>
               ${isPending ? `
                 <div class="admin-mob-card-actions">
-                  <button type="button" data-cb-id="${r.id}" data-cb-act="approve" class="btn-admin-action btn-admin-approve">✓ Approve &amp; Credit</button>
-                  <button type="button" data-cb-id="${r.id}" data-cb-act="reject" class="btn-admin-action btn-admin-reject">✕ Reject</button>
+                  <button type="button" data-cb-id="${r.id}" data-cb-act="approve" class="btn-admin-action btn-admin-approve"><span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m20 6-11 11L4 12"/></svg></span> Approve &amp; Credit</button>
+                  <button type="button" data-cb-id="${r.id}" data-cb-act="reject" class="btn-admin-action btn-admin-reject"><span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></span> Reject</button>
                 </div>
               ` : ''}
             </div>
@@ -4639,7 +4644,7 @@
             subtitle: isApprove
               ? 'Credit ₱100 to the member’s Cashback wallet after approval.'
               : 'Reject this claim. The member may submit a new claim.',
-            icon: isApprove ? '🎁' : '✕',
+            icon: isApprove ? '<span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="8" width="18" height="4"/><path d="M12 8v13"/><path d="M5 12v8h14v-8"/><path d="M12 8c-2-3-5-3-5 0s5 0 5 0 5 0 5 0-3-3-5 0z"/></svg></span>' : '<span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></span>',
             details: [
               { label: 'Claim ID', val: '#' + id },
               { label: 'Member', val: member?.mobile_number || req.mobile_number || '—' },
@@ -4648,7 +4653,7 @@
               { label: 'Payment Method', val: req.payment_method || '—' },
               { label: 'Amount to Credit', val: peso(req.amount || 100), highlight: isApprove },
             ],
-            confirmText: isApprove ? 'Confirm Approval & Credit ➔' : 'Confirm Rejection',
+            confirmText: isApprove ? 'Confirm Approval & Credit <span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></span>' : 'Confirm Rejection',
             confirmClass: isApprove ? 'btn-mint' : 'btn-danger',
             onConfirm: async () => {
               try {
@@ -4757,10 +4762,10 @@
             : '<span class="badge-tag tag-rejected">Rejected</span>';
 
         const walletBadge = w.wallet_type === 'binary_ref'
-          ? '<span class="badge-tag tag-cat-binary">⇄ Binary Referral</span>'
+          ? '<span class="badge-tag tag-cat-binary"><span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m7 7 10 0"/><path d="m14 4 3 3-3 3"/><path d="M17 17H7"/><path d="m10 14-3 3 3 3"/></svg></span> Binary Referral</span>'
           : w.wallet_type === 'tradein_ref'
-            ? '<span class="badge-tag tag-cat-traderef">💛 Trade-In Ref</span>'
-            : '<span class="badge-tag tag-cat-cycle">📈 Trade-In Cycle</span>';
+            ? '<span class="badge-tag tag-cat-traderef"><span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.5-1.5 2-3.5 1-5s-3-2-4 0l-4 4-4-4c-1-2-3-1.5-4 0s-.5 3.5 1 5l7 7z"/></svg></span> Trade-In Ref</span>'
+            : '<span class="badge-tag tag-cat-cycle"><span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 17 6-6 4 4 8-8"/><path d="M14 7h7v7"/></svg></span> Trade-In Cycle</span>';
 
         // Payout Method Tag & SVG
         const mKey = String(w.payout_method || '').toLowerCase();
@@ -4778,7 +4783,7 @@
         const accName = w.account_name && w.account_name !== '—' ? esc(w.account_name) : '<span class="muted">—</span>';
         const accNum = w.account_number && w.account_number !== '—' ? esc(w.account_number) : '';
         const copyBtn = accNum
-          ? '<button type="button" class="btn-admin-copy" data-copy-acc="' + esc(accNum) + '" title="Copy account number">📋 Copy</button>'
+          ? '<button type="button" class="btn-admin-copy" data-copy-acc="' + esc(accNum) + '" title="Copy account number"><span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="3" width="8" height="4" rx="1"/><path d="M8 5H6a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2"/></svg></span> Copy</button>'
           : '';
 
         const payoutDetails = '<div style="display:flex;align-items:center;gap:8px;">' +
@@ -4793,14 +4798,14 @@
           '</div>';
 
         const actions = w.status === 'pending'
-          ? '<button data-wd-id="' + w.id + '" data-wd-act="approve" class="btn-admin-action btn-admin-approve" style="margin-right:6px">✓ Approve</button>' +
-          '<button data-wd-id="' + w.id + '" data-wd-act="reject" class="btn-admin-action btn-admin-reject">✕ Reject</button>'
+          ? '<button data-wd-id="' + w.id + '" data-wd-act="approve" class="btn-admin-action btn-admin-approve" style="margin-right:6px"><span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m20 6-11 11L4 12"/></svg></span> Approve</button>' +
+          '<button data-wd-id="' + w.id + '" data-wd-act="reject" class="btn-admin-action btn-admin-reject"><span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></span> Reject</button>'
           : '<span class="tiny muted">' + esc(w.status) + '</span>';
 
         const releaseBox = `
           <div class="amount-release-box" style="margin:0;padding:6px 10px;">
             <span class="amount-release-val" style="font-size:15px;">${peso(w.net_amount)}</span>
-            <span class="amount-release-less">✓ Less Tax (${peso(w.fee)} fee)</span>
+            <span class="amount-release-less"><span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m20 6-11 11L4 12"/></svg></span> Less Tax (${peso(w.fee)} fee)</span>
           </div>
         `;
 
@@ -4828,10 +4833,10 @@
               : '<span class="badge-tag tag-rejected">Rejected</span>';
 
           const walletBadge = w.wallet_type === 'binary_ref'
-            ? '<span class="badge-tag tag-cat-binary">⇄ Binary</span>'
+            ? '<span class="badge-tag tag-cat-binary"><span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m7 7 10 0"/><path d="m14 4 3 3-3 3"/><path d="M17 17H7"/><path d="m10 14-3 3 3 3"/></svg></span> Binary</span>'
             : w.wallet_type === 'tradein_ref'
-              ? '<span class="badge-tag tag-cat-traderef">💛 Trade-In Ref</span>'
-              : '<span class="badge-tag tag-cat-cycle">📈 Cycle</span>';
+              ? '<span class="badge-tag tag-cat-traderef"><span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.5-1.5 2-3.5 1-5s-3-2-4 0l-4 4-4-4c-1-2-3-1.5-4 0s-.5 3.5 1 5l7 7z"/></svg></span> Trade-In Ref</span>'
+              : '<span class="badge-tag tag-cat-cycle"><span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 17 6-6 4 4 8-8"/><path d="M14 7h7v7"/></svg></span> Cycle</span>';
 
           const mKey = String(w.payout_method || '').toLowerCase();
           let methodTagClass = 'badge-tag tag-gcash';
@@ -4848,7 +4853,7 @@
           const accName = w.account_name && w.account_name !== '—' ? esc(w.account_name) : '—';
           const accNum = w.account_number && w.account_number !== '—' ? esc(w.account_number) : '';
           const copyBtn = accNum
-            ? '<button type="button" class="btn-admin-copy" data-copy-acc="' + esc(accNum) + '" style="padding:2px 8px;font-size:11px;">📋 Copy</button>'
+            ? '<button type="button" class="btn-admin-copy" data-copy-acc="' + esc(accNum) + '" style="padding:2px 8px;font-size:11px;"><span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="3" width="8" height="4" rx="1"/><path d="M8 5H6a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2"/></svg></span> Copy</button>'
             : '';
 
           return `
@@ -4889,14 +4894,14 @@
                       <span style="font-size:11px;font-weight:700;color:var(--jade);text-transform:uppercase;letter-spacing:0.04em;">Amount to Release (Net)</span>
                       <span class="amount-release-val">${peso(w.net_amount)}</span>
                     </div>
-                    <span class="amount-release-less">✓ Already less ${peso(w.fee)} processing fee / tax</span>
+                    <span class="amount-release-less"><span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m20 6-11 11L4 12"/></svg></span> Already less ${peso(w.fee)} processing fee / tax</span>
                   </div>
                 </div>
               </div>
               ${isPending ? `
                 <div class="admin-mob-card-actions">
-                  <button type="button" data-wd-id="${w.id}" data-wd-act="approve" class="btn-admin-action btn-admin-approve">✓ Approve Cashout</button>
-                  <button type="button" data-wd-id="${w.id}" data-wd-act="reject" class="btn-admin-action btn-admin-reject">✕ Reject</button>
+                  <button type="button" data-wd-id="${w.id}" data-wd-act="approve" class="btn-admin-action btn-admin-approve"><span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m20 6-11 11L4 12"/></svg></span> Approve Cashout</button>
+                  <button type="button" data-wd-id="${w.id}" data-wd-act="reject" class="btn-admin-action btn-admin-reject"><span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></span> Reject</button>
                 </div>
               ` : ''}
             </div>
@@ -4911,7 +4916,7 @@
           const txt = btn.dataset.copyAcc;
           navigator.clipboard.writeText(txt).then(() => {
             const orig = btn.innerHTML;
-            btn.innerHTML = '✓ Copied!';
+            btn.innerHTML = '<span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m20 6-11 11L4 12"/></svg></span> Copied!';
             btn.style.borderColor = 'var(--jade)';
             btn.style.color = 'var(--jade)';
             setTimeout(() => {
@@ -4943,7 +4948,7 @@
           showAdminConfirm({
             title: isApprove ? 'Approve Cashout & Release Funds' : 'Reject Cashout Request',
             subtitle: isApprove ? 'Confirm release of net payout to the destination account.' : 'Reject cashout and refund balance to member.',
-            icon: isApprove ? '💸' : '✕',
+            icon: isApprove ? '<span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="12" rx="2"/><circle cx="12" cy="12" r="2"/><path d="M6 10v.01"/><path d="M18 14v.01"/></svg></span>' : '<span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></span>',
             details: [
               { label: 'Request ID', val: '#' + id },
               { label: 'Member', val: req.mobile_number || '—' },
@@ -4955,7 +4960,7 @@
               { label: 'Processing Fee (Tax)', val: '-' + peso(req.fee || 0) },
               { label: 'AMOUNT TO RELEASE (NET)', html: releasePill, highlight: true }
             ],
-            confirmText: isApprove ? 'Confirm Approval & Release ➔' : 'Confirm Rejection',
+            confirmText: isApprove ? 'Confirm Approval & Release <span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></span>' : 'Confirm Rejection',
             confirmClass: isApprove ? 'btn-mint' : 'btn-danger',
             onConfirm: async () => {
               try {
@@ -5303,7 +5308,7 @@
           await navigator.clipboard.writeText(input.value);
           flash(label + ' copied to clipboard!', true);
           const orig = btn.innerHTML;
-          btn.innerHTML = '✓ Copied!';
+          btn.innerHTML = '<span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m20 6-11 11L4 12"/></svg></span> Copied!';
           btn.style.color = 'var(--jade)';
           setTimeout(() => {
             btn.innerHTML = orig;
@@ -5325,7 +5330,7 @@
         const sampleCode = avail ? avail.code : 'XXXXXXXX';
         const sponsorMobile = (currentAdminUser && currentAdminUser.mobile_number) || 'Toshi';
         const regUrl = `${window.location.origin}/register.html?sponsor=${encodeURIComponent(sponsorMobile)}`;
-        const msg = `🌟 INFINITE TRADING PLATFORM 🌟\nHere is your ₱399 Activation Code: ${sampleCode}\n\n1. Sign up: ${regUrl}\n2. Log in and paste your 8-character activation code.\n3. Choose your Binary Leg (LEFT or RIGHT) to unlock direct & pairing commissions!\n\nWelcome to the network!`;
+        const msg = `<span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3 2.7 5.5L21 9.2l-4.5 4.4L17.5 20 12 17l-5.5 3 1-6.4L3 9.2l6.3-.7z"/></svg></span> INFINITE TRADING PLATFORM <span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3 2.7 5.5L21 9.2l-4.5 4.4L17.5 20 12 17l-5.5 3 1-6.4L3 9.2l6.3-.7z"/></svg></span>\nHere is your ₱399 Activation Code: ${sampleCode}\n\n1. Sign up: ${regUrl}\n2. Log in and paste your 8-character activation code.\n3. Choose your Binary Leg (LEFT or RIGHT) to unlock direct & pairing commissions!\n\nWelcome to the network!`;
         try {
           await navigator.clipboard.writeText(msg);
           flash('Promo / Invitation template copied to clipboard! (Sample Code: ' + sampleCode + ')', true);

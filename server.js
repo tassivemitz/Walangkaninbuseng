@@ -72,10 +72,33 @@ const WALLET_COLUMNS = {
   cashback: 'cashback_balance',
 };
 
+app.use((req, res, next) => {
+  res.setHeader('Permissions-Policy', 'unload=(self)');
+  next();
+});
 app.use(cors());
 app.use(express.json({ limit: '25mb' }));
 app.use(express.urlencoded({ extended: true, limit: '25mb' }));
 app.use(express.static(path.join(__dirname, 'public')));
+
+const DESK_VIEW_SLUGS = new Set([
+  'direct-referral',
+  'indirect-referral',
+  'genealogy',
+  'code-vault',
+  'trade-in',
+  'withdrawal',
+  'earnings',
+  'profit-sharing',
+]);
+
+app.get('/desk/:view', (req, res) => {
+  const view = String(req.params.view || '').toLowerCase();
+  if (!DESK_VIEW_SLUGS.has(view)) {
+    return res.redirect(302, '/dashboard.html');
+  }
+  return res.redirect(302, `/dashboard.html?view=${encodeURIComponent(view)}`);
+});
 
 function money(n) {
   return Math.round(Number(n) * 100) / 100;
@@ -369,7 +392,9 @@ function assignPlacement(startNodeId, preferredPos, data) {
 }
 
 function getBinaryCap(data) {
-  return 3000;
+  const configured = Number(data && data.settings && data.settings.binary_cap);
+  if (Number.isFinite(configured) && configured >= 1000) return money(configured);
+  return BINARY_CAP;
 }
 
 function getOfficialMops(data) {
@@ -1799,7 +1824,10 @@ app.get('/api/user/earnings-history', auth, (req, res) => {
 
   res.json({
     totals,
-    records: list.slice(0, 200),
+    records: list.slice(0, 200).map((entry) => ({
+      ...entry,
+      source_user_mobile: entry.source_mobile || entry.source_user_mobile || null,
+    })),
   });
 });
 
@@ -1829,9 +1857,10 @@ app.post('/api/admin/settings/binary-cap', auth, adminOnly, async (req, res) => 
   const cap = money(req.body.cap || req.body.binary_cap);
   if (!cap || cap < 1000) return res.status(400).json({ error: 'Minimum binary cap is ₱1,000.' });
   await db.tx((data) => {
-    data.settings.binary_cap = 3000;
+    if (!data.settings) data.settings = {};
+    data.settings.binary_cap = cap;
   });
-  res.json({ ok: true, binary_cap: 3000 });
+  res.json({ ok: true, binary_cap: cap });
 });
 
 // Admin Trade-In Slots Settings Endpoint
@@ -2000,7 +2029,7 @@ app.post('/api/account/password', auth, async (req, res) => {
   }
 });
 
-app.get('/api/profit-sharing', auth, (_req, res) => {
+function sendUserProfitSharing(_req, res) {
   const data = db.getStore();
   res.json({
     pool_total: money((data.profit_sharing_pool && data.profit_sharing_pool.total_amount) || 0),
@@ -2009,7 +2038,10 @@ app.get('/api/profit-sharing', auth, (_req, res) => {
       shares: q.shares,
     })),
   });
-});
+}
+
+app.get('/api/profit-sharing', auth, sendUserProfitSharing);
+app.get('/api/user/profit-sharing', auth, sendUserProfitSharing);
 
 app.get('/api/admin/profit-sharing', auth, adminOnly, (_req, res) => {
   const data = db.getStore();
@@ -2149,11 +2181,11 @@ app.post('/api/user/profile-picture', auth, upload.single('profile_picture'), as
 // Get profile picture endpoint
 app.get('/api/user/profile-picture/:userId', async (req, res) => {
   try {
-    const userId = req.params.userId;
-    const user = await db.tx((data) => data.users.find((u) => u.id === userId));
+    const userId = String(req.params.userId);
+    const user = await db.tx((data) => data.users.find((u) => String(u.id) === userId));
 
     if (!user || !user.profile_picture) {
-      return res.status(404).json({ error: 'Profile picture not found' });
+      return res.status(204).end();
     }
 
     const picturePath = path.join(__dirname, 'public', user.profile_picture);
